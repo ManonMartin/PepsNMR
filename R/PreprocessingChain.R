@@ -177,7 +177,7 @@ if (Ss ==  TRUE ){
 
   if (ImpG==TRUE) {
     pdf(paste0(out.path,"/SolventSuppression1.pdf"),width=8, height=4)
-    plot(Re(Fid_data1[nspectr,]), ylim = c(-2e+5, max(Re(Fid_data1[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
+    plot(Re(Fid_data1[nspectr,]), ylim = c(min(Re(Fid_data1[nspectr,])), max(Re(Fid_data1[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
     lines(SolventRe[nspectr,],col="red" )
     legend("topright", legend = "Solvent signal", col="red",  lty = 1)
     dev.off()
@@ -332,7 +332,7 @@ if (Bc ==  TRUE ){
   }
 
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/BaselineCorrection1.pdf"),width=13, height=8)
+    pdf(paste0(out.path,"/BaselineCorrection.pdf"),width=13, height=8)
     par(mfrow=c(2,2))
     
     a = 0.42*length(RawSpect_dataB[nspectr,])
@@ -446,7 +446,7 @@ if (W ==  TRUE ){
     plot(warpingfunc, col="blue", type="l", main = "warping function")
     dev.off()
     
-    pdf(paste0(out.path,"/Warping2.pdf"), width = 13, height = 8)
+    pdf(paste0(out.path,"/Warping2.pdf"), width = 13, height = 10)
     par(mfrow=c(2,1),mar=c(4.1, 4.1, 4.1, 9.5), xpd=TRUE)
     
     if (dim(Spectrum_dataB)[1]>=3) {
@@ -454,9 +454,9 @@ if (W ==  TRUE ){
     }else {f = 1}
 
     
-    a = 0.43*length(RawSpect_dataB[nspectr,])
-    b = 0.436*length(RawSpect_dataB[nspectr,])
-    c = 0.0015*length(RawSpect_dataB[nspectr,])
+    a = 0.4*length(RawSpect_dataB[f[1],])
+    b = 0.47*length(RawSpect_dataB[f[1],])
+    c = 0.015*length(RawSpect_dataB[f[1],])
     
     plot(Re(Spectrum_dataB[nspectr,a:b]),  col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_dataB[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="Before Warping (zoom)")
     axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))   
@@ -499,7 +499,7 @@ if (ImpG==TRUE) {
   xat=round(as.numeric(colnames(Spectrum_dataB)),5)
   plot(xat,Re(Spectrum_dataB[nspectr,]),col="blue",  type="l",  ylab = "Intensity", xlab="ppm", main="Before Window Selection")
   xat=round(as.numeric(colnames(Spectrum_data10)),5)
-  plot(Re(Spectrum_data10[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
+  plot( Re(Spectrum_data10[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
   at=seq(1,length(xat), c)
   axis(side=1, at=at, labels=round(xat[at],2))
   dev.off()
@@ -643,7 +643,7 @@ if (N ==  TRUE ){
     lines(Re(Spectrum_data14[1,]), col= "red")
     legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
     
-    plot(Re(Spectrum_dataB[2,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part (Spectrum 1)")
+    plot(Re(Spectrum_dataB[2,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part (Spectrum 2)")
     at=seq(1,length(xat), length(xat)/20)
     axis(side=1, at=at, labels=round(xat[at],2))
     lines(Re(Spectrum_data14[2,]), col= "red")
@@ -657,22 +657,23 @@ if (N ==  TRUE ){
       f=sample(c(1:dim(Spectrum_dataB)[1]), 3)
     }else {f = 1}
     
-    range = c(270:350)*0.54*length(Spectrum_dataB[nspectr,])
+    a = c(0.5)*length(Spectrum_dataB[nspectr,])
+    b = c(0.75)*length(Spectrum_dataB[nspectr,])
     par(mfrow=c(2,1), mar=c(4,4,2,2))
     
-    xat=round(as.numeric(colnames(Spectrum_dataB[,range])),5)
-    plot(Re(Spectrum_dataB[nspectr,range]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
+    xat=round(as.numeric(colnames(Spectrum_dataB[,a:b])),5)
+    plot(Re(Spectrum_dataB[nspectr,a:b]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      lines(Re(Spectrum_dataB[f[i],range]), col=rainbow(5,start=0.4)[i+1]) 
+      lines(Re(Spectrum_dataB[f[i],a:b]), col=rainbow(5,start=0.4)[i+1]) 
     }
-    xat=round(as.numeric(colnames(Spectrum_data14[,range])),5)
-    plot(Re(Spectrum_data14[nspectr,range]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
+    xat=round(as.numeric(colnames(Spectrum_data14[,a:b])),5)
+    plot(Re(Spectrum_data14[nspectr,a:b]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      lines(Re(Spectrum_data14[f[i],range]), col=rainbow(5,start=0.4)[i+1]) 
+      lines(Re(Spectrum_data14[f[i],a:b]), col=rainbow(5,start=0.4)[i+1]) 
     }
     dev.off()
   }
