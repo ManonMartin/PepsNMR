@@ -5,7 +5,7 @@
 them in a matrix.
 }
 \usage{
-ReadFids(path, l = 4)
+ReadFids(path, l = 1)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}

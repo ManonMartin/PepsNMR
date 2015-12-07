@@ -1,4 +1,4 @@
-ReadFids <- function(path, l) {
+ReadFids <- function(path, l=1) {
   begin_info <- beginTreatment("ReadFids")
   checkArg(path, c("str"))
   checkArg(l, c("pos"))
