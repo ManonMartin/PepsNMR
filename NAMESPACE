@@ -1,0 +1,17 @@
+export("Apodization", "BaselineCorrection", "Bucketing","Draw" ,"DrawPCA","DrawSignal","FirstOrderPhaseCorrection","FourierTransform",
+"NegativeValuesZeroing","Normalization","PPMConversion","ReadFids","RegionRemoval",              
+"SolventSuppression", "Warping","WindowSelection","ZeroOrderPhaseCorrection","ZoneAggregation", "PreprocessingChain")
+
+
+
+# Import all packages listed as Imports or Depends
+import(
+  Matrix,
+  ptw,
+  ggplot2,
+  gridExtra,
+  matrixStats,
+  RUnit,
+  reshape2
+)
+
