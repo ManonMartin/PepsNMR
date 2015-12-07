@@ -1,0 +1,17 @@
+##TITLE= Parameter file, TOPSPIN		Version 2.1
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ 2013-03-22 11:49:53.546 +0100  nmr@RMN500
+$$ C:\donnees_rmn/data/pdetullio/nmr/Plan_exp_2D_130305/302/pdata/1/outd
+$$ process C:\Bruker\TOPSPIN\prog\mod\edparproc.exe
+##$CURPLOT= <OKI>
+##$CURPRIN= <$OKI>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/1D_H.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##$SURQMSG= 1
+##END=

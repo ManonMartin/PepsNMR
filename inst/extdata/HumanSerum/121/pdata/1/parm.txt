@@ -1,0 +1,42 @@
+NAME     Plan_exp_2D_130305                
+EXPNO               121                
+PROCNO                1                
+Date_          20130307                
+Time              19.24                
+INSTRUM           spect                
+PROBHD   5 mm CPTCI 1H-                
+PULPROG        cpmgpr1d                
+TD                65536                
+SOLVENT         H2O+D2O                
+NS                  256                
+DS                    4                
+SWH           10245.901 Hz             
+FIDRES         0.156340 Hz             
+AQ            3.1982555 sec            
+RG                  256                
+DW               48.800 usec           
+DE                 6.50 usec           
+TE                298.0 K              
+D1           4.00000000 sec            
+D11          0.03000000 sec            
+D12          0.00002000 sec            
+D20          0.00030000 sec            
+L4                  128                
+TD0                   1                
+
+======== CHANNEL f1 ========
+NUC1                 1H                
+P1                 7.60 usec           
+P2                15.20 usec           
+PL1                3.00 dB             
+PL9               55.00 dB             
+PL1W         7.30176735 W              
+PL9W         0.00004607 W              
+SFO1        500.1323522 MHz            
+SI                65536                
+SF          500.1299429 MHz            
+WDW                  EM                
+SSB                   0                
+LB                -0.01 Hz             
+GB                    0                
+PC                 1.00                

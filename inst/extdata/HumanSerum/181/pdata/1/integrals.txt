@@ -1,0 +1,5 @@
+   Current data set:
+   NAME =	Plan_exp_2D_130305	EXPNO =	181	PROCNO = 1
+   USER =	pdetullio	DU    =	C:/donnees_rmn
+
+   Number   Integrated Region     Integral
