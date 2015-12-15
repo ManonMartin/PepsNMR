@@ -20,7 +20,7 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c("Serum", "Urine", NUL
     }
 
   } else if (typeofspectra == "Serum") {
-      fromto.rr=list(Water =c(4.5, 5), Lactate=c(1.28, 1.36))
+      fromto.rr=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36))
       
   } else {fromto.rr=list(Water =c(4.5, 5), Uree=c(4.5, 6))}
 
