@@ -7,14 +7,14 @@ Draw a Signal or its PCA
 Draws signals, spectra or their PCA.
 }
 \usage{
-Draw(Signal_data, type = c("signal","pca"),
+Draw(Signal_data, type.draw = c("signal","pca"),
      output = c("default","window","png","pdf"), dirpath = ".",
      filename = "\%003d", height = 480, width = 640, pdf.onefile = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Signal_data}{Matrix containing the FIDs, RawSpectra or Spectra, as outputted by \code{\link{ReadFids}}.}
-  \item{type}{Either "signal" or "pca", which calls respectively \code{\link{DrawSignal}} or \code{\link{DrawPCA}} to do the drawing.}
+  \item{type.draw}{Either "signal" or "pca", which calls respectively \code{\link{DrawSignal}} or \code{\link{DrawPCA}} to do the drawing.}
   \item{output}{Specifies how to display the drawings.
   \describe{
   \item{default}{The output is the default.}
@@ -32,7 +32,7 @@ Draw(Signal_data, type = c("signal","pca"),
   \item{\dots}{The remaining arguments are passed to \code{\link{DrawSignal}} or \code{\link{DrawPCA}}.}
 }
 \details{
-Depending on the \code{type}, it can draw each row of \code{Signal_data} in a way described by \code{subtype} or the PCA of all the signals described by the rows. It keeps the default output but it can also be a window, a png or a pdf.
+Depending on the \code{type.draw}, it can draw each row of \code{Signal_data} in a way described by \code{subtype} or the PCA of all the signals described by the rows. It keeps the default output but it can also be a window, a png or a pdf.
 }
 \author{
 Benoît Legat
@@ -44,9 +44,9 @@ See Also \code{\link{DrawSignal}} and \code{\link{DrawPCA}}.
 \examples{
 # Draw each signal Real part and Mod in separate png with name end001 end002, ...
 # Draw the spectra
-Draw(FinalSpectra_HS, type = "signal", output="window", subtype="stacked")
+Draw(FinalSpectra_HS, type.draw = "signal", output="window", subtype="stacked")
 
 # Draw a PCA
-Draw(FinalSpectra_HS, type="pca",output="window")
+Draw(FinalSpectra_HS, type.draw="pca",output="window")
 }
 \keyword{ hplot }

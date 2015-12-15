@@ -8,14 +8,14 @@ Normalizes the spectrum
 Spectra normalization to correct for the dilution factor common to all biofuid samples.
 }
 \usage{
-Normalization(Spectrum_data, type = c("mean", "median", 
-              "firstquartile", "peak"), from = 3.05, to = 4.05)
+Normalization(Spectrum_data, type.norm = c("mean", "median", 
+              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
-  \item{type}{Different types of normalization are available. See the details section.}
-  \item{from}{Used if \code{type} is \code{peak}. See details.}
-  \item{to}{Used if \code{type} is \code{peak}. See details.}
+  \item{type.norm}{Different types of normalization are available. See the details section.}
+  \item{from.norm}{Used if \code{type.norm} is \code{peak}. See details.}
+  \item{to.norm}{Used if \code{type.norm} is \code{peak}. See details.}
 }
 \details{
 
@@ -28,7 +28,7 @@ Types can be:
 \item{\code{mean}}{Each spectrum is divided by its mean so that its mean becomes 1.}
 \item{\code{media}}{Each spectrum is divided by its median so that its median becomes 1.}
 \item{\code{firstquartile}}{Each spectrum is divided by its first quartile so that its first quartile becomes 1.}
-\item{\code{peak}}{Each spectrum is divided by the value of the peak of the spectrum contained between \code{from} and \code{to} inclusive (\emph{i.e.} the maximum value of the spectrum in that interval).}
+\item{\code{peak}}{Each spectrum is divided by the value of the peak of the spectrum contained between \code{from.norm} and \code{to.norm} inclusive (\emph{i.e.} the maximum value of the spectrum in that interval).}
 }
 }
 \value{

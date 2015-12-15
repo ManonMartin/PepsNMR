@@ -1,8 +1,8 @@
-WindowSelection <- function (Spectrum_data, from = 0.2, to = 10, reverse.axis = TRUE) {
+WindowSelection <- function (Spectrum_data, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE) {
   begin_info <- beginTreatment("WindowSelection", Spectrum_data)
   Spectrum_data <- begin_info[["Signal_data"]]
-  checkArg(from, "num", can.be.null=TRUE)
-  checkArg(to, "num", can.be.null=TRUE)
+  checkArg(from.ws, "num", can.be.null=TRUE)
+  checkArg(to.ws, "num", can.be.null=TRUE)
   checkArg(reverse.axis, "bool")
   m <- ncol(Spectrum_data)
   largestWindowWithoutNA <- function(data, from_index=NULL, to_index=NULL) {
@@ -22,9 +22,9 @@ WindowSelection <- function (Spectrum_data, from = 0.2, to = 10, reverse.axis = 
         warning("There is NA in the selected window")
       }
     } else if (!is.null(from_index)) {
-      to_index <- largestFromOrToWithoutNA(from_index, from, 1)
+      to_index <- largestFromOrToWithoutNA(from_index, from.ws, 1)
     } else if (!is.null(to_index)) {
-      from_index <- largestFromOrToWithoutNA(to_index, to, -1)
+      from_index <- largestFromOrToWithoutNA(to_index, to.ws, -1)
     } else {
       # Largest interval without NA
       maxLen <- 0
@@ -45,16 +45,16 @@ WindowSelection <- function (Spectrum_data, from = 0.2, to = 10, reverse.axis = 
     return(from_index:to_index)
   }
   ppm <- as.numeric(colnames(Spectrum_data))
-  if (!is.null(from) && !is.null(to) && from > to) {
-    stop(paste("Invalid window selection because ", from, " > ", to))
+  if (!is.null(from.ws) && !is.null(to.ws) && from.ws > to.ws) {
+    stop(paste("Invalid window selection because ", from.ws, " > ", to.ws))
   }
   from_index <- NULL
   to_index <- NULL
-  if (!is.null(from)) {
-    from_index <- binarySearch(ppm, from, TRUE)
+  if (!is.null(from.ws)) {
+    from_index <- binarySearch(ppm, from.ws, TRUE)
   }
-  if (!is.null(to)) {
-    to_index <- binarySearch(ppm, to, FALSE)
+  if (!is.null(to.ws)) {
+    to_index <- binarySearch(ppm, to.ws, FALSE)
   }
   interval <- largestWindowWithoutNA(colSums(Spectrum_data), from_index, to_index)
   if (reverse.axis) {

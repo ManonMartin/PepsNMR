@@ -1,7 +1,7 @@
-Draw <- function (Signal_data, type = c("signal","pca"),
+Draw <- function (Signal_data, type.draw = c("signal","pca"),
                   output = c("default","window","png","pdf"), dirpath = ".",
                   filename = "%003d", height = 480, width = 640, pdf.onefile = TRUE, ...) {
-  type = match.arg(type)
+  type.draw = match.arg(type.draw)
   output = match.arg(output)
   fullpath = paste(file.path(dirpath, filename), output, sep = ".")
   createFile <- TRUE
@@ -25,10 +25,10 @@ Draw <- function (Signal_data, type = c("signal","pca"),
          }
   )
   funs <- list(signal=DrawSignal, pca=DrawPCA)
-  if (type %in% names(funs)) {
-    fun <- funs[[type]]
+  if (type.draw %in% names(funs)) {
+    fun <- funs[[type.draw]]
   } else {
-    stop(paste("Unknown type:", type))
+    stop(paste("Unknown type:", type.draw))
   }
 
   if (is.vector(Signal_data)) {

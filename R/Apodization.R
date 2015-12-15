@@ -1,10 +1,10 @@
 Apodization <- function(Fid_data, Fid_info=NULL, DT=NULL,
-                        type = c("exp", "cos2", "blockexp", "blockcos2", "gauss", "hanning", "hamming"),
+                        type.apod = c("exp", "cos2", "blockexp", "blockcos2", "gauss", "hanning", "hamming"),
                         phase=0, rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, returnFactor=F) {
   begin_info <- beginTreatment("Apodization", Fid_data, Fid_info)
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
-  type <- match.arg(type)
+  type.apod <- match.arg(type.apod)
   checkArg(DT, c("num", "pos"), can.be.null=TRUE)
   checkArg(phase, c("num"))
   DT <- getArg(DT, Fid_info, "DT") # Dwell Time
@@ -12,7 +12,7 @@ Apodization <- function(Fid_data, Fid_info=NULL, DT=NULL,
   t <- (1:m) * DT # Time
   rectSize <- ceiling(rectRatio*m)
   gaussLB <- (gaussLB/(sqrt(8*log(2))))
-  switch(type,
+  switch(type.apod,
          "exp" = { # exponential
            factor <- exp(-expLB*t)
          },

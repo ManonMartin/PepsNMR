@@ -7,9 +7,9 @@ Warps the frequency \emph{x}-axis to minimize the pairwise distance between a sa
 \usage{
 Warping(RawSpect_data,
                     normalization.type=c("median","mean","firstquartile",
-                    "peak","none"), from=3.05, to=4.05,
+                    "peak","none"), from.normW=3.05, to.normW=4.05,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
-                    optim.crit=c("RMS", "WCC"), use.ptw=F, K=3, L=40,
+                    optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                     max_it_Bspline=10, returnReference = F, returnWarpingfunc=F)
 }
@@ -19,8 +19,8 @@ Warping(RawSpect_data,
 See \code{\link{Normalization}} for details about the different types.
 \code{none} means that no normalization needs to be applied (\emph{e.g.} you have already done it prior to calling \code{Warping}).
 It is advised to use \code{median} instead of \code{mean}, see the reference below.}
-\item{from}{Used by \code{\link{Normalization}} when \code{normalization.type} is \code{peak}.}
-\item{to}{Used by \code{\link{Normalization}} when \code{normalization.type} is \code{peak}.}
+\item{from.normW}{Used by \code{\link{Normalization}} when \code{normalization.type} is \code{peak}.}
+\item{to.normW}{Used by \code{\link{Normalization}} when \code{normalization.type} is \code{peak}.}
 \item{reference.choosing}{Specifies how the reference will be chosen.
 \describe{
 \item{\code{fixed}}{The reference is specified by the rowname given in \code{reference}.}
@@ -29,8 +29,8 @@ It is advised to use \code{median} instead of \code{mean}, see the reference bel
 The reference that has the minimum sum is taken as the reference and the warped spectra according to this reference (that have already been calculated at this stage) are returned. This is \eqn{n}{n} times slower than the 2 others where \eqn{n}{n} is the number of spectra.}
 }}
 \item{reference}{The row number of the reference when \code{reference.choosing} is \code{fixed}.}
-\item{optim.crit}{If \code{use.ptw} is set to \code{TRUE}, \code{WCC} can also be considered as a criterion for optimization, see \code{ptw::ptw} for details.}
-\item{use.ptw}{If set to \code{TRUE}, it uses \code{ptw::ptw} to do the warping.
+\item{optim.crit}{If \code{ptw.wp} is set to \code{TRUE}, \code{WCC} can also be considered as a criterion for optimization, see \code{ptw::ptw} for details.}
+\item{ptw.wp}{If set to \code{TRUE}, it uses \code{ptw::ptw} to do the warping.
 In this case the arguments \code{K}, \code{L}, \code{deg}, \code{lambda.bspline}, \code{kappa} and \code{max_it_Bspline} are ignored.
 The warping does not use Bspline and \code{K} is fixed to 2, \emph{i.e.} a second order polynomial.}
 \item{K}{It is the degree of the polynomial used for the warping (see details).}

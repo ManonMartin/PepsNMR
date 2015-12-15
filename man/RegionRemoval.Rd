@@ -9,13 +9,13 @@ Removes the non-informative regions by setting the values of the spectrum in the
 }
 \usage{
 RegionRemoval(Spectrum_data, typeofspectra = c("Serum", "Urine", NULL), 
-                          type = c( "zero", "NA"), fromto=NULL)
+                          type.rr = c( "zero", "NA"), fromto.rr=NULL)
 }
 \arguments{
   \item{Spectrum_data}{The matrix containing the spectra in ppm, one row per spectrum.}
   \item{typeofspectra}{Type of spectra.}
-  \item{type}{The type of region removal method.}
-  \item{fromto}{List containing the extremities of the intervals to be removed.}
+  \item{type.rr}{The type of region removal method.}
+  \item{fromto.rr}{List containing the extremities of the intervals to be removed.}
 
 }
 \details{
@@ -45,7 +45,7 @@ Benoît Legat
 
 # Remove the lactate and water regions for serum spectra
 fromto=list(Water =c(4.5, 5), Lactate=c(1.28, 1.36))
-Rr.spec <- RegionRemoval(Data_HS$RawSpectData_HS_11,fromto = fromto) 
+Rr.spec <- RegionRemoval(Data_HS$RawSpectData_HS_11,fromto.rr = fromto) 
 
 
 

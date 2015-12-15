@@ -1,19 +1,19 @@
-SolventSuppression <- function(Fid_data, lambda=1e6, use.ptw=TRUE, plotSolvent=F, returnSolvent=F) {
+SolventSuppression <- function(Fid_data, lambda.ss=1e6, ptw.ss=TRUE, plotSolvent=F, returnSolvent=F) {
   begin_info <- beginTreatment("SolventSuppression", Fid_data)
   Fid_data <- begin_info[["Signal_data"]]
-  checkArg(use.ptw, c("bool"))
-  checkArg(lambda, c("num", "pos0"))
-  if (use.ptw) {
+  checkArg(ptw.ss, c("bool"))
+  checkArg(lambda.ss, c("num", "pos0"))
+  if (ptw.ss) {
 #     require("ptw")
     difsm <- ptw::difsm
   } else {
-    difsm <- function(y, d=2, lambda) {
+    difsm <- function(y, d=2, lambda.ss) {
 #       require('Matrix')
       m <- length(y)
       # Sparse identity matrix m x m
       E <- Matrix::Diagonal(m)
       D <- Matrix::diff(E, differences = d)
-      A <- E + lambda * Matrix::t(D) %*% D
+      A <- E + lambda.ss * Matrix::t(D) %*% D
       # base::chol does not take into account that A is sparse
       # and is extremely slow
       C <- Matrix::chol(A)
@@ -29,8 +29,8 @@ SolventSuppression <- function(Fid_data, lambda=1e6, use.ptw=TRUE, plotSolvent=F
   for (i in 1:n) {
     FidRe <- Re(Fid_data[i,])
     FidIm <- Im(Fid_data[i,])
-    solventRe <- difsm(FidRe, lambda=lambda)
-    solventIm <- difsm(FidIm, lambda=lambda)
+    solventRe <- difsm(FidRe, lambda=lambda.ss)
+    solventIm <- difsm(FidIm, lambda=lambda.ss)
     if (plotSolvent) {
       m = length(FidRe)
       plot(1:m,FidRe,type="l",col="red")

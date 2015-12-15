@@ -1,7 +1,7 @@
 Warping <- function(RawSpect_data,
-                    normalization.type=c("median","mean","firstquartile","peak","none"), from=3.05, to=4.05,
+                    normalization.type=c("median","mean","firstquartile","peak","none"), from.normW=3.05, to.normW=4.05,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
-                    optim.crit=c("RMS", "WCC"), use.ptw=F, K=3, L=40,
+                    optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                     max_it_Bspline=10, returnReference=F, returnWarpingfunc=F) {
   meanSqrDiff <- function(m, row) {
@@ -33,7 +33,7 @@ Warping <- function(RawSpect_data,
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)
   if (normalization.type != "none") {
-    Normalization(RawSpect_data, normalization.type, from, to)
+    Normalization(RawSpect_data, normalization.type, from.normW, to.normW)
   }
   rnames <- rownames(RawSpect_data)
   if (n > 1) {
@@ -59,7 +59,7 @@ Warping <- function(RawSpect_data,
         # if they are perfectly aligned w(v) = v = 0*1 + 1*v + 0*v^2 + 0*v^3
         beta[2] = 1
       }
-      if (use.ptw) {
+      if (ptw.wp) {
 #         require("ptw")
         ptw.output <- ptw::ptw(ref, sample, optim.crit=optim.crit, init.coef=beta,
                                smooth.param=lambda.smooth)
@@ -68,7 +68,7 @@ Warping <- function(RawSpect_data,
         w <- t(ptw.output$warp.fun)
       } else {
         if (optim.crit == "WCC") {
-          stop("WCC is only implemented in ptw, set use.ptw=T to use WCC.")
+          stop("WCC is only implemented in ptw, set ptw.wp=T to use WCC.")
         }
         for (samp_rname in samp_rnames) {
           sw.output <- SingleWarp(ref=ref, sample=sample[samp_rname, ], beta=beta, L=L,

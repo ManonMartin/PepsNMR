@@ -1,7 +1,7 @@
-ZoneAggregation <- function (Spectrum_data, fromto = list(Citrate =c(2.5, 2.7))) {
+ZoneAggregation <- function (Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7))) {
   begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
-  if (!is.list(fromto)) {stop(deparse(substitute(fromto)), " is not a list.")}
+  if (!is.list(fromto.za)) {stop(deparse(substitute(fromto.za)), " is not a list.")}
   # Instead of starting the triangle at 0.
   #      /\ ___
   # ----/  \
@@ -9,9 +9,9 @@ ZoneAggregation <- function (Spectrum_data, fromto = list(Citrate =c(2.5, 2.7)))
   #      /\___
   # ----/
   ppm <- as.numeric(colnames(Spectrum_data))
-  for (i in 1:length(fromto)) {
+  for (i in 1:length(fromto.za)) {
     
-    interval <- indexInterval(ppm, from = fromto[[i]][1], to = fromto[[i]][2], inclusive=TRUE)
+    interval <- indexInterval(ppm, from = fromto.za[[i]][1], to = fromto.za[[i]][2], inclusive=TRUE)
     p <- length(interval)
     SpectOld <- Spectrum_data[,interval,drop=F]
     S <- rowSums(Re(SpectOld))

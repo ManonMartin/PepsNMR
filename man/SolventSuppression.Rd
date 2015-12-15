@@ -8,14 +8,14 @@ Signal smooting for water residuals resonance removal.
 
 }
 \usage{
-SolventSuppression(Fid_data, lambda = 1e6, use.ptw=TRUE, 
+SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss=TRUE, 
                               plotSolvent=F, returnSolvent=F)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
-  \item{lambda}{Penalty on roughness used to calculate the smoothed version of the FID.
+  \item{lambda.ss}{Penalty on roughness used to calculate the smoothed version of the FID.
   The higher lambda is, the smoother the detected solvent signal will be.}
-  \item{use.ptw}{If \code{TRUE}, calculates the solvent signal in C using the \code{ptw} package which is a lot faster.
+  \item{ptw.ss}{If \code{TRUE}, calculates the solvent signal in C using the \code{ptw} package which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{plotSolvent}{If \code{TRUE}, plots the solvent signal on the current device. If you want a specific device or device parameter, set it before calling \code{SolventSuppression}.}
     \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FID, the real part of the solvent signal and the imaginary part of the solvent signal, see the Examples.}

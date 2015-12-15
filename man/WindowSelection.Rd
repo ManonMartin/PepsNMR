@@ -9,16 +9,16 @@ Selects an interval in the ppm scale and only returns the value of the spectrum 
 
 }
 \usage{
-WindowSelection(Spectrum_data, from = 0.2, to = 10, reverse.axis = TRUE)
+WindowSelection(Spectrum_data, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
-  \item{from}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA}
-  \item{to}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA}
+  \item{from.ws}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA}
+  \item{to.ws}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA}
   \item{reverse.axis}{If \code{TRUE}, the ppm interval and the spectrum are reversed.}
 }
 \details{
-If \code{from} and/or \code{to} are not specified we calculate it so that we have the largest window without NAs.
+If \code{from.ws} and/or \code{to.ws} are not specified we calculate it so that we have the largest window without NAs.
 Those NAs are typicaly produced by PPMconversion with misaligned TMSP peaks.
 }
 \value{
@@ -31,8 +31,8 @@ Benoît Legat
 # The interval is chosen so that we have the largest interval without NAs
 Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9)
 # from is chosen so that we have the largest interval possible without NAs
-Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, to=10)
-Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, from=0.2, to=10)
+Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, to.ws=10)
+Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, from.ws=0.2, to.ws=10)
 }
 \keyword{ manip }
 

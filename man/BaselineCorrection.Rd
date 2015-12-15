@@ -6,14 +6,14 @@ Set the baseline to a uniform zero signal.
 \description{
 Estimates and remove the smoothed baseline from the spectrum.
 }
-\usage{BaselineCorrection(RawSpect_data, use.ptw = TRUE, maxIter = 42,lambda=1e7, 
+\usage{BaselineCorrection(RawSpect_data, use.ptw.bc = TRUE, maxIter = 42,lambda.bc=1e7, 
                                     p=0.05, eps=1e-8, returnBaseline=F)}
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
-  \item{use.ptw}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
+  \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{maxIter}{Maximum of iterations if \code{use.ptw} is set to \code{FALSE}}
-  \item{lambda}{Smoothing parameter (generally 1e5 -- 1e8)}.
+  \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8)}.
   \item{p}{Asymmetry parameter}.
   \item{eps}{Numerical precision for convergence when estimating the baseline}.
   \item{returnBaseline}{If TRUE, will return the estimation of the baseline.}.
@@ -69,9 +69,9 @@ Benoît Legat
 See also \code{\link{SolventSuppression}} which also uses the Whittaker smoother.
 }
 \examples{
-BC.spec <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda=5e+06, p=0.05)
+BC.spec <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda.bc=5e+06, p=0.05)
 #or
-BC.res <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda=5e+06, p=0.05, returnBaseline=TRUE)
+BC.res <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda.bc=5e+06, p=0.05, returnBaseline=TRUE)
 BC.spec = BC.res[["RawSpect_data"]]
 plot(BC.res[["baseline"]], type="l")
 }

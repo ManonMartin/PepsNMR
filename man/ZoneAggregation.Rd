@@ -8,11 +8,11 @@ Replace the values given in specified intervals by triangular shaped peaks with 
 
 }
 \usage{
-ZoneAggregation(Spectrum_data, fromto = list(Citrate =c(2.5, 2.7)))
+ZoneAggregation(Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7)))
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
-  \item{fromto}{List containing the borders in ppm of the intervals to aggregate.}
+  \item{fromto.za}{List containing the borders in ppm of the intervals to aggregate.}
 
 }
 \details{
@@ -26,7 +26,7 @@ This aggregation is usually performed with urine samples that contain citrate.
 Benoît Legat
 }
 \examples{
-\dontrun{Spectrum_data <- ZoneAggregation(Spectrum_data, fromto = list(Citrate =c(2.5, 2.7)))}
+\dontrun{Spectrum_data <- ZoneAggregation(Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7)))}
 
 }
 \keyword{ manip }

@@ -4,7 +4,7 @@
 \description{Multiplies the FID with a decreasing function in order to increase the Signal-to-Noise Ratio (SNR).
 This is based on the fact that the signal intensity is decreasing over time unlike the noise that keeps a constant amplitude, leaving a noisy tail at the end of the FID signal.}
 \usage{
-Apodization(Fid_data, Fid_info=NULL, DT=NULL,type = c("exp", "cos2", 
+Apodization(Fid_data, Fid_info=NULL, DT=NULL,type.apod = c("exp", "cos2", 
   "blockexp", "blockcos2", "gauss", "hanning", "hamming"),phase=0,
   rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, returnFactor=F)
 }
@@ -12,7 +12,7 @@ Apodization(Fid_data, Fid_info=NULL, DT=NULL,type = c("exp", "cos2",
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{DT}{If given, used instead of \code{Fid_info} to give the Dwell Time, the time between 2 points of the FID.}
-  \item{type}{Type of apodization, see details.}
+  \item{type.apod}{Type of apodization, see details.}
   \item{phase}{Pphase at which the apodization window is maximum for \code{cos2}, \code{hanning} and \code{hamming} types. For example, if phase is 0.2, the maximum is at 20\% of the signal.}
   \item{rectRatio}{If there is a rectangular window, ratio between the width of the window and the width of the signal.}
   \item{gaussLB}{Line Broadening for the gaussian window, see details.}
