@@ -86,7 +86,7 @@ function (Signal_data,
 #           require("ggplot2")
 #           require("reshape2")
           melted <- reshape2::melt(elements[[name]][i:last,], varnames=c("rowname", "Var"))
-          plots[[name]] <- ggplot2::ggplot(melted, aes("Var", "value")) +
+          plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes("Var", "value")) +
                   ggplot2::geom_line() +
                   ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
                   ggplot2::theme(legend.position="none") +
@@ -95,7 +95,7 @@ function (Signal_data,
       }
       if (subtype == "stacked") {
 #         require("gridExtra")
-        do.call(grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
+        do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
       }
       i = last + 1
     }
@@ -115,7 +115,7 @@ function (Signal_data,
         element <- sweep(element, MARGIN=2, colMeans(element), `-`)
       } else if (subtype == "diffmedian") {
 #         require("matrixStats")
-        element <- sweep(element, MARGIN=2, colMedians(element), `-`)
+        element <- sweep(element, MARGIN=2, matrixStats::colMedians(element), `-`)
       } else if (subtype == "diffwith") {
         element <- sweep(element, MARGIN=2, element[row, ], `-`)
         if (row == 1 & n > 1) {

@@ -8,7 +8,8 @@ Converts the frequency scale from Hertz to part per million (PPM).
 }
 \usage{
 PPMConversion(RawSpect_data, RawSpect_info,
-              shiftHandling = c( "cut", "zerofilling","NAfilling", "circular"), from = 7400, to = 9400)
+              shiftHandling = c( "cut", "zerofilling","NAfilling", "circular"),
+              from = 7400, to = 9400)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}

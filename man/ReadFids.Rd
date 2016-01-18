@@ -9,7 +9,7 @@ ReadFids(path, l = 1)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}
-    \item{path}{A positive number indicating which line of the title file to use as spectra names.}
+  \item{l}{A positive number indicating which line of the title file to use as spectra names.}
 }
 \details{
 The row names are the first line of the file "pdata/1/title" in the directory or the directory name if the file doesn't exists or the first line is blank. The column names are the time coordinates of the FID.

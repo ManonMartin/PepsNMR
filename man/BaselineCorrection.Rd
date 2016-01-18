@@ -6,13 +6,13 @@ Set the baseline to a uniform zero signal.
 \description{
 Estimates and remove the smoothed baseline from the spectrum.
 }
-\usage{BaselineCorrection(RawSpect_data, use.ptw.bc = TRUE, maxIter = 42,lambda.bc=1e7, 
+\usage{BaselineCorrection(RawSpect_data, ptw.bc = TRUE, maxIter = 42,lambda.bc=1e7,
                                     p=0.05, eps=1e-8, returnBaseline=F)}
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
-  \item{maxIter}{Maximum of iterations if \code{use.ptw} is set to \code{FALSE}}
+  \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}}
   \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8)}.
   \item{p}{Asymmetry parameter}.
   \item{eps}{Numerical precision for convergence when estimating the baseline}.
@@ -43,7 +43,7 @@ In summary, usefull parameters are:
   With \code{lambda=0}, the baseline will be equal to the signal and the corrected signal will be zero.}
 }
 
-The algorithm used to find the baseline is iterative. In \code{ptw}, the iteration is done until the baseline is found but if \code{use.ptw} is set to \code{FALSE}, we give up after \code{maxIter} iterations.
+The algorithm used to find the baseline is iterative. In \code{ptw}, the iteration is done until the baseline is found but if \code{ptw.bc} is set to \code{FALSE}, we give up after \code{maxIter} iterations.
 
 More details and motivations are given in the articles mentionned in the References.
 

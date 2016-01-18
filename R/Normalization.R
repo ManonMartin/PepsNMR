@@ -11,11 +11,11 @@ Normalization <- function (Spectrum_data, type.norm=c("mean", "median","firstqua
          },
          "median" = { # median
 #            require("matrixStats")
-           factor <- rowMedians(Spectrum_data, na.rm = TRUE)
+           factor <- matrixStats::rowMedians(Spectrum_data, na.rm = TRUE)
          },
          "firstquartile" = {
 #            require("matrixStats")
-           factor <- rowQuantiles(Spectrum_data, 0.25, na.rm=TRUE)[[1]]
+           factor <- matrixStats::rowQuantiles(Spectrum_data, 0.25, na.rm=TRUE)[[1]]
          },
          "peak" = {
            ppm <- as.numeric(colnames(Spectrum_data))

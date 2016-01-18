@@ -16,7 +16,6 @@ Warping <- function(RawSpect_data,
   RawSpect_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
   reference.choosing <- match.arg(reference.choosing)
-  checkArg(reference, c("int", "pos"))
   optim.crit <- match.arg(optim.crit)
   checkArg(K, c("int", "pos"))
   checkArg(L, c("int", "pos0"))
@@ -26,7 +25,10 @@ Warping <- function(RawSpect_data,
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
 
-  reference <- row.names(RawSpect_data)[reference]
+  if (is.null(reference) || !(reference %in% row.names(RawSpect_data))) {
+      checkArg(reference, c("int", "pos"))
+      reference <- row.names(RawSpect_data)[reference]
+  }
 
   if (L > 0 && L <= deg) {
     stop("L should be greater than deg because with 1 interval, there is already deg+1 Bsplines.")
