@@ -1,3 +1,4 @@
+#' @export PPMConversion
 PPMConversion <- function(RawSpect_data, RawSpect_info,
                           shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), from = 7400, to = 9400) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)

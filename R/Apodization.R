@@ -1,3 +1,4 @@
+#' @export Apodization
 Apodization <- function(Fid_data, Fid_info=NULL, DT=NULL,
                         type.apod = c("exp", "cos2", "blockexp", "blockcos2", "gauss", "hanning", "hamming"),
                         phase=0, rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, returnFactor=F) {

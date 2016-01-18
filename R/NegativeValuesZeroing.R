@@ -1,3 +1,4 @@
+#' @export NegativeValuesZeroing
 NegativeValuesZeroing <- function(RawSpect_data) {
   begin_info <- beginTreatment("NegativeValuesZeroing", RawSpect_data, force.real=T)
   RawSpect_data <- begin_info[["Signal_data"]]

@@ -1,3 +1,4 @@
+#' @export DrawSignal
 DrawSignal <-
 function (Signal_data,
                         subtype=c("together", "separate", "stacked", "diffmean", "diffmedian", "diffwith"),
@@ -85,9 +86,9 @@ function (Signal_data,
 #           require("ggplot2")
 #           require("reshape2")
           melted <- reshape2::melt(elements[[name]][i:last,], varnames=c("rowname", "Var"))
-          plots[[name]] <- ggplot2::ggplot(melted) +
-                  ggplot2::geom_line(ggplot2::aes(color = colors)) +
-                  ggplot2::facet_grid(main.names ~ ., scales = "free_y") +
+          plots[[name]] <- ggplot2::ggplot(melted, aes("Var", "value")) +
+                  ggplot2::geom_line() +
+                  ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
                   ggplot2::theme(legend.position="none") +
                   ggplot2::labs(x=xlab, y=name)
         }
@@ -99,7 +100,7 @@ function (Signal_data,
       i = last + 1
     }
   } else {
-    colors <- rainbow(n)
+    rainbow_colors <- rainbow(n)
     if (createWindow) {
       dev.new(noRStudioGD = TRUE) 
     }
@@ -130,13 +131,13 @@ function (Signal_data,
       {
         if (i == 1) {
           # If it is our first plot, we need to set the axes
-          plot(element[i,],col=colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
+          plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
           axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
         } else {
-          lines(element[i,],col=colors[i])
+          lines(element[i,],col=rainbow_colors[i])
         }
       }
-      legend(x="topright",legend=main.names,lty=1,lwd=2, col=colors)
+      legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
     }
   }
 }

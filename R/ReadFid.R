@@ -1,3 +1,4 @@
+#' @export ReadFid
 ReadFid <- function(path) {
   # Read 1D FID using Bruker XWinNMR and TopSpin format.
   # It is inspired of the matNMR matlab library which deals with 2D FID and also other formats

@@ -1,3 +1,4 @@
+#' @export RegionRemoval
 RegionRemoval <- function(Spectrum_data, typeofspectra = c("Serum", "Urine", NULL), 
                           type.rr = c( "zero", "NA"), fromto.rr=NULL) {
   begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real=T)

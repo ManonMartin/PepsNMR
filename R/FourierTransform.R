@@ -1,3 +1,4 @@
+#' @export FourierTransform
 FourierTransform <- function(Fid_data, Fid_info=NULL, SW_h=NULL) {
   begin_info <- beginTreatment("FourierTransform", Fid_data, Fid_info)
   Fid_data <- begin_info[["Signal_data"]]

@@ -1,3 +1,4 @@
+#' @export SolventSuppression
 SolventSuppression <- function(Fid_data, lambda.ss=1e6, ptw.ss=TRUE, plotSolvent=F, returnSolvent=F) {
   begin_info <- beginTreatment("SolventSuppression", Fid_data)
   Fid_data <- begin_info[["Signal_data"]]

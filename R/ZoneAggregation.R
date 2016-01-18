@@ -1,3 +1,4 @@
+#' @export ZoneAggregation
 ZoneAggregation <- function (Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7))) {
   begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
@@ -10,7 +11,7 @@ ZoneAggregation <- function (Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7
   # ----/
   ppm <- as.numeric(colnames(Spectrum_data))
   for (i in 1:length(fromto.za)) {
-    
+
     interval <- indexInterval(ppm, from = fromto.za[[i]][1], to = fromto.za[[i]][2], inclusive=TRUE)
     p <- length(interval)
     SpectOld <- Spectrum_data[,interval,drop=F]
@@ -27,7 +28,7 @@ ZoneAggregation <- function (Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7
       rise <- t(sapply(d*((p-1)/2 - 1), function (top) seq(0, top, length.out=(p-1)/2)))
       triangle <- cbind(rise, d*(p-1)/2, rise[,ncol(rise):1,drop=F])
     }
-    Spectrum_data[,interval] <- complex(real=triangle, imaginary=Im(SpectOld)) 
+    Spectrum_data[,interval] <- complex(real=triangle, imaginary=Im(SpectOld))
     }
   return(endTreatment("ZoneAggregation", begin_info, Spectrum_data))
 }

@@ -1,3 +1,4 @@
+#' @export BaselineCorrection
 BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
                                 lambda.bc=1e7, p=0.05, eps=1e-8, returnBaseline=F) {
   begin_info <- beginTreatment("BaselineCorrection", RawSpect_data, force.real=T)

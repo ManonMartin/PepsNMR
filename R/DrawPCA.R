@@ -1,3 +1,4 @@
+#' @export DrawPCA
 DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F) {
   pca <- prcomp(Re(Signal_data))
   if (nrow(Signal_data) < 2) {

@@ -1,3 +1,4 @@
+#' @export Warping
 Warping <- function(RawSpect_data,
                     normalization.type=c("median","mean","firstquartile","peak","none"), from.normW=3.05, to.normW=4.05,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
@@ -10,7 +11,7 @@ Warping <- function(RawSpect_data,
     # we could actually just do the sum and not the mean, both choices are good
     return (sum(apply(m, 1, function(x) sum((x - m[row,])^2, na.rm=T))) / (nrow(m)-1))
   }
-  
+
   begin_info <- beginTreatment("Warping", RawSpect_data, force.real=T)
   RawSpect_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
@@ -24,9 +25,9 @@ Warping <- function(RawSpect_data,
   checkArg(lambda.bspline, c("num", "pos0"))
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
-  
+
   reference <- row.names(RawSpect_data)[reference]
-  
+
   if (L > 0 && L <= deg) {
     stop("L should be greater than deg because with 1 interval, there is already deg+1 Bsplines.")
   }
@@ -38,7 +39,7 @@ Warping <- function(RawSpect_data,
   rnames <- rownames(RawSpect_data)
   if (n > 1) {
     if (reference.choosing == "fixed") {
-      pool <- reference 
+      pool <- reference
     } else if (reference.choosing == "before") {
       argmin <- which.min(sapply(rnames, function (i) meanSqrDiff(RawSpect_data,i)))
       pool <- names(argmin)

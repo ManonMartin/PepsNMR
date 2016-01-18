@@ -1,3 +1,4 @@
+#' @export Bucketing
 Bucketing <- function (Spectrum_data, m = 500) {
   left_part_trapz <- function (x1, x2, xmid, y1, y2) {
     # Integral from x1 to xmid of the trapezium defined by (x1,y1) and (x1,y2)

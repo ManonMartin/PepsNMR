@@ -64,6 +64,7 @@
 ##################################################
 
 
+#' @export PreprocessingChain
 PreprocessingChain = function(title = "Run%003d", dataname="Dataset", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 

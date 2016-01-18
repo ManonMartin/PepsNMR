@@ -1,3 +1,4 @@
+#' @export ReadFids
 ReadFids <- function(path, l=1) {
   begin_info <- beginTreatment("ReadFids")
   checkArg(path, c("str"))

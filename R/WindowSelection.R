@@ -1,3 +1,4 @@
+#' @export WindowSelection
 WindowSelection <- function (Spectrum_data, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE) {
   begin_info <- beginTreatment("WindowSelection", Spectrum_data)
   Spectrum_data <- begin_info[["Signal_data"]]

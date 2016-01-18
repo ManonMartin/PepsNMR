@@ -1,3 +1,4 @@
+#' @export ZeroOrderPhaseCorrection
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
