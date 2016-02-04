@@ -1,10 +1,10 @@
 \name{Data_HS}
 \alias{Data_HS}
 \docType{data}
-\title{Four first FIDs or raw spectra of the Human Serum database given after each preprocessing step.
+\title{FIDs or raw spectra from the Human Serum database.
 %%   ~~ data name/kind ... ~~
 }
-\description{
+\description{Four first FIDs or raw spectra of the Human Serum database given after each preprocessing step.
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
 }
 \usage{data("Data_HS")}
