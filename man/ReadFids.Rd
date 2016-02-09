@@ -5,11 +5,12 @@
 them in a matrix.
 }
 \usage{
-ReadFids(path, l = 1)
+ReadFids(path, l = 1, subdirs = FALSE)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}
+  \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have 1 FID matrix and 1 info matrix.}
 }
 \details{
 The row names are the first line of the file "pdata/1/title" in the directory or the directory name if the file doesn't exists or the first line is blank. The column names are the time coordinates of the FID.
