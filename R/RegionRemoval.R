@@ -1,6 +1,6 @@
 #' @export RegionRemoval
-RegionRemoval <- function(Spectrum_data, typeofspectra = c("Serum", "Urine", NULL), 
-                          type.rr = c( "zero", "NA"), fromto.rr=NULL) {
+RegionRemoval <- function(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine"), 
+                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36)) ) {
   begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.rr) & !is.null(fromto.rr)) {stop(deparse(substitute(fromto.rr)), " is nor a list nor NULL.")}
