@@ -66,9 +66,28 @@
 
 #' @export PreprocessingChain
 PreprocessingChain = function(title = "Run%003d", dataname="Dataset", data.path = getwd(), out.path = getwd(), 
-                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE,
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, Fid_info=NULL,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
-                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, ...) { 
+                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
+                        l=1, subdirs = FALSE, #ReadFids
+                        group_delay=NULL, # FOPC
+                        lambda.ss=1e6, ptw.ss=TRUE, plotSolvent=F, # SolventSuppression
+                        DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, # Apodization
+                        SW_h=NULL, # FourierTransform
+                        plot_rms=NULL, # ZeroOrderPhaseCorrection
+                        ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
+                        shiftHandling="cut", from = 7400, to = 9400, #PPMConversion
+                        
+                        normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
+                        reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
+                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
+                        max_it_Bspline=10, returnReference=F,  #Warping
+                        from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, # WindowSelection
+                        m = 500, # Bucketing
+                        typeofspectra = NULL,type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36)), # RegionRemoval
+                        fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
+                        type.norm="mean", from.norm=3.05, to.norm=4.05 # Normalization
+                        ) { 
 
 
  
@@ -99,7 +118,7 @@ if (saveall == TRUE) {
 ## Load FIDs and info
 ##########################
 
-fidList <-ReadFids(file.path(data.path, dataname), ...)
+fidList <-ReadFids(file.path(data.path, dataname), l=l, subdirs = subdirs)
 
 # Initial dataset 
 Fid_info <- fidList[["Fid_info"]]
@@ -121,7 +140,7 @@ if (saveall == TRUE) {
 
 if (Fopc ==  TRUE ){
 
-  Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info, ...)
+  Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info = Fid_info, group_delay=group_delay)
 
   Fid_data1 = Fid_data
   
@@ -162,7 +181,7 @@ if (Fopc ==  TRUE ){
 if (Ss ==  TRUE ){
 
   Fid_dataB = Fid_data 
-  Ss.res = SolventSuppression(Fid_data,returnSolvent=TRUE, ...)
+  Ss.res = SolventSuppression(Fid_data,returnSolvent=TRUE, lambda.ss=lambda.ss, ptw.ss=ptw.ss, plotSolvent=plotSolvent)
   Fid_data = Ss.res[["Fid_data"]]
   SolventRe = Ss.res[["SolventRe"]]
   
@@ -202,7 +221,9 @@ if (Ss ==  TRUE ){
 if (A ==  TRUE ){
   
   Fid_dataB = Fid_data 
-  Apod.res = Apodization(Fid_data, Fid_info, returnFactor=T, ...)
+  Apod.res = Apodization(Fid_data, Fid_info = Fid_info, returnFactor=T, DT=DT,
+                         type.apod = type.apod,phase=phase, rectRatio=rectRatio, gaussLB=gaussLB, 
+                         expLB=expLB, plotWindow=plotWindow)
   Fid_data = Apod.res[["Fid_data"]]
   ApodFactor = Apod.res[["factor"]]
   
@@ -236,7 +257,7 @@ if (A ==  TRUE ){
 ##########################
 
 Fid_dataB = Fid_data
-RawSpect_data = FourierTransform(Fid_data, Fid_info, ...)
+RawSpect_data = FourierTransform(Fid_data, Fid_info = Fid_info, SW_h = SW_h)
 
 RawSpect_data4 = RawSpect_data
 
@@ -278,7 +299,7 @@ if (ImpG==TRUE) {
 if (Zopc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, ...)
+  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = plot_rms)
 
   RawSpect_data5 = RawSpect_data
 
@@ -318,7 +339,7 @@ if (Zopc ==  TRUE ){
 if (Bc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-  BC.res =  BaselineCorrection(RawSpect_data, returnBaseline=TRUE, ...)
+  BC.res =  BaselineCorrection(RawSpect_data, returnBaseline=TRUE, lambda.bc=lambda.bc, p=p, eps=eps)
   baseline = BC.res[["baseline"]]
   RawSpect_data = BC.res[["RawSpect_data"]]
   
@@ -402,7 +423,7 @@ if (Zsnv ==  TRUE ){
 # PPMConversion 
 ##########################
 RawSpect_dataB = RawSpect_data
-Spectrum_data = PPMConversion(RawSpect_data, Fid_info, ...)
+Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, from = from, to = to)
 
 Spectrum_data8 = Spectrum_data
 
@@ -429,7 +450,11 @@ if (ImpG==TRUE) {
 
 if (W ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Warp.res  = Warping(RawSpect_data=Spectrum_data, returnWarpingfunc=TRUE, ...)
+  Warp.res  = Warping(RawSpect_data=Spectrum_data, returnWarpingfunc=TRUE, normalization.type=normalization.type, 
+                      from.normW=from.normW, to.normW=to.normW,reference.choosing=reference.choosing, 
+                      reference=reference,optim.crit=optim.crit, ptw.wp=ptw.wp, K=K, L=L,
+                      lambda.smooth=lambda.smooth, deg=deg, lambda.bspline=lambda.bspline, kappa=kappa,
+                      max_it_Bspline=max_it_Bspline, returnReference=returnReference)
   Spectrum_data =  Warp.res[["RawSpect_data"]]
   warpingfunc = Warp.res[["warpingfunc"]]
 
@@ -482,7 +507,7 @@ if (W ==  TRUE ){
 # WindowSelection
 ##########################
 Spectrum_dataB = Spectrum_data
-Spectrum_data = WindowSelection(Spectrum_data, ...)
+Spectrum_data = WindowSelection(Spectrum_data, from.ws = from.ws, to.ws = to.ws, reverse.axis = reverse.axis)
 
 Spectrum_data10 = Spectrum_data
 
@@ -512,7 +537,7 @@ if (ImpG==TRUE) {
 
 if (B ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = Bucketing(Spectrum_data, ...)
+  Spectrum_data = Bucketing(Spectrum_data, m = m)
   
   Spectrum_data11 = Spectrum_data
 
@@ -546,7 +571,8 @@ if (B ==  TRUE ){
 
 if (Zs ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = RegionRemoval(Spectrum_data,...) 
+  Spectrum_data = RegionRemoval(Spectrum_data,typeofspectra = typeofspectra, 
+                                type.rr = type.rr, fromto.rr=fromto.rr) 
 
   Spectrum_data12 = Spectrum_data
   
@@ -584,7 +610,7 @@ if (Zs ==  TRUE ){
 
 if (Za ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = ZoneAggregation(Spectrum_data,...) 
+  Spectrum_data = ZoneAggregation(Spectrum_data,fromto.za = fromto.za) 
 
   
   Spectrum_data13 = Spectrum_data
@@ -622,7 +648,7 @@ if (Za ==  TRUE ){
 if (N ==  TRUE ){
 
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = Normalization(Spectrum_data, ...)
+  Spectrum_data = Normalization(Spectrum_data, type.norm=type.norm, from.norm=from.norm, to.norm=to.norm)
   
   Spectrum_data14 = Spectrum_data
 
