@@ -8,9 +8,10 @@
 }
 \usage{
 PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
-            out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE,
-            Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, 
-            W = TRUE, B = TRUE, Zs = TRUE, Za = FALSE, N = TRUE, ...) 
+            out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, 
+            ImpG= FALSE, RetArgs = TRUE, Fopc = TRUE, Ss = TRUE, A = TRUE, 
+            Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
+            Za = FALSE, N = TRUE, ...) 
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -24,6 +25,7 @@ PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
   \item{save}{If \code{TRUE}, Fourier transformed and final data are saved.}
   \item{saveall}{If \code{TRUE}, datasets from each step are saved into a list.}
   \item{ImpG}{If \code{TRUE}, provides graphical illustration for each step.}
+  \item{RetArgs}{If \code{TRUE}, the function arguments are saved.}
   \item{Fopc}{If \code{TRUE}, performs the FirstOrderPhaseCorrection routine}
   \item{Ss}{If \code{TRUE}, performs the SolventSuppression routine.}
   \item{A}{If \code{TRUE}, performs the Apodization routine.}
@@ -77,7 +79,7 @@ Here is a reminder of all the steps involved:
 data.path <-  system.file("extdata", package = "SOAP")
 dir(data.path)
 
-Pretreated.spectra <- PreprocessingChain(title = "Run\%003d", dataname="HumanSerum", 
+Res <- PreprocessingChain(title = "Run\%003d", dataname="HumanSerum", 
                                           data.path = data.path)
 
 }

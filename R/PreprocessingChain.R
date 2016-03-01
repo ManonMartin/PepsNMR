@@ -21,6 +21,7 @@
 # data.path : path to the FIDs
 # out.path : output path for datasets and graphs
 # nspectr : choice of the observation chosen for the graphs
+#  If TRUE, 
 
 ## TRUE or FALSE :
 # Fopc : First order phase correction
@@ -35,7 +36,7 @@
 # Za :  Zone aggregation
 # N : Normalisation
 # ImpG : impression graphique if TRUE
-
+# RetArgs : save function arguments
   
 ## Default values parameters for the inner functions
 # SolventSuppression : lambda.Ss = 1e6
@@ -66,7 +67,7 @@
 
 #' @export PreprocessingChain
 PreprocessingChain = function(title = "Run%003d", dataname="Dataset", data.path = getwd(), out.path = getwd(), 
-                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, Fid_info=NULL,
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, Fid_info=NULL,RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
                         l=1, subdirs = FALSE, #ReadFids
@@ -712,17 +713,47 @@ if (N ==  TRUE ){
 #################### 
 # save THE RESULTS
 ####################
+argnames <- c("title",               "dataname",           "data.path",          "out.path", 
+              "nspectr",            "save",           
+              "saveall",            "ImpG",               "Fid_info",           "Fopc",              
+              "Ss" ,                "A",                  "Zopc",               "Bc",                
+              "Zsnv" ,              "W",                  "B",                  "Zs" ,               
+              "Za",                 "N",                  "l",                  "subdirs" ,          
+              "group_delay",        "lambda.ss",          "ptw.ss",             "plotSolvent",       
+              "DT",                 "type.apod",          "phase",              "rectRatio",         
+              "gaussLB",            "expLB",              "plotWindow",         "SW_h",              
+              "plot_rms",           "ptw.bc",             "maxIter",            "lambda.bc",         
+              "p",                  "eps",                "shiftHandling",      "from"  ,            
+              "to",                 "normalization.type", "from.normW",         "to.normW",          
+              "reference.choosing", "reference",          "optim.crit",         "ptw.wp",            
+              "K",                  "L",                  "lambda.smooth",      "deg"  ,             
+              "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
+              "from.ws",            "to.ws",              "reverse.axis",       "m"  ,               
+              "typeofspectra",      "type.rr",            "fromto.rr",          "fromto.za",         
+              "type.norm",          "from.norm",          "to.norm"  )
+
 
 Spectra=Re(Spectrum_data)
 
-if (save == TRUE) {
-save(Spectra, file=paste0(out.path, "/",title , "Spectra.RData"))
-}
+arguments <- c(as.list(environment()))
 
+index <- names(arguments) %in% argnames
+
+
+if (save == TRUE) {
+  if (RetArgs == TRUE) {
+    save(Spectra, arguments, file=paste0(out.path, "/",title , "FinalSpectra.RData"))
+    } else {save(Spectra, file=paste0(out.path, "/",title , "FinalSpectra.RData"))}
+}
+  
 if (saveall == TRUE) {
 save(PretreatedSpectrabyStep, file=paste0(out.path, "/",title , "PretreatedSpectrabyStep.RData"))
 }
 
-return(Spectra)
+
+if (RetArgs == TRUE) {
+  return(list(Spectra=Spectra, arguments=arguments[index]))
+} else {return(Spectra)}
+
 
 }
