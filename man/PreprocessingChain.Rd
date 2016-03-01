@@ -24,6 +24,7 @@ PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
   \item{save}{If \code{TRUE}, Fourier transformed and final data are saved.}
   \item{saveall}{If \code{TRUE}, datasets from each step are saved into a list.}
   \item{ImpG}{If \code{TRUE}, provides graphical illustration for each step.}
+  \item{RetArgs}{If \code{TRUE}, the function arguments are saved.}
   \item{Fopc}{If \code{TRUE}, performs the FirstOrderPhaseCorrection routine}
   \item{Ss}{If \code{TRUE}, performs the SolventSuppression routine.}
   \item{A}{If \code{TRUE}, performs the Apodization routine.}
