@@ -261,10 +261,10 @@ Fid_dataB = Fid_data
 RawSpect_data = FourierTransform(Fid_data, Fid_info = Fid_info, SW_h = SW_h)
 
 RawSpect_data4 = RawSpect_data
-
+FourierTransformData = Re(RawSpect_data)
 
 if (save == TRUE) {
-  save(FourierTransformData = Re(RawSpect_data),  file=paste0(out.path, "/",dataname ,"FourierTransformData.RData"))
+  save(FourierTransformData = FourierTransformData,  file=paste0(out.path, "/",dataname ,"FourierTransformData.RData"))
 }
 
 if (saveall == TRUE) {
@@ -736,10 +736,10 @@ argnames <- c("title",               "dataname",           "data.path",         
 Spectra=Re(Spectrum_data)
 
 arguments <- c(as.list(environment()))
-
 index <- names(arguments) %in% argnames
-
-
+arguments <- arguments[index]
+  
+  
 if (save == TRUE) {
   if (RetArgs == TRUE) {
     save(Spectra, arguments, file=paste0(out.path, "/",title , "FinalSpectra.RData"))
@@ -752,7 +752,7 @@ save(PretreatedSpectrabyStep, file=paste0(out.path, "/",title , "PretreatedSpect
 
 
 if (RetArgs == TRUE) {
-  return(list(Spectra=Spectra, arguments=arguments[index]))
+  return(list(Spectra=Spectra, arguments=arguments))
 } else {return(Spectra)}
 
 
