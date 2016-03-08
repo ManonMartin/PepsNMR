@@ -17,9 +17,8 @@ PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 
-  \item{title}{Run title.}
-  \item{dataname}{Name of the data folder contained in the \code{data.path} directory.}
-  \item{data.path}{Path to the data in Bruker format from the specified directory.}
+  \item{dataname}{Includes the dataset name and additional infos.}
+  \item{data.path}{Path to the main directory containing the data in Bruker format.}
   \item{out.path}{Path for optional outputs.}
   \item{nspectr}{Row number of the spectrum selected for each step illustrations.}
   \item{save}{If \code{TRUE}, Fourier transformed and final data are saved.}

@@ -14,11 +14,11 @@
 ## ARGUMENTS
 ###################
 
-# dataname : name of the original and final dataset
-# title : titre du run
+
+# dataname : includes the dataset name and additional infos
 # save : if the data needs to be saved in a Rdata file 
 # saveall : if the data from each step need to be saved in a Rdata file 
-# data.path : path to the FIDs
+# data.path : path to the main directory
 # out.path : output path for datasets and graphs
 # nspectr : choice of the observation chosen for the graphs
 #  If TRUE, 
@@ -66,7 +66,7 @@
 
 
 #' @export PreprocessingChain
-PreprocessingChain = function(title = "Run%003d", dataname="Dataset", data.path = getwd(), out.path = getwd(), 
+PreprocessingChain = function(dataname = "data%003d", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, Fid_info=NULL,RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
@@ -102,7 +102,7 @@ PreprocessingChain = function(title = "Run%003d", dataname="Dataset", data.path 
 
   
 cat("\n", "##############################################")
-cat("\n", title,  "PRETREATMENT OF ", dataname)
+cat("\n", "PRETREATMENT OF ", dataname)
 cat("\n", "############################################## \n")
 
 if (saveall == TRUE) {
@@ -713,9 +713,9 @@ if (N ==  TRUE ){
 #################### 
 # save THE RESULTS
 ####################
-argnames <- c("title",               "dataname",           "data.path",          "out.path", 
+argnames <- c("dataname",           "data.path",          "out.path", 
               "nspectr",            "save",           
-              "saveall",            "ImpG",               "Fid_info",           "Fopc",              
+              "saveall",            "ImpG",               "Fopc",              
               "Ss" ,                "A",                  "Zopc",               "Bc",                
               "Zsnv" ,              "W",                  "B",                  "Zs" ,               
               "Za",                 "N",                  "l",                  "subdirs" ,          
@@ -742,17 +742,17 @@ arguments <- arguments[index]
   
 if (save == TRUE) {
   if (RetArgs == TRUE) {
-    save(Spectra, arguments, file=paste0(out.path, "/",title , "FinalSpectra.RData"))
-    } else {save(Spectra, file=paste0(out.path, "/",title , "FinalSpectra.RData"))}
+    save(Spectra, arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
+    } else {save(Spectra, file=paste0(out.path, "/",dataname , "FinalSpectra.RData"))}
 }
   
 if (saveall == TRUE) {
-save(PretreatedSpectrabyStep, file=paste0(out.path, "/",title , "PretreatedSpectrabyStep.RData"))
+save(PretreatedSpectrabyStep, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))
 }
 
 
 if (RetArgs == TRUE) {
-  return(list(Spectra=Spectra, arguments=arguments))
+  return(list(Spectra = Spectra, arguments = arguments, Fid_info = Fid_info))
 } else {return(Spectra)}
 
 
