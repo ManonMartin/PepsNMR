@@ -119,7 +119,7 @@ if (saveall == TRUE) {
 ## Load FIDs and info
 ##########################
 
-fidList <-ReadFids(file.path(data.path, dataname), l=l, subdirs = subdirs)
+fidList <-ReadFids(data.path, l=l, subdirs = subdirs)
 
 # Initial dataset 
 Fid_info <- fidList[["Fid_info"]]
