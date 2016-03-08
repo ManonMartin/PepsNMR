@@ -7,7 +7,7 @@
 \description{Pre-treatment facilities organised in the advised sequence.
 }
 \usage{
-PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
+PreprocessingChain(dataname="Dataset", data.path = getwd(), subdirs = FALSE,
             out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, 
             ImpG= FALSE, RetArgs = TRUE, Fopc = TRUE, Ss = TRUE, A = TRUE, 
             Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
@@ -19,6 +19,7 @@ PreprocessingChain(title = "Run\%003d", dataname="Dataset", data.path = getwd(),
 
   \item{dataname}{Includes the dataset name and additional infos.}
   \item{data.path}{Path to the main directory containing the data in Bruker format.}
+  \item{subdirs}{If \code{TRUE}, will look for subdirectories within the main directory for FIDs.}
   \item{out.path}{Path for optional outputs.}
   \item{nspectr}{Row number of the spectrum selected for each step illustrations.}
   \item{save}{If \code{TRUE}, Fourier transformed and final data are saved.}
