@@ -11,7 +11,7 @@
 # INITIALISATION
 ###################
 
-## ARGUMENTS
+## Arguments
 ###################
 
 
@@ -36,7 +36,7 @@
 # Za :  Zone aggregation
 # N : Normalisation
 # ImpG : impression graphique if TRUE
-# RetArgs : save function arguments
+# RetArgs : save function Arguments
   
 ## Default values parameters for the inner functions
 # SolventSuppression : lambda.Ss = 1e6
@@ -66,20 +66,18 @@
 
 
 #' @export PreprocessingChain
-PreprocessingChain = function(dataname = "data%003d", data.path = getwd(), out.path = getwd(), 
+PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
-                        
-                        Fid_info=NULL,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
-                        lambda.ss=1e6, ptw.ss=TRUE, plotSolvent=F, # SolventSuppression
+                        lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
                         DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, # Apodization
                         SW_h=NULL, # FourierTransform
                         plot_rms=NULL, # ZeroOrderPhaseCorrection
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
-                        shiftHandling="cut", from = 7400, to = 9400, #PPMConversion
+                        shiftHandling="cut", from.ppmc = 7400, to.ppmc = 9400, #PPMConversion
                         
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
@@ -103,17 +101,7 @@ PreprocessingChain = function(dataname = "data%003d", data.path = getwd(), out.p
 #_______________________________________________________
 
   
-cat("\n", "##############################################")
-cat("\n", "PRETREATMENT OF ", dataname)
-cat("\n", "############################################## \n")
 
-if (saveall == TRUE) {
-  longueur = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
-  longueur = longueur + 4 # nombre d'etapes totales
-  
-  PretreatedSpectrabyStep = vector("list", longueur) # creation d une liste pour sauver les donnees de chaque etape
-  step=1
-}
 
 
 
@@ -134,9 +122,22 @@ if (saveall == TRUE) {
   names(PretreatedSpectrabyStep)[step] <- "InitialFID.Data"
   step = step + 1
 }
-
-
-
+  
+#_______________________________________________________
+  
+  cat("\n", "##############################################")
+  cat("\n", "PRETREATMENT OF ", dataname)
+  cat("\n", "############################################## \n")
+  
+  if (saveall == TRUE) {
+    longueur = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
+    longueur = longueur + 4 # nombre d'etapes totales
+    
+    PretreatedSpectrabyStep = vector("list", longueur) # creation d une liste pour sauver les donnees de chaque etape
+    step=1
+  }
+#_______________________________________________________  
+  
 ################################
 ## FirstOrderPhaseCorrection
 ################################
@@ -184,7 +185,7 @@ if (Fopc ==  TRUE ){
 if (Ss ==  TRUE ){
 
   Fid_dataB = Fid_data 
-  Ss.res = SolventSuppression(Fid_data,returnSolvent=TRUE, lambda.ss=lambda.ss, ptw.ss=ptw.ss, plotSolvent=plotSolvent)
+  Ss.res = SolventSuppression(Fid_data,returnSolvent=TRUE, lambda.ss=lambda.ss, ptw.ss=ptw.ss, plotSolvent=FALSE)
   Fid_data = Ss.res[["Fid_data"]]
   SolventRe = Ss.res[["SolventRe"]]
   
@@ -226,7 +227,7 @@ if (A ==  TRUE ){
   Fid_dataB = Fid_data 
   Apod.res = Apodization(Fid_data, Fid_info = Fid_info, returnFactor=T, DT=DT,
                          type.apod = type.apod,phase=phase, rectRatio=rectRatio, gaussLB=gaussLB, 
-                         expLB=expLB, plotWindow=plotWindow)
+                         expLB=expLB, plotWindow=FALSE)
   Fid_data = Apod.res[["Fid_data"]]
   ApodFactor = Apod.res[["factor"]]
   
@@ -426,7 +427,7 @@ if (Zsnv ==  TRUE ){
 # PPMConversion 
 ##########################
 RawSpect_dataB = RawSpect_data
-Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, from = from, to = to)
+Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, from.ppmc = from.ppmc, to.ppmc = to.ppmc)
 
 Spectrum_data8 = Spectrum_data
 
@@ -737,14 +738,14 @@ argnames <- c("dataname",           "data.path",          "out.path",
 
 Spectra=Re(Spectrum_data)
 
-arguments <- c(as.list(environment()))
-index <- names(arguments) %in% argnames
-arguments <- arguments[index]
+Arguments <- c(as.list(environment()))
+index <- names(Arguments) %in% argnames
+Arguments <- Arguments[index]
   
   
 if (save == TRUE) {
   if (RetArgs == TRUE) {
-    save(Spectra, arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
+    save(Spectra, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
     } else {save(Spectra, file=paste0(out.path, "/",dataname , "FinalSpectra.RData"))}
 }
   
@@ -754,7 +755,7 @@ save(PretreatedSpectrabyStep, file=paste0(out.path, "/",dataname , "PretreatedSp
 
 
 if (RetArgs == TRUE) {
-  return(list(Spectra = Spectra, arguments = arguments, Fid_info = Fid_info))
+  return(list(Spectra = Spectra, Arguments = Arguments, Fid_info = Fid_info))
 } else {return(Spectra)}
 
 
