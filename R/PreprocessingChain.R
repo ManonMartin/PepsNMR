@@ -101,7 +101,20 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
 #_______________________________________________________
 
   
-
+#_______________________________________________________
+  
+cat("##############################################","\n")
+cat("PRETREATMENT OF ", dataname,"\n")
+cat("############################################## \n")
+  
+if (saveall == TRUE) {
+  longueur = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
+  longueur = longueur + 4 # nombre d'etapes totales
+    
+  PretreatedSpectrabyStep = vector("list", longueur) # creation d une liste pour sauver les donnees de chaque etape
+  step=1
+}
+  #_______________________________________________________  
 
 
 
@@ -123,20 +136,7 @@ if (saveall == TRUE) {
   step = step + 1
 }
   
-#_______________________________________________________
-  
-  cat("\n", "##############################################")
-  cat("\n", "PRETREATMENT OF ", dataname)
-  cat("\n", "############################################## \n")
-  
-  if (saveall == TRUE) {
-    longueur = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
-    longueur = longueur + 4 # nombre d'etapes totales
-    
-    PretreatedSpectrabyStep = vector("list", longueur) # creation d une liste pour sauver les donnees de chaque etape
-    step=1
-  }
-#_______________________________________________________  
+
   
 ################################
 ## FirstOrderPhaseCorrection
