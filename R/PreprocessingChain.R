@@ -71,14 +71,11 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
-                        
-                        Fid_info=NULL,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
                         lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
-                        DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, # Apodization
+                        DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, # Apodization
                         SW_h=NULL, # FourierTransform
-                        plot_rms=NULL, # ZeroOrderPhaseCorrection
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
                         shiftHandling="cut", from.ppmc = 7400, to.ppmc = 9400, #PPMConversion
                         
@@ -306,7 +303,7 @@ if (ImpG==TRUE) {
 if (Zopc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = plot_rms)
+  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = NULL)
 
   RawSpect_data5 = RawSpect_data
 

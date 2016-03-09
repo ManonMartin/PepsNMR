@@ -13,10 +13,10 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
             Za = FALSE, N = TRUE, 
             l=1, subdirs = FALSE, group_delay=NULL, lambda.ss=1e6, 
-            ptw.ss=TRUE, plotSolvent=F,DT=NULL,type.apod = "exp",phase=0, 
-            rectRatio=1/2, gaussLB=1, expLB=1, plotWindow=F, SW_h=NULL, 
-            plot_rms=NULL,ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, 
-            shiftHandling="cut", from = 7400, to = 9400,normalization.type="median", 
+            ptw.ss=TRUE,DT=NULL,type.apod = "exp",phase=0, 
+            rectRatio=1/2, gaussLB=1, expLB=1, SW_h=NULL, 
+            ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, 
+            shiftHandling="cut", from.ppmc = 7400, to.ppmc = 9400,normalization.type="median", 
             from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
             reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40, lambda.smooth=0, 
             deg=3, lambda.bspline=0.01, kappa=0.0001, max_it_Bspline=10, returnReference=F,  
@@ -65,7 +65,6 @@ Other subfunctions parameters are:
   \item{gaussLB}{Line Broadening for the gaussian window, see details.}
   \item{expLB}{Line Broadening for the exponential window, see details.}
   \item{SW_h}{Sweep Width in Hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If it is given, the value in \code{Fid_info} is ignored.}
-  \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}}
