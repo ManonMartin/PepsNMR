@@ -15,45 +15,45 @@ Apodization <- function(Fid_data, Fid_info=NULL, DT=NULL,
   gaussLB <- (gaussLB/(sqrt(8*log(2))))
   switch(type.apod,
          "exp" = { # exponential
-           factor <- exp(-expLB*t)
+           Factor <- exp(-expLB*t)
          },
          "cos2" = { # cos^2
            c <- cos((1:m)*pi/(2*m) - phase*pi/2)
-           factor <- c * c
+           Factor <- c * c
          },
          "blockexp" = { # block and exponential
-           factor <- c(rep.int(1, rectSize), rep.int(0, m-rectSize))
+           Factor <- c(rep.int(1, rectSize), rep.int(0, m-rectSize))
            #   | rectSize |
            # 1 ___________
            #              |
            #               \
            # 0              \____
-           factor[(rectSize+1):m] <- exp(-expLB*t[1:(m-rectSize)])
+           Factor[(rectSize+1):m] <- exp(-expLB*t[1:(m-rectSize)])
          },
          "blockcos2" = { # block and cos^2
-           factor <- c(rep.int(1, rectSize), rep.int(0, m-rectSize))
+           Factor <- c(rep.int(1, rectSize), rep.int(0, m-rectSize))
            c <- cos((1:(m-rectSize))*pi/(2*(m-rectSize)))
-           factor[(rectSize+1):m] <- c * c
+           Factor[(rectSize+1):m] <- c * c
          },
          "gauss" = { # gaussian
-           factor <- exp(-(gaussLB*t)^2/2)
-           factor <- factor / max(factor)
+           Factor <- exp(-(gaussLB*t)^2/2)
+           Factor <- Factor / max(Factor)
          },
          "hanning" = { # Hanning
-           factor <- 0.5 + 0.5*cos((1:m)*pi/m - phase*pi)
+           Factor <- 0.5 + 0.5*cos((1:m)*pi/m - phase*pi)
          },
          "hamming" = { # Hamming
-           factor <- 0.54 + 0.46*cos((1:m)*pi/m - phase*pi)
+           Factor <- 0.54 + 0.46*cos((1:m)*pi/m - phase*pi)
          }
   )
   if (plotWindow) {
-    plot(1:m, factor, "l")
+    plot(1:m, Factor, "l")
     # dev.off() # device independent, it is the responsability of the caller to do it
   }
-  Fid_data <- sweep(Fid_data, MARGIN=2, factor, `*`)
+  Fid_data <- sweep(Fid_data, MARGIN=2, Factor, `*`)
   Fid_data <- endTreatment("Apodization", begin_info, Fid_data)
   if (returnFactor) {
-    return(list(Fid_data=Fid_data, factor=factor))
+    return(list(Fid_data=Fid_data, Factor=Factor))
   } else {
     return(Fid_data)
   }

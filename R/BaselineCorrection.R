@@ -40,7 +40,7 @@ BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
         }
         i <- i + 1
         if (i > maxIter) {
-          warning("cannot find baseline estimation in asysm")
+          warning("cannot find Baseline estimation in asysm")
           break
         }
       }
@@ -49,22 +49,22 @@ BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
   }
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)
-  baseline = matrix(NA,nrow = n, ncol = m)
+  Baseline = matrix(NA,nrow = n, ncol = m)
   for (k in 1:n) {
-    baseline[k,] <- asysm(RawSpect_data[k,], lambda.bc, p, eps)
+    Baseline[k,] <- asysm(RawSpect_data[k,], lambda.bc, p, eps)
     if (F & k == 1) {
       m = ncol(RawSpect_data)
       plot(1:m,RawSpect_data[k,],type="l",col="red")
-      lines(1:m,baseline[k,],type="l", col="blue")
-      lines(1:m,RawSpect_data[k,] - baseline[k,],type="l", col="green")
+      lines(1:m,Baseline[k,],type="l", col="blue")
+      lines(1:m,RawSpect_data[k,] - Baseline[k,],type="l", col="green")
     }
-    RawSpect_data[k,] <- RawSpect_data[k,] - baseline[k,]
+    RawSpect_data[k,] <- RawSpect_data[k,] - Baseline[k,]
   }
 
 RawSpect_data = endTreatment("BaselineCorrection", begin_info, RawSpect_data) # FIXME create removeImaginary filter ??
 
 if (returnBaseline) {
-  return(list(RawSpect_data=RawSpect_data, baseline=baseline))
+  return(list(RawSpect_data=RawSpect_data, Baseline=Baseline))
 } else {
   return(RawSpect_data)
   

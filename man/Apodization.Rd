@@ -42,7 +42,9 @@ The new decay \eqn{\tau_2}{tau2} which satisfied \eqn{1/\tau_2 = 1/\tau + LB}{1/
 That is why we call this parameter the Line Broadening.
 }
 \value{
+If \code{returnFactor = TRUE}, will return a list with the following elements: \code{Fid_data} and \code{Factor}. Otherwise, the function will just return \code{Fid_data}. 
   \item{Fid_data}{The apodized FIDs.}
+  \item{Factor}{The apodization function.}
 }
 \references{
   Inspired from the matNMR library.

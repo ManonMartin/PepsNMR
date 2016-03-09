@@ -51,7 +51,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
   \item{Za}{If \code{TRUE}, performs the ZoneAggregation routine.}
   \item{N}{If \code{TRUE}, performs the Normalization routine.}
 
-Other subfunctions parameters are:
+Other subfunction parameters are:
 
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}
   \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have one FID matrix and one info matrix.}
@@ -68,10 +68,10 @@ Other subfunctions parameters are:
   \item{SW_h}{Sweep Width in Hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If it is given, the value in \code{Fid_info} is ignored.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
-  \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}}
-  \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8)}.
-  \item{p}{Asymmetry parameter}.
-  \item{eps}{Numerical precision for convergence when estimating the baseline}.
+  \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}.}
+  \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8).}
+  \item{p}{Asymmetry parameter.}
+  \item{eps}{Numerical precision for convergence when estimating the baseline.}
   \item{shiftHandling}{See the details section.}
   \item{from.ppmc}{Start of the search region for TMSP's peak in data points, usually 7400 for 500 MHz spectrometer.}
   \item{to.ppmc}{End of the search region for TMSP's peak in data points, usually 9400 for 500 MHz spectrometer.}
@@ -102,8 +102,8 @@ It should be either 0 or greater than \code{deg}.}
   \item{kappa}{Nonnegative ridge penalty coefficient for the B-Spline warping.
 See the reference for more details.}
   \item{max_it_Bspline}{Maximum number of iteration for the B-Spline warping.}
-  \item{returnReference}{If TRUE, will return the name of the reference spectrum.}
-  \item{from.ws}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA}
+  \item{returnReference}{If TRUE, will return the name of the reference spectrum for warping.}
+  \item{from.ws}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA.}
   \item{to.ws}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA}
   \item{reverse.axis}{If \code{TRUE}, the ppm interval and the spectrum are reversed.}
   \item{m}{The number of buckets, should be an positive integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}

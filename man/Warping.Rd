@@ -11,7 +11,7 @@ Warping(RawSpect_data,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
                     optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                    max_it_Bspline=10, returnReference = F, returnWarpingfunc=F)
+                    max_it_Bspline=10, returnReference = F, returnWarpingfunc = F)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -58,7 +58,12 @@ First, the polynomial is estimated on the reference and the sample both smoothed
 The B-Splines are estimated on the non-smoothed reference and sample using the polynomial just found.
 }
 \value{
+If \code{returnReference = TRUE}, the function will return the name of the reference spectrum and if \code{returnWarpingfunc = TRUE}, it will also return the warping function.
+
   \item{RawSpect_data}{The warped spectra.}
+  \item{Reference}{The name of the reference spectrum.}
+  \item{Warpingfunc}{The warping function.}
+
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}

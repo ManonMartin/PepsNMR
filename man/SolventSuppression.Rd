@@ -34,7 +34,11 @@ where
 }
 }
 \value{
+If \code{returnSolvent = TRUE}, will return a list with the following elements: \code{Fid_data}, \code{SolventRe} and \code{SolventIm}. Otherwise, the function will just return \code{Fid_data}.
+
 \item{Fid_data}{The matrix of FIDs with the solvent residuals signal removed.}
+\item{SolventRe}{The real part of the solvent signal.}
+\item{SolventIm}{The imaginary part of the solvent signal.}
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}

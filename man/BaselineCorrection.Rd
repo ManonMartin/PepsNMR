@@ -49,7 +49,11 @@ More details and motivations are given in the articles mentionned in the Referen
 
 }
 \value{
+If \code{returnBaseline = TRUE}, will return a list with the following elements: \code{RawSpect_data} and \code{Baseline}. Otherwise, the function will just return \code{RawSpect_data}.
+
 \item{RawSpect_data}{The matrix of spectra with the baseline removed.}
+\item{Baseline}{Estimation of the baseline.}
+
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
