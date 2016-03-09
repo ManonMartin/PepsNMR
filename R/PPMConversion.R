@@ -13,8 +13,8 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
     # The range is from 7400 to 9400 when we have 2^15 points
     N <- length(ft)
     M=2^15
-    FROM <- floor((from * N) / M)
-    TO <- ceiling((to * N) / M)
+    FROM <- floor((from.ppmc * N) / M)
+    TO <- ceiling((to.ppmc * N) / M)
     searchZone <- Re(ft[FROM:TO])
     peakInZone <- which.max(searchZone)
     # peakInZone is a numeric with a name
