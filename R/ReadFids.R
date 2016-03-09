@@ -55,12 +55,12 @@ ReadFids <- function(path, l=1, subdirs = FALSE) {
     
   }
 
-  return(list(Fid_data=endTreatment("ReadFids", begin_info, Fid_data), Fid_info=Fid_info))
-  
   NonnullIds = sum(duplicated(row.names(Fid_data)))
   cat("dim Fid_data: ", dim(Fid_data), "\n")
   cat("IDs: ", rownames(Fid_data), "\n")
   cat("non-null IDs?", NonnullIds, "\n")
   if (is.null(NonnullIds)==FALSE) {warning("There are duplicated IDs: ", Fid_data[duplicated(Fid_data)])}
-
+  
+  return(list(Fid_data=endTreatment("ReadFids", begin_info, Fid_data), Fid_info=Fid_info))
+ 
 }
