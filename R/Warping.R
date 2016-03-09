@@ -1,7 +1,7 @@
 #' @export Warping
 Warping <- function(RawSpect_data,
                     normalization.type=c("median","mean","firstquartile","peak","none"), from.normW=3.05, to.normW=4.05,
-                    Reference.choosing=c("fixed", "before", "after"), Reference=1,
+                    reference.choosing=c("fixed", "before", "after"), reference=1,
                     optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                     max_it_Bspline=10, returnReference=F, returnWarpingfunc=F) {
@@ -15,7 +15,7 @@ Warping <- function(RawSpect_data,
   begin_info <- beginTreatment("Warping", RawSpect_data, force.real=T)
   RawSpect_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
-  Reference.choosing <- match.arg(Reference.choosing)
+  reference.choosing <- match.arg(reference.choosing)
   optim.crit <- match.arg(optim.crit)
   checkArg(K, c("int", "pos"))
   checkArg(L, c("int", "pos0"))
@@ -25,9 +25,9 @@ Warping <- function(RawSpect_data,
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
 
-  if (is.null(Reference) || !(Reference %in% row.names(RawSpect_data))) {
-      checkArg(Reference, c("int", "pos"))
-      Reference <- row.names(RawSpect_data)[Reference]
+  if (is.null(reference) || !(reference %in% row.names(RawSpect_data))) {
+      checkArg(reference, c("int", "pos"))
+      reference <- row.names(RawSpect_data)[reference]
   }
 
   if (L > 0 && L <= deg) {
@@ -40,9 +40,9 @@ Warping <- function(RawSpect_data,
   }
   rnames <- rownames(RawSpect_data)
   if (n > 1) {
-    if (Reference.choosing == "fixed") {
-      pool <- Reference
-    } else if (Reference.choosing == "before") {
+    if (reference.choosing == "fixed") {
+      pool <- reference
+    } else if (reference.choosing == "before") {
       argmin <- which.min(sapply(rnames, function (i) meanSqrDiff(RawSpect_data,i)))
       pool <- names(argmin)
     } else {
@@ -51,9 +51,9 @@ Warping <- function(RawSpect_data,
     best.meanSqrDiff <- NULL
     best.Warped_data <- NULL
     decreasing <- FALSE
-    for (Reference in pool) {
-      ref <- RawSpect_data[Reference, ]
-      samp_rnames <- rnames[rnames != Reference]
+    for (reference in pool) {
+      ref <- RawSpect_data[reference, ]
+      samp_rnames <- rnames[rnames != reference]
       sample <- RawSpect_data[samp_rnames, , drop=F]
       beta <- rep(0, K+1)
       cur.Warped_data <- RawSpect_data
@@ -83,7 +83,7 @@ Warping <- function(RawSpect_data,
           cur.Warped_data[samp_rname, ] = warped
         }
       }
-      cur.meanSqrDiff <- meanSqrDiff(cur.Warped_data, Reference)
+      cur.meanSqrDiff <- meanSqrDiff(cur.Warped_data, reference)
       if (is.null(best.meanSqrDiff) || cur.meanSqrDiff < best.meanSqrDiff) {
         best.meanSqrDiff <- cur.meanSqrDiff
         best.Warped_data <- cur.Warped_data
@@ -98,9 +98,9 @@ Warping <- function(RawSpect_data,
   }
   RawSpect_data = endTreatment("Warping", begin_info, best.Warped_data)
   if (returnReference & ! returnWarpingfunc) {
-    return(list(RawSpect_data=RawSpect_data, Reference=Reference))
+    return(list(RawSpect_data=RawSpect_data, Reference=reference))
   } else if (returnReference & returnWarpingfunc) {
-    return(list(RawSpect_data=RawSpect_data, Reference=Reference, Warpingfunc=w))
+    return(list(RawSpect_data=RawSpect_data, Reference=reference, Warpingfunc=w))
   } else if (! returnReference & returnWarpingfunc) {
     return(list(RawSpect_data=RawSpect_data, Warpingfunc=w))
   } else {return(RawSpect_data) }
