@@ -1,12 +1,13 @@
 #' @export PPMConversion
 PPMConversion <- function(RawSpect_data, RawSpect_info,
-                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), from = 7400, to = 9400) {
+                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), 
+                          from.ppmc = 7400, to.ppmc = 9400) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)
   RawSpect_data <- begin_info[["Signal_data"]]
   RawSpect_info <- begin_info[["Signal_info"]]
   shiftHandling = match.arg(shiftHandling)
-  checkArg(from, "int", "pos")
-  checkArg(to, "int", "pos")
+  checkArg(from.ppmc, "int", "pos")
+  checkArg(to.ppmc, "int", "pos")
   
   findTMSPpeak <- function(ft) {
     # The range is from 7400 to 9400 when we have 2^15 points

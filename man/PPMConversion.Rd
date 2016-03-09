@@ -9,14 +9,14 @@ Converts the frequency scale from Hertz to part per million (PPM).
 \usage{
 PPMConversion(RawSpect_data, RawSpect_info,
               shiftHandling = c( "cut", "zerofilling","NAfilling", "circular"),
-              from = 7400, to = 9400)
+              from.ppmc = 7400, to.ppmc = 9400)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 \item{shiftHandling}{See the details section.}
-\item{from}{Start of the search region for TMSP's peak in data points, usually 7400 for 500 MHz spectrometer.}
-\item{to}{End of the search region for TMSP's peak in data points, usually 9400 for 500 MHz spectrometer.}
+\item{from.ppmc}{Start of the search region for TMSP's peak in data points, usually 7400 for 500 MHz spectrometer.}
+\item{to.ppmc}{End of the search region for TMSP's peak in data points, usually 9400 for 500 MHz spectrometer.}
 }
 \details{
 
