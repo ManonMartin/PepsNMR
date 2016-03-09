@@ -35,7 +35,7 @@
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-View(Data_HS$FidData_HS_0)
+
 plot(Re(Data_HS$FidData_HS_0[1,]), type="l") 
 comment(Data_HS$FidData_HS_0)
 
