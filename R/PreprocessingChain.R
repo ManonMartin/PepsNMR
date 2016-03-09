@@ -66,10 +66,15 @@
 
 
 #' @export PreprocessingChain
+<<<<<<< HEAD
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
+=======
+>>>>>>> 52c5d4d6af1cde394fcbccb60211e63373f40b29
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
+                        
+                        Fid_info=NULL,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
                         lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
