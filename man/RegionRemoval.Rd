@@ -9,7 +9,8 @@ Removes the non-informative regions by setting the values of the spectrum in the
 }
 \usage{
 RegionRemoval(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine"), 
-                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36)))
+                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.5, 5), 
+                          Lactate=c(1.32, 1.36)))
 }
 \arguments{
   \item{Spectrum_data}{The matrix containing the spectra in ppm, one row per spectrum.}

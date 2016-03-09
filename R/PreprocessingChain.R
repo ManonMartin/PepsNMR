@@ -67,9 +67,11 @@
 
 #' @export PreprocessingChain
 PreprocessingChain = function(dataname = "data%003d", data.path = getwd(), out.path = getwd(), 
-                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, Fid_info=NULL,RetArgs = TRUE,
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
+                        
+                        Fid_info=NULL,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
                         lambda.ss=1e6, ptw.ss=TRUE, plotSolvent=F, # SolventSuppression
