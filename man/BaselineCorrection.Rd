@@ -77,7 +77,7 @@ BC.spec <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda.bc=5e+06, p=0.05)
 #or
 BC.res <- BaselineCorrection(Data_HS$RawSpectData_HS_5,lambda.bc=5e+06, p=0.05, returnBaseline=TRUE)
 BC.spec = BC.res[["RawSpect_data"]]
-plot(BC.res[["baseline"]], type="l")
+plot(BC.res[["Baseline"]], type="l")
 }
 \keyword{ manip }
 
