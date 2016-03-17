@@ -86,8 +86,8 @@ Warp.res <- Warping(Data_HS$RawSpectData_HS_8, reference.choosing="fixed",
                              reference = row.names(Data_HS$RawSpectData_HS_8)[1],
                              returnReference = TRUE, returnWarpingfunc=TRUE)
 Warp.spec <- Warp.res[["RawSpect_data"]]
-Warp.res[["reference"]]
-plot(Warp.res[["warpingfunc"]], type="l")
+Warp.res[["Reference"]]
+plot(Warp.res[["Warpingfunc"]], type="l")
 
 }
 \keyword{ manip }
