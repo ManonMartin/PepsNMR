@@ -157,11 +157,10 @@ If \code{RetArgs = TRUE}, will return a list with the following elements: \code{
 
 
 \examples{
-data.path <-  system.file("extdata", package = "SOAP")
+data.path <-  system.file("extdata/HumanSerum", package = "SOAP")
 dir(data.path)
 
-Res <- PreprocessingChain(title = "Run\%003d", dataname="HumanSerum", 
-                                          data.path = data.path)
+Res <- PreprocessingChain(dataname="HumanSerum",data.path = data.path)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
