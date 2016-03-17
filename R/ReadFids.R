@@ -3,6 +3,9 @@ ReadFids <- function(path, l=1, subdirs = FALSE) {
   begin_info <- beginTreatment("ReadFids")
   checkArg(path, c("str"))
   checkArg(l, c("pos"))
+  if (file.exists(path)==FALSE) {
+    stop(paste("Invalid path:", path))
+  }
   
   if (subdirs==FALSE) {
   
