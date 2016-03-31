@@ -9,6 +9,7 @@ Imports:
     Matrix, ptw, ggplot2, gridExtra, matrixStats, reshape2
 Encoding: UTF-8
 NeedsCompilation: no
+Depends: R (>= 2.10)
 LazyData: true
 Authors@R: c(person("Benoît", "Legat", role = c("aut"),
 		     email = "benoit.legat@gmail.com"),
