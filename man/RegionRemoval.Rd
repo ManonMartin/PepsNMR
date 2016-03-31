@@ -9,8 +9,7 @@ Removes the non-informative regions by setting the values of the spectrum in the
 }
 \usage{
 RegionRemoval(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine"), 
-                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.5, 5), 
-                          Lactate=c(1.32, 1.36)))
+                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.8, 5.2)))
 }
 \arguments{
   \item{Spectrum_data}{The matrix containing the spectra in ppm, one row per spectrum.}
@@ -27,8 +26,9 @@ The ppm scale can be increasing or decreasing and \code{from} and \code{to} can 
 
 The type of spectra can be NULL to manually specify the area to be removed otherwise it is specified as "Serum" or "Urine" and the default removed area are: 
 
-Serum spectra: Water (4.5 - 5. ppm) and lactate (1.32 - 1.36 ppm) peaks
-Urine spectra: Water (4.5 - 5 ppm) and uree (4.5 - 6 ppm).
+
+Serum spectra: Water (4.8 - 5.2 ppm).
+Urine spectra: Water (4.8 - 5.2 ppm) and uree (5.5 - 6 ppm).
 
 
 }
