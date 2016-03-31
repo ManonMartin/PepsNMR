@@ -9,19 +9,20 @@ Converts the frequency scale from Hertz to part per million (PPM).
 \usage{
 PPMConversion(RawSpect_data, RawSpect_info,
               shiftHandling = c( "cut", "zerofilling","NAfilling", "circular"),
-              from.ppmc = 7400, to.ppmc = 9400)
+              thres = 30)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 \item{shiftHandling}{See the details section.}
-\item{from.ppmc}{Start of the search region for TMSP's peak in data points, usually 7400 for 500 MHz spectrometer.}
-\item{to.ppmc}{End of the search region for TMSP's peak in data points, usually 9400 for 500 MHz spectrometer.}
+\item{thres}{Threshold used to select the TMSP peak.}
 }
 \details{
 
 The frequency scale is dependent on the kind of spectrometer used, more precisely on its
 external magnetic field. We therefore translate it to a PPM (Part Per Million) scale which is independent of this factor.
+
+TMSP peak is defined as the first peak in the spectrum higher than a predefined threshold computed as: \code{median(spectrum)*threshold}.
 
 Since the spectra can be shifted differently, we need to handle misalignment of the left and right of the spectrum.
 
