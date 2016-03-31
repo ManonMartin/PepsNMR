@@ -1,27 +1,28 @@
 #' @export PPMConversion
 PPMConversion <- function(RawSpect_data, RawSpect_info,
-                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), 
-                          from.ppmc = 7400, to.ppmc = 9400) {
+                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), thres = 30) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)
   RawSpect_data <- begin_info[["Signal_data"]]
   RawSpect_info <- begin_info[["Signal_info"]]
   shiftHandling = match.arg(shiftHandling)
-  checkArg(from.ppmc, "int", "pos")
-  checkArg(to.ppmc, "int", "pos")
+
   
-  findTMSPpeak <- function(ft) {
-    # The range is from 7400 to 9400 when we have 2^15 points
-    N <- length(ft)
-    M=2^15
-    FROM <- floor((from.ppmc * N) / M)
-    TO <- ceiling((to.ppmc * N) / M)
-    searchZone <- Re(ft[FROM:TO])
-    peakInZone <- which.max(searchZone)
-    # peakInZone is a numeric with a name
-    # The name is the time value of the max
-    # the numerical value is the index of the max
-    return(FROM-1 + peakInZone)
+  findTMSPpeak <- function(ft, thres = 20) {
+    ft = Re(ft)
+    N = length(ft)
+    seuil = thres*median(ft)
+    v = which(ft > seuil)[1] # zone du pic de TMSP
+    
+    d = which.max(ft[v:(v+N*0.01)]) # recherche dans les N*0.01 points suivants du max
+    new.peak = v+d # pic TMSP 
+    
+    if (names(which.max(ft[v:(v+N*0.01)])) != names(which.max(ft[v:(v+N*0.03)]))){
+      warning("the TMSP peak might be located further away, increase the threshold to check.")
+    }
+    
+    return(new.peak)
   }
+  
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)
   # The Sweep Width has to be the same since the column names are the same
