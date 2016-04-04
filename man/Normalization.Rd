@@ -41,7 +41,7 @@ Types can be:
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
   
   
-  Dieterle, F., Ross, A. , Schlotterbeck, G.,and Senn, H (2006). \emph{Probabilistic Quotient Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures.} Analytical Chemistry 2006 78 (13), 4281-4290 
+  Dieterle, F., Ross, A. , Schlotterbeck, G.,and Senn, H (2006). Probabilistic Quotient Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures. \emph{Analytical Chemistry} 78 (13), 4281-4290 
 }
 \author{
 Benoît Legat
