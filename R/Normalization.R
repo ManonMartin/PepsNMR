@@ -1,5 +1,5 @@
 #' @export Normalization
-Normalization <- function (Spectrum_data, type.norm=c("mean", "median","firstquartile", "peak"), from.norm=3.05, to.norm=4.05) {
+Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","firstquartile", "peak"), from.norm=3.05, to.norm=4.05, ref) {
   begin_info <- beginTreatment("Normalization", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   type.norm <- match.arg(type.norm)
@@ -23,7 +23,15 @@ Normalization <- function (Spectrum_data, type.norm=c("mean", "median","firstqua
            Spectrum_dataInZone = Spectrum_data[,interval,drop=F]
            peakInZone <- which.max(colSums(Spectrum_dataInZone))
            factor <- Spectrum_dataInZone[,peakInZone]
-         }
+         },
+          "pqn" = {
+            if (missing(ref)) {
+              ref <- colMedians(Spectrum_data, na.rm = TRUE)
+            } else ref <- Spectrum_data[ref,]
+            
+            quotient <- t(Spectrum_data)/ref
+            factor <- quotient.median <- colMedians(quotient, na.rm = TRUE)
+          }
   )
   invalid <- (factor <= 0)
   if (TRUE %in% invalid) {
