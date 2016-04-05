@@ -44,7 +44,7 @@ Benoît Legat
 }
 
 \examples{
-Zopc.spec <- ZeroOrderPhaseCorrection(Data_HS$RawSpectData_HS_4)
+Zopc.spec <- ZeroOrderPhaseCorrection(Data_HS_sp$RawSpectData_HS_4)
 }
 
 \keyword{ manip }

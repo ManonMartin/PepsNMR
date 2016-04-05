@@ -1,7 +1,7 @@
 \name{FinalSpectra_HS}
 \alias{FinalSpectra_HS}
 \docType{data}
-\title{Spectra for the Human Serum database after Normalization.
+\title{Spectra for the Human Serum database after Scaling.
 %%   ~~ data name/kind ... ~~
 }
 \description{Matrix containing the Human Serum spectra after the full pre-treatment process and with the default parameters. At this stage the spectra are fully pre-processed.

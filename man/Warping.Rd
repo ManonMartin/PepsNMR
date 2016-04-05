@@ -78,12 +78,12 @@ Benoît Legat
 \seealso{
 }
 \examples{
-Warp.spec <- Warping(Data_HS$RawSpectData_HS_8, reference.choosing="fixed", 
-                             reference = row.names(Data_HS$RawSpectData_HS_8)[1],
+Warp.spec <- Warping(Data_HS_sp$RawSpectData_HS_8, reference.choosing="fixed", 
+                             reference = row.names(Data_HS_sp$RawSpectData_HS_8)[1],
                              returnReference = FALSE)
 #or
-Warp.res <- Warping(Data_HS$RawSpectData_HS_8, reference.choosing="fixed", 
-                             reference = row.names(Data_HS$RawSpectData_HS_8)[1],
+Warp.res <- Warping(Data_HS_sp$RawSpectData_HS_8, reference.choosing="fixed", 
+                             reference = row.names(Data_HS_sp$RawSpectData_HS_8)[1],
                              returnReference = TRUE, returnWarpingfunc=TRUE)
 Warp.spec <- Warp.res[["RawSpect_data"]]
 Warp.res[["Reference"]]

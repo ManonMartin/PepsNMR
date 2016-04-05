@@ -39,7 +39,7 @@ Manon Martin
 }
 \examples{
 
-Scaled.spec <- Scaling(Data_HS$RawSpectData_HS_12)
+Scaled.spec <- Scaling(Data_HS_sp$RawSpectData_HS_12)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

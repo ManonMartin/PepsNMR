@@ -38,6 +38,6 @@ Benoît Legat
 }
 
 \examples{
-Fopc.fid <- FirstOrderPhaseCorrection(Data_HS$FidData_HS_0, FidInfo_HS)
+Fopc.fid <- FirstOrderPhaseCorrection(Data_HS_sp$FidData_HS_0, FidInfo_HS)
 }
 \keyword{manip }

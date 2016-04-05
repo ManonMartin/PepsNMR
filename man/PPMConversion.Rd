@@ -86,6 +86,6 @@ The difference between these shift handlings should not be critical in practice 
 Benoît Legat
 }
 \examples{
-PpmConv.spec <- PPMConversion(Data_HS$RawSpectData_HS_7, FidInfo_HS, shiftHandling ="zerofilling")
+PpmConv.spec <- PPMConversion(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, shiftHandling ="zerofilling")
 }
 \keyword{ manip }

@@ -11,7 +11,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, 
             ImpG= FALSE, RetArgs = TRUE, Fopc = TRUE, Ss = TRUE, A = TRUE, 
             Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
-            Za = FALSE, N = TRUE, 
+            Za = FALSE, N = TRUE, Sc = TRUE,
             l=1, subdirs = FALSE, group_delay=NULL, lambda.ss=1e6, 
             ptw.ss=TRUE,DT=NULL,type.apod = "exp",phase=0, 
             rectRatio=1/2, gaussLB=1, expLB=1, SW_h=NULL, 
@@ -51,7 +51,8 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
   \item{Zs}{If \code{TRUE}, performs the RegionRemoval routine.}
   \item{Za}{If \code{TRUE}, performs the ZoneAggregation routine.}
   \item{N}{If \code{TRUE}, performs the Normalization routine.}
-
+  \item{Sc}{If \code{TRUE}, performs the Scaling routine.}
+  
 Other subfunction parameters are:
 
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}

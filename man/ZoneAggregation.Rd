@@ -26,7 +26,7 @@ This aggregation is usually performed with urine samples that contain citrate.
 Benoît Legat
 }
 \examples{
-\dontrun{Spectrum_data <- ZoneAggregation(Spectrum_data, fromto.za = list(Citrate =c(2.5, 2.7)))}
+\dontrun{Spectrum_data <- ZoneAggregation(Data_HU_sp, fromto.za = list(Citrate =c(2.5, 2.7)))}
 
 }
 \keyword{ manip }

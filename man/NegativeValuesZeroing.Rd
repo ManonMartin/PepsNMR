@@ -32,7 +32,7 @@ After the \code{\link{BaselineCorrection}} they should be close to zero anyway b
 Benoît Legat
 }
 \examples{
-Nvz.spec <- NegativeValuesZeroing(Data_HS$RawSpectData_HS_6)
+Nvz.spec <- NegativeValuesZeroing(Data_HS_sp$RawSpectData_HS_6)
 }
 \keyword{ manip }
 

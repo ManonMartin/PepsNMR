@@ -29,10 +29,10 @@ Benoît Legat
 }
 \examples{
 # The interval is chosen so that we have the largest interval without NAs
-Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9)
+Ws.spec <- WindowSelection(Data_HS_sp$RawSpectData_HS_9)
 # from is chosen so that we have the largest interval possible without NAs
-Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, to.ws=10)
-Ws.spec <- WindowSelection(Data_HS$RawSpectData_HS_9, from.ws=0.2, to.ws=10)
+Ws.spec <- WindowSelection(Data_HS_sp$RawSpectData_HS_9, to.ws=10)
+Ws.spec <- WindowSelection(Data_HS_sp$RawSpectData_HS_9, from.ws=0.2, to.ws=10)
 }
 \keyword{ manip }
 

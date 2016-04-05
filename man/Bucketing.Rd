@@ -61,7 +61,7 @@ Benoît Legat, inspired from a code written by Bernadette Govaerts.
 \seealso{
 }
 \examples{
-Bucket.spec <- Bucketing(Data_HS$RawSpectData_HS_10, m = 500)
+Bucket.spec <- Bucketing(Data_HS_sp$RawSpectData_HS_10, m = 500)
 }
 \keyword{ manip }
 \keyword{ array }

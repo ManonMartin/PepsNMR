@@ -46,7 +46,7 @@ Benoît Legat
 
 # Remove the lactate and water regions for serum spectra
 fromto=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36))
-Rr.spec <- RegionRemoval(Data_HS$RawSpectData_HS_11,fromto.rr = fromto) 
+Rr.spec <- RegionRemoval(Data_HS_sp$RawSpectData_HS_11,fromto.rr = fromto) 
 
 
 

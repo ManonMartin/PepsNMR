@@ -57,10 +57,10 @@ Benoît Legat
 }
 
 \examples{
-Apod.fid <- Apodization(Data_HS$FidData_HS_2, FidInfo_HS, plotWindow=FALSE)
+Apod.fid <- Apodization(Data_HS_sp$FidData_HS_2, FidInfo_HS, plotWindow=FALSE)
 
 #or
-Apod.res <- Apodization(Data_HS$FidData_HS_2, FidInfo_HS, plotWindow=FALSE, returnFactor=TRUE)
+Apod.res <- Apodization(Data_HS_sp$FidData_HS_2, FidInfo_HS, plotWindow=FALSE, returnFactor=TRUE)
 Apod.fid = Apod.res[["Fid_data"]]
 plot(Apod.res[["Factor"]], type="l")
 }

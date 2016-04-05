@@ -47,7 +47,7 @@ Types can be:
 Benoît Legat
 }
 \examples{
-Norm.spec <- Normalization(Data_HS$RawSpectData_HS_12)
+Norm.spec <- Normalization(Data_HS_sp$RawSpectData_HS_12)
 }
 \keyword{ manip }
 

@@ -37,7 +37,7 @@ Benoît Legat
 \seealso{
 }
 \examples{
-FT.spec <- FourierTransform(Data_HS$FidData_HS_3, FidInfo_HS, SW_h=12019.23)
+FT.spec <- FourierTransform(Data_HS_sp$FidData_HS_3, FidInfo_HS, SW_h=12019.23)
 }
 \keyword{ manip }
 
