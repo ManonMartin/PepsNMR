@@ -51,7 +51,7 @@
 #   -for urine = fromto.Zs=list(Water =c(4.5, 5), Uree=c(4.5, 6))
 # ZoneAggregation : fromto.Za=list(Citrate =c(2.5, 2.7))
 # Normalization : type.N = "mean"
-
+# Scaling: type.scaling = "pareto"
 
 
 ## VALUES
@@ -70,7 +70,7 @@
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
-                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, 
+                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, Sc = TRUE,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
                         lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
@@ -87,7 +87,8 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         m = 500, # Bucketing
                         typeofspectra = NULL,type.rr =  "zero", fromto.rr=list(Water =c(4.8, 5.2)), # RegionRemoval
                         fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
-                        type.norm="mean", from.norm=3.05, to.norm=4.05 # Normalization
+                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm, # Normalization
+                        type.scaling="pareto"# scaling
                         ) { 
 
 
@@ -652,7 +653,7 @@ if (Za ==  TRUE ){
 if (N ==  TRUE ){
 
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = Normalization(Spectrum_data, type.norm=type.norm, from.norm=from.norm, to.norm=to.norm)
+  Spectrum_data = Normalization(Spectrum_data, type.norm=type.norm, from.norm=from.norm, to.norm=to.norm, ref.norm = ref.norm)
   
   Spectrum_data14 = Spectrum_data
 
@@ -666,20 +667,14 @@ if (N ==  TRUE ){
   
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Normalization1.pdf"), width = 10, height = 9)
+    pdf(paste0(out.path,"/Normalization1.pdf"), width = 10, height = 5)
     par(mfrow=c(2,1))
-    plot(Re(Spectrum_dataB[1,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part (Spectrum 1)")
+    plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part")
     at=seq(1,length(xat), length(xat)/20)
     axis(side=1, at=at, labels=round(xat[at],2))
-    lines(Re(Spectrum_data14[1,]), col= "red")
+    lines(Re(Spectrum_data14[nspectr,]), col= "red")
     legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
     
-    plot(Re(Spectrum_dataB[2,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part (Spectrum 2)")
-    at=seq(1,length(xat), length(xat)/20)
-    axis(side=1, at=at, labels=round(xat[at],2))
-    lines(Re(Spectrum_data14[2,]), col= "red")
-    legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
-    dev.off()
     
     
     pdf(paste0(out.path,"/Normalization2.pdf"), width = 10, height = 9)
@@ -712,6 +707,35 @@ if (N ==  TRUE ){
   
 }
 
+##########################
+# Scaling
+##########################
+if (Sc ==  TRUE ){
+  Spectrum_dataB = Spectrum_data
+  Spectrum_data = Scaling(Spectrum_data, type.scaling=type.scaling)
+  
+  Spectrum_data15 = Spectrum_data
+  
+  
+  
+  if (saveall == TRUE) {
+    PretreatedSpectrabyStep[[step]] = Spectrum_data15 
+    names(PretreatedSpectrabyStep)[step] <- "Scaling.Data"
+    step = step + 1
+  }
+  
+  
+  if (ImpG==TRUE) {
+    pdf(paste0(out.path,"/Scaling.pdf"), width = 10, height = 5)
+    plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Scaling \n Real part")
+    at=seq(1,length(xat), length(xat)/20)
+    axis(side=1, at=at, labels=round(xat[at],2))
+    lines(Re(Spectrum_data15[nspectr,]), col= "red")
+    legend("topleft", lty = 1, legend = c("Before Scaling", "After Scaling"), col = c("black", "red"))
+    
+    
+  }
+}
 
 #################### 
 # save THE RESULTS
@@ -721,7 +745,7 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "saveall",            "ImpG",               "Fopc",              
               "Ss" ,                "A",                  "Zopc",               "Bc",                
               "Zsnv" ,              "W",                  "B",                  "Zs" ,               
-              "Za",                 "N",                  "l",                  "subdirs" ,          
+              "Za",                 "N",                  "SC",         "l",        "subdirs" ,          
               "group_delay",        "lambda.ss",          "ptw.ss",             "plotSolvent",       
               "DT",                 "type.apod",          "phase",              "rectRatio",         
               "gaussLB",            "expLB",              "plotWindow",         "SW_h",              
@@ -733,7 +757,8 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
               "from.ws",            "to.ws",              "reverse.axis",       "m"  ,               
               "typeofspectra",      "type.rr",            "fromto.rr",          "fromto.za",         
-              "type.norm",          "from.norm",          "to.norm"  )
+              "type.norm",          "from.norm",          "to.norm",   "ref.norm", 
+              "type.scaling")
 
 
 Spectra=Re(Spectrum_data)

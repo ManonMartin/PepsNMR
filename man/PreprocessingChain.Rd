@@ -25,7 +25,8 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             m = 500, typeofspectra = NULL,type.rr =  "zero",
             fromto.rr=list(Water =c(4.8, 5.2)), 
             fromto.za = list(Citrate =c(2.5, 2.7)), 
-            type.norm="mean", from.norm=3.05, to.norm=4.05) 
+            type.norm="mean", from.norm=3.05, to.norm=4.05,ref.norm, 
+            type.scaling="pareto") 
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -113,8 +114,8 @@ See the reference for more details.}
   \item{type.norm}{Different types of normalization are available. See the details section.}
   \item{from.norm}{Used if \code{type.norm} is \code{peak}. See details.}
   \item{to.norm}{Used if \code{type.norm} is \code{peak}. See details.}
-     
-
+  \item{ref.norm}{Row index of the reference spectrum for normalization if \code{type.norm} is \code{pqn}. See details.}   
+  \item{type.scaling}{Type of scaling: Unit Variance \code{"uv"} or Pareto scaling \code{"pareto"}.}
 }
 \details{
 Note that few steps cannot be skipped : \code{\link{FourierTransform}}, \code{\link{PPMConversion}} \& \code{\link{WindowSelection}}.
@@ -135,6 +136,7 @@ Here is a reminder of all the steps involved:
   \item{\code{\link{RegionRemoval}}}{Set a desired region to 0.}
   \item{\code{\link{ZoneAggregation}}}{Aggregate a region to a single peak.}
   \item{\code{\link{Normalization}}}{Normalize the spectra.}
+  \item{\code{\link{Scaling}}}{Scale the spectra.}
 }
 }
 \value{
