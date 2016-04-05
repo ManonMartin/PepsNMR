@@ -9,14 +9,14 @@ Spectra normalization to correct for the dilution factor common to all biofuid s
 }
 \usage{
 Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05, ref)
+              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05, ref.norm)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{type.norm}{Different types of normalization are available. See the details section.}
   \item{from.norm}{Used if \code{type.norm} is \code{peak}. See details.}
   \item{to.norm}{Used if \code{type.norm} is \code{peak}. See details.}
-  \item{ref}{Row index for the reference spectrum if \code{type.norm} is \code{pqn}. See details.}
+  \item{ref.norm}{Row index for the reference spectrum if \code{type.norm} is \code{pqn}. See details.}
 }
 \details{
 
