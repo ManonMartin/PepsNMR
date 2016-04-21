@@ -7,7 +7,7 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   shiftHandling = match.arg(shiftHandling)
 
   
-  findTMSPpeak <- function(ft, thres = 20) {
+  findTMSPpeak <- function(ft, thres = thres) {
     ft = Re(ft)
     N = length(ft)
     seuil = thres*median(ft)
