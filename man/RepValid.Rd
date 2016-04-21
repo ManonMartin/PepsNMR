@@ -22,14 +22,14 @@ RepValid(Spectrum_data, group=NULL, read = c("csv2", "csv", NULL), gr.file=NULL)
 \details{
 If group is \code{NULL}, the function will read a .csv file from \code{gr.file} tyhe functions \code{read.csv} or \code{read.csv2} from the \code{utils} package. The csv file needs to be formatted as a two-colunm matrix with column 1: the spectra IDs matching with the rownames of \code{Spectrum_data} and column 2: the classes defined as 1, 2, 3 etc.
 
+
+The csv file should be like this:
   \preformatted{
-  
   "ID1"  1
   "ID2"  1
   "ID3"  3
   "ID4"  2
    ...  ...
-  
   }
 
 Note that if provided, classes indicated in \code{group} need to have the same order that the row order of the spectra.
@@ -47,14 +47,14 @@ Manon Martin
 
 
 \examples{
-res.valid = RepValid(FinalSpectra_HS, group = Group_HS)
+path <-  system.file("extdata/Group_HS.csv", package = "SOAP")
+res.valid = RepValid(FinalSpectra_HS, read="csv2", gr.file = path)
+#or res.valid = RepValid(FinalSpectra_HS, read="csv2", gr.file=path)
 
-do.call(grid.arrange, res.valid[["plot.pca"]])
+do.call(gridExtra::grid.arrange, res.valid[["plot.pca"]])
 print(summary(res.valid[["res.pca"]]))
 print(res.valid[["res.inertia"]])
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{ manip }

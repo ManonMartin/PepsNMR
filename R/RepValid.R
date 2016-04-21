@@ -1,5 +1,7 @@
+#' @export RepValid
+
 RepValid = function(Spectrum_data, group=NULL, read = c("csv2", "csv", NULL), gr.file=NULL){
-  begin_info <-  beginTreatment("Rep.validation", Spectrum_data, force.real=T)
+  begin_info <-  beginTreatment("RepValid", Spectrum_data, force.real=T)
   Spectrum_data <- Re(begin_info[["Signal_data"]])
   checkArg(group, "num", can.be.null=TRUE)
   read <- match.arg(read)
@@ -32,12 +34,11 @@ RepValid = function(Spectrum_data, group=NULL, read = c("csv2", "csv", NULL), gr
   
   ### PCA
   res.pca = prcomp(Spectrum_data, retx = TRUE)
-  a = plot(res.pca$x[,1], res.pca$x[,2], col=group)
   
 
   scores <- data.frame(group, res.pca$x[,1:4])
-  pc1.2 <- qplot(x=PC1, y=PC2, data=scores, colour=factor(group))
-  pc3.4 <- qplot(x=PC3, y=PC4, data=scores, colour=factor(group))
+  pc1.2 <- ggplot2::qplot(x=PC1, y=PC2, data=scores, colour=factor(group))
+  pc3.4 <- ggplot2::qplot(x=PC3, y=PC4, data=scores, colour=factor(group))
   
   plot.pca = list(pc1.2, pc3.4)
   
