@@ -8,7 +8,7 @@ Scaling of the spectra.
 Unit Variance or Pareto scaling for spectra.
 }
 \usage{
-Scaling(Spectrum_data, type.scaling=c("pareto", "uv"))
+Scaling(Spectrum_data, type.scaling=c("center", "pareto", "uv"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
