@@ -1,6 +1,6 @@
 #' @export PPMConversion
 PPMConversion <- function(RawSpect_data, RawSpect_info,
-                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), thres = 30) {
+                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), thres = 300) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)
   RawSpect_data <- begin_info[["Signal_data"]]
   RawSpect_info <- begin_info[["Signal_info"]]
@@ -9,11 +9,18 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   
   findTMSPpeak <- function(ft, thres = thres) {
     ft = Re(ft)
-    N = length(ft)
-    seuil = thres*median(ft)
-    v = which(ft > seuil)[1] # zone du pic de TMSP
     
-    d = which.max(ft[v:(v+N*0.01)]) # recherche dans les N*0.01 points suivants du max
+    res = abs(ft)/cumsum(ft)
+    
+    N = length(ft)
+    seuil = thres*median(res)
+    v = which(res[-c(1:3000)] > seuil)[1]#remove first points
+    if (is.na(v)){
+      warning("No peak found, need to lower the threshold.")
+    }
+    v = v + 3000
+    
+    d = which.max(ft[v:(v+N*0.01)]) # recherche dans les 100 points suivants du max
     new.peak = v+d # pic TMSP 
     
     if (names(which.max(ft[v:(v+N*0.01)])) != names(which.max(ft[v:(v+N*0.03)]))){
