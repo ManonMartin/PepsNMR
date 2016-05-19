@@ -230,7 +230,7 @@ if (A ==  TRUE ){
                          type.apod = type.apod,phase=phase, rectRatio=rectRatio, gaussLB=gaussLB, 
                          expLB=expLB, plotWindow=FALSE)
   Fid_data = Apod.res[["Fid_data"]]
-  ApodFactor = Apod.res[["factor"]]
+  ApodFactor = Apod.res[["Factor"]]
   
   Fid_data3 = Fid_data
 
@@ -251,7 +251,7 @@ if (A ==  TRUE ){
     dev.off()
     
     pdf(paste0(out.path,"/Apodization2.pdf"),width=8, height=4)
-    plot(Apod.res[["factor"]], col="red",type="l", main = "Apodization factor")
+    plot(Apod.res[["Factor"]], col="red",type="l", main = "Apodization factor")
     dev.off()
   }
 
@@ -345,7 +345,7 @@ if (Bc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
   BC.res =  BaselineCorrection(RawSpect_data, returnBaseline=TRUE, lambda.bc=lambda.bc, p=p, eps=eps)
-  baseline = BC.res[["baseline"]]
+  baseline = BC.res[["Baseline"]]
   RawSpect_data = BC.res[["RawSpect_data"]]
   
   RawSpect_data6 = RawSpect_data
@@ -461,7 +461,7 @@ if (W ==  TRUE ){
                       lambda.smooth=lambda.smooth, deg=deg, lambda.bspline=lambda.bspline, kappa=kappa,
                       max_it_Bspline=max_it_Bspline, returnReference=returnReference)
   Spectrum_data =  Warp.res[["RawSpect_data"]]
-  warpingfunc = Warp.res[["warpingfunc"]]
+  warpingfunc = Warp.res[["Warpingfunc"]]
 
   Spectrum_data9 = Spectrum_data
   
