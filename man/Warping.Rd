@@ -28,7 +28,7 @@ It is advised to use \code{median} instead of \code{mean}, see the reference bel
 \item{\code{after}}{Each spectrum is taken as the reference and the sum of square difference with the other spectra is calculated after the warping.
 The reference that has the minimum sum is taken as the reference and the warped spectra according to this reference (that have already been calculated at this stage) are returned. This is \eqn{n}{n} times slower than the 2 others where \eqn{n}{n} is the number of spectra.}
 }}
-\item{reference}{The row number of the reference when \code{reference.choosing} is \code{fixed}.}
+\item{reference}{The row number or name of the reference spectrum when \code{reference.choosing} is \code{fixed}.}
 \item{optim.crit}{If \code{ptw.wp} is set to \code{TRUE}, \code{WCC} can also be considered as a criterion for optimization, see \code{ptw::ptw} for details.}
 \item{ptw.wp}{If set to \code{TRUE}, it uses \code{ptw::ptw} to do the warping.
 In this case the arguments \code{K}, \code{L}, \code{deg}, \code{lambda.bspline}, \code{kappa} and \code{max_it_Bspline} are ignored.

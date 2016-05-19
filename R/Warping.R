@@ -25,7 +25,7 @@ Warping <- function(RawSpect_data,
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
 
-  if (is.null(reference) || !(reference %in% row.names(RawSpect_data))) {
+  if (reference.choosing=="fixed" & !(reference %in% row.names(RawSpect_data))) {
       checkArg(reference, c("int", "pos"))
       reference <- row.names(RawSpect_data)[reference]
   }
