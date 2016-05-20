@@ -745,11 +745,11 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "saveall",            "ImpG",               "Fopc",              
               "Ss" ,                "A",                  "Zopc",               "Bc",                
               "Zsnv" ,              "W",                  "B",                  "Zs" ,               
-              "Za",                 "N",                  "SC",         "l",        "subdirs" ,          
-              "group_delay",        "lambda.ss",          "ptw.ss",             "plotSolvent",       
+              "Za",                 "N",                  "Sc",         "l",        "subdirs" ,          
+              "group_delay",        "lambda.ss",          "ptw.ss",                   
               "DT",                 "type.apod",          "phase",              "rectRatio",         
-              "gaussLB",            "expLB",              "plotWindow",         "SW_h",              
-              "plot_rms",           "ptw.bc",             "maxIter",            "lambda.bc",         
+              "gaussLB",            "expLB",              "SW_h",              
+              "ptw.bc",             "maxIter",            "lambda.bc",         
               "p",                  "eps",                "shiftHandling",      "thres",                 
               "normalization.type", "from.normW",         "to.normW",          
               "reference.choosing", "reference",          "optim.crit",         "ptw.wp",            
@@ -763,10 +763,9 @@ argnames <- c("dataname",           "data.path",          "out.path",
 supargnames = c(rep("general", 19), 
                 rep("ReadFids", 2), 
                 rep("FirstOrderPhaseCorrection", 1), 
-                rep("SolventSuppression",3), 
-                rep("Apodization",7), 
+                rep("SolventSuppression",2), 
+                rep("Apodization",6), 
                 rep("FourierTransform", 1),
-                rep("ZeroOrderPhaseCorrection",1),
                 rep("BaselineCorrection", 5),
                 rep("PPMConversion", 2),
                 rep("Warping", 15),
@@ -774,7 +773,7 @@ supargnames = c(rep("general", 19),
                 rep("Bucketing", 1),
                 rep("RegionRemoval", 3),
                 rep("ZoneAggregation", 1),
-                rep("Normalization", 3),
+                rep("Normalization", 4),
                 rep("Scaling", 1))
 
 
@@ -784,8 +783,9 @@ Spectra=Re(Spectrum_data)
 Arguments <- c(as.list(environment()))
 index <- names(Arguments) %in% argnames
 Arguments <- Arguments[index]
-  
-# Arguments = cbind(supargnames, argnames, Arguments)
+
+Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = Arguments), row.names = NULL)
+
 
 
 if (save == TRUE) {
