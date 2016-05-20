@@ -7,13 +7,13 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   shiftHandling = match.arg(shiftHandling)
 
   
-  findTMSPpeak <- function(ft, thres = thres) {
+  findTMSPpeak <- function(ft, thres. = thres) {
     ft = Re(ft)
     
     res = abs(ft)/cumsum(ft)
     
     N = length(ft)
-    seuil = thres*median(res)
+    seuil = thres.*median(res)
     v = which(res[-c(1:3000)] > seuil)[1]#remove first points
     if (is.na(v)){
       warning("No peak found, need to lower the threshold.")
