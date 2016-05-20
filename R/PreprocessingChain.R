@@ -750,8 +750,8 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "DT",                 "type.apod",          "phase",              "rectRatio",         
               "gaussLB",            "expLB",              "plotWindow",         "SW_h",              
               "plot_rms",           "ptw.bc",             "maxIter",            "lambda.bc",         
-              "p",                  "eps",                "shiftHandling",      "from"  ,            
-              "to",                 "normalization.type", "from.normW",         "to.normW",          
+              "p",                  "eps",                "shiftHandling",      "thres",                 
+              "normalization.type", "from.normW",         "to.normW",          
               "reference.choosing", "reference",          "optim.crit",         "ptw.wp",            
               "K",                  "L",                  "lambda.smooth",      "deg"  ,             
               "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
@@ -760,6 +760,24 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "type.norm",          "from.norm",          "to.norm",   "ref.norm", 
               "type.scaling")
 
+supargnames = c(rep("general", 19), 
+                rep("ReadFids", 2), 
+                rep("FirstOrderPhaseCorrection", 1), 
+                rep("SolventSuppression",3), 
+                rep("Apodization",7), 
+                rep("FourierTransform", 1),
+                rep("ZeroOrderPhaseCorrection",1),
+                rep("BaselineCorrection", 5),
+                rep("PPMConversion", 2),
+                rep("Warping", 15),
+                rep("WindowSelection", 3),
+                rep("Bucketing", 1),
+                rep("RegionRemoval", 3),
+                rep("ZoneAggregation", 1),
+                rep("Normalization", 4),
+                rep("Scaling", 1))
+
+cbind(supargnames, argnames)
 
 Spectra=Re(Spectrum_data)
 
@@ -767,7 +785,9 @@ Arguments <- c(as.list(environment()))
 index <- names(Arguments) %in% argnames
 Arguments <- Arguments[index]
   
-  
+Arguments = cbind(supargnames, argnames, Arguments)
+
+
 if (save == TRUE) {
   if (RetArgs == TRUE) {
     save(Spectra, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
