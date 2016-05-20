@@ -777,7 +777,7 @@ supargnames = c(rep("general", 19),
                 rep("Normalization", 3),
                 rep("Scaling", 1))
 
-cbind(supargnames, argnames)
+
 
 Spectra=Re(Spectrum_data)
 
