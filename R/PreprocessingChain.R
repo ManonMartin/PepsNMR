@@ -757,7 +757,7 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
               "from.ws",            "to.ws",              "reverse.axis",       "m"  ,               
               "typeofspectra",      "type.rr",            "fromto.rr",          "fromto.za",         
-              "type.norm",          "from.norm",          "to.norm",  
+              "type.norm",          "from.norm",          "to.norm",            "ref.norm",
               "type.scaling")
 
 supargnames = c(rep("general", 19), 
@@ -785,7 +785,7 @@ Arguments <- c(as.list(environment()))
 index <- names(Arguments) %in% argnames
 Arguments <- Arguments[index]
   
-Arguments = cbind(supargnames, argnames, Arguments)
+# Arguments = cbind(supargnames, argnames, Arguments)
 
 
 if (save == TRUE) {
