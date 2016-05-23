@@ -766,8 +766,10 @@ supargnames = c(rep("general", 19),
                 rep("SolventSuppression",2), 
                 rep("Apodization",6), 
                 rep("FourierTransform", 1),
+                
                 rep("Zero order phase correction", 1),
                 rep("BaselineCorrection", 5),
+                
                 rep("Negative values zeroing", 1),
                 rep("PPMConversion", 2),
                 rep("Warping", 15),
@@ -786,7 +788,7 @@ Arguments <- c(as.list(environment()))
 index <- names(Arguments) %in% argnames
 Arguments <- Arguments[index]
 
-Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = Arguments), row.names = NULL)
+Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = c(Arguments[1:31], "",Arguments[32:36], "" ,Arguments[37:66])), row.names = NULL)
 
 
 
