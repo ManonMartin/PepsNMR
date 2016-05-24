@@ -64,7 +64,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
   }
   RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
-
+cat("\n Angle: ", ang, "\n")
     if (returnAngle) {
     return(list(RawSpect_data=RawSpect_data, Angle=ang))
   } else {
