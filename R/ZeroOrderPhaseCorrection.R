@@ -1,5 +1,5 @@
 #' @export ZeroOrderPhaseCorrection
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
 
@@ -63,6 +63,11 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL) {
 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
   }
+  RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
 
-  return(endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data))
+    if (returnAngle) {
+    return(list(RawSpect_data=RawSpect_data, Angle=ang))
+  } else {
+    return(RawSpect_data)
+  }
 }
