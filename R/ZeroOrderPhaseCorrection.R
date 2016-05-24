@@ -21,7 +21,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
 
   n <- nrow(RawSpect_data)
   rnames <- rownames(RawSpect_data)
-
+  Angle <- c()
   for (k in 1:n) {
     # The function is rms is periodic (period 2pi) and it seems that there is a phase x
     # such that rms is unimodal (i.e. decreasing then increasing) on the interval [x; x+2pi].
@@ -62,11 +62,11 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     }
 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
+    Angle = c(ang, Angle)
   }
   RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
-cat("\n Angle: ", ang, "\n")
     if (returnAngle) {
-    return(list(RawSpect_data=RawSpect_data, Angle=ang))
+    return(list(RawSpect_data=RawSpect_data, Angle=Angle))
   } else {
     return(RawSpect_data)
   }
