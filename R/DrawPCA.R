@@ -1,7 +1,22 @@
 #' @export DrawPCA
 DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, class = NULL, axes =c(1,2)) {
-  checkArg(class, c("num", "pos0"), can.be.null=TRUE)
-  checkArg(axes, c("num", "pos"))
+
+  # class
+  if(!is.vector(class, mode = "numeric") & !is.null(class)){
+    stop("class is not a numeric vector")
+  }
+  if(length(class)!=nrow(Signal_data)){
+    stop("the length of class is not equal to the nrow of Signal_data")
+  }
+  
+  # axes
+  if(!is.vector(axes, mode = "numeric")){
+    stop("axes is not a numeric vector")
+  }
+  
+  if(length(axes)!=2){
+    stop("the length of axes is not equal to 2")
+  }
   
   if(0 %in%class){
     class = class+1
