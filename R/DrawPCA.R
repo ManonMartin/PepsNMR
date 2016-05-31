@@ -5,7 +5,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, class = NULL, 
   if(!is.vector(class, mode = "numeric") & !is.null(class)){
     stop("class is not a numeric vector")
   }
-  if(length(class)!=nrow(Signal_data)){
+  if(is.vector(class, mode = "numeric") & length(class)!=nrow(Signal_data)){
     stop("the length of class is not equal to the nrow of Signal_data")
   }
   
