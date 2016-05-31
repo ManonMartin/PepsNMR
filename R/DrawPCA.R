@@ -1,6 +1,7 @@
 #' @export DrawPCA
 DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, class = NULL, axes =c(1,2)) {
-  checkArg(group_delay, c("num", "pos0"), can.be.null=TRUE)
+  checkArg(class, c("num", "pos0"), can.be.null=TRUE)
+  checkArg(axes, c("num", "pos"))
   
   if(0 %in%class){
     class = class+1
