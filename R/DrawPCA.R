@@ -1,6 +1,7 @@
 #' @export DrawPCA
-DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, class = NULL, axes =c(1,2)) {
-
+DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", class = NULL, axes =c(1,2)) {
+  checkArg(main, "str", can.be.null=TRUE)
+  
   # class
   if(!is.vector(class, mode = "numeric") & !is.null(class)){
     stop("class is not a numeric vector")
@@ -54,7 +55,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, class = NULL, 
     plot(pca$x[,Xax], pca$x[,Yax], col=class,
          xlab=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), xlim=Xlim,
          ylab=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)"), ylim=Ylim,
-         main=paste0("PCA score plot"))
+         main=main)
     
     if (drawNames) {
       text(pca$x[,Xax],pca$x[,Yax],labels=rownames(Signal_data), pos=c(2,3), col=class)
