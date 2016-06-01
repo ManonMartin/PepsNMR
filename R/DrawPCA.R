@@ -46,6 +46,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   
   if(is.null(class)) {
     plot(pca$x[,Xax], pca$x[,Yax], xlab="PC1", ylab="PC2")
+    abline(v=0, h=0, lty = 2)
     if (drawNames) {
       text(pca$x[,Xax], pca$x[,Yax], rownames(Signal_data), pos=c(2,3))
     }
@@ -56,7 +57,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
          xlab=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), xlim=Xlim,
          ylab=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)"), ylim=Ylim,
          main=main)
-    
+    abline(v=0, h=0, lty = 2)
     if (drawNames) {
       text(pca$x[,Xax],pca$x[,Yax],labels=rownames(Signal_data), pos=c(2,3), col=class)
     }
