@@ -77,7 +77,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, # Apodization
                         SW_h=NULL, # FourierTransform
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
-                        shiftHandling="cut", thres = 30, #PPMConversion
+                        shiftHandling="cut", thres = 300, #PPMConversion
                         
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
