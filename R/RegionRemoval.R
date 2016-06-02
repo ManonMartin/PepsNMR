@@ -1,10 +1,10 @@
 #' @export RegionRemoval
-RegionRemoval <- function(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine"), 
-                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.8, 5.2))) {
+RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "Serum", "Urine"), 
+                          type.rr = c( "zero", "NA"), fromto.rr) {
   begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.rr) & !is.null(fromto.rr)) {stop(deparse(substitute(fromto.rr)), " is nor a list nor NULL.")}
-  if (!is.null(typeofspectra) & !any(c("Serum", "Urine")  %in% typeofspectra)) { stop(paste("typeofspectra must be NULL,\"Serum\" or \"Urine\" "))}
+  # if (!is.null(typeofspectra) & !any(c("Serum", "Urine")  %in% typeofspectra)) { stop(paste("typeofspectra must be NULL,\"Serum\" or \"Urine\" "))}
   type.rr = match.arg(type.rr)
   typeofspectra = match.arg(typeofspectra)
   ppm <- as.numeric(colnames(Spectrum_data))
@@ -13,7 +13,7 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine
     fromto.rr=list(Water =c(4.63, 5.09), Uree=c(5.5, 6))
     } else if (typeofspectra == "Serum") {
       fromto.rr=list(Water =c(4.8, 5.2))
-    } else {
+    } else if (typeofspectra =="manual") {
      if (is.null(fromto.rr)) {
        stop(paste("fromto.rr argument is null with no default values"))
      } 
@@ -26,13 +26,10 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine
     }
 
   
-  
-  
 interval = vector("list", length(fromto.rr))
   for (i in 1:length(fromto.rr)) {
     interval[[i]] <- indexInterval(ppm, from = fromto.rr[[i]][1], to = fromto.rr[[i]][2], inclusive=TRUE)
   }
-
 
 
   if (type.rr== "zero") {
