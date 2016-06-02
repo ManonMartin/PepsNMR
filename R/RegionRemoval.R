@@ -10,7 +10,7 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "Serum", "U
   ppm <- as.numeric(colnames(Spectrum_data))
   
   if (typeofspectra == "Urine")  {
-    fromto.rr=list(Water =c(4.63, 5.09), Uree=c(5.5, 6))
+    fromto.rr=list(Water =c(4.8, 5.2), Uree=c(5.5, 6))
     } else if (typeofspectra == "Serum") {
       fromto.rr=list(Water =c(4.8, 5.2))
     } else if (typeofspectra =="manual") {

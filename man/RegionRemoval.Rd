@@ -8,8 +8,8 @@ Removes the non-informative regions by setting the values of the spectrum in the
 
 }
 \usage{
-RegionRemoval(Spectrum_data, typeofspectra = c(NULL, "Serum", "Urine"), 
-                          type.rr = c( "zero", "NA"), fromto.rr=list(Water =c(4.8, 5.2)))
+RegionRemoval(Spectrum_data, typeofspectra = c("manual", "Serum", "Urine"), 
+                          type.rr = c( "zero", "NA"), fromto.rr)
 }
 \arguments{
   \item{Spectrum_data}{The matrix containing the spectra in ppm, one row per spectrum.}
