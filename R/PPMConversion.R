@@ -10,7 +10,7 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   findTMSPpeak <- function(ft, thres. = thres) {
     ft = Re(ft)
     
-    res = abs(ft)/cumsum(ft)
+    res = abs(ft)/cumsum(abs(ft))
     
     N = length(ft)
     seuil = thres.*median(res)
