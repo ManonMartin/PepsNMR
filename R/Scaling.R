@@ -16,7 +16,7 @@ Scaling <- function(Spectrum_data, type.scaling=c("center", "pareto", "uv")) {
   
   switch(type.scaling,
          "center" = { 
-           Scaled.spectrum <- apply(Spectrum_data,2, (x - mean(x)))
+           Scaled.spectrum <- apply(Spectrum_data,2, function(x) (x - mean(x)))
          },
          
          "uv" = { 

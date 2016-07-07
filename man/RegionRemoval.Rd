@@ -8,12 +8,12 @@ Removes the non-informative regions by setting the values of the spectrum in the
 
 }
 \usage{
-RegionRemoval(Spectrum_data, typeofspectra = c("manual", "Serum", "Urine"), 
+RegionRemoval(Spectrum_data, typeofspectra = c("manual", "serum", "urine"), 
                           type.rr = c( "zero", "NA"), fromto.rr)
 }
 \arguments{
   \item{Spectrum_data}{The matrix containing the spectra in ppm, one row per spectrum.}
-  \item{typeofspectra}{Type of spectra, if not \code{NULL}, will automatically remove unwanted regions wrt the nature of the spectra.}
+  \item{typeofspectra}{Type of spectra, if not \code{manual}, will automatically remove unwanted regions wrt the nature of the spectra.}
   \item{type.rr}{The type of region removal method.}
   \item{fromto.rr}{List containing the extremities of the intervals to be removed.}
 
