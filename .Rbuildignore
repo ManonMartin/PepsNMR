@@ -3,3 +3,4 @@
 sshkey.pub
 sshkey
 .travis.yml
+.DS_Store

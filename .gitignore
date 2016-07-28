@@ -8,3 +8,4 @@ sshkey.pub
 sshkey
 .Rproj
 .travis.yml
+.DS_Store

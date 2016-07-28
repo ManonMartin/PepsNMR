@@ -24,7 +24,6 @@ Those pre-treatments are cited below in the advised order of their use:
   \item{\code{\link{RegionRemoval}}}{Set a desired region to 0.}
   \item{\code{\link{ZoneAggregation}}}{Aggregate a region to a single peak.}
   \item{\code{\link{Normalization}}}{Normalize the spectra.}
-  \item{\code{\link{Scaling}}}{Scale the spectra.}
 }
 }
 \details{
@@ -73,5 +72,4 @@ Spectrum_data <- Bucketing(Spectrum_data)
 Spectrum_data <- RegionRemoval(Spectrum_data, typeofspectra = "serum")
 Spectrum_data <- ZoneAggregation(Spectrum_data)
 Spectrum_data <- Normalization(Spectrum_data)
-Spectrum_data <- Scaling(Spectrum_data)
 }

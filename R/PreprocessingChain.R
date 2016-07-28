@@ -51,7 +51,6 @@
 #   -for urine = fromto.Zs=list(Water =c(4.5, 5), Uree=c(4.5, 6))
 # ZoneAggregation : fromto.Za=list(Citrate =c(2.5, 2.7))
 # Normalization : type.N = "mean"
-# Scaling: type.scaling = "pareto"
 
 
 ## VALUES
@@ -70,7 +69,7 @@
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
-                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE, Sc = TRUE,
+                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE,
                         l=1, subdirs = FALSE, #ReadFids
                         group_delay=NULL, # FOPC
                         lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
@@ -87,8 +86,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         m = 500, # Bucketing
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.8, 5.2)), # RegionRemoval
                         fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
-                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm, # Normalization
-                        type.scaling="pareto"# scaling
+                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm # Normalization
                         ) { 
 
 
@@ -707,35 +705,7 @@ if (N ==  TRUE ){
   
 }
 
-##########################
-# Scaling
-##########################
-if (Sc ==  TRUE ){
-  Spectrum_dataB = Spectrum_data
-  Spectrum_data = Scaling(Spectrum_data, type.scaling=type.scaling)
-  
-  Spectrum_data15 = Spectrum_data
-  
-  
-  
-  if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data15 
-    names(PretreatedSpectrabyStep)[step] <- "Scaling.Data"
-    step = step + 1
-  }
-  
-  
-  if (ImpG==TRUE) {
-    grDevices::pdf(paste0(out.path,"/Scaling.pdf"), width = 10, height = 5)
-    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Scaling \n Real part")
-    at=seq(1,length(xat), length(xat)/20)
-    graphics::axis(side=1, at=at, labels=round(xat[at],2))
-    graphics::lines(Re(Spectrum_data15[nspectr,]), col= "red")
-    graphics::legend("topleft", lty = 1, legend = c("Before Scaling", "After Scaling"), col = c("black", "red"))
-    
-    
-  }
-}
+
 
 #################### 
 # save THE RESULTS
@@ -745,7 +715,7 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "saveall",            "ImpG",               "Fopc",              
               "Ss" ,                "A",                  "Zopc",               "Bc",                
               "Zsnv" ,              "W",                  "B",                  "Zs" ,               
-              "Za",                 "N",                  "Sc",         "l",        "subdirs" ,          
+              "Za",                 "N",                   "l",        "subdirs" ,          
               "group_delay",        "lambda.ss",          "ptw.ss",                   
               "DT",                 "type.apod",          "phase",              "rectRatio",         
               "gaussLB",            "expLB",              "SW_h",               "",          
@@ -757,10 +727,9 @@ argnames <- c("dataname",           "data.path",          "out.path",
               "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
               "from.ws",            "to.ws",              "reverse.axis",       "m"  ,               
               "typeofspectra",      "type.rr",            "fromto.rr",          "fromto.za",         
-              "type.norm",          "from.norm",          "to.norm",            "ref.norm",
-              "type.scaling")
+              "type.norm",          "from.norm",          "to.norm",            "ref.norm")
 
-supargnames = c(rep("general", 19), 
+supargnames = c(rep("general", 18), 
                 rep("ReadFids", 2), 
                 rep("FirstOrderPhaseCorrection", 1), 
                 rep("SolventSuppression",2), 
@@ -777,8 +746,7 @@ supargnames = c(rep("general", 19),
                 rep("Bucketing", 1),
                 rep("RegionRemoval", 3),
                 rep("ZoneAggregation", 1),
-                rep("Normalization", 4),
-                rep("Scaling", 1))
+                rep("Normalization", 4))
 
 
 
