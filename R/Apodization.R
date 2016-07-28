@@ -47,7 +47,7 @@ Apodization <- function(Fid_data, Fid_info=NULL, DT=NULL,
          }
   )
   if (plotWindow) {
-    plot(1:m, Factor, "l")
+    graphics::plot(1:m, Factor, "l")
     # dev.off() # device independent, it is the responsability of the caller to do it
   }
   Fid_data <- sweep(Fid_data, MARGIN=2, Factor, `*`)

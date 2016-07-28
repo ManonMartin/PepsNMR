@@ -51,10 +51,10 @@ FirstOrderPhaseCorrection <- function(Fid_data, Fid_info=NULL, group_delay=NULL)
   # We do the shifting in the Fourier domain because the shift can be non-integer.
   # That way we automatically have the circular behaviour of the shift and the interpolation
   # if it is non-integer.
-  Spectrum <- t(mvfft(t(Fid_data))) / m
+  Spectrum <- t(stats::mvfft(t(Fid_data))) / m
   Omega <- (0:(m-1)) / m
   i <- complex(real=0,imaginary=1)
   Spectrum <- sweep(Spectrum, MARGIN=2, exp(i*group_delay*2*pi*Omega), `*`)
-  Fid_data <- t(mvfft(t(Spectrum), inverse = TRUE))
+  Fid_data <- t(stats::mvfft(t(Spectrum), inverse = TRUE))
   return(endTreatment("FirstOrderPhaseCorrection", begin_info, Fid_data))
 }

@@ -7,3 +7,4 @@ SOAP-NMR.Rproj
 sshkey.pub
 sshkey
 .Rproj
+.travis.yml

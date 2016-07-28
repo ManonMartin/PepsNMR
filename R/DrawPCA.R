@@ -26,7 +26,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   Xax = axes[1]
   Yax = axes[2]
   
-  pca <- prcomp(Re(Signal_data))
+  pca <- stats::prcomp(Re(Signal_data))
   
   # Eigenvalues
   eig <- (pca$sdev)^2
@@ -38,28 +38,28 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
     stop("At least 2 spectra are needed for PCA.")
   }
   if (createWindow) {
-    dev.new(noRStudioGD = TRUE)
+    grDevices::dev.new(noRStudioGD = TRUE)
   }
   Xlim=c(min(pca$x[,Xax])*1.4, max(pca$x[,Xax])*1.4)
   Ylim=c(min(pca$x[,Yax])*1.4, max(pca$x[,Yax])*1.4)
   
   
   if(is.null(class)) {
-    plot(pca$x[,Xax], pca$x[,Yax], xlab="PC1", ylab="PC2")
-    abline(v=0, h=0, lty = 2)
+    graphics::plot(pca$x[,Xax], pca$x[,Yax], xlab="PC1", ylab="PC2")
+    graphics::abline(v=0, h=0, lty = 2)
     if (drawNames) {
-      text(pca$x[,Xax], pca$x[,Yax], rownames(Signal_data), pos=c(2,3))
+      graphics::text(pca$x[,Xax], pca$x[,Yax], rownames(Signal_data), pos=c(2,3))
     }
   }else{
     
     
-    plot(pca$x[,Xax], pca$x[,Yax], col=class,
+    graphics::plot(pca$x[,Xax], pca$x[,Yax], col=class,
          xlab=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), xlim=Xlim,
          ylab=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)"), ylim=Ylim,
          main=main)
-    abline(v=0, h=0, lty = 2)
+    graphics::abline(v=0, h=0, lty = 2)
     if (drawNames) {
-      text(pca$x[,Xax],pca$x[,Yax],labels=rownames(Signal_data), pos=c(2,3), col=class)
+      graphics::text(pca$x[,Xax],pca$x[,Yax],labels=rownames(Signal_data), pos=c(2,3), col=class)
     }
   }
   

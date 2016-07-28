@@ -7,7 +7,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
 
   rms <- function(ang, y) {
     if (debug_plot) {
-      abline(v=ang, col="gray60")
+      graphics::abline(v=ang, col="gray60")
     }
     roty <- y * exp(complex(real=0, imaginary=ang))
     Rey <- Re(roty)
@@ -49,16 +49,16 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       for (K in (1:100)) {
         y[K] <- rms(x[K], RawSpect_data[k,])
       }
-      plot(x, y)
+      graphics:: plot(x, y)
       debug_plot <- T
     }
 
-    best <- optimize(rms, interval=interval, maximum=FALSE, y=RawSpect_data[k,])
+    best <- stats::optimize(rms, interval=interval, maximum=FALSE, y=RawSpect_data[k,])
     ang <- best[["minimum"]]
 
     if (debug_plot) {
-      abline(v=ang, col="black")
-      dev.off()
+      graphics::abline(v=ang, col="black")
+      grDevices::dev.off()
     }
 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))

@@ -16,10 +16,10 @@ Draw <- function (Signal_data, type.draw = c("signal","pca"),
            createFile <- FALSE
          },
          "png" = {
-           png(fullpath, width, height)
+           grDevices::png(fullpath, width, height)
          },
          "pdf" = {
-           pdf(fullpath, width = width/72, height = height/72, onefile = pdf.onefile)
+           grDevices::pdf(fullpath, width = width/72, height = height/72, onefile = pdf.onefile)
          },
          {
             stop('Unknown output type.')
@@ -37,6 +37,6 @@ Draw <- function (Signal_data, type.draw = c("signal","pca"),
   }
   fun(Signal_data, createWindow=createWindow, ...)
   if (createFile) {
-    dev.off()
+    grDevices::dev.off()
   }
 }

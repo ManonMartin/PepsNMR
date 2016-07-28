@@ -5,7 +5,7 @@ Scaling <- function(Spectrum_data, type.scaling=c("center", "pareto", "uv")) {
   Spectrum_data <- begin_info[["Signal_data"]]
   type.scaling <- match.arg(type.scaling)
   
-  stdev<-apply(Spectrum_data,2,sd, na.rm = TRUE)
+  stdev<-apply(Spectrum_data,2,stats::sd, na.rm = TRUE)
   
   invalid <- (stdev == 0)
   if (TRUE %in% invalid & type.scaling != "center") {
@@ -20,11 +20,11 @@ Scaling <- function(Spectrum_data, type.scaling=c("center", "pareto", "uv")) {
          },
          
          "uv" = { 
-           Scaled.spectrum <- apply(Spectrum_data,2, function(x) (x - mean(x)) / sd(x))
+           Scaled.spectrum <- apply(Spectrum_data,2, function(x) (x - mean(x)) / stats::sd(x))
          },
          
          "pareto" = { 
-           Scaled.spectrum <- apply(Spectrum_data,2, function(x) (x - mean(x)) / sqrt(sd(x)))
+           Scaled.spectrum <- apply(Spectrum_data,2, function(x) (x - mean(x)) / sqrt(stats::sd(x)))
          }
   )
 return(endTreatment("Scaling", begin_info, Scaled.spectrum))

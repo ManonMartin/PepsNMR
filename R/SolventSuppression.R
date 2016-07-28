@@ -34,10 +34,10 @@ SolventSuppression <- function(Fid_data, lambda.ss=1e6, ptw.ss=TRUE, plotSolvent
     solventIm <- difsm(FidIm, lambda=lambda.ss)
     if (plotSolvent) {
       m = length(FidRe)
-      plot(1:m,FidRe,type="l",col="red")
-      lines(1:m,solventRe,type="l", col="blue")
-      plot(1:m,FidIm,type="l",col="red")
-      lines(1:m,solventIm,type="l", col="blue")
+      graphics::plot(1:m,FidRe,type="l",col="red")
+      graphics::lines(1:m,solventRe,type="l", col="blue")
+      graphics::plot(1:m,FidIm,type="l",col="red")
+      graphics::lines(1:m,solventIm,type="l", col="blue")
     }
     FidRe <- FidRe - solventRe
     FidIm <- FidIm - solventIm

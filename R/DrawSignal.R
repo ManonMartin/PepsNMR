@@ -66,11 +66,11 @@ function (Signal_data,
     while (i <= n)
     {
       if (createWindow) {
-        dev.new(noRStudioGD = TRUE) 
+        grDevices::dev.new(noRStudioGD = TRUE) 
       }
       if (subtype == "separate") {
         # The other uses gridExtra to do that
-        par(mfrow=c(nrow,ncol))
+        graphics::par(mfrow=c(nrow,ncol))
       }
       plots <- list()
       if (subtype == "separate") {
@@ -80,8 +80,8 @@ function (Signal_data,
       }
       for (name in names(elements)) {
         if (subtype == "separate") {
-          plot(elements[[name]][i,],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-          axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
+          graphics::plot(elements[[name]][i,],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
+          graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
         } else {
 #           require("ggplot2")
 #           require("reshape2")
@@ -100,11 +100,11 @@ function (Signal_data,
       i = last + 1
     }
   } else {
-    rainbow_colors <- rainbow(n)
+    rainbow_colors <- grDevices::rainbow(n)
     if (createWindow) {
-      dev.new(noRStudioGD = TRUE) 
+      grDevices::dev.new(noRStudioGD = TRUE) 
     }
-    par(mfrow=c(nrow,ncol))
+    graphics::par(mfrow=c(nrow,ncol))
 
     # Loop for Re, Im, Mod and Arg
     for (name in names(elements)) {
@@ -131,13 +131,13 @@ function (Signal_data,
       {
         if (i == 1) {
           # If it is our first plot, we need to set the axes
-          plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-          axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
+          graphics::plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
+          graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
         } else {
-          lines(element[i,],col=rainbow_colors[i])
+          graphics::lines(element[i,],col=rainbow_colors[i])
         }
       }
-      legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
+      graphics::legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
     }
   }
 }

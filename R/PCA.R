@@ -2,7 +2,7 @@
 # Analyse en composantes principales #
 ######################################
 
-PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites amix ACP cpmg"),f=c(''),lenom=c("Spectra"),repertoiregraph=c("./"),afficher.couleur="Volunteer",afficher.pch="Volunteer",couleur=c(rgb(0,0,0),rgb(0,1,0),rgb(1,0,0),rgb(0,0,1),rgb(0.5,0.5,0.5),rgb(0.5,1,1),rgb(1,0.5,1),rgb(1,1,0.5),rgb(0.5,0.5,1),rgb(0.5,1,0.5),rgb(0.3,0.7,0.3),rgb(0.7,0.3,0.3),rgb(0.3,0.3,0.7)))
+PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites amix ACP cpmg"),f=c(''),lenom=c("Spectra"),repertoiregraph=c("./"),afficher.couleur="Volunteer",afficher.pch="Volunteer",couleur=c(grDevices::rgb(0,0,0),grDevices::rgb(0,1,0),grDevices::rgb(1,0,0),grDevices::rgb(0,0,1),grDevices::rgb(0.5,0.5,0.5),grDevices::rgb(0.5,1,1),grDevices::rgb(1,0.5,1),grDevices::rgb(1,1,0.5),grDevices::rgb(0.5,0.5,1),grDevices::rgb(0.5,1,0.5),grDevices::rgb(0.3,0.7,0.3),grDevices::rgb(0.7,0.3,0.3),grDevices::rgb(0.3,0.3,0.7)))
 {
   
   # Cette fonction réalise une analyse en composantes principales
@@ -48,7 +48,7 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
   #1. Réalisation de l'ACP
   #_______________________
   
-  respca <- prcomp(xnorm) #fonction donnée par R (pas acp que l'on veut...)
+  respca <- stats::prcomp(xnorm) #fonction donnée par R (pas acp que l'on veut...)
   
   #Récupération des pcs :
   
@@ -86,12 +86,12 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
   #Projection sur plan des 1-2 et 2-4 CP's
   
   # Projection sur le plan 1-2
-  dev.new(noRStudioGD = TRUE) 
-  par(mfrow=c(1,3),oma=c(1,1,2,1))
+  grDevices::dev.new(noRStudioGD = TRUE) 
+  graphics::par(mfrow=c(1,3),oma=c(1,1,2,1))
   
-  plot(pcs[,1],pcs[,2],xlab=paste("CP1 -",round(pourc1,2),"%"),
+  graphics::plot(pcs[,1],pcs[,2],xlab=paste("CP1 -",round(pourc1,2),"%"),
        ylab=paste("CP2 -",round(pourc2,2),"%"),pch='')
-  abline(h=0,v=0)
+  graphics::abline(h=0,v=0)
   
   s <- dim(pcs)[1]
   op=c(1:s)
@@ -108,7 +108,7 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
         # Si l'option est activée, on affiche le n° du spectre sur la projection
         if(length(f)!=0)
           
-        {text(pcs[i,1],pcs[i,2],f[i],cex=0.7,col=couleur[id.facteur.couleur])}
+        {graphics::text(pcs[i,1],pcs[i,2],f[i],cex=0.7,col=couleur[id.facteur.couleur])}
         
         # Si l'option est activée, l'on affiche des marqueurs sur les spectres
         if(afficher.pch!=0)
@@ -117,7 +117,7 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
           for(id.facteur.pch in 1:length(valeurfacteur.pch))
           {
             if(z[i,ndesign.pch]==valeurfacteur.pch[id.facteur.pch])
-            {points(pcs[i,1],pcs[i,2],pch=id.facteur.pch,col=couleur[id.facteur.couleur])}
+            {graphics::points(pcs[i,1],pcs[i,2],pch=id.facteur.pch,col=couleur[id.facteur.couleur])}
           } # On ferme la boucle marqueur
         }
       } # On Passe à la couleur suivante
@@ -127,14 +127,14 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
   
   
   # La légende des deux graphes
-  plot(1,type="n",axes=FALSE,xlab="",ylab="",ylim=c(0,2),xlim=c(0,2))
-  legend("top",legend=valeurfacteur.pch,pch=1:length(valeurfacteur.pch), cex = 1,title=paste(afficher.pch,": "),bty = "n" )
-  legend("center",legend=valeurfacteur.couleur,col=couleur, cex = 1,lty=1,title=paste(afficher.couleur,": "),bty="n")
+  graphics::plot(1,type="n",axes=FALSE,xlab="",ylab="",ylim=c(0,2),xlim=c(0,2))
+  graphics::legend("top",legend=valeurfacteur.pch,pch=1:length(valeurfacteur.pch), cex = 1,title=paste(afficher.pch,": "),bty = "n" )
+  graphics::legend("center",legend=valeurfacteur.couleur,col=couleur, cex = 1,lty=1,title=paste(afficher.couleur,": "),bty="n")
   
   
-  plot(pcs[,3],pcs[,4],xlab=paste("CP3 -",round(pourc3,2),"%"),
+  graphics::plot(pcs[,3],pcs[,4],xlab=paste("CP3 -",round(pourc3,2),"%"),
        ylab=paste("CP4 -",round(pourc4,2),"%"))
-  abline(h=0,v=0)
+  graphics::abline(h=0,v=0)
   s <- dim(pcs)[1]
   op=c(1:s)
   # Affichage des couleurs
@@ -150,7 +150,7 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
         # Si l'option est activée, on affiche le n° du spectre sur la projection
         if(length(f)!=0)
           
-        {text(pcs[i,3],pcs[i,4],f[i],cex=0.7,col=couleur[id.facteur.couleur])}
+        {graphics::text(pcs[i,3],pcs[i,4],f[i],cex=0.7,col=couleur[id.facteur.couleur])}
         
         # Si l'option est activée, l'on affiche des marqueurs sur les spectres
         if(afficher.pch!=0)
@@ -159,7 +159,7 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
           for(id.facteur.pch in 1:length(valeurfacteur.pch))
           {
             if(z[i,ndesign.pch]==valeurfacteur.pch[id.facteur.pch])
-            {points(pcs[i,3],pcs[i,4],pch=id.facteur.pch,col=couleur[id.facteur.couleur])}
+            {graphics::points(pcs[i,3],pcs[i,4],pch=id.facteur.pch,col=couleur[id.facteur.couleur])}
           } # On ferme la boucle marqueur
         }
       } # On Passe à la couleur suivante
@@ -169,19 +169,19 @@ PrincipalComponentAnalysis <- function (xnorm,z,titlePlot=c("spectres pretraites
   
   
   
-  title(titlePlot,outer=T)
-  savePlot(paste(repertoiregraph,lenom,"Projection",".png",sep=""),type=c("png"))
+  graphics::title(titlePlot,outer=T)
+  grDevices::savePlot(paste(repertoiregraph,lenom,"Projection",".png",sep=""),type=c("png"))
   
   #Projection des loadings
   
-  dev.new(noRStudioGD = TRUE) 
-  par(mfrow=c(4,1),mar=c(2,4,1,1))
-  plot(pcv[,1],type="l")
-  plot(pcv[,2],type="l")
-  plot(pcv[,3],type="l")
-  plot(pcv[,4],type="l")
+  grDevices::dev.new(noRStudioGD = TRUE) 
+  graphics::par(mfrow=c(4,1),mar=c(2,4,1,1))
+  graphics::plot(pcv[,1],type="l")
+  graphics::plot(pcv[,2],type="l")
+  graphics::plot(pcv[,3],type="l")
+  graphics::plot(pcv[,4],type="l")
   
   list(CP1=pourc1,CP2=pourc2,CP3=pourc3,CP4=pourc4)
-  savePlot(paste(repertoiregraph,lenom,"Loading",".png",sep=""),type=c("png"))
+  grDevices::savePlot(paste(repertoiregraph,lenom,"Loading",".png",sep=""),type=c("png"))
   
 }

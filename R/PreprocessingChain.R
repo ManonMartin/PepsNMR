@@ -158,21 +158,21 @@ if (Fopc ==  TRUE ){
  
 
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/FirstOrderPhCorrectREAL.pdf"),width=13, height=8)
-    par(mfrow=c(2,2))
-    plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Original FID \n Real part")
-    plot(Re(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Real part ")
-    plot(Re(Fid_data1[nspectr,]), col="blue",  ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Real part")
-    plot(Re(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Real part")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/FirstOrderPhCorrectREAL.pdf"),width=13, height=8)
+    graphics::par(mfrow=c(2,2))
+    graphics::plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Original FID \n Real part")
+    graphics::plot(Re(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Real part ")
+    graphics::plot(Re(Fid_data1[nspectr,]), col="blue",  ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Real part")
+    graphics::plot(Re(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Real part")
+    grDevices::dev.off()
     
-    pdf(paste0(out.path,"/FirstOrderPhCorrectIMAG.pdf"),width=13, height=8)
-    par(mfrow=c(2,2))
-    plot(Im(Fid_dataB[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID \n Imaginary part")
-    plot(Im(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Imaginary part ")
-    plot(Im(Fid_data1[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Imaginary part")
-    plot(Im(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Imaginary part ")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/FirstOrderPhCorrectIMAG.pdf"),width=13, height=8)
+    graphics::par(mfrow=c(2,2))
+    graphics::plot(Im(Fid_dataB[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID \n Imaginary part")
+    graphics::plot(Im(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Imaginary part ")
+    graphics::plot(Im(Fid_data1[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Imaginary part")
+    graphics::plot(Im(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Imaginary part ")
+    grDevices::dev.off()
   }
 }
 
@@ -201,19 +201,19 @@ if (Ss ==  TRUE ){
 
 
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/SolventSuppression1.pdf"),width=8, height=4)
-    plot(Re(Fid_data1[nspectr,]), ylim = c(min(Re(Fid_data1[nspectr,])), max(Re(Fid_data1[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
-    lines(SolventRe[nspectr,],col="red" )
-    legend("topright", legend = "Solvent signal", col="red",  lty = 1)
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/SolventSuppression1.pdf"),width=8, height=4)
+    graphics::plot(Re(Fid_data1[nspectr,]), ylim = c(min(Re(Fid_data1[nspectr,])), max(Re(Fid_data1[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
+    graphics::lines(SolventRe[nspectr,],col="red" )
+    graphics::legend("topright", legend = "Solvent signal", col="red",  lty = 1)
+    grDevices::dev.off()
     
-    pdf(paste0(out.path,"/SolventSuppression2.pdf"),width=13, height=8)
-    par(mfrow=c(2,2))
-    plot(Re(Fid_dataB[nspectr,1:100]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Real part ")
-    plot(Im(Fid_dataB[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Imaginary part ")
-    plot(Re(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Real part ")
-    plot(Im(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Imaginary part ")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/SolventSuppression2.pdf"),width=13, height=8)
+    graphics::par(mfrow=c(2,2))
+    graphics::plot(Re(Fid_dataB[nspectr,1:100]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Real part ")
+    graphics::plot(Im(Fid_dataB[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Imaginary part ")
+    graphics::plot(Re(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Real part ")
+    graphics::plot(Im(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Imaginary part ")
+    grDevices::dev.off()
   }
 
 }
@@ -242,17 +242,17 @@ if (A ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Apodization1.pdf"),width=13, height=8)
-    par(mfrow=c(2,2))
-    plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Real part")
-    plot(Im(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Imaginary part")
-    plot(Re(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Real part")
-    plot(Im(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Imaginary part")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/Apodization1.pdf"),width=13, height=8)
+    graphics::par(mfrow=c(2,2))
+    graphics::plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Real part")
+    graphics::plot(Im(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Imaginary part")
+    graphics::plot(Re(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Real part")
+    graphics::plot(Im(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Imaginary part")
+    grDevices::dev.off()
     
-    pdf(paste0(out.path,"/Apodization2.pdf"),width=8, height=4)
-    plot(Apod.res[["Factor"]], col="red",type="l", main = "Apodization factor")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/Apodization2.pdf"),width=8, height=4)
+    graphics::plot(Apod.res[["Factor"]], col="red",type="l", main = "Apodization factor")
+    grDevices::dev.off()
   }
 
 }
@@ -279,20 +279,20 @@ if (saveall == TRUE) {
 
 
 if (ImpG==TRUE) {
-  pdf(paste0(out.path,"/FourierTransform.pdf"),width=13, height=14)
-  par(mfrow=c(3,1))
+  grDevices::pdf(paste0(out.path,"/FourierTransform.pdf"),width=13, height=14)
+  graphics::par(mfrow=c(3,1))
   a = 0.2*length(RawSpect_data4[nspectr,])
   b = 0.6*length(RawSpect_data4[nspectr,])
   c = 0.06*length(RawSpect_data4[nspectr,])
   
-  plot(Re(RawSpect_data4[nspectr,]), col="blue", type="l", xlab="Frequency", main="After Fourier Transform \n Real part")
-  plot(Re(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Real part (zoom)")
+  graphics::plot(Re(RawSpect_data4[nspectr,]), col="blue", type="l", xlab="Frequency", main="After Fourier Transform \n Real part")
+  graphics::plot(Re(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Real part (zoom)")
   at=seq(1,(b-a), c)
-  axis(side=1, at=at, labels  = c(a:b)[at])
-  plot(Im(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Imaginary part (zoom)")
+  graphics::axis(side=1, at=at, labels  = c(a:b)[at])
+  graphics::plot(Im(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Imaginary part (zoom)")
   at=seq(1,(b-a), c)
-  axis(side=1, at=at, labels = c(a:b)[at])
-  dev.off()
+  graphics::axis(side=1, at=at, labels = c(a:b)[at])
+  grDevices::dev.off()
   ###
 }
 
@@ -317,23 +317,23 @@ if (Zopc ==  TRUE ){
   
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/ZeroOrderPhaseCorrection.pdf"),width=13, height=14)
-    par(mfrow=c(3,1))
+    grDevices::pdf(paste0(out.path,"/ZeroOrderPhaseCorrection.pdf"),width=13, height=14)
+    graphics::par(mfrow=c(3,1))
     
     a = 0.2*length(RawSpect_dataB[nspectr,])
     b = 0.6*length(RawSpect_dataB[nspectr,])
     c = 0.06*length(RawSpect_dataB[nspectr,])
     
-    plot(Re(RawSpect_data4[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="Before 0 Order Phase Correction \n Real part (zoom)")
+    graphics::plot(Re(RawSpect_data4[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="Before 0 Order Phase Correction \n Real part (zoom)")
     at=seq(1,(b-a), c)
-    axis(side=1, at=at, labels = c(a:b)[at])
-    plot(Re(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Real part (zoom)")
+    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    graphics::plot(Re(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Real part (zoom)")
     at=seq(1,(b-a), c)
-    axis(side=1, at=at, labels = c(a:b)[at])
-    plot(Im(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Imaginary part (zoom)")
+    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    graphics::plot(Im(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Imaginary part (zoom)")
     at=seq(1,(b-a), c)
-    axis(side=1, at=at, labels = c(a:b)[at])
-    dev.off()
+    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    grDevices::dev.off()
     }
 
 }
@@ -359,29 +359,29 @@ if (Bc ==  TRUE ){
   }
 
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/BaselineCorrection.pdf"),width=13, height=8)
-    par(mfrow=c(2,2))
+    grDevices::pdf(paste0(out.path,"/BaselineCorrection.pdf"),width=13, height=8)
+    graphics::par(mfrow=c(2,2))
     
     a = 0.42*length(RawSpect_dataB[nspectr,])
     b = 0.46*length(RawSpect_dataB[nspectr,])
     
-    plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction")
-    abline(h=0, lty = 2)
-    lines(baseline[nspectr,], col="red")
+    graphics::plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction")
+    graphics::abline(h=0, lty = 2)
+    graphics::lines(baseline[nspectr,], col="red")
     
-    plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction  \n zoom")
-    axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
-    abline(h=0, lty = 2)
-    lines(baseline[nspectr,a:b], col="red")
+    graphics::plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction  \n zoom")
+    graphics::axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
+    graphics::abline(h=0, lty = 2)
+    graphics::lines(baseline[nspectr,a:b], col="red")
     
-    plot(Re(RawSpect_data6[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection")
-    abline(h=0, lty = 2)
+    graphics::plot(Re(RawSpect_data6[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection")
+    graphics::abline(h=0, lty = 2)
     
-    plot(Re(RawSpect_data6[nspectr,a:b]),  col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection \n zoom")
-    axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
-    abline(h=0, lty = 2)
+    graphics::plot(Re(RawSpect_data6[nspectr,a:b]),  col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection \n zoom")
+    graphics::axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
+    graphics::abline(h=0, lty = 2)
     
-    dev.off()
+    grDevices::dev.off()
   }
 
 }
@@ -405,20 +405,20 @@ if (Zsnv ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/NegativeValuesZeroing.pdf"), width = 13, height = 8)
-    par(mfrow=c(2,1))
+    grDevices::pdf(paste0(out.path,"/NegativeValuesZeroing.pdf"), width = 13, height = 8)
+    graphics::par(mfrow=c(2,1))
     
     a = 0.2*length(RawSpect_dataB[nspectr,])
     b = 0.6*length(RawSpect_dataB[nspectr,])
     c = 0.06*length(RawSpect_dataB[nspectr,])
     
-    plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="Before Negative Values Zeroing \n Real part (zoom)")
+    graphics::plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="Before Negative Values Zeroing \n Real part (zoom)")
     at=seq(1,(b-a), c)
-    axis(side=1, at=at, labels = c(a:b)[at])
-    plot(Re(RawSpect_data7[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
+    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    graphics::plot(Re(RawSpect_data7[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
     at=seq(1,(b-a), c)
-    axis(side=1, at=at, labels = c(a:b)[at])
-    dev.off()
+    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    grDevices::dev.off()
   }
   
 }
@@ -440,12 +440,12 @@ if (saveall == TRUE) {
 }
 
 if (ImpG==TRUE) {
-  pdf(paste0(out.path,"/PPMConversion.pdf"),width=13, height=8)
-  par(mfrow=c(2,1))
-  plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", xlab="Frequency", main="Before PPM Conversion \n Real part")
+  grDevices::pdf(paste0(out.path,"/PPMConversion.pdf"),width=13, height=8)
+  graphics::par(mfrow=c(2,1))
+  graphics::plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", xlab="Frequency", main="Before PPM Conversion \n Real part")
   xat=round(as.numeric(colnames(Spectrum_data8)),5)
-  plot(xat,Re(Spectrum_data8[nspectr,]), col="blue", type="l", xlab="ppm", main="After PPM Conversion \n Real part")
-  dev.off()
+  graphics::plot(xat,Re(Spectrum_data8[nspectr,]), col="blue", type="l", xlab="ppm", main="After PPM Conversion \n Real part")
+  grDevices::dev.off()
 }
 
 
@@ -473,12 +473,12 @@ if (W ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Warping1.pdf"), width = 8, height = 4)
-    plot(warpingfunc, col="blue", type="l", main = "warping function")
-    dev.off()
+    grDevices::pdf(paste0(out.path,"/Warping1.pdf"), width = 8, height = 4)
+    graphics::plot(warpingfunc, col="blue", type="l", main = "warping function")
+    grDevices::dev.off()
     
-    pdf(paste0(out.path,"/Warping2.pdf"), width = 13, height = 10)
-    par(mfrow=c(2,1),mar=c(4.1, 4.1, 4.1, 9.5), xpd=TRUE)
+    grDevices::pdf(paste0(out.path,"/Warping2.pdf"), width = 13, height = 10)
+    graphics::par(mfrow=c(2,1),mar=c(4.1, 4.1, 4.1, 9.5), xpd=TRUE)
     
     if (dim(Spectrum_dataB)[1]>=3) {
       f=sample(c(1:dim(Spectrum_dataB)[1]), 3)
@@ -489,20 +489,20 @@ if (W ==  TRUE ){
     b = 0.47*length(RawSpect_dataB[f[1],])
     c = 0.015*length(RawSpect_dataB[f[1],])
     
-    plot(Re(Spectrum_dataB[nspectr,a:b]),  col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_dataB[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="Before Warping (zoom)")
-    axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))   
-    legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
+    graphics::plot(Re(Spectrum_dataB[nspectr,a:b]),  col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_dataB[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="Before Warping (zoom)")
+    graphics::axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))   
+    graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
-      lines(Re(Spectrum_dataB[j,a:b]), col="blue", type="l")}
-    grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
+      graphics::lines(Re(Spectrum_dataB[j,a:b]), col="blue", type="l")}
+    graphics::grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
     
-    plot(Re(Spectrum_data9[nspectr,a:b]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data9[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="After Warping (zoom)")
-    axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))    
-    legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
+    graphics::plot(Re(Spectrum_data9[nspectr,a:b]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data9[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="After Warping (zoom)")
+    graphics::axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))    
+    graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
-      lines(Re(Spectrum_data9[j,a:b]), type="l", col="blue")}
-    grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
-    dev.off()
+      graphics::lines(Re(Spectrum_data9[j,a:b]), type="l", col="blue")}
+    graphics::grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
+    grDevices::dev.off()
   }
   
 }
@@ -524,16 +524,16 @@ if (saveall == TRUE) {
 
 
 if (ImpG==TRUE) {
-  pdf(paste0(out.path,"/WindowSelection.pdf"), width = 10, height = 9)
-  par(mfrow=c(2,1), mar=c(4,4,2,2))
+  grDevices::pdf(paste0(out.path,"/WindowSelection.pdf"), width = 10, height = 9)
+  graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
   c = 0.03*length(RawSpect_dataB[nspectr,])
   xat=round(as.numeric(colnames(Spectrum_dataB)),5)
-  plot(xat,Re(Spectrum_dataB[nspectr,]),col="blue",  type="l",  ylab = "Intensity", xlab="ppm", main="Before Window Selection")
+  graphics::plot(xat,Re(Spectrum_dataB[nspectr,]),col="blue",  type="l",  ylab = "Intensity", xlab="ppm", main="Before Window Selection")
   xat=round(as.numeric(colnames(Spectrum_data10)),5)
-  plot( Re(Spectrum_data10[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
+  graphics::plot( Re(Spectrum_data10[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
   at=seq(1,length(xat), c)
-  axis(side=1, at=at, labels=round(xat[at],2))
-  dev.off()
+  graphics::axis(side=1, at=at, labels=round(xat[at],2))
+  grDevices::dev.off()
 }
  
 ################ 
@@ -553,18 +553,18 @@ if (B ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Bucketing.pdf"), width = 10, height = 9)
-    par(mfrow=c(2,1), mar=c(4,4,2,2))
+    grDevices::pdf(paste0(out.path,"/Bucketing.pdf"), width = 10, height = 9)
+    graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
     c = 0.03*length(RawSpect_dataB[nspectr,])
     xat=round(as.numeric(colnames(Spectrum_dataB)),5)
-    plot(Re(Spectrum_dataB[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="Before Bucketing")
+    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="Before Bucketing")
     at=seq(1,length(xat), c)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
     xat=round(as.numeric(colnames(Spectrum_data11)),5)
-    plot(Re(Spectrum_data11[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Bucketing")
+    graphics::plot(Re(Spectrum_data11[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Bucketing")
     at=seq(1,length(xat), 30)
-    axis(side=1, at=at, labels=round(xat[at],2))
-    dev.off()
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
+    grDevices::dev.off()
   }
   
   
@@ -589,21 +589,21 @@ if (Zs ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/RegionRemoval.pdf"), width = 10, height = 9)
-    par(mfrow=c(2,1), mar=c(4,4,2,2))
+    grDevices::pdf(paste0(out.path,"/RegionRemoval.pdf"), width = 10, height = 9)
+    graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
     xat=round(as.numeric(colnames(Spectrum_dataB)),5)
-    plot(Re(Spectrum_dataB[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
+    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
     at=seq(1,length(xat), 30)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
     
-    plot(Re(Spectrum_data12[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="After Region Removal")
+    graphics::plot(Re(Spectrum_data12[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="After Region Removal")
     at=seq(1,length(xat), 30)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
 #     text(x=441, y=160, labels=c("Lactate region"), srt = 90, col="red", cex=0.8)
 #     text(x=269, y=100, labels=c("Water region"), col="red", cex=0.8)
 #     arrows(x=255, y=70, x1 = 282, y1 = 70, length = 0.1,code = 3, col="red" )
 #     arrows(x=439, y=70, x1 = 445, y1 = 70, length = 0.04,code = 3, col="red" )
-    dev.off()
+    grDevices::dev.off()
   }
   
 }
@@ -629,19 +629,19 @@ if (Za ==  TRUE ){
   
   if (ImpG==TRUE) {
     
-    pdf(paste0(out.path,"/ZoneAggregation.pdf"), width = 10, height = 9)
-    par(mfrow=c(2,1), mar=c(4,4,2,2) )
+    grDevices::pdf(paste0(out.path,"/ZoneAggregation.pdf"), width = 10, height = 9)
+    graphics::par(mfrow=c(2,1), mar=c(4,4,2,2) )
     xat=round(as.numeric(colnames(Spectrum_data12)),5)
-    plot(Re(Spectrum_dataB[nspectr,]), col="blue",  xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
+    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue",  xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
     at=seq(1,length(xat), 30)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
 #     text(x=377, y=180, labels=c("Citrate region"),  col="red", cex=0.8)
 #     arrows(x=373, y=150, x1 = 383, y1 = 150, length = 0.04,code = 3, col="red" )
     xat=round(as.numeric(colnames(Spectrum_data13)),5)
-    plot(Re(Spectrum_data13[nspectr,]), col="blue", xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
+    graphics::plot(Re(Spectrum_data13[nspectr,]), col="blue", xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
     at=seq(1,length(xat), 30)
-    axis(side=1, at=at, labels=round(xat[at],2))
-    dev.off()
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
+    grDevices::dev.off()
   }
   
 }
@@ -667,17 +667,17 @@ if (N ==  TRUE ){
   
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Normalization1.pdf"), width = 10, height = 5)
-    par(mfrow=c(2,1))
-    plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part")
+    grDevices::pdf(paste0(out.path,"/Normalization1.pdf"), width = 10, height = 5)
+    graphics::par(mfrow=c(2,1))
+    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part")
+    xat=round(as.numeric(colnames(Spectrum_data14)),5)
     at=seq(1,length(xat), length(xat)/20)
-    axis(side=1, at=at, labels=round(xat[at],2))
-    lines(Re(Spectrum_data14[nspectr,]), col= "red")
-    legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::lines(Re(Spectrum_data14[nspectr,]), col= "red")
+    graphics::legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
     
-    
-    
-    pdf(paste0(out.path,"/Normalization2.pdf"), width = 10, height = 9)
+
+    grDevices::pdf(paste0(out.path,"/Normalization2.pdf"), width = 10, height = 9)
     
     if (dim(Spectrum_dataB)[1]>=3) {
       f=sample(c(1:dim(Spectrum_dataB)[1]), 3)
@@ -685,23 +685,23 @@ if (N ==  TRUE ){
     
     a = c(0.5)*length(Spectrum_dataB[nspectr,])
     b = c(0.75)*length(Spectrum_dataB[nspectr,])
-    par(mfrow=c(2,1), mar=c(4,4,2,2))
+    graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
     
     xat=round(as.numeric(colnames(Spectrum_dataB[,a:b])),5)
-    plot(Re(Spectrum_dataB[nspectr,a:b]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
+    graphics::plot(Re(Spectrum_dataB[nspectr,a:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      lines(Re(Spectrum_dataB[f[i],a:b]), col=rainbow(5,start=0.4)[i+1]) 
+      graphics::lines(Re(Spectrum_dataB[f[i],a:b]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
     }
     xat=round(as.numeric(colnames(Spectrum_data14[,a:b])),5)
-    plot(Re(Spectrum_data14[nspectr,a:b]), col=rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
+    graphics::plot(Re(Spectrum_data14[nspectr,a:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
-    axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      lines(Re(Spectrum_data14[f[i],a:b]), col=rainbow(5,start=0.4)[i+1]) 
+      graphics::lines(Re(Spectrum_data14[f[i],a:b]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
     }
-    dev.off()
+    grDevices::dev.off()
   }
   
   
@@ -726,12 +726,12 @@ if (Sc ==  TRUE ){
   
   
   if (ImpG==TRUE) {
-    pdf(paste0(out.path,"/Scaling.pdf"), width = 10, height = 5)
-    plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Scaling \n Real part")
+    grDevices::pdf(paste0(out.path,"/Scaling.pdf"), width = 10, height = 5)
+    graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Scaling \n Real part")
     at=seq(1,length(xat), length(xat)/20)
-    axis(side=1, at=at, labels=round(xat[at],2))
-    lines(Re(Spectrum_data15[nspectr,]), col= "red")
-    legend("topleft", lty = 1, legend = c("Before Scaling", "After Scaling"), col = c("black", "red"))
+    graphics::axis(side=1, at=at, labels=round(xat[at],2))
+    graphics::lines(Re(Spectrum_data15[nspectr,]), col= "red")
+    graphics::legend("topleft", lty = 1, legend = c("Before Scaling", "After Scaling"), col = c("black", "red"))
     
     
   }

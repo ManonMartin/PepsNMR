@@ -13,7 +13,7 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
     res = abs(ft)/cumsum(abs(ft))
     
     N = length(ft)
-    seuil = thres.*median(res)
+    seuil = thres.*stats::median(res)
     v = which(res[-c(1:3000)] > seuil)[1]#remove first points
     if (is.na(v)){
       warning("No peak found, need to lower the threshold.")

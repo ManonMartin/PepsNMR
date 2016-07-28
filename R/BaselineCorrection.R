@@ -54,9 +54,9 @@ BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
     Baseline[k,] <- asysm(RawSpect_data[k,], lambda.bc, p, eps)
     if (F & k == 1) {
       m = ncol(RawSpect_data)
-      plot(1:m,RawSpect_data[k,],type="l",col="red")
-      lines(1:m,Baseline[k,],type="l", col="blue")
-      lines(1:m,RawSpect_data[k,] - Baseline[k,],type="l", col="green")
+      graphics::plot(1:m,RawSpect_data[k,],type="l",col="red")
+      graphics::lines(1:m,Baseline[k,],type="l", col="blue")
+      graphics::lines(1:m,RawSpect_data[k,] - Baseline[k,],type="l", col="green")
     }
     RawSpect_data[k,] <- RawSpect_data[k,] - Baseline[k,]
   }
