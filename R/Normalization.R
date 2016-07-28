@@ -28,7 +28,6 @@ Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","fi
             if (missing(ref.norm)) {
               ref.norm <- matrixStats::colMedians(Spectrum_data, na.rm = TRUE)
             } else ref.norm <- Spectrum_data[ref.norm,]
-            
             quotient <- t(Spectrum_data)/ref.norm
             factor <- quotient.median <- matrixStats::colMedians(quotient, na.rm = TRUE)
           }
