@@ -10,11 +10,12 @@ The input spectrum can have its ppm axis in increasing or decreasing order and i
 have to be equispaced.
 }
 \usage{
-Bucketing(Spectrum_data, m = 500)
+Bucketing(Spectrum_data, m = 500, width = NULL)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
-  \item{m}{The number of buckets, should be an positive integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}
+  \item{m}{The number of buckets or the buckets width. If \code{m} represents the number of buckets, should be an integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}
+  \item{width}{If \code{width} is not \code{NULL}, then \code{m} represents the buckets width, otherwise, it represents the number of buckets.}
 }
 \details{
 Bucketing will decrease data precision but has two main interests:

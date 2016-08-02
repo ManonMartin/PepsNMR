@@ -1,5 +1,5 @@
 #' @export Bucketing
-Bucketing <- function (Spectrum_data, m = 500) {
+Bucketing <- function (Spectrum_data, m = 500, width = FALSE) {
   left_part_trapz <- function (x1, x2, xmid, y1, y2) {
     # Integral from x1 to xmid of the trapezium defined by (x1,y1) and (x1,y2)
     #        /| y2
@@ -22,18 +22,30 @@ Bucketing <- function (Spectrum_data, m = 500) {
   }
   begin_info <- beginTreatment("Bucketing", Spectrum_data)
   Spectrum_data <- begin_info[["Signal_data"]]
-  checkArg(m, "int", "pos")
+  checkArg(m, c("num", "pos"))
+  checkArg(width, "bool", can.be.null=FALSE)
+  
   ppm <- as.numeric(colnames(Spectrum_data))
+  old_width = abs(ppm[2]-ppm[1])
   n <- nrow(Spectrum_data)
   old_m <- ncol(Spectrum_data)
+  
   if (n == 0) {
     stop("Empty ppm scale")
   }
+  
+  if(width==TRUE) {
+    mb = floor(old_width*(old_m-1)/m)
+  }else {
+    checkArg(m, c("int", "pos"), can.be.null=FALSE)
+    mb = m
+    }
+  
   decreasing = (ppm[old_m] <= ppm[1])
-  buckets <- seq(ppm[1], ppm[old_m], length.out=m+1)
-  centers <- (buckets[1:m] + buckets[2:(m+1)]) / 2
-  bucketed <- matrix(0, nrow=n, ncol=m, dimnames=list(rownames(Spectrum_data), centers))
-  for (i in 1:m) {
+  buckets <- seq(ppm[1], ppm[old_m], length.out=mb+1)
+  centers <- (buckets[1:mb] + buckets[2:(mb+1)]) / 2
+  bucketed <- matrix(0, nrow=n, ncol=mb, dimnames=list(rownames(Spectrum_data), centers))
+  for (i in 1:mb) {
     # ppm[from] is at the left of buckets[i].
     # if ppm it is decreasing, that means we want it higher e.g. ppm[from] >= buckets[i]
     from = binarySearch(ppm, buckets[i], !decreasing)
