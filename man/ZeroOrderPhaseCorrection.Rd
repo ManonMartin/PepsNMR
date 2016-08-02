@@ -9,12 +9,13 @@ Corrects the spectra in order to have the more absorptive mode of their real par
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE)
+ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE)
 }
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
   \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
+  \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms plots, if \code{FALSE}, plots are drawn in the current device.}
 }
 \details{
 After the First Order Phase Correction, every part of the signal, \emph{i.e.} every frequency, theorically starts synchronized at 0.

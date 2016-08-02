@@ -1,14 +1,14 @@
 #' @export ZeroOrderPhaseCorrection
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
 
   debug_plot <- F
 
   rms <- function(ang, y) {
-    if (debug_plot) {
-      graphics::abline(v=ang, col="gray60")
-    }
+    # if (debug_plot) {
+    #   graphics::abline(v=ang, col="gray60")
+    # }
     roty <- y * exp(complex(real=0, imaginary=ang))
     Rey <- Re(roty)
     negRey <- Rey[Rey < 0]
@@ -49,7 +49,10 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       for (K in (1:100)) {
         y[K] <- rms(x[K], RawSpect_data[k,])
       }
-      graphics:: plot(x, y)
+      if (createWindow==TRUE) {
+        grDevices::dev.new(noRStudioGD = FALSE) 
+      }
+      graphics:: plot(x, y, main =  rownames(RawSpect_data)[k])
       debug_plot <- T
     }
 
@@ -58,15 +61,16 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
 
     if (debug_plot) {
       graphics::abline(v=ang, col="black")
-      grDevices::dev.off()
+      # grDevices::dev.off()
     }
 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
     Angle = c(Angle, ang)
   }
+  
   RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
     if (returnAngle) {
-    return(list(RawSpect_data=RawSpect_data, Angle=Angle))
+    return(list(RawSpect_data=RawSpect_data, Angle=Angle)) 
   } else {
     return(RawSpect_data)
   }
