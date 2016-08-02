@@ -454,13 +454,13 @@ if (ImpG==TRUE) {
 
 if (W ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Warp.res  = Warping(RawSpect_data=Spectrum_data, returnWarpingfunc=TRUE, normalization.type=normalization.type, 
+  Spectrum_data  = Warping(RawSpect_data=Spectrum_data, normalization.type=normalization.type, 
                       from.normW=from.normW, to.normW=to.normW,reference.choosing=reference.choosing, 
                       reference=reference,optim.crit=optim.crit, ptw.wp=ptw.wp, K=K, L=L,
                       lambda.smooth=lambda.smooth, deg=deg, lambda.bspline=lambda.bspline, kappa=kappa,
                       max_it_Bspline=max_it_Bspline, returnReference=returnReference)
-  Spectrum_data =  Warp.res[["RawSpect_data"]]
-  warpingfunc = Warp.res[["Warpingfunc"]]
+
+
 
   Spectrum_data9 = Spectrum_data
   
@@ -472,11 +472,8 @@ if (W ==  TRUE ){
   }
   
   if (ImpG==TRUE) {
-    grDevices::pdf(paste0(out.path,"/Warping1.pdf"), width = 8, height = 4)
-    graphics::plot(warpingfunc, col="blue", type="l", main = "warping function")
-    grDevices::dev.off()
     
-    grDevices::pdf(paste0(out.path,"/Warping2.pdf"), width = 13, height = 10)
+    grDevices::pdf(paste0(out.path,"/Warping.pdf"), width = 13, height = 10)
     graphics::par(mfrow=c(2,1),mar=c(4.1, 4.1, 4.1, 9.5), xpd=TRUE)
     
     if (dim(Spectrum_dataB)[1]>=3) {
