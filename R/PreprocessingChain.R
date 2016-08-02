@@ -302,7 +302,7 @@ if (ImpG==TRUE) {
 if (Zopc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = NULL)
+  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = NULL, returnAngle = FALSE, createWindow = FALSE)
 
   RawSpect_data5 = RawSpect_data
 
