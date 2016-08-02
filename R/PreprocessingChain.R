@@ -84,7 +84,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         max_it_Bspline=10, returnReference=F,  #Warping
                         from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, # WindowSelection
                         m = 500, # Bucketing
-                        typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.8, 5.2)), # RegionRemoval
+                        typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), # RegionRemoval
                         fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
                         type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm # Normalization
                         ) { 

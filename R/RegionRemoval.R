@@ -1,6 +1,6 @@
 #' @export RegionRemoval
 RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "serum", "urine"), 
-                          type.rr = c( "zero", "NA"), fromto.rr = list(Water =c(4.8, 5.2))) {
+                          type.rr = c( "zero", "NA"), fromto.rr = list(Water =c(4.5, 5.1))) {
   begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.rr) & !missing(fromto.rr)) {stop(deparse(substitute(fromto.rr)), " is nor a list nor NULL.")}
@@ -10,9 +10,9 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "serum", "u
   ppm <- as.numeric(colnames(Spectrum_data))
   
   if (typeofspectra == "urine")  {
-    fromto.rr=list(Water =c(4.8, 5.2), Uree=c(5.5, 6))
+    fromto.rr=list(Water_Uree_MalAc =c(4.5,6.1))
     } else if (typeofspectra == "serum") {
-      fromto.rr=list(Water =c(4.8, 5.2))
+      fromto.rr=list(Water =c(4.5, 5.1))
     } else {
      diff = diff(unlist(fromto.rr))[1:length(diff(unlist(fromto.rr))) %% 2 != 0]
      for (i in 1:length(diff)) {

@@ -27,8 +27,8 @@ The ppm scale can be increasing or decreasing and \code{from} and \code{to} can 
 The type of spectra can be NULL to manually specify the area to be removed otherwise it is specified as "Serum" or "Urine" and the default removed area are: 
 
 
-Serum spectra: Water (4.8 - 5.2 ppm).
-Urine spectra: Water (4.8 - 5.2 ppm) and uree (5.5 - 6 ppm).
+Serum spectra: water (4.5 - 5.1 ppm).
+Urine spectra: water, uree and maleic acid (4.5 - 6.1 ppm).
 
 
 }
@@ -45,7 +45,7 @@ Benoît Legat
 \examples{
 
 # Remove the lactate and water regions for serum spectra
-fromto=list(Water =c(4.5, 5), Lactate=c(1.32, 1.36))
+fromto=list(Water =c(4.5, 5.1), Lactate=c(1.32, 1.36))
 Rr.spec <- RegionRemoval(Data_HS_sp$RawSpectData_HS_11,fromto.rr = fromto) 
 
 
