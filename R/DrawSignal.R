@@ -91,7 +91,7 @@ function (Signal_data,
                   ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
                   ggplot2::theme(legend.position="none") +
                   ggplot2::labs(x=xlab, y=name)
-          if ((melted[1,"Var"] - melted[(m*num.stacked),"Var"])>0) {
+          if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
             plots[[name]] =  plots[[name]] + scale_x_reverse() 
           }
         }
