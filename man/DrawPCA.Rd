@@ -10,7 +10,7 @@ Do not call this function directly but rather call \code{\link{Draw}} to specify
 }
 \usage{
 DrawPCA(Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", class = NULL, axes =c(1,2),
-                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname") {
+                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname")
 
 }
 \arguments{
