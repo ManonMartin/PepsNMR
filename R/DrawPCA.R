@@ -37,6 +37,12 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   
   pca <- stats::prcomp(Re(Signal_data))
   
+  # Eigenvalues
+  eig <- (pca$sdev)^2
+  
+  # Variances in percentage
+  variance <- eig*100/sum(eig)
+  
   # scores
   scores = as.data.frame(pca$x)
   
@@ -49,12 +55,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   colnames(loadings) = paste0("Loading", c(1:length(eig)))
   loadings = as.data.frame(loadings)
   
-  # Eigenvalues
-  eig <- (pca$sdev)^2
-  
-  # Variances in percentage
-  variance <- eig*100/sum(eig)
-  
+ 
   if (type == "scores") {
     
  
@@ -134,7 +135,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
         ggplot2::theme(legend.position="none") +
         ggplot2::labs(x=xlab, y = "Loadings") +
         ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed", colour = "gray60") +
-        annotate("text", x = -Inf, y = Inf, label = paste0("(",round(variance[i:last],2), "%)"), vjust=1, hjust=1)
+        ggplot2::annotate("text", x = -Inf, y = Inf, label = paste0("(",round(variance[i:last],2), "%)"), vjust=1, hjust=1)
       
       if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
         plots =  plots + scale_x_reverse() 
