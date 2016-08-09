@@ -9,7 +9,7 @@ function (Signal_data,
                         nticks=42,
                         row=1,
                         num.stacked=4,
-                        createWindow=F) {
+                        createWindow) {
   subtype  <- match.arg(subtype)
 
   scale    <- colnames(Signal_data)

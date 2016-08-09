@@ -16,7 +16,6 @@ DrawPCA(Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", cl
 \arguments{
   \item{Signal_data}{Matrix containing the the FIDs, RawSpectra or Spectra, as outputted by \code{\link{ReadFids}}.}
   \item{drawNames}{Specifies whether the names of the spectra have to be shown alonside the points on the scores plot.}
-  \item{createWindow}{If \code{TRUE}, create a new window for each page.}
   \item{main}{Specify the plot title.}
   \item{class}{Additional vector (numeric or character) indicating the class of each spectra. Used for scores plot only}
   \item{axes}{Two or more axes to draw the scores or loadings. If for drawing scores, only the first two axes are used.}

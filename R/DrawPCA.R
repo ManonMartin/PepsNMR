@@ -1,6 +1,6 @@
 #' @export DrawPCA
-DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", Class = NULL, axes =c(1,2),
-                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname") {
+DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class = NULL, axes =c(1,2),
+                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname", createWindow) {
   
   loadingstype=match.arg(loadingstype)
   type = match.arg(type)
@@ -66,31 +66,31 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   Xlim=c(min(pca$x[,Xax])*1.4, max(pca$x[,Xax])*1.4)
   Ylim=c(min(pca$x[,Yax])*1.4, max(pca$x[,Yax])*1.4)
     
-    plots <- ggplot2::ggplot(scores, aes(get(colnames(scores)[Xax]),get(colnames(scores)[Yax]))) +
+    plots <- ggplot2::ggplot(scores, ggplot2::aes(get(colnames(scores)[Xax]),get(colnames(scores)[Yax]))) +
       ggplot2::xlim(Xlim) +
       ggplot2::ylim(Ylim) 
       
       if(is.null(Class)) {
         plots <- plots + ggplot2::geom_jitter()
-      } else {plots <- plots +  ggplot2::geom_jitter(aes(colour = Class, shape = Class))}
+      } else {plots <- plots +  ggplot2::geom_jitter(ggplot2::aes(colour = Class, shape = Class))}
       
       plots <- plots + ggplot2::ggtitle(main) +
       ggplot2::geom_vline(xintercept = 0, size = 0.1) +
       ggplot2::geom_hline(yintercept = 0, size = 0.1) +
       ggplot2::theme_bw() +
-      ggplot2::theme(panel.grid.major = element_line(color = "gray60", size = 0.2), panel.grid.minor = element_blank(), 
-                     panel.background = element_rect(fill = "gray98")) +
+      ggplot2::theme(panel.grid.major = ggplot2::element_line(color = "gray60", size = 0.2), panel.grid.minor = ggplot2::element_blank(), 
+                     panel.background = ggplot2::element_rect(fill = "gray98")) +
       ggplot2::labs(x=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), y=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)")) 
       
       if (drawNames) {  
         if(is.null(Class)) {
-          plots = plots + ggplot2::geom_text(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data)),  
+          plots = plots + ggplot2::geom_text(ggplot2::aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data)),  
                                               hjust = 0, nudge_x = (Xlim[2]/25),  show.legend = FALSE, size = 2)
-        } else {plots = plots + ggplot2::geom_text(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data), colour = Class, shape = Class),  
+        } else {plots = plots + ggplot2::geom_text(ggplot2::aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data), colour = Class, shape = Class),  
                                                     hjust = 0, nudge_x = (Xlim[2]/25), show.legend = F, size = 2)}
       }
 
-  last_plot()
+  print(ggplot2::last_plot())
   
   } else {
     loadings = loadings[,axes]
@@ -124,12 +124,12 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
         ggplot2::annotate("text", x = -Inf, y = Inf, label = paste0("(",round(variance[i:last],2), "%)"), vjust=1, hjust=1)
       
       if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
-        plots =  plots + scale_x_reverse() 
+        plots =  plots + ggplot2::scale_x_reverse() 
       }
       # 
       #         require("gridExtra")
       i = last + 1
-      print(last_plot())
+      print(ggplot2::last_plot())
     }
     
   }

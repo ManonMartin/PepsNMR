@@ -10,7 +10,7 @@ Depending on the \code{subtype}, will draw the different parts of complex signal
 DrawSignal(Signal_data, subtype=c("together", "separate", "stacked", 
     "diffmean", "diffmedian", "diffwith"), ReImModArg=c(T, F, F, F),
     vertical=T,xlab="rowname", main.names = NULL, 
-    nticks=42,row=1,num.stacked=4,createWindow=F)
+    nticks=42,row=1,num.stacked=4)
 }
 
 \arguments{
@@ -34,7 +34,6 @@ DrawSignal(Signal_data, subtype=c("together", "separate", "stacked",
   \item{nticks}{Number of coordinates to display on the x-axis.}
   \item{row}{\code{row} to be compared to if the \code{subtype} is diffwith.}
   \item{num.stacked}{Number of stacked plots if \code{subtype} is stacked.}
-  \item{createWindow}{Creates a new window for each page.}
 }
 \details{
 
