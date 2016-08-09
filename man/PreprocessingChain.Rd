@@ -11,7 +11,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, 
             ImpG= FALSE, RetArgs = TRUE, Fopc = TRUE, Ss = TRUE, A = TRUE, 
             Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
-            Za = FALSE, N = TRUE, Sc = TRUE,
+            Za = FALSE, N = TRUE,
             l=1, subdirs = FALSE, group_delay=NULL, lambda.ss=1e6, 
             ptw.ss=TRUE,DT=NULL,type.apod = "exp",phase=0, 
             rectRatio=1/2, gaussLB=1, expLB=1, SW_h=NULL, 
@@ -25,8 +25,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             m = 500, typeofspectra = "serum",type.rr =  "zero",
             fromto.rr=list(Water =c(4.5, 5.1)), 
             fromto.za = list(Citrate =c(2.5, 2.7)), 
-            type.norm="mean", from.norm=3.05, to.norm=4.05,ref.norm, 
-            type.scaling="pareto") 
+            type.norm="mean", from.norm=3.05, to.norm=4.05,ref.norm) 
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -51,7 +50,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
   \item{Zs}{If \code{TRUE}, performs the RegionRemoval routine.}
   \item{Za}{If \code{TRUE}, performs the ZoneAggregation routine.}
   \item{N}{If \code{TRUE}, performs the Normalization routine.}
-  \item{Sc}{If \code{TRUE}, performs the Scaling routine.}
+
   
 Other subfunction parameters are:
 
@@ -116,7 +115,6 @@ See the reference for more details.}
   \item{from.norm}{Used if \code{type.norm} is \code{peak}. See details.}
   \item{to.norm}{Used if \code{type.norm} is \code{peak}. See details.}
   \item{ref.norm}{Row index of the reference spectrum for normalization if \code{type.norm} is \code{pqn}. See details.}   
-  \item{type.scaling}{Type of scaling: Unit Variance \code{"uv"} or Pareto scaling \code{"pareto"}.}
 }
 \details{
 Note that few steps cannot be skipped : \code{\link{FourierTransform}}, \code{\link{PPMConversion}} \& \code{\link{WindowSelection}}.
@@ -137,7 +135,6 @@ Here is a reminder of all the steps involved:
   \item{\code{\link{RegionRemoval}}}{Set a desired region to 0.}
   \item{\code{\link{ZoneAggregation}}}{Aggregate a region to a single peak.}
   \item{\code{\link{Normalization}}}{Normalize the spectra.}
-  \item{\code{\link{Scaling}}}{Scale the spectra.}
 }
 }
 \value{

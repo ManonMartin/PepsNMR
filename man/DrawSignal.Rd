@@ -10,8 +10,8 @@ Depending on the \code{subtype}, will draw the different parts of complex signal
 DrawSignal(Signal_data, subtype=c("together", "separate", "stacked", 
     "diffmean", "diffmedian", "diffwith"), ReImModArg=c(T, F, F, F),
     vertical=T,xlab="rowname", main.names = NULL, 
-    nticks=42,row=1,num.stacked=4)
-}
+    nticks=42,row=1,num.stacked=4, createWindow)
+} 
 
 \arguments{
   \item{Signal_data}{Matrix containing the FIDs, RawSpectra or Spectra, as outputted by \code{\link{ReadFids}}.}
@@ -34,6 +34,7 @@ DrawSignal(Signal_data, subtype=c("together", "separate", "stacked",
   \item{nticks}{Number of coordinates to display on the x-axis.}
   \item{row}{\code{row} to be compared to if the \code{subtype} is diffwith.}
   \item{num.stacked}{Number of stacked plots if \code{subtype} is stacked.}
+  \item{createWindow}{If \code{TRUE}, will open a new window.}
 }
 \details{
 

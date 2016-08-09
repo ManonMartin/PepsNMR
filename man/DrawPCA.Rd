@@ -10,7 +10,7 @@ Do not call this function directly but rather call \code{\link{Draw}} to specify
 }
 \usage{
 DrawPCA(Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", class = NULL, axes =c(1,2),
-                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname")
+                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname",                       createWindow)
 
 }
 \arguments{
@@ -23,7 +23,7 @@ DrawPCA(Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", cl
   \item{loadingstype}{The type of Loadings plot, either a line plot (\code{"l"}) or points with histogram-like vertical lines (\code{"p"}).}
   \item{num.stacked}{Number of stacked plots.}
   \item{xlab}{Label of the x-axis of loadings plot.}
-  
+  \item{createWindow}{If \code{TRUE}, will open a new window.}
 }
 \author{
 Benoît Legat

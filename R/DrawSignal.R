@@ -92,11 +92,11 @@ function (Signal_data,
                   ggplot2::theme(legend.position="none") +
                   ggplot2::labs(x=xlab, y=name)
           if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
-            plots[[name]] =  plots[[name]] + scale_x_reverse() 
+            plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
           }
         }
       }
-      if (subtype == "stacked") {
+      if (subtype == "stacked") { 
 #         require("gridExtra")
         do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
       }
