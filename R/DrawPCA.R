@@ -1,5 +1,5 @@
 #' @export DrawPCA
-DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", class = NULL, axes =c(1,2),
+DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA score plot", Class = NULL, axes =c(1,2),
                      type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname") {
   
   loadingstype=match.arg(loadingstype)
@@ -7,12 +7,12 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   
   checkArg(main, "str", can.be.null=TRUE)
   
-  # class
-  if(!is.vector(class, mode = "any") & !is.null(class)){
-    stop("class is not a numeric vector")
+  # Class
+  if(!is.vector(Class, mode = "any") & !is.null(Class)){
+    stop("Class is not a numeric vector")
   }
-  if(is.vector(class, mode = "numeric") & length(class)!=nrow(Signal_data)){
-    stop("the length of class is not equal to the nrow of Signal_data")
+  if(is.vector(Class, mode = "numeric") & length(Class)!=nrow(Signal_data)){
+    stop("the length of Class is not equal to the nrow of Signal_data")
   }
   
   # axes
@@ -28,8 +28,8 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
     stop("At least 2 spectra are needed for PCA.")
   }
   
-  if(0 %in%class){
-    class = class+1
+  if(0 %in%Class){
+    Class = Class+1
   }
   
   Xax = axes[1]
@@ -55,7 +55,8 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   colnames(loadings) = paste0("Loading", c(1:length(eig)))
   loadings = as.data.frame(loadings)
   
- 
+  plots <- list()
+  
   if (type == "scores") {
     
  
@@ -64,46 +65,31 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
   }
   Xlim=c(min(pca$x[,Xax])*1.4, max(pca$x[,Xax])*1.4)
   Ylim=c(min(pca$x[,Yax])*1.4, max(pca$x[,Yax])*1.4)
-  
-  
-  if(is.null(class)) {
     
-    f <- ggplot2::ggplot(scores, aes(get(colnames(scores)[Xax]),get(colnames(scores)[Yax]))) +
+    plots <- ggplot2::ggplot(scores, aes(get(colnames(scores)[Xax]),get(colnames(scores)[Yax]))) +
       ggplot2::xlim(Xlim) +
-      ggplot2::ylim(Ylim) +
-      ggplot2::geom_jitter() +
-      ggplot2::ggtitle("PCA scores plot") +
+      ggplot2::ylim(Ylim) 
+      
+      if(is.null(Class)) {
+        plots <- plots + ggplot2::geom_jitter()
+      } else {plots <- plots +  ggplot2::geom_jitter(aes(colour = Class, shape = Class))}
+      
+      plots <- plots + ggplot2::ggtitle(main) +
       ggplot2::geom_vline(xintercept = 0, size = 0.1) +
       ggplot2::geom_hline(yintercept = 0, size = 0.1) +
       ggplot2::theme_bw() +
       ggplot2::theme(panel.grid.major = element_line(color = "gray60", size = 0.2), panel.grid.minor = element_blank(), 
                      panel.background = element_rect(fill = "gray98")) +
-      ggplot2::labs(x=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), y=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)")) +
+      ggplot2::labs(x=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), y=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)")) 
       
       if (drawNames) {  
-        ggplot2::geom_label(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data)),  
-                            hjust = 0, nudge_x = (Xlim[2]/25), label.padding = unit(0.1, "lines"), show.legend = FALSE)
+        if(is.null(Class)) {
+          plots = plots + ggplot2::geom_text(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data)),  
+                                              hjust = 0, nudge_x = (Xlim[2]/25),  show.legend = FALSE, size = 2)
+        } else {plots = plots + ggplot2::geom_text(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data), colour = Class, shape = Class),  
+                                                    hjust = 0, nudge_x = (Xlim[2]/25), show.legend = F, size = 2)}
       }
 
-    }else{
-    
-    f <- ggplot2::ggplot(scores, aes(get(colnames(scores)[Xax]),get(colnames(scores)[Yax]))) +
-      ggplot2::xlim(Xlim) +
-      ggplot2::ylim(Ylim) +
-      ggplot2::geom_jitter(aes(colour = Class, shape = Class)) +
-      ggplot2::ggtitle("PCA scores plot") +
-      ggplot2::geom_vline(xintercept = 0, size = 0.1) +
-      ggplot2::geom_hline(yintercept = 0, size = 0.1) +
-      ggplot2::theme_bw() +
-      ggplot2::theme(panel.grid.major = element_line(color = "gray60", size = 0.2), panel.grid.minor = element_blank(), 
-                     panel.background = element_rect(fill = "gray98")) +
-      ggplot2::labs(x=paste0("PC",Xax," (", round(variance[Xax],2) ,"%)"), y=paste0("PC",Yax," (", round(variance[Yax],2) ,"%)")) +
-      
-      if (drawNames) {  
-        ggplot2::geom_label(aes(x = scores[,Xax], y = scores[,Yax], label = rownames(Signal_data), colour = Class, shape = Class),  
-                            hjust = 0, nudge_x = (Xlim[2]/25), label.padding = unit(0.1, "lines"), show.legend = F)
-      }
-  }
   last_plot()
   
   } else {
@@ -116,7 +102,7 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
       if (createWindow) {
         grDevices::dev.new(noRStudioGD = TRUE) 
       }
-      plots <- list()
+     
       last = min(i + num.stacked-1, n)
       
       melted <- reshape2::melt(t(loadings[, i:last]), varnames=c("rowname", "Var"))
@@ -130,8 +116,8 @@ DrawPCA <- function (Signal_data, drawNames=TRUE, createWindow=F, main = "PCA sc
         plots = plots + ggplot2::geom_point(size = 0.5) 
       } else {warning("loadingstype is misspecified")}
       
-      plots = plots + ggplot2::ggtitle("PCA loadings plot") +
-        ggplot2::facet_grid(rowname ~ .) +
+      plots = plots + ggplot2::ggtitle(main) +
+        ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
         ggplot2::theme(legend.position="none") +
         ggplot2::labs(x=xlab, y = "Loadings") +
         ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed", colour = "gray60") +
