@@ -2,7 +2,7 @@
 DrawSignal <-
 function (Signal_data,
                         subtype=c("together", "separate", "stacked", "diffmean", "diffmedian", "diffwith"),
-                        ReImModArg=c(T, F, F, F),
+                        ReImModArg=c(TRUE, FALSE, FALSE, FALSE),
                         vertical=T,
                         xlab="rowname",
                         main.names=NULL,
@@ -20,6 +20,9 @@ function (Signal_data,
   vlabels  <- scale[vticks]
   vlabels  <- round(as.numeric(vlabels),2)
   num.plot <- sum(ReImModArg)
+  
+  Var = rowname = value = NULL # only for R CMD check
+  
   if (num.plot <= 0) {
     stop("Nothing selected in ReImModArg.")
   } else if (num.plot <= 2) {
@@ -155,8 +158,8 @@ function (Signal_data,
       
       melted <- reshape2::melt(elements[[name]], varnames=c("rowname", "Var"))
       
-      plots[[name]] <- ggplot(melted, aes(x=Var, y=value, group=rowname, colour = rowname)) +
-        geom_line() +
+      plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes(x=Var, y=value, group=rowname, colour = rowname)) +
+        ggplot2::geom_line() +
         ggplot2::labs(x=xlab, y=name) +
         ggplot2::scale_colour_discrete(name = NULL) +
         ggplot2::ggtitle(main.title)

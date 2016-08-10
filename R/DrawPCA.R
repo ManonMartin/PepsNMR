@@ -57,6 +57,7 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
   
   plots <- list()
   
+  Var = rowname = value = NULL # only for R CMD check
   if (type == "scores") {
     
  

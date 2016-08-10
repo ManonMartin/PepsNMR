@@ -8,7 +8,7 @@ Depending on the \code{subtype}, will draw the different parts of complex signal
 }
 \usage{
 DrawSignal(Signal_data, subtype=c("together", "separate", "stacked", 
-    "diffmean", "diffmedian", "diffwith"), ReImModArg=c(T, F, F, F),
+    "diffmean", "diffmedian", "diffwith"), ReImModArg=c(TRUE, FALSE, FALSE, FALSE),
     vertical=T,xlab="rowname", main.names = NULL, 
     nticks=42,row=1,num.stacked=4, main.title = NULL, createWindow)
 } 
@@ -51,7 +51,7 @@ See Also \code{\link{Draw}} and \code{\link{DrawPCA}}.
 }
 \examples{
 
-DrawSignal(FinalSpectra_HS, subtype="together",ReImModArg=c(T,T,F,F), createWindow = TRUE)
+DrawSignal(FinalSpectra_HS[1:4,], subtype="together",ReImModArg=c(TRUE,TRUE,FALSE,FALSE), createWindow = TRUE)
 
 }
 \keyword{ hplot }
