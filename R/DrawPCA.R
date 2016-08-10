@@ -112,7 +112,11 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
      
       last = min(i + num.stacked-1, n)
       
-      melted <- reshape2::melt(t(loadings[, i:last]), varnames=c("rowname", "Var"))
+      if (n == 1) {
+        melted <- reshape2::melt(t(loadings), varnames=c("rowname", "Var"))
+      }else {melted <- reshape2::melt(t(loadings[, i:last]), varnames=c("rowname", "Var"))}
+      
+  
       
       plots <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) 
       if (loadingstype == "l") {
