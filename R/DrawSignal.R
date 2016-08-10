@@ -9,6 +9,7 @@ function (Signal_data,
                         nticks=42,
                         row=1,
                         num.stacked=4,
+                        main.title = NULL, 
                         createWindow) {
   subtype  <- match.arg(subtype)
 
@@ -34,6 +35,10 @@ function (Signal_data,
     ncol <- 2
   }
 
+  if (is.null(main.names)) {
+    
+  }
+  
   if (is.null(main.names)) {
     main.names <- rownames(Signal_data)
     if (is.null(main.names)) {
@@ -80,23 +85,26 @@ function (Signal_data,
       }
       for (name in names(elements)) {
         if (subtype == "separate") {
-          graphics::plot(elements[[name]][i,],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-          graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
-        } else {
+        graphics::plot(elements[[name]][i,],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
+        graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
+          
+         } else {
 #           require("ggplot2")
 #           require("reshape2")
           melted <- reshape2::melt(elements[[name]][i:last,], varnames=c("rowname", "Var"))
-          plots[[name]] <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) +
-                  ggplot2::geom_line() +
-                  ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
-                  ggplot2::theme(legend.position="none") +
-                  ggplot2::labs(x=xlab, y=name)
-          if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
-            plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
-          }
+          plots[[name]] <- ggplot2::ggplot(data = t(melted), ggplot2::aes(x = Var, y = value)) 
+          ggplot2::geom_line() +
+          ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
+          ggplot2::theme(legend.position="none") +
+          ggplot2::labs(x=xlab, y=name)
+          ggplot2::ggtitle(main.title)
+          
+        if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
+          plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse()
+        }
         }
       }
-      if (subtype == "stacked") { 
+      if (subtype == "stacked") {
 #         require("gridExtra")
         do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
       }
@@ -108,7 +116,9 @@ function (Signal_data,
       grDevices::dev.new(noRStudioGD = TRUE) 
     }
     graphics::par(mfrow=c(nrow,ncol))
-
+    
+    plots <- list()
+    
     # Loop for Re, Im, Mod and Arg
     for (name in names(elements)) {
       # Get this part of the signal
@@ -130,17 +140,33 @@ function (Signal_data,
           element[2, ] <- tmp
         }
       }
-      for (i in 1:n)
-      {
-        if (i == 1) {
-          # If it is our first plot, we need to set the axes
-          graphics::plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-          graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
-        } else {
-          graphics::lines(element[i,],col=rainbow_colors[i])
-        }
+      # for (i in 1:n)
+      # {
+      #   if (i == 1) {
+      #     # If it is our first plot, we need to set the axes
+      #     graphics::plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
+      #     graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
+      #   } else {
+      #     graphics::lines(element[i,],col=rainbow_colors[i])
+      #   }
+      # }
+      # graphics::legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
+      # 
+      
+      melted <- reshape2::melt(elements[[name]], varnames=c("rowname", "Var"))
+      
+      plots[[name]] <- ggplot(melted, aes(x=Var, y=value, group=rowname, colour = rowname)) +
+        geom_line() +
+        ggplot2::labs(x=xlab, y=name) +
+        ggplot2::scale_colour_discrete(name = NULL) +
+        ggplot2::ggtitle(main.title)
+      
+      if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
+        plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
       }
-      graphics::legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
-    }
+      
+      # print(ggplot2::last_plot())
+      do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
+      }
   }
 }

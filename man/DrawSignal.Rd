@@ -10,7 +10,7 @@ Depending on the \code{subtype}, will draw the different parts of complex signal
 DrawSignal(Signal_data, subtype=c("together", "separate", "stacked", 
     "diffmean", "diffmedian", "diffwith"), ReImModArg=c(T, F, F, F),
     vertical=T,xlab="rowname", main.names = NULL, 
-    nticks=42,row=1,num.stacked=4, createWindow)
+    nticks=42,row=1,num.stacked=4, main.title = NULL, createWindow)
 } 
 
 \arguments{
@@ -30,10 +30,11 @@ DrawSignal(Signal_data, subtype=c("together", "separate", "stacked",
   \item{vertical}{Specifies whether the parts of the complex signal have to be put vertically or horizontally on the page if there are only 2 parts.
   If there are more, there will be 2 horizontally and 2 vertically anyway.}
   \item{xlab}{Label of the x-axis.}
-  \item{main.names}{Strings to use instead of the rownames as labels for the plots. It should be a vector of the same length than the number of FIDs.}
+  \item{main.names}{Strings to use instead of the rownames as labels for the plots for \code{subtype = separate}. It should be a vector of the same length than the number of FIDs.}
   \item{nticks}{Number of coordinates to display on the x-axis.}
-  \item{row}{\code{row} to be compared to if the \code{subtype} is diffwith.}
-  \item{num.stacked}{Number of stacked plots if \code{subtype} is stacked.}
+  \item{row}{\code{row} to be compared to if the \code{subtype} is \code{diffwith}.}
+  \item{num.stacked}{Number of stacked plots if \code{subtype} is \code{stacked}.}
+  \item{main.title}{If not \code{NULL}, the main title when \code{subtype} is different from  \code{separate}.}
   \item{createWindow}{If \code{TRUE}, will open a new window.}
 }
 \details{
