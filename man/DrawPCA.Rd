@@ -32,6 +32,13 @@ Benoît Legat
 See Also \code{\link{Draw}} and \code{\link{DrawSignal}}.
 }
 \examples{
-DrawPCA(FinalSpectra_HS, drawNames = TRUE)
+# Draw loadings
+DrawPCA(FinalSpectra_HS, main = "PCA loadings plot", Class = NULL, axes =c(1,3, 5),
+                     type ="loadings", loadingstype="l", num.stacked=4, xlab="ppm", createWindow = TRUE)
+# Draw scores
+Class = substr(rownames(FinalSpectra_HS),5,5)
+DrawPCA(FinalSpectra_HS, drawNames = TRUE, main = "PCA scores plot", Class = Class, axes =c(1,2),
+                     type ="scores",createWindow = TRUE)
+
 }
 \keyword{ hplot }

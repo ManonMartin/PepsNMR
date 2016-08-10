@@ -50,7 +50,7 @@ See Also \code{\link{Draw}} and \code{\link{DrawPCA}}.
 }
 \examples{
 
-\dontrun{DrawSignal(FinalSpectra_HS, subtype="stacked",ReImModArg=c(T,F,T,F))}
+DrawSignal(FinalSpectra_HS, subtype="together",ReImModArg=c(T,T,F,F), createWindow = TRUE)
 
 }
 \keyword{ hplot }

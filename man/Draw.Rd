@@ -45,7 +45,7 @@ See Also \code{\link{DrawSignal}} and \code{\link{DrawPCA}}.
 \examples{
 # Draw each signal Real part and Mod in separate png with name end001 end002, ...
 # Draw the spectra
-Draw(FinalSpectra_HS, type.draw = "signal", output="window", subtype="stacked")
+Draw(FinalSpectra_HS, type.draw = "signal", output="window", subtype="together")
 
 # Draw a PCA
 Draw(FinalSpectra_HS, type.draw="pca",output="window")
