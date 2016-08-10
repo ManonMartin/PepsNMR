@@ -20,9 +20,7 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
     stop("axes is not a numeric vector")
   }
   
-  if(length(axes)<2){
-    stop("the length of axes is not equal or superior to 2")
-  }
+  
   
   if (nrow(Signal_data) < 2) {
     stop("At least 2 spectra are needed for PCA.")
@@ -58,9 +56,13 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
   plots <- list()
   
   Var = rowname = value = NULL # only for R CMD check
+  
   if (type == "scores") {
     
- 
+    if(!length(axes)=2){
+      stop("the length of axes is not equal to 2 for scores plot")
+    }
+    
   if (createWindow) {
     grDevices::dev.new(noRStudioGD = TRUE)
   }
@@ -95,7 +97,11 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
   
   } else {
     loadings = loadings[,axes]
-    n = ncol(loadings)
+   
+     if (is.vector(loadings)) {
+      n = 1
+    }else {n = ncol(loadings)}
+    
     
     i = 1
     while (i <= n)
