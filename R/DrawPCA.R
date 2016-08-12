@@ -59,7 +59,7 @@ DrawPCA <- function(Signal_data, drawNames=TRUE, main = "PCA score plot", Class 
   
   if (type == "scores") {
     
-    if(!length(axes)=2){
+    if(!length(axes)==2){
       stop("the length of axes is not equal to 2 for scores plot")
     }
     
