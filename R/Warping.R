@@ -92,7 +92,7 @@ Warping <- function(RawSpect_data,
         best.Warped_data <- cur.Warped_data
         decreasing <- (FALSE %in% (diff(w) > 0))
       }
-      i=i+1
+    
     }
     if (decreasing) {
       warning("The warping function is not increasing for the sample ", samp_rname, ".")
