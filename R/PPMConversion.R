@@ -1,35 +1,39 @@
 #' @export PPMConversion
 PPMConversion <- function(RawSpect_data, RawSpect_info,
-                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), thres = 500) {
+                          shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), c = 2) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)
   RawSpect_data <- begin_info[["Signal_data"]]
   RawSpect_info <- begin_info[["Signal_info"]]
   shiftHandling = match.arg(shiftHandling)
 
 
-    findTMSPpeak <- function(ft, thres. = thres) {
-      ft = Re(ft) # extraction de la partie réelle
-      
-      res = abs(ft)/cumsum(abs(ft)) #changed cumsum(ft) to cumsum(abs(ft))
-      # plot(res, type="l")  
-      # lines(500*res, col="red")
-      N = length(ft)
-      seuil = thres*median(res)
-      v = which(res[-c(1:1000)] > seuil)[1]# pic TMSP : première valeur au dessus du seuil en excluant les 1000 premiers points
-      if (is.na(v)){
-        warning("No peak found, need to lower the threshold.")
-        return(NA)
-      } else{
-        v = v + 1000
-        d = which.max(ft[v:(v+N*0.01)]) # recherche dans les 1% de points suivants du max trouve
-        new.peak = v+d # nouveau pic du TMSP si d > 0
-        
-        if (names(which.max(ft[v:(v+N*0.01)])) != names(which.max(ft[v:(v+N*0.03)]))){
-          warning("the TMSP peak might be located further away, increase the threshold to check.")
-        }
-        return(new.peak)
-      }
+  findTMSPpeak <- function(ft, c=2) {
+    ft = Re(ft) # extraction de la partie réelle
+    N = length(ft)
+    thres = 99999
+    i= 1000
+    vect = ft[1:i]
+    while (vect[i] < (c*thres)) {
+      cumsd = sd(vect)
+      cummean = mean(vect)
+      thres = cummean + 3*cumsd
+      i=i+1
+      vect = ft[1:i]
     }
+    v = i
+    if (is.na(v)){
+      warning("No peak found, need to lower the threshold.")
+      return(NA)
+    } else{
+      d = which.max(ft[v:(v+N*0.01)]) # recherche dans les 1% de points suivants du max trouve pour etre au sommet du pic
+      new.peak = v+d # nouveau pic du TMSP si d > 0
+      
+      if (names(which.max(ft[v:(v+N*0.01)])) != names(which.max(ft[v:(v+N*0.03)]))){ # recherche dans les 3% de points suivants du max trouve pour eviter un faux positif
+        warning("the TMSP peak might be located further away, increase the threshold to check.")
+      }
+      return(new.peak)
+    }
+  }
   
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)

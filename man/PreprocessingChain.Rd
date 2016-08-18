@@ -16,7 +16,7 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
             ptw.ss=TRUE,DT=NULL,type.apod = "exp",phase=0, 
             rectRatio=1/2, gaussLB=1, expLB=1, SW_h=NULL, 
             ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, 
-            shiftHandling="cut", thres = 300,
+            shiftHandling="cut", c = 2,
             normalization.type="median",from.normW=3.05, to.normW=4.05,
             reference.choosing="fixed",reference=1,optim.crit="RMS", 
             ptw.wp=F, K=3, L=40, lambda.smooth=0, 
@@ -74,7 +74,7 @@ Other subfunction parameters are:
   \item{p}{Asymmetry parameter.}
   \item{eps}{Numerical precision for convergence when estimating the baseline.}
   \item{shiftHandling}{See the details section.}
-  \item{thres}{Threshold used to select the TMSP peak.}
+  \item{c}{Parameter used to fix the threshold for the TMSP peak.}
   \item{normalization.type}{Type of normalization applied to the spectrum prior to warping.
 See \code{\link{Normalization}} for details about the different types.
 \code{none} means that no normalization needs to be applied (\emph{e.g.} you have already done it prior to calling \code{Warping}).

@@ -76,7 +76,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, # Apodization
                         SW_h=NULL, # FourierTransform
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
-                        shiftHandling="cut", thres = 300, #PPMConversion
+                        shiftHandling="cut", c = 2, #PPMConversion
                         
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
@@ -427,7 +427,7 @@ if (Zsnv ==  TRUE ){
 # PPMConversion 
 ##########################
 RawSpect_dataB = RawSpect_data
-Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, thres = thres)
+Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, c = c)
 
 Spectrum_data8 = Spectrum_data
 
@@ -754,23 +754,24 @@ Arguments <- c(as.list(environment()))
 index <- names(Arguments) %in% argnames
 Arguments <- Arguments[index]
 
-Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = c(Arguments[1:31], "",Arguments[32:36], "" ,Arguments[37:66])), row.names = NULL)
-
-
-
-if (save == TRUE) {
-  if (RetArgs == TRUE) {
-    save(Spectra, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
-    } else {save(Spectra, file=paste0(out.path, "/",dataname , "FinalSpectra.RData"))}
-}
-  
-if (saveall == TRUE) {
-save(PretreatedSpectrabyStep, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))
-}
+# Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = c(Arguments[1:31], "",Arguments[32:36], "" ,Arguments[37:66])), row.names = NULL)
+# 
+# 
+# 
+# if (save == TRUE) {
+#   if (RetArgs == TRUE) {
+#     save(Spectra, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
+#     } else {save(Spectra, file=paste0(out.path, "/",dataname , "FinalSpectra.RData"))}
+# }
+#   
+# if (saveall == TRUE) {
+# save(PretreatedSpectrabyStep, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))
+# }
 
 
 if (RetArgs == TRUE) {
-  return(list(Spectra = Spectra, Arguments = Arguments, Fid_info = Fid_info))
+  # return(list(Spectra = Spectra, Arguments = Arguments, Fid_info = Fid_info))
+  return(Spectra)
 } else {return(Spectra)}
 
 
