@@ -22,7 +22,7 @@ PPMConversion(RawSpect_data, RawSpect_info,
 The frequency scale is dependent on the kind of spectrometer used, more precisely on its
 external magnetic field. We therefore translate it to a PPM (Part Per Million) scale which is independent of this factor.
 
-TMSP peak is defined as the first peak in the spectrum higher than a predefined threshold computed as: \code{median(spectrum)*threshold}.
+TMSP peak is defined as the first peak in the spectrum higher than a predefined threshold. This threshold is computed as: \code{c*(cumulated_mean/cumulated_sd)}.
 
 Since the spectra can be shifted differently, we need to handle misalignment of the left and right of the spectrum.
 
