@@ -37,10 +37,6 @@ function (Signal_data,
     nrow <- 2
     ncol <- 2
   }
-
-  if (is.null(main.names)) {
-    
-  }
   
   if (is.null(main.names)) {
     main.names <- rownames(Signal_data)
