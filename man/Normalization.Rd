@@ -9,7 +9,7 @@ Spectra normalization to correct for the dilution factor common to all biofuid s
 }
 \usage{
 Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05, ref.norm)
+              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05, ref.norm=1)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}

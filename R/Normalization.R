@@ -1,5 +1,5 @@
 #' @export Normalization
-Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","firstquartile", "peak"), from.norm=3.05, to.norm=4.05, ref.norm) {
+Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","firstquartile", "peak"), from.norm=3.05, to.norm=4.05, ref.norm=1) {
   begin_info <- beginTreatment("Normalization", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   type.norm <- match.arg(type.norm)
