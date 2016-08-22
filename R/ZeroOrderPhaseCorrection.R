@@ -104,7 +104,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   }
   
   vect = which(MEAN_Q < 0)
-  if (length(vect_risk)!=0) {
+  if (length(vect)!=0) {
     warning("The mean of", p,"positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
     cat(" An automatic 180 degree rotation is applied to these spectra")
     Angle[vect] = Angle[vect] + pi 
