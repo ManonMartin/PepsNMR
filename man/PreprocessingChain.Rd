@@ -7,25 +7,28 @@
 \description{Pre-treatment facilities organised in the advised sequence.
 }
 \usage{
-PreprocessingChain(dataname="Dataset", data.path = getwd(),
-            out.path = getwd(), nspectr = 1, save = FALSE, saveall = FALSE, 
-            ImpG= FALSE, RetArgs = TRUE, Fopc = TRUE, Ss = TRUE, A = TRUE, 
-            Zopc = TRUE, Bc = TRUE, Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, 
-            Za = FALSE, N = TRUE,
-            l=1, subdirs = FALSE, group_delay=NULL, lambda.ss=1e6, 
-            ptw.ss=TRUE,DT=NULL,type.apod = "exp",phase=0, 
-            rectRatio=1/2, gaussLB=1, expLB=1, SW_h=NULL, 
-            ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, 
-            shiftHandling="cut", c = 2,
-            normalization.type="median",from.normW=3.05, to.normW=4.05,
-            reference.choosing="fixed",reference=1,optim.crit="RMS", 
-            ptw.wp=F, K=3, L=40, lambda.smooth=0, 
-            deg=3, lambda.bspline=0.01, kappa=0.0001, max_it_Bspline=10, 
-            returnReference=F, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, 
-            m = 500, typeofspectra = "serum",type.rr =  "zero",
-            fromto.rr=list(Water =c(4.5, 5.1)), 
-            fromto.za = list(Citrate =c(2.5, 2.7)), 
-            type.norm="mean", from.norm=3.05, to.norm=4.05,ref.norm) 
+PreprocessingChain(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE, 
+                        export = c(NULL, "csv", "rdata"), 
+                        Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
+                        Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE,
+                        l=1, subdirs = FALSE, 
+                        group_delay=NULL, 
+                        lambda.ss=1e6, ptw.ss=TRUE,  
+                        DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, 
+                        SW_h=NULL, 
+                        Angle = NULL,  p.zo=0.8, 
+                        ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p.bc=0.05, eps=1e-8, 
+                        shiftHandling="cut", c = 2, 
+                        normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
+                        reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
+                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
+                        max_it_Bspline=10, returnReference=F,  
+                        from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, 
+                        m = 500, 
+                        typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), 
+                        fromto.za = list(Citrate =c(2.5, 2.7)), 
+                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm=1)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -35,10 +38,11 @@ PreprocessingChain(dataname="Dataset", data.path = getwd(),
   \item{data.path}{Path to the main directory containing the data in Bruker format.}
   \item{out.path}{Path for optional outputs.}
   \item{nspectr}{Row number of the spectrum selected for each step illustrations.}
-  \item{save}{If \code{TRUE}, Fourier transformed and final data are saved.}
+  \item{save}{If \code{TRUE}, the spectra and acquisition parameters are saved.}
   \item{saveall}{If \code{TRUE}, datasets from each step are saved into a list.}
   \item{ImpG}{If \code{TRUE}, provides graphical illustration for each step.}
   \item{RetArgs}{If \code{TRUE}, the function arguments are saved.}
+  \item{export}{If not \code{NULL}, the spectra and acquisition parameters are saved either as .csv or .rdata.}  
   \item{Fopc}{If \code{TRUE}, performs the FirstOrderPhaseCorrection routine}
   \item{Ss}{If \code{TRUE}, performs the SolventSuppression routine.}
   \item{A}{If \code{TRUE}, performs the Apodization routine.}

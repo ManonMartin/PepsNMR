@@ -67,7 +67,7 @@
 #' @export PreprocessingChain
 
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
-                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE,
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE, export = NULL, 
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE,
                         l=1, subdirs = FALSE, #ReadFids
@@ -108,10 +108,10 @@ cat("PRETREATMENT OF ", dataname,"\n")
 cat("############################################## \n")
   
 if (saveall == TRUE) {
-  l = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
-  ll = l + 4 # nombre d'etapes totales
+  ll = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
+  len = ll + 4 # nombre d'etapes totales
     
-  PretreatedSpectrabyStep = vector("list", l) # creation d une liste pour sauver les donnees de chaque etape
+  PretreatedSpectrabyStep = vector("list", len) # creation d une liste pour sauver les donnees de chaque etape
   step=1
 }
   #_______________________________________________________  
@@ -707,7 +707,9 @@ if (export == "csv") {
 
 if (RetArgs == TRUE) {
   return(list(Spectrum_data = Spectrum_data, Arguments = Arguments, Fid_info = Fid_info))
-} else {return(Spectrum_data = Spectrum_data, Fid_info = Fid_info)}
+} else {return(list(Spectrum_data = Spectrum_data, Fid_info = Fid_info))}
+
+
 }
 
 
