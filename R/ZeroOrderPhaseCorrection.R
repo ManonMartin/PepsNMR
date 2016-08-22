@@ -124,7 +124,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   
   
   #========= Draw spectra
-  if (Draw==TRUE) {
+  if (plot_spectra==TRUE) {
     nn = ceiling(n/4)
     i = 1
     for (k in 1:nn) {
