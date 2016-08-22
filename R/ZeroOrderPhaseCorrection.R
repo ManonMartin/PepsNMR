@@ -1,5 +1,5 @@
 #' @export ZeroOrderPhaseCorrection
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p=0.8, plot_spectra = FALSE) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p.zo=0.8, plot_spectra = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
 
@@ -95,11 +95,11 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   MEAN_Q = c()
   for (i in 1:nrow(RawSpect_data)) {
     data = Re(RawSpect_data[i,])
-    data_p = data[data >= quantile(data[data >=0 ], p)]
-    data_n = data[data <= quantile(data[data <0 ], (1-p))]
+    data_p = data[data >= quantile(data[data >=0 ], p.zo)]
+    data_n = data[data <= quantile(data[data <0 ], (1-p.zo))]
     
     mean_quant = (sum(data_p) + sum(data_n)) / (length(data_p) +length(data_n))
-    # mean(p% higher pos and neg values)
+    # mean(p.zo% higher pos and neg values)
     MEAN_Q = c(MEAN_Q, mean_quant)
   }
   

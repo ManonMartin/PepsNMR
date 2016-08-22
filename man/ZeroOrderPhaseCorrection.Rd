@@ -9,7 +9,7 @@ Corrects the spectra in order to have the more absorptive mode of their real par
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p=0.8, plot_spectra = FALSE)
+ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE)
 }
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
@@ -17,7 +17,7 @@ ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, crea
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
   \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms plots, if \code{FALSE}, plots are drawn in the current device.}
  \item{Angle}{If not \code{NULL}, is a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
-  \item{p}{Positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile are averaged to detect an incorrect rotation due to a high water signal. p is the probability for the sample quantile used as threshold.}
+  \item{p.zo}{Positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile are averaged to detect an incorrect rotation due to a high water signal. p is the probability for the sample quantile used as threshold.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
 }
 \details{

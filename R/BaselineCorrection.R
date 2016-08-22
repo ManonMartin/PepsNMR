@@ -1,8 +1,9 @@
 #' @export BaselineCorrection
 BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
-                                lambda.bc=1e7, p=0.05, eps=1e-8, returnBaseline=F) {
+                                lambda.bc=1e7, p.bc=0.05, eps=1e-8, returnBaseline=F) {
   begin_info <- beginTreatment("BaselineCorrection", RawSpect_data, force.real=T)
   RawSpect_data <- begin_info[["Signal_data"]]
+  p = p.bc
   if (ptw.bc) {
 #     require("ptw")
     asysm <- ptw::asysm

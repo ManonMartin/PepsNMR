@@ -36,7 +36,7 @@
 # Za :  Zone aggregation
 # N : Normalisation
 # ImpG : impression graphique if TRUE
-# RetArgs : save function Arguments
+# RetArgs : save function Arguments 
   
 ## Default values parameters for the inner functions
 # SolventSuppression : lambda.Ss = 1e6
@@ -75,7 +75,8 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         lambda.ss=1e6, ptw.ss=TRUE,  # SolventSuppression
                         DT=NULL,type.apod = "exp",phase=0, rectRatio=1/2, gaussLB=1, expLB=1, # Apodization
                         SW_h=NULL, # FourierTransform
-                        ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p=0.05, eps=1e-8, # BaselineCorrection
+                        Angle = NULL,  p.zo=0.8, # ZeroOrderPhaseCorrection
+                        ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p.bc=0.05, eps=1e-8, # BaselineCorrection
                         shiftHandling="cut", c = 2, #PPMConversion
                         
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
@@ -86,7 +87,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         m = 500, # Bucketing
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), # RegionRemoval
                         fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
-                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm # Normalization
+                        type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm=1 # Normalization
                         ) { 
 
 
@@ -107,10 +108,10 @@ cat("PRETREATMENT OF ", dataname,"\n")
 cat("############################################## \n")
   
 if (saveall == TRUE) {
-  longueur = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
-  longueur = longueur + 4 # nombre d'etapes totales
+  l = length(which(c(Fopc , Ss , A , Zopc, Bc ,Zsnv , W , B, Zs , Za, N)==TRUE)) # optional steps
+  ll = l + 4 # nombre d'etapes totales
     
-  PretreatedSpectrabyStep = vector("list", longueur) # creation d une liste pour sauver les donnees de chaque etape
+  PretreatedSpectrabyStep = vector("list", l) # creation d une liste pour sauver les donnees de chaque etape
   step=1
 }
   #_______________________________________________________  
@@ -144,12 +145,9 @@ if (saveall == TRUE) {
 if (Fopc ==  TRUE ){
 
   Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info = Fid_info, group_delay=group_delay)
-
-  Fid_data1 = Fid_data
-  
   
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Fid_data1 
+    PretreatedSpectrabyStep[[step]] = Fid_data 
     names(PretreatedSpectrabyStep)[step] <- "FirstOrderPhaseCorrection.Data"
     step = step + 1
   }
@@ -160,16 +158,16 @@ if (Fopc ==  TRUE ){
     graphics::par(mfrow=c(2,2))
     graphics::plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Original FID \n Real part")
     graphics::plot(Re(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Real part ")
-    graphics::plot(Re(Fid_data1[nspectr,]), col="blue",  ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Real part")
-    graphics::plot(Re(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Real part")
+    graphics::plot(Re(Fid_data[nspectr,]), col="blue",  ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Real part")
+    graphics::plot(Re(Fid_data[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Real part")
     grDevices::dev.off()
     
     grDevices::pdf(paste0(out.path,"/FirstOrderPhCorrectIMAG.pdf"),width=13, height=8)
     graphics::par(mfrow=c(2,2))
     graphics::plot(Im(Fid_dataB[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID \n Imaginary part")
     graphics::plot(Im(Fid_dataB[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="Original FID (zoom)\n Imaginary part ")
-    graphics::plot(Im(Fid_data1[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Imaginary part")
-    graphics::plot(Im(Fid_data1[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Imaginary part ")
+    graphics::plot(Im(Fid_data[nspectr,]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction \n Imaginary part")
+    graphics::plot(Im(Fid_data[nspectr,1:200]), col="blue", ylab = "Intensity",xlab="Time", type="l", main="1st Order Phase Correction (zoom)\n Imaginary part ")
     grDevices::dev.off()
   }
 }
@@ -188,15 +186,11 @@ if (Ss ==  TRUE ){
   Fid_data = Ss.res[["Fid_data"]]
   SolventRe = Ss.res[["SolventRe"]]
   
-  Fid_data2 = Fid_data
-
-  
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Fid_data2 
+    PretreatedSpectrabyStep[[step]] = Fid_data
     names(PretreatedSpectrabyStep)[step] <- "SolventSuppression.Data"
     step = step + 1
   }
-
 
   if (ImpG==TRUE) {
     grDevices::pdf(paste0(out.path,"/SolventSuppression1.pdf"),width=8, height=4)
@@ -209,8 +203,8 @@ if (Ss ==  TRUE ){
     graphics::par(mfrow=c(2,2))
     graphics::plot(Re(Fid_dataB[nspectr,1:100]), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Real part ")
     graphics::plot(Im(Fid_dataB[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="Before solvent suppression (zoom)\n Imaginary part ")
-    graphics::plot(Re(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Real part ")
-    graphics::plot(Im(Fid_data2[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Imaginary part ")
+    graphics::plot(Re(Fid_data[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Real part ")
+    graphics::plot(Im(Fid_data[nspectr,1:100]), col="blue", type="l",  ylab = "Intensity", xlab="Time", main="After solvent suppression (zoom)\n Imaginary part ")
     grDevices::dev.off()
   }
 
@@ -230,11 +224,10 @@ if (A ==  TRUE ){
   Fid_data = Apod.res[["Fid_data"]]
   ApodFactor = Apod.res[["Factor"]]
   
-  Fid_data3 = Fid_data
 
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Fid_data3 
+    PretreatedSpectrabyStep[[step]] = Fid_data 
     names(PretreatedSpectrabyStep)[step] <- "Apodization.Data"
     step = step + 1
   }
@@ -244,8 +237,8 @@ if (A ==  TRUE ){
     graphics::par(mfrow=c(2,2))
     graphics::plot(Re(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Real part")
     graphics::plot(Im(Fid_dataB[nspectr,]), col="blue", type="l", xlab="Time", main="Before apodization \n Imaginary part")
-    graphics::plot(Re(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Real part")
-    graphics::plot(Im(Fid_data3[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Imaginary part")
+    graphics::plot(Re(Fid_data[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Real part")
+    graphics::plot(Im(Fid_data[nspectr,]), col="blue", type="l", xlab="Time", main="After apodization \n Imaginary part")
     grDevices::dev.off()
     
     grDevices::pdf(paste0(out.path,"/Apodization2.pdf"),width=8, height=4)
@@ -259,10 +252,9 @@ if (A ==  TRUE ){
 # FourierTransform
 ##########################
 
-Fid_dataB = Fid_data
+
 RawSpect_data = FourierTransform(Fid_data, Fid_info = Fid_info, SW_h = SW_h)
 
-RawSpect_data4 = RawSpect_data
 FourierTransformData = Re(RawSpect_data)
 
 if (save == TRUE) {
@@ -270,7 +262,7 @@ if (save == TRUE) {
 }
 
 if (saveall == TRUE) {
-  PretreatedSpectrabyStep[[step]] = RawSpect_data4 
+  PretreatedSpectrabyStep[[step]] = RawSpect_data
   names(PretreatedSpectrabyStep)[step] <- "FourierTransform.Data"
   step = step + 1
 }
@@ -279,17 +271,17 @@ if (saveall == TRUE) {
 if (ImpG==TRUE) {
   grDevices::pdf(paste0(out.path,"/FourierTransform.pdf"),width=13, height=14)
   graphics::par(mfrow=c(3,1))
-  a = 0.2*length(RawSpect_data4[nspectr,])
-  b = 0.6*length(RawSpect_data4[nspectr,])
-  c = 0.06*length(RawSpect_data4[nspectr,])
+  aa = 0.2*length(RawSpect_data[nspectr,])
+  bb = 0.6*length(RawSpect_data[nspectr,])
+  cc = 0.06*length(RawSpect_data[nspectr,])
   
-  graphics::plot(Re(RawSpect_data4[nspectr,]), col="blue", type="l", xlab="Frequency", main="After Fourier Transform \n Real part")
-  graphics::plot(Re(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Real part (zoom)")
-  at=seq(1,(b-a), c)
-  graphics::axis(side=1, at=at, labels  = c(a:b)[at])
-  graphics::plot(Im(RawSpect_data4[nspectr,a:b]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Imaginary part (zoom)")
-  at=seq(1,(b-a), c)
-  graphics::axis(side=1, at=at, labels = c(a:b)[at])
+  graphics::plot(Re(RawSpect_data[nspectr,]), col="blue", type="l", xlab="Frequency", main="After Fourier Transform \n Real part")
+  graphics::plot(Re(RawSpect_data[nspectr,aa:bb]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Real part (zoom)")
+  at=seq(1,(bb-aa), cc)
+  graphics::axis(side=1, at=at, labels  = c(aa:bb)[at])
+  graphics::plot(Im(RawSpect_data[nspectr,aa:bb]), col="blue", xaxt = "n", type="l", xlab="Frequency", main="After Fourier Transform \n Imaginary part (zoom)")
+  at=seq(1,(bb-aa), cc)
+  graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
   grDevices::dev.off()
   ###
 }
@@ -302,36 +294,31 @@ if (ImpG==TRUE) {
 if (Zopc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-
-  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = NULL, returnAngle = FALSE, createWindow = FALSE)
-
-  RawSpect_data5 = RawSpect_data
-
+  RawSpect_data = ZeroOrderPhaseCorrection(RawSpect_data, plot_rms = NULL, returnAngle = FALSE, createWindow = FALSE, Angle = Angle,   p.zo=p.zo, plot_spectra = FALSE)
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = RawSpect_data5 
+    PretreatedSpectrabyStep[[step]] = RawSpect_data
     names(PretreatedSpectrabyStep)[step] <- "ZeroOrderPhaseCorrection.Data"
     step = step + 1
   }
-  
   
   if (ImpG==TRUE) {
     grDevices::pdf(paste0(out.path,"/ZeroOrderPhaseCorrection.pdf"),width=13, height=14)
     graphics::par(mfrow=c(3,1))
     
-    a = 0.2*length(RawSpect_dataB[nspectr,])
-    b = 0.6*length(RawSpect_dataB[nspectr,])
-    c = 0.06*length(RawSpect_dataB[nspectr,])
+    aa = 0.2*length(RawSpect_dataB[nspectr,])
+    bb = 0.6*length(RawSpect_dataB[nspectr,])
+    cc = 0.06*length(RawSpect_dataB[nspectr,])
     
-    graphics::plot(Re(RawSpect_data4[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="Before 0 Order Phase Correction \n Real part (zoom)")
-    at=seq(1,(b-a), c)
-    graphics::axis(side=1, at=at, labels = c(a:b)[at])
-    graphics::plot(Re(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Real part (zoom)")
-    at=seq(1,(b-a), c)
-    graphics::axis(side=1, at=at, labels = c(a:b)[at])
-    graphics::plot(Im(RawSpect_data5[nspectr,a:b]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Imaginary part (zoom)")
-    at=seq(1,(b-a), c)
-    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    graphics::plot(Re(RawSpect_dataB[nspectr,aa:bb]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="Before 0 Order Phase Correction \n Real part (zoom)")
+    at=seq(1,(bb-aa), cc)
+    graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
+    graphics::plot(Re(RawSpect_data[nspectr,aa:bb]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Real part (zoom)")
+    at=seq(1,(bb-aa), cc)
+    graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
+    graphics::plot(Im(RawSpect_data[nspectr,aa:bb]), col="blue",  xaxt = "n", type="l", xlab="Frequency", main="After 0 Order Phase Correction \n Imaginary part (zoom)")
+    at=seq(1,(bb-aa), cc)
+    graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
     grDevices::dev.off()
     }
 
@@ -343,16 +330,14 @@ if (Zopc ==  TRUE ){
 if (Bc ==  TRUE ){
 
   RawSpect_dataB = RawSpect_data
-  BC.res =  BaselineCorrection(RawSpect_data, returnBaseline=TRUE, lambda.bc=lambda.bc, p=p, eps=eps)
+  BC.res =  BaselineCorrection(RawSpect_data, returnBaseline=TRUE, lambda.bc=lambda.bc, p.bc=p.bc, eps=eps)
   baseline = BC.res[["Baseline"]]
   RawSpect_data = BC.res[["RawSpect_data"]]
-  
-  RawSpect_data6 = RawSpect_data
 
 
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = RawSpect_data6 
+    PretreatedSpectrabyStep[[step]] = RawSpect_data
     names(PretreatedSpectrabyStep)[step] <- "BaselineCorrection.Data"
     step = step + 1
   }
@@ -361,23 +346,23 @@ if (Bc ==  TRUE ){
     grDevices::pdf(paste0(out.path,"/BaselineCorrection.pdf"),width=13, height=8)
     graphics::par(mfrow=c(2,2))
     
-    a = 0.42*length(RawSpect_dataB[nspectr,])
-    b = 0.46*length(RawSpect_dataB[nspectr,])
+    aa = 0.42*length(RawSpect_dataB[nspectr,])
+    bb = 0.46*length(RawSpect_dataB[nspectr,])
     
     graphics::plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction")
     graphics::abline(h=0, lty = 2)
     graphics::lines(baseline[nspectr,], col="red")
     
-    graphics::plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction  \n zoom")
-    graphics::axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
+    graphics::plot(Re(RawSpect_dataB[nspectr,aa:bb]), col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="Before Baseline Correction  \n zoom")
+    graphics::axis(side = 1, at = seq(0,(bb-aa), 100), labels = seq(aa,bb, 100))
     graphics::abline(h=0, lty = 2)
-    graphics::lines(baseline[nspectr,a:b], col="red")
+    graphics::lines(baseline[nspectr,aa:bb], col="red")
     
-    graphics::plot(Re(RawSpect_data6[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection")
+    graphics::plot(Re(RawSpect_data[nspectr,]), col="blue", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection")
     graphics::abline(h=0, lty = 2)
     
-    graphics::plot(Re(RawSpect_data6[nspectr,a:b]),  col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection \n zoom")
-    graphics::axis(side = 1, at = seq(0,(b-a), 100), labels = seq(a,b, 100))
+    graphics::plot(Re(RawSpect_data[nspectr,aa:bb]),  col="blue", xaxt="n", type="l", ylab = "Intensity", xlab="Frequency", main="After BaselineCorrection \n zoom")
+    graphics::axis(side = 1, at = seq(0,(bb-aa), 100), labels = seq(aa,bb, 100))
     graphics::abline(h=0, lty = 2)
     
     grDevices::dev.off()
@@ -393,12 +378,9 @@ if (Zsnv ==  TRUE ){
   
   RawSpect_dataB = RawSpect_data
   RawSpect_data = NegativeValuesZeroing(RawSpect_data)
-  
-  RawSpect_data7 = RawSpect_data
-
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = RawSpect_data7 
+    PretreatedSpectrabyStep[[step]] = RawSpect_data
     names(PretreatedSpectrabyStep)[step] <- "NegativeValuesZeroing.Data"
     step = step + 1
   }
@@ -407,16 +389,16 @@ if (Zsnv ==  TRUE ){
     grDevices::pdf(paste0(out.path,"/NegativeValuesZeroing.pdf"), width = 13, height = 8)
     graphics::par(mfrow=c(2,1))
     
-    a = 0.2*length(RawSpect_dataB[nspectr,])
-    b = 0.6*length(RawSpect_dataB[nspectr,])
-    c = 0.06*length(RawSpect_dataB[nspectr,])
+    aa = 0.2*length(RawSpect_dataB[nspectr,])
+    bb = 0.6*length(RawSpect_dataB[nspectr,])
+    cc = 0.06*length(RawSpect_dataB[nspectr,])
     
-    graphics::plot(Re(RawSpect_dataB[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="Before Negative Values Zeroing \n Real part (zoom)")
-    at=seq(1,(b-a), c)
-    graphics::axis(side=1, at=at, labels = c(a:b)[at])
-    graphics::plot(Re(RawSpect_data7[nspectr,a:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
-    at=seq(1,(b-a), c)
-    graphics::axis(side=1, at=at, labels = c(a:b)[at])
+    graphics::plot(Re(RawSpect_dataB[nspectr,aa:bb]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="Before Negative Values Zeroing \n Real part (zoom)")
+    at=seq(1,(bb-aa), cc)
+    graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
+    graphics::plot(Re(RawSpect_data[nspectr,aa:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
+    at=seq(1,(bb-aa), cc)
+    graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
     grDevices::dev.off()
   }
   
@@ -426,14 +408,12 @@ if (Zsnv ==  TRUE ){
 ##########################
 # PPMConversion 
 ##########################
-RawSpect_dataB = RawSpect_data
-Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, c = c)
 
-Spectrum_data8 = Spectrum_data
+Spectrum_data = PPMConversion(RawSpect_data, RawSpect_info = Fid_info, shiftHandling=shiftHandling, c = c)
 
 
 if (saveall == TRUE) {
-  PretreatedSpectrabyStep[[step]] = Spectrum_data8 
+  PretreatedSpectrabyStep[[step]] = Spectrum_data
   names(PretreatedSpectrabyStep)[step] <- "PPMConversion.Data"
   step = step + 1
 }
@@ -441,9 +421,9 @@ if (saveall == TRUE) {
 if (ImpG==TRUE) {
   grDevices::pdf(paste0(out.path,"/PPMConversion.pdf"),width=13, height=8)
   graphics::par(mfrow=c(2,1))
-  graphics::plot(Re(RawSpect_dataB[nspectr,]), col="blue", type="l", xlab="Frequency", main="Before PPM Conversion \n Real part")
-  xat=round(as.numeric(colnames(Spectrum_data8)),5)
-  graphics::plot(xat,Re(Spectrum_data8[nspectr,]), col="blue", type="l", xlab="ppm", main="After PPM Conversion \n Real part")
+  graphics::plot(Re(RawSpect_data[nspectr,]), col="blue", type="l", xlab="Frequency", main="Before PPM Conversion \n Real part")
+  xat=round(as.numeric(colnames(Spectrum_data)),5)
+  graphics::plot(xat,Re(Spectrum_data[nspectr,]), col="blue", type="l", xlab="ppm", main="After PPM Conversion \n Real part")
   grDevices::dev.off()
 }
 
@@ -459,14 +439,10 @@ if (W ==  TRUE ){
                       reference=reference,optim.crit=optim.crit, ptw.wp=ptw.wp, K=K, L=L,
                       lambda.smooth=lambda.smooth, deg=deg, lambda.bspline=lambda.bspline, kappa=kappa,
                       max_it_Bspline=max_it_Bspline, returnReference=returnReference)
-
-
-
-  Spectrum_data9 = Spectrum_data
   
   
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data9 
+    PretreatedSpectrabyStep[[step]] = Spectrum_data
     names(PretreatedSpectrabyStep)[step] <- "Warping.Data"
     step = step + 1
   }
@@ -481,22 +457,22 @@ if (W ==  TRUE ){
     }else {f = 1}
 
     
-    a = 0.4*length(RawSpect_dataB[f[1],])
-    b = 0.47*length(RawSpect_dataB[f[1],])
-    c = 0.015*length(RawSpect_dataB[f[1],])
+    aa = 0.4*length(RawSpect_dataB[f[1],])
+    bb = 0.47*length(RawSpect_dataB[f[1],])
+    cc = 0.015*length(RawSpect_dataB[f[1],])
     
-    graphics::plot(Re(Spectrum_dataB[nspectr,a:b]),  col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_dataB[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="Before Warping (zoom)")
-    graphics::axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))   
+    graphics::plot(Re(Spectrum_dataB[nspectr,aa:bb]),  col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_dataB[c(nspectr, f),aa:bb]))), type="l", xlab="Frequency", main="Before Warping (zoom)")
+    graphics::axis(side = 1, at = seq(0,(bb-aa), cc), labels = seq(aa,bb, cc))   
     graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
-      graphics::lines(Re(Spectrum_dataB[j,a:b]), col="blue", type="l")}
+      graphics::lines(Re(Spectrum_dataB[j,aa:b]), col="blue", type="l")}
     graphics::grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
     
-    graphics::plot(Re(Spectrum_data9[nspectr,a:b]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data9[c(nspectr, f),a:b]))), type="l", xlab="Frequency", main="After Warping (zoom)")
-    graphics::axis(side = 1, at = seq(0,(b-a), c), labels = seq(a,b, c))    
+    graphics::plot(Re(Spectrum_data[nspectr,aa:b]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data[c(nspectr, f),aa:bb]))), type="l", xlab="Frequency", main="After Warping (zoom)")
+    graphics::axis(side = 1, at = seq(0,(bb-aa), cc), labels = seq(aa,bb, cc))    
     graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
-      graphics::lines(Re(Spectrum_data9[j,a:b]), type="l", col="blue")}
+      graphics::lines(Re(Spectrum_data[j,aa:bb]), type="l", col="blue")}
     graphics::grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
     grDevices::dev.off()
   }
@@ -510,10 +486,9 @@ if (W ==  TRUE ){
 Spectrum_dataB = Spectrum_data
 Spectrum_data = WindowSelection(Spectrum_data, from.ws = from.ws, to.ws = to.ws, reverse.axis = reverse.axis)
 
-Spectrum_data10 = Spectrum_data
 
 if (saveall == TRUE) {
-  PretreatedSpectrabyStep[[step]] = Spectrum_data10 
+  PretreatedSpectrabyStep[[step]] = Spectrum_data
   names(PretreatedSpectrabyStep)[step] <- "WindowSelection.Data"
   step = step + 1
 }
@@ -522,12 +497,12 @@ if (saveall == TRUE) {
 if (ImpG==TRUE) {
   grDevices::pdf(paste0(out.path,"/WindowSelection.pdf"), width = 10, height = 9)
   graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
-  c = 0.03*length(RawSpect_dataB[nspectr,])
+  cc = 0.03*length(RawSpect_dataB[nspectr,])
   xat=round(as.numeric(colnames(Spectrum_dataB)),5)
   graphics::plot(xat,Re(Spectrum_dataB[nspectr,]),col="blue",  type="l",  ylab = "Intensity", xlab="ppm", main="Before Window Selection")
-  xat=round(as.numeric(colnames(Spectrum_data10)),5)
-  graphics::plot( Re(Spectrum_data10[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
-  at=seq(1,length(xat), c)
+  xat=round(as.numeric(colnames(Spectrum_data)),5)
+  graphics::plot( Re(Spectrum_data[nspectr,]), col="blue",  ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Window Selection")
+  at=seq(1,length(xat), cc)
   graphics::axis(side=1, at=at, labels=round(xat[at],2))
   grDevices::dev.off()
 }
@@ -539,11 +514,9 @@ if (ImpG==TRUE) {
 if (B ==  TRUE ){
   Spectrum_dataB = Spectrum_data
   Spectrum_data = Bucketing(Spectrum_data, m = m)
-  
-  Spectrum_data11 = Spectrum_data
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data11 
+    PretreatedSpectrabyStep[[step]] = Spectrum_data
     names(PretreatedSpectrabyStep)[step] <- "Bucketing.Data"
     step = step + 1
   }
@@ -551,13 +524,13 @@ if (B ==  TRUE ){
   if (ImpG==TRUE) {
     grDevices::pdf(paste0(out.path,"/Bucketing.pdf"), width = 10, height = 9)
     graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
-    c = 0.03*length(RawSpect_dataB[nspectr,])
+    cc = 0.03*length(RawSpect_dataB[nspectr,])
     xat=round(as.numeric(colnames(Spectrum_dataB)),5)
     graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="Before Bucketing")
-    at=seq(1,length(xat), c)
+    at=seq(1,length(xat), cc)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
-    xat=round(as.numeric(colnames(Spectrum_data11)),5)
-    graphics::plot(Re(Spectrum_data11[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Bucketing")
+    xat=round(as.numeric(colnames(Spectrum_data)),5)
+    graphics::plot(Re(Spectrum_data[nspectr,]), col="blue",ylab = "Intensity", xaxt="n", type="l", xlab="ppm", main="After Bucketing")
     at=seq(1,length(xat), 30)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     grDevices::dev.off()
@@ -575,11 +548,9 @@ if (Zs ==  TRUE ){
   Spectrum_data = RegionRemoval(Spectrum_data,typeofspectra = typeofspectra, 
                                 type.rr = type.rr, fromto.rr=fromto.rr) 
 
-  Spectrum_data12 = Spectrum_data
-  
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data12 
+    PretreatedSpectrabyStep[[step]] = Spectrum_data
     names(PretreatedSpectrabyStep)[step] <- "RegionRemoval.Data"
     step = step + 1
   }
@@ -592,7 +563,7 @@ if (Zs ==  TRUE ){
     at=seq(1,length(xat), 30)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     
-    graphics::plot(Re(Spectrum_data12[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="After Region Removal")
+    graphics::plot(Re(Spectrum_data[nspectr,]), col="blue",xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="After Region Removal")
     at=seq(1,length(xat), 30)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
 #     text(x=441, y=160, labels=c("Lactate region"), srt = 90, col="red", cex=0.8)
@@ -613,12 +584,9 @@ if (Za ==  TRUE ){
   Spectrum_dataB = Spectrum_data
   Spectrum_data = ZoneAggregation(Spectrum_data,fromto.za = fromto.za) 
 
-  
-  Spectrum_data13 = Spectrum_data
-
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data13 
+    PretreatedSpectrabyStep[[step]] = Spectrum_data
     names(PretreatedSpectrabyStep)[step] <- "ZoneAggregation.Data"
     step = step + 1
   }
@@ -633,8 +601,8 @@ if (Za ==  TRUE ){
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
 #     text(x=377, y=180, labels=c("Citrate region"),  col="red", cex=0.8)
 #     arrows(x=373, y=150, x1 = 383, y1 = 150, length = 0.04,code = 3, col="red" )
-    xat=round(as.numeric(colnames(Spectrum_data13)),5)
-    graphics::plot(Re(Spectrum_data13[nspectr,]), col="blue", xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
+    xat=round(as.numeric(colnames(Spectrum_data)),5)
+    graphics::plot(Re(Spectrum_data[nspectr,]), col="blue", xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
     at=seq(1,length(xat), 30)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     grDevices::dev.off()
@@ -650,13 +618,10 @@ if (N ==  TRUE ){
 
   Spectrum_dataB = Spectrum_data
   Spectrum_data = Normalization(Spectrum_data, type.norm=type.norm, from.norm=from.norm, to.norm=to.norm, ref.norm = ref.norm)
-  
-  Spectrum_data14 = Spectrum_data
-
 
 
   if (saveall == TRUE) {
-    PretreatedSpectrabyStep[[step]] = Spectrum_data14 
+    PretreatedSpectrabyStep[[step]] = Spectrum_data
     names(PretreatedSpectrabyStep)[step] <- "Normalization.Data"
     step = step + 1
   }
@@ -666,10 +631,10 @@ if (N ==  TRUE ){
     grDevices::pdf(paste0(out.path,"/Normalization1.pdf"), width = 10, height = 5)
     graphics::par(mfrow=c(2,1))
     graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue", xaxt="n", type="l", xlab="ppm",  main="Before Normalization \n Real part")
-    xat=round(as.numeric(colnames(Spectrum_data14)),5)
+    xat=round(as.numeric(colnames(Spectrum_data)),5)
     at=seq(1,length(xat), length(xat)/20)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
-    graphics::lines(Re(Spectrum_data14[nspectr,]), col= "red")
+    graphics::lines(Re(Spectrum_data[nspectr,]), col= "red")
     graphics::legend("topleft", lty = 1, legend = c("Before Normalization", "After Normalization"), col = c("black", "red"))
     
 
@@ -679,23 +644,23 @@ if (N ==  TRUE ){
       f=sample(c(1:dim(Spectrum_dataB)[1]), 3)
     }else {f = 1}
     
-    a = c(0.5)*length(Spectrum_dataB[nspectr,])
-    b = c(0.75)*length(Spectrum_dataB[nspectr,])
+    aa = c(0.5)*length(Spectrum_dataB[nspectr,])
+    bb = c(0.75)*length(Spectrum_dataB[nspectr,])
     graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
     
-    xat=round(as.numeric(colnames(Spectrum_dataB[,a:b])),5)
-    graphics::plot(Re(Spectrum_dataB[nspectr,a:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
+    xat=round(as.numeric(colnames(Spectrum_dataB[,aa:bb])),5)
+    graphics::plot(Re(Spectrum_dataB[nspectr,aa:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      graphics::lines(Re(Spectrum_dataB[f[i],a:b]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
+      graphics::lines(Re(Spectrum_dataB[f[i],aa:bb]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
     }
-    xat=round(as.numeric(colnames(Spectrum_data14[,a:b])),5)
-    graphics::plot(Re(Spectrum_data14[nspectr,a:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
+    xat=round(as.numeric(colnames(Spectrum_data[,aa:b])),5)
+    graphics::plot(Re(Spectrum_data[nspectr,aa:bb]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
-      graphics::lines(Re(Spectrum_data14[f[i],a:b]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
+      graphics::lines(Re(Spectrum_data[f[i],aa:bb]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
     }
     grDevices::dev.off()
   }
@@ -708,71 +673,41 @@ if (N ==  TRUE ){
 #################### 
 # save THE RESULTS
 ####################
-argnames <- c("dataname",           "data.path",          "out.path", 
-              "nspectr",            "save",           
-              "saveall",            "ImpG",               "Fopc",              
-              "Ss" ,                "A",                  "Zopc",               "Bc",                
-              "Zsnv" ,              "W",                  "B",                  "Zs" ,               
-              "Za",                 "N",                   "l",        "subdirs" ,          
-              "group_delay",        "lambda.ss",          "ptw.ss",                   
-              "DT",                 "type.apod",          "phase",              "rectRatio",         
-              "gaussLB",            "expLB",              "SW_h",               "",          
-              "ptw.bc",             "maxIter",            "lambda.bc",         
-              "p",                  "eps",     "",           "shiftHandling",      "thres",                 
-              "normalization.type", "from.normW",         "to.normW",          
-              "reference.choosing", "reference",          "optim.crit",         "ptw.wp",            
-              "K",                  "L",                  "lambda.smooth",      "deg"  ,             
-              "lambda.bspline",     "kappa",              "max_it_Bspline",     "returnReference" ,  
-              "from.ws",            "to.ws",              "reverse.axis",       "m"  ,               
-              "typeofspectra",      "type.rr",            "fromto.rr",          "fromto.za",         
-              "type.norm",          "from.norm",          "to.norm",            "ref.norm")
-
-supargnames = c(rep("general", 18), 
-                rep("ReadFids", 2), 
-                rep("FirstOrderPhaseCorrection", 1), 
-                rep("SolventSuppression",2), 
-                rep("Apodization",6), 
-                rep("FourierTransform", 1),
-                
-                rep("Zero order phase correction", 1),
-                rep("BaselineCorrection", 5),
-                
-                rep("Negative values zeroing", 1),
-                rep("PPMConversion", 2),
-                rep("Warping", 15),
-                rep("WindowSelection", 3),
-                rep("Bucketing", 1),
-                rep("RegionRemoval", 3),
-                rep("ZoneAggregation", 1),
-                rep("Normalization", 4))
-
-
-
-Spectra=Re(Spectrum_data)
 
 Arguments <- c(as.list(environment()))
-index <- names(Arguments) %in% argnames
-Arguments <- Arguments[index]
 
-# Arguments = data.frame(cbind(Category = supargnames, Argument_name = argnames, Argument_value = c(Arguments[1:31], "",Arguments[32:36], "" ,Arguments[37:66])), row.names = NULL)
-# 
-# 
-# 
-# if (save == TRUE) {
-#   if (RetArgs == TRUE) {
-#     save(Spectra, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "FinalRes.RData"))
-#     } else {save(Spectra, file=paste0(out.path, "/",dataname , "FinalSpectra.RData"))}
-# }
-#   
-# if (saveall == TRUE) {
-# save(PretreatedSpectrabyStep, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))
-# }
+# remove unwanted variables in the arguments list
+Arguments[c("Fid_info","Fid_dataB","PretreatedSpectrabyStep","RawSpect_dataB","Fid_data","FourierTransformData",
+"SolventRe","baseline","ApodFactor","Ss.res" ,"Apod.res","aa","bb","cc","at","xat")] = NULL
+
+
+
+if (save == TRUE) {
+  if (RetArgs == TRUE) {
+    save(Spectrum_data, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "_FinalResPC.RData"))
+    } else {save(Spectrum_data, Fid_info, file=paste0(out.path, "/",dataname , "_FinalSpectra.RData"))}
+}
+
+ 
+if (saveall == TRUE) {
+  if (RetArgs == TRUE) {
+    save(PretreatedSpectrabyStep, Arguments, Fid_info, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))
+    } else {save(PretreatedSpectrabyStep, Fid_info, file=paste0(out.path, "/",dataname , "PretreatedSpectrabyStep.RData"))}
+}
+
+
+if (export == "csv") {
+  write.csv(Spectrum_data, file = paste0(out.path, "/",dataname , "_Spectrum_data.csv"))
+  write.csv(Fid_info, file = paste0(out.path, "/",dataname , "_FidInfo.csv"))
+  }else if (export == "rdata") {
+    if (RetArgs == TRUE) {save(Spectrum_data, Arguments, Fid_info, file = paste0(out.path, "/",dataname , "_FinalResPC.RData"))}
+    save(Spectrum_data, Fid_info, file = paste0(out.path, "/",dataname , "_FinalResPC.RData"))
+  }
 
 
 if (RetArgs == TRUE) {
-  # return(list(Spectra = Spectra, Arguments = Arguments, Fid_info = Fid_info))
-  return(Spectra)
-} else {return(Spectra)}
-
-
+  return(list(Spectrum_data = Spectrum_data, Arguments = Arguments, Fid_info = Fid_info))
+} else {return(Spectrum_data = Spectrum_data, Fid_info = Fid_info)}
 }
+
+

@@ -7,14 +7,14 @@ Set the baseline to a uniform zero signal.
 Estimates and remove the smoothed baseline from the spectrum.
 }
 \usage{BaselineCorrection(RawSpect_data, ptw.bc = TRUE, maxIter = 42,
-                  lambda.bc=1e7,p=0.05, eps=1e-8, returnBaseline=F)}
+                  lambda.bc=1e7,p.bc=0.05, eps=1e-8, returnBaseline=F)}
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}}
   \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8)}.
-  \item{p}{Asymmetry parameter}.
+  \item{p.bc}{Asymmetry parameter}.
   \item{eps}{Numerical precision for convergence when estimating the baseline}.
   \item{returnBaseline}{If TRUE, will return the estimation of the baseline.}.
 }
