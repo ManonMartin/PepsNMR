@@ -1,9 +1,11 @@
 #' @export ZeroOrderPhaseCorrection
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p=0.8, Draw = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
 
   debug_plot <- F
+    
+    if (is.null(Angle)) {
 
   rms <- function(ang, y) {
     # if (debug_plot) {
@@ -67,6 +69,78 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
     Angle = c(Angle, ang)
   }
+  
+  
+    } else {
+      
+    if (!is.vector(Angle)) {
+      stop("Angle is not a vector")
+    }
+      
+    if (!is.numeric(Angle)) {
+      stop("Angle is not a numeric")
+    }
+      
+    if (length(Angle) != n) {
+      stop(paste("Angle has length", length(Angle), "and there are", n, "spectra to rotate."))
+    }
+      
+      for (k in 1:n) {
+        RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=Angle[k]))
+      }
+  }
+  
+  
+  #================== Detect a 180° rotation due to the water signal
+  MEAN_Q = c()
+  for (i in 1:nrow(RawSpect_data)) {
+    data = Re(RawSpect_data[i,])
+    data_p = data[data >= quantile(data[data >=0 ], p)]
+    data_n = data[data <= quantile(data[data <0 ], (1-p))]
+    
+    mean_quant = (sum(data_p) + sum(data_n)) / (length(data_p) +length(data_n))
+    # mean(p% higher pos and neg values)
+    MEAN_Q = c(MEAN_Q, mean_quant)
+  }
+  
+  vect = which(MEAN_Q < 0)
+  if (!is.null(vect)) {
+    warning("The mean of", p,"positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
+    cat(" An automatic 180 degree rotation is applied to these spectra")
+    Angle[vect] = Angle[vect] + pi 
+  }
+  
+  vect_risk = which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low value copared to mean of positive mean values?
+  if (!is.null(vect_risk)) {
+    warning("the rotation angle for spectra", paste0(rownames(RawSpect_data)[vect_risk],"; "), "might not be optimal, you need to check visually for those spectra")
+  }
+  
+  # result of automatic rotation
+  for (k in vect_risk) {
+    RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=Angle[k]))
+  }
+  #==================
+  
+  
+  
+  #========= Draw spectra
+  if (Draw==TRUE) {
+    nn = ceiling(n/4)
+    i = 1
+    for (k in 1:nn) {
+      par(mfrow=c(4,2))
+      while (i <= last)
+      {
+        last = min(i + 4-1, n)
+        plot(Re(res$RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(res$RawSpect_data)[i], " - Real part"))
+        plot(Im(res$RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(res$RawSpect_data)[i], " - Imaginary part"))
+        i=i+1
+      }
+      i = last + 1
+    }
+  }
+  
+  #=========
   
   RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
     if (returnAngle) {
