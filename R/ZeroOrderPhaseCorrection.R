@@ -1,5 +1,5 @@
 #' @export ZeroOrderPhaseCorrection
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p=0.8, Draw = FALSE) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p=0.8, plot_spectra = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
 
@@ -104,14 +104,14 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   }
   
   vect = which(MEAN_Q < 0)
-  if (!is.null(vect)) {
+  if (length(vect_risk)!=0) {
     warning("The mean of", p,"positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
     cat(" An automatic 180 degree rotation is applied to these spectra")
     Angle[vect] = Angle[vect] + pi 
   }
   
   vect_risk = which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low value copared to mean of positive mean values?
-  if (!is.null(vect_risk)) {
+  if (length(vect_risk)!=0) {
     warning("the rotation angle for spectra", paste0(rownames(RawSpect_data)[vect_risk],"; "), "might not be optimal, you need to check visually for those spectra")
   }
   
