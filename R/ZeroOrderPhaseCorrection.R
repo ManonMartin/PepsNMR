@@ -1,4 +1,7 @@
 #' @export ZeroOrderPhaseCorrection
+#' @importFrom stats quantile sd
+#' @importFrom graphics par plot
+#' 
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p.zo=0.8, plot_spectra = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
@@ -95,8 +98,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   MEAN_Q = c()
   for (i in 1:nrow(RawSpect_data)) {
     data = Re(RawSpect_data[i,])
-    data_p = data[data >= quantile(data[data >=0 ], p.zo)]
-    data_n = data[data <= quantile(data[data <0 ], (1-p.zo))]
+    data_p = data[data >= stats::quantile(data[data >=0 ], p.zo)]
+    data_n = data[data <= stats::quantile(data[data <0 ], (1-p.zo))]
     
     mean_quant = (sum(data_p) + sum(data_n)) / (length(data_p) +length(data_n))
     # mean(p.zo% higher pos and neg values)
@@ -105,7 +108,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   
   vect = which(MEAN_Q < 0)
   if (length(vect)!=0) {
-    warning("The mean of", p,"positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
+    warning("The mean of", p.zo," positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
     cat(" An automatic 180 degree rotation is applied to these spectra")
     Angle[vect] = Angle[vect] + pi 
   }
@@ -128,12 +131,12 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     nn = ceiling(n/4)
     i = 1
     for (k in 1:nn) {
-      par(mfrow=c(4,2))
+      graphics::par(mfrow=c(4,2))
       while (i <= last)
       {
         last = min(i + 4-1, n)
-        plot(Re(res$RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(res$RawSpect_data)[i], " - Real part"))
-        plot(Im(res$RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(res$RawSpect_data)[i], " - Imaginary part"))
+        graphics::plot(Re(RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(RawSpect_data)[i], " - Real part"))
+        graphics::plot(Im(RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(RawSpect_data)[i], " - Imaginary part"))
         i=i+1
       }
       i = last + 1
