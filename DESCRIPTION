@@ -11,6 +11,8 @@ Encoding: UTF-8
 NeedsCompilation: no
 Depends: R (>= 2.10)
 LazyData: true
+Description: This package provides R functions for common pre-treatment steps that are applied
+on 1H-NMR data. It also provides the function \code{\link{ReadFids}} to read the FID directly from the Bruker output.
 Authors@R: c(person("Benoît", "Legat", role = c("aut"),
 		     email = "benoit.legat@gmail.com"),
 	      person("Bernadette", "Govaerts", role = c("aut","ths")),
