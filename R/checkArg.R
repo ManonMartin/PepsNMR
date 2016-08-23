@@ -4,7 +4,9 @@ checkArg <- function(arg, checks, can.be.null=FALSE) {
                      num =c(is.numeric, "a numeric"),
                      str =c(is.character, "a string"),
                      pos =c(function(x){x>0}, "positive"),
-                     pos0=c(function(x){x>=0}, "positive or zero"))
+                     pos0=c(function(x){x>=0}, "positive or zero"),
+                     l1 =c(function(x){length(x)==1}, "of length 1")
+                     )
   if (is.null(arg)) {
     if (!can.be.null) {
       stop(deparse(substitute(arg)), " is null.")
