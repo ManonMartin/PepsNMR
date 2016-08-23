@@ -14,7 +14,7 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
     i= 1000
     vect = ft[1:i]
     while (vect[i] < (c*thres)) {
-      cumsd = sd(vect)
+      cumsd = stats::sd(vect)
       cummean = mean(vect)
       thres = cummean + 3*cumsd
       i=i+1
