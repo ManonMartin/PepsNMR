@@ -67,7 +67,7 @@
 #' @export PreprocessingChain
 
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
-                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE, export = NULL, 
+                        nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE, export = c(NULL, "csv", "rdata"), 
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
                         Zsnv = TRUE, W = TRUE, B = TRUE, Zs = TRUE, Za=FALSE, N = TRUE,
                         l=1, subdirs = FALSE, #ReadFids
@@ -215,7 +215,7 @@ if (Ss ==  TRUE ){
 
   if (ImpG==TRUE) {
     grDevices::pdf(paste0(out.path,"/SolventSuppression1.pdf"),width=8, height=4)
-    graphics::plot(Re(Fid_data1[nspectr,]), ylim = c(min(Re(Fid_data1[nspectr,])), max(Re(Fid_data1[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
+    graphics::plot(Re(Fid_dataB[nspectr,]), ylim = c(min(Re(Fid_dataB[nspectr,])), max(Re(Fid_dataB[nspectr,]))), col="blue", type="l", ylab = "Intensity", xlab="Time", main="Real part of the FID and solvent residuals signal")
     graphics::lines(SolventRe[nspectr,],col="red" )
     graphics::legend("topright", legend = "Solvent signal", col="red",  lty = 1)
     grDevices::dev.off()
@@ -417,7 +417,7 @@ if (Zsnv ==  TRUE ){
     graphics::plot(Re(RawSpect_dataB[nspectr,aa:bb]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="Before Negative Values Zeroing \n Real part (zoom)")
     at=seq(1,(bb-aa), cc)
     graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
-    graphics::plot(Re(RawSpect_data[nspectr,aa:b]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
+    graphics::plot(Re(RawSpect_data[nspectr,aa:bb]), col="blue", xaxt = "n",type="l", xlab="Frequency", main="After Negative Values Zeroing \n Real part (zoom)")
     at=seq(1,(bb-aa), cc)
     graphics::axis(side=1, at=at, labels = c(aa:bb)[at])
     grDevices::dev.off()
@@ -616,7 +616,7 @@ if (Za ==  TRUE ){
     
     grDevices::pdf(paste0(out.path,"/ZoneAggregation.pdf"), width = 10, height = 9)
     graphics::par(mfrow=c(2,1), mar=c(4,4,2,2) )
-    xat=round(as.numeric(colnames(Spectrum_data12)),5)
+    xat=round(as.numeric(colnames(Spectrum_dataB)),5)
     graphics::plot(Re(Spectrum_dataB[nspectr,]), col="blue",  xaxt="n", ylab = "Intensity", type="l", xlab="ppm", main="Before Region Removal")
     at=seq(1,length(xat), 30)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
@@ -718,8 +718,8 @@ if (saveall == TRUE) {
 
 
 if (export == "csv") {
-  write.csv(Spectrum_data, file = paste0(out.path, "/",dataname , "_Spectrum_data.csv"))
-  write.csv(Fid_info, file = paste0(out.path, "/",dataname , "_FidInfo.csv"))
+  utils::write.csv(Spectrum_data, file = paste0(out.path, "/",dataname , "_Spectrum_data.csv"))
+  utils::write.csv(Fid_info, file = paste0(out.path, "/",dataname , "_FidInfo.csv"))
   }else if (export == "rdata") {
     if (RetArgs == TRUE) {save(Spectrum_data, Arguments, Fid_info, file = paste0(out.path, "/",dataname , "_FinalResPC.RData"))}
     save(Spectrum_data, Fid_info, file = paste0(out.path, "/",dataname , "_FinalResPC.RData"))
