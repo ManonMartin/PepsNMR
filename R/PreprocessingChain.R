@@ -65,7 +65,8 @@
 
 
 #' @export PreprocessingChain
-
+#' @importFrom utils write.csv
+#' 
 PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.path = getwd(), 
                         nspectr = 1, save = FALSE, saveall = FALSE, ImpG= FALSE, RetArgs = TRUE, export = c(NULL, "csv", "rdata"), 
                         Fopc = TRUE, Ss = TRUE, A = TRUE, Zopc = TRUE, Bc = TRUE, 
@@ -486,10 +487,10 @@ if (W ==  TRUE ){
     graphics::axis(side = 1, at = seq(0,(bb-aa), cc), labels = seq(aa,bb, cc))   
     graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
-      graphics::lines(Re(Spectrum_dataB[j,aa:b]), col="blue", type="l")}
+      graphics::lines(Re(Spectrum_dataB[j,aa:bb]), col="blue", type="l")}
     graphics::grid(20, NA, lty = 1, lwd = 0.7, col="gray44")
     
-    graphics::plot(Re(Spectrum_data[nspectr,aa:b]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data[c(nspectr, f),aa:bb]))), type="l", xlab="Frequency", main="After Warping (zoom)")
+    graphics::plot(Re(Spectrum_data[nspectr,aa:bb]), col="red", xaxt = "n",ylab = "Intensity",ylim=c(0, max(Re(Spectrum_data[c(nspectr, f),aa:bb]))), type="l", xlab="Frequency", main="After Warping (zoom)")
     graphics::axis(side = 1, at = seq(0,(bb-aa), cc), labels = seq(aa,bb, cc))    
     graphics::legend("topright", inset=c(-0.22,-0.12), legend=c("Ref. spectrum", "Warped  spectra"), lty = 1, cex=0.8, col=c("red", "blue"))    
     for (j in f) {
@@ -670,13 +671,13 @@ if (N ==  TRUE ){
     graphics::par(mfrow=c(2,1), mar=c(4,4,2,2))
     
     xat=round(as.numeric(colnames(Spectrum_dataB[,aa:bb])),5)
-    graphics::plot(Re(Spectrum_dataB[nspectr,aa:b]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
+    graphics::plot(Re(Spectrum_dataB[nspectr,aa:bb]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="Before Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
     for (i in 1:4){
       graphics::lines(Re(Spectrum_dataB[f[i],aa:bb]), col=grDevices::rainbow(5,start=0.4)[i+1]) 
     }
-    xat=round(as.numeric(colnames(Spectrum_data[,aa:b])),5)
+    xat=round(as.numeric(colnames(Spectrum_data[,aa:bb])),5)
     graphics::plot(Re(Spectrum_data[nspectr,aa:bb]), col=grDevices::rainbow(5,start=0.4)[1], xaxt="n", type="l",  ylab = "Intensity",xlab="ppm",  main="After Normalization (zoom)")
     at=seq(1,length(xat), length(xat)/20)
     graphics::axis(side=1, at=at, labels=round(xat[at],2))
