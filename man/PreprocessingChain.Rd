@@ -20,7 +20,8 @@ PreprocessingChain(dataname = "Dataset", data.path = getwd(), out.path = getwd()
                         Angle = NULL,  p.zo=0.8, 
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p.bc=0.05, eps=1e-8, 
                         shiftHandling="cut", c = 2, 
-                        normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
+                        normalization.type="median", from.normW=3.05, 
+                        to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
                         lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                         max_it_Bspline=10, returnReference=F,  
@@ -71,11 +72,13 @@ Other subfunction parameters are:
   \item{gaussLB}{Line Broadening for the gaussian window, see details.}
   \item{expLB}{Line Broadening for the exponential window, see details.}
   \item{SW_h}{Sweep Width in Hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If it is given, the value in \code{Fid_info} is ignored.}
+  \item{Angle}{If not \code{NULL}, is a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
+  \item{p.zo}{Positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile are averaged to detect an incorrect rotation due to a high water signal. p is the probability for the sample quantile used as threshold.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}.}
   \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8).}
-  \item{p}{Asymmetry parameter.}
+  \item{p.bc}{Asymmetry parameter.}
   \item{eps}{Numerical precision for convergence when estimating the baseline.}
   \item{shiftHandling}{See the details section.}
   \item{c}{Parameter used to fix the threshold for the TMSP peak.}

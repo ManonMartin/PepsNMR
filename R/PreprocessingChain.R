@@ -78,7 +78,6 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         Angle = NULL,  p.zo=0.8, # ZeroOrderPhaseCorrection
                         ptw.bc=TRUE, maxIter = 42,lambda.bc=1e7, p.bc=0.05, eps=1e-8, # BaselineCorrection
                         shiftHandling="cut", c = 2, #PPMConversion
-                        
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
                         lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
@@ -90,7 +89,29 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm=1 # Normalization
                         ) { 
 
+#====== checking arguments
+checkArg(dataname, c("str", "l1"))
+checkArg(data.path, c("str", "l1"))
+checkArg(out.path, c("str", "l1"))
+checkArg(nspectr, c("num", "pos"))
+checkArg(save, "bool")
+checkArg(saveall, "bool")
+checkArg(ImpG, "bool")
+checkArg(RetArgs, "bool")
+checkArg(Fopc, "bool")
+checkArg(Ss, "bool")
+checkArg(A, "bool")
+checkArg(Zopc, "bool")
+checkArg(Bc, "bool")
+checkArg(Zsnv, "bool")
+checkArg(W, "bool")
+checkArg(B, "bool")
+checkArg(Zs, "bool")
+checkArg(Za, "bool")
+checkArg(N, "bool")
+export = match.arg(export)
 
+#======  
  
 #_______________________________________________________
 #############################
