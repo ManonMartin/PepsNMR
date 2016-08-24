@@ -154,7 +154,8 @@ Bucketing <- function(Spectrum_data, m = 500, width = FALSE, ppmleft=NULL, ppmri
        # Integral of the part of the integral of the leftmost trapezium that is after buckets[i]
        left_part   <- left_part_trapz(ppm[from], ppm[from+1], buckets[i]  , Spectrum_data[, from], Spectrum_data[, from+1])
        right_part  <- left_part_trapz(ppm[to]  , ppm[to-1]  , buckets[i+1], Spectrum_data[, to], Spectrum_data[, to-1])
-       bucketed[, i] = (trapz_right + trapz_left - left_part - right_part) / (abs(buckets[i+1] - buckets[i]))
+       bucketed[, i] = (trapz_right + trapz_left - left_part - right_part) / bl_new
+         # (abs(buckets[i+1] - buckets[i]))
       }
     }
  
