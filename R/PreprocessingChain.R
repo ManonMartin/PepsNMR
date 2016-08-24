@@ -84,7 +84,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                         max_it_Bspline=10, returnReference=F,  #Warping
                         from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, # WindowSelection
-                        m = 500, # Bucketing
+                        m = 500, width = FALSE, ppmleft=NULL, ppmright = NULL, intmeth = c("r", "t"), tolbuck = 10^-4, # Bucketing
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), # RegionRemoval
                         fromto.za = list(Citrate =c(2.5, 2.7)), # ZoneAggregation
                         type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm=1 # Normalization
@@ -535,7 +535,7 @@ if (ImpG==TRUE) {
 
 if (B ==  TRUE ){
   Spectrum_dataB = Spectrum_data
-  Spectrum_data = Bucketing(Spectrum_data, m = m)
+  Spectrum_data = Bucketing(Spectrum_data, m = m, width = width, ppmleft=ppmleft, ppmright = ppmright, intmeth = intmeth, tolbuck = tolbuck)
 
   if (saveall == TRUE) {
     PretreatedSpectrabyStep[[step]] = Spectrum_data

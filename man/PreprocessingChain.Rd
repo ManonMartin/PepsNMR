@@ -26,7 +26,7 @@ PreprocessingChain(dataname = "Dataset", data.path = getwd(), out.path = getwd()
                         lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
                         max_it_Bspline=10, returnReference=F,  
                         from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, 
-                        m = 500, 
+                        m = 500, width = FALSE, ppmleft=NULL, ppmright = NULL, intmeth = c("r", "t"), tolbuck = 10^-4, 
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), 
                         fromto.za = list(Citrate =c(2.5, 2.7)), 
                         type.norm="mean", from.norm=3.05, to.norm=4.05, ref.norm=1)
@@ -114,6 +114,12 @@ See the reference for more details.}
   \item{to.ws}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA}
   \item{reverse.axis}{If \code{TRUE}, the ppm interval and the spectrum are reversed.}
   \item{m}{The number of buckets, should be an positive integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}
+  \item{width}{If \code{width} is not \code{FALSE}, then \code{m} represents the buckets width, otherwise, it represents the number of buckets.}
+  \item{ppmleft}{Left boundary for ppm integration.}
+  \item{ppmright}{Right boundary for ppm integration.}
+  \item{intmeth}{Type of bucketing: rectangular (\code{"r"}) or trapezoidal (\code{"t"}). See details below.}
+  \item{tolbuck}{Tolerance threshold to check if the buckets of the original spectra are of constant length.}
+  
   \item{typeofspectra}{Type of spectra, if not \code{NULL}, will automatically remove unwanted regions wrt the nature of the spectra.}
   \item{type.rr}{The type of region removal method.}
   \item{fromto.rr}{List containing the extremities of the intervals to be removed.}  
