@@ -23,8 +23,7 @@ PreprocessingChain(dataname = "Dataset", data.path = getwd(), out.path = getwd()
                         normalization.type="median", from.normW=3.05, 
                         to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
-                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                        max_it_Bspline=10, returnReference=F,  
+                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,max_it_Bspline=10, 
                         from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, 
                         m = 500, width = FALSE, ppmleft=NULL, ppmright = NULL, intmeth = c("r", "t"), tolbuck = 10^-4, 
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), 
@@ -109,7 +108,6 @@ It should be either 0 or greater than \code{deg}.}
   \item{kappa}{Nonnegative ridge penalty coefficient for the B-Spline warping.
 See the reference for more details.}
   \item{max_it_Bspline}{Maximum number of iteration for the B-Spline warping.}
-  \item{returnReference}{If TRUE, will return the name of the reference spectrum for warping.}
   \item{from.ws}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA.}
   \item{to.ws}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA}
   \item{reverse.axis}{If \code{TRUE}, the ppm interval and the spectrum are reversed.}

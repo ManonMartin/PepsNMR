@@ -4,7 +4,7 @@ Warping <- function(RawSpect_data,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
                     optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                    max_it_Bspline=10, returnReference=F) {
+                    max_it_Bspline=10, returnReference=FALSE, returnWarpFunc = FALSE) {
   meanSqrDiff <- function(m, row) {
     # for the row ref, x - m[ref,] is 0
     # to get, the mean, we divide by nrow(data)-1 because the row ref is ignored
@@ -36,7 +36,7 @@ Warping <- function(RawSpect_data,
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)
   if (normalization.type != "none") {
-    Normalization(RawSpect_data, normalization.type, from.normW, to.normW)
+    RawSpect_data = Normalization(RawSpect_data, normalization.type, from.normW, to.normW)
   }
   rnames <- rownames(RawSpect_data)
   if (n > 1) {
@@ -60,6 +60,9 @@ Warping <- function(RawSpect_data,
       sample <- RawSpect_data[samp_rnames, , drop=F]
       beta <- rep(0, K+1)
       cur.Warped_data <- RawSpect_data
+      warp.func <- RawSpect_data
+      warp.func[reference, ] = 0
+      
       if (K >= 1) {
         # This is beta_1 which should be approximately 1 because
         # if they are perfectly aligned w(v) = v = 0*1 + 1*v + 0*v^2 + 0*v^3
@@ -72,6 +75,7 @@ Warping <- function(RawSpect_data,
         cur.Warped_data[samp_rnames, ] <- ptw.output$warped.sample
         # We transpose because 'diff' is along the columns
         w <- t(ptw.output$warp.fun)
+        warp.func[samp_rnames, ] = w
       } else {
         if (optim.crit == "WCC") {
           stop("WCC is only implemented in ptw, set ptw.wp=T to use WCC.")
@@ -84,6 +88,7 @@ Warping <- function(RawSpect_data,
           warped <- sw.output$warped
           w <- sw.output$w
           cur.Warped_data[samp_rname, ] = warped
+          warp.func[samp_rname, ] = w
         }
       }
       cur.meanSqrDiff <- meanSqrDiff(cur.Warped_data, reference)
@@ -91,6 +96,7 @@ Warping <- function(RawSpect_data,
         best.meanSqrDiff <- cur.meanSqrDiff
         best.Warped_data <- cur.Warped_data
         decreasing <- (FALSE %in% (diff(w) > 0))
+        
       }
     
     }
@@ -104,6 +110,13 @@ Warping <- function(RawSpect_data,
   
   RawSpect_data = endTreatment("Warping", begin_info, best.Warped_data)
   if (returnReference) {
-    return(list(RawSpect_data=RawSpect_data, Reference=reference))
-  } else {return(RawSpect_data) }
+    if (returnWarpFunc) {
+    return(list(RawSpect_data=RawSpect_data, Reference=reference, Warp.func = warp.func))
+    } else {return(list(RawSpect_data=RawSpect_data, Reference=reference))}
+  } else {
+    if (returnWarpFunc) {
+    return(list(RawSpect_data=RawSpect_data, Warp.func = warp.func))
+    }else { return(RawSpect_data=RawSpect_data)}
+  }
+  
 }

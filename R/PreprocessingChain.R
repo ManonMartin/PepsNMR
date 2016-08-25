@@ -81,8 +81,7 @@ PreprocessingChain = function(dataname = "Dataset", data.path = getwd(), out.pat
                         shiftHandling="cut", c = 2, #PPMConversion
                         normalization.type="median", from.normW=3.05, to.normW=4.05,reference.choosing="fixed", 
                         reference=1,optim.crit="RMS", ptw.wp=F, K=3, L=40,
-                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                        max_it_Bspline=10, returnReference=F,  #Warping
+                        lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001, max_it_Bspline=10,   #Warping
                         from.ws = 0.2, to.ws = 10, reverse.axis = TRUE, # WindowSelection
                         m = 500, width = FALSE, ppmleft=NULL, ppmright = NULL, intmeth = c("r", "t"), tolbuck = 10^-4, # Bucketing
                         typeofspectra = "serum",type.rr =  "zero", fromto.rr=list(Water =c(4.5, 5.1)), # RegionRemoval
@@ -460,7 +459,7 @@ if (W ==  TRUE ){
                       from.normW=from.normW, to.normW=to.normW,reference.choosing=reference.choosing, 
                       reference=reference,optim.crit=optim.crit, ptw.wp=ptw.wp, K=K, L=L,
                       lambda.smooth=lambda.smooth, deg=deg, lambda.bspline=lambda.bspline, kappa=kappa,
-                      max_it_Bspline=max_it_Bspline, returnReference=returnReference)
+                      max_it_Bspline=max_it_Bspline, returnReference=FALSE, returnWarpFunc = FALSE)
   
   
   if (saveall == TRUE) {

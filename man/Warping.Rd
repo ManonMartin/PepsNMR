@@ -11,7 +11,7 @@ Warping(RawSpect_data,
                     reference.choosing=c("fixed", "before", "after"), reference=1,
                     optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
                     lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                    max_it_Bspline=10, returnReference = F)
+                    max_it_Bspline=10, returnReference = FALSE, returnWarpFunc = FALSE)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -42,7 +42,8 @@ It should be either 0 or greater than \code{deg}.}
 \item{kappa}{Nonnegative ridge penalty coefficient for the B-Spline warping.
 See the reference for more details.}
 \item{max_it_Bspline}{Maximum number of iteration for the B-Spline warping.}
-\item{returnReference}{If TRUE, will return the name of the reference spectrum.}
+\item{returnReference}{If \code{TRUE}, will return the name of the reference spectrum.}
+\item{returnWarpFunc}{If \code{TRUE}, will return the warping functions.}
 
 }
 \details{
