@@ -91,7 +91,7 @@ function (Signal_data,
 #           require("ggplot2")
 #           require("reshape2")
           melted <- reshape2::melt(elements[[name]][i:last,], varnames=c("rowname", "Var"))
-          plots[[name]] <- ggplot2::ggplot(data = t(melted), ggplot2::aes(x = Var, y = value)) 
+          plots[[name]] <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) +
           ggplot2::geom_line() +
           ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
           ggplot2::theme(legend.position="none") +
