@@ -2,7 +2,8 @@
 #' @importFrom stats quantile sd
 #' @importFrom graphics par plot
 #' 
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p.zo=0.8, plot_spectra = FALSE) {
+ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
+                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
   n <- nrow(RawSpect_data)
@@ -111,8 +112,11 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   vect = which(MEAN_Q < 0)
   if (length(vect)!=0) {
     warning("The mean of", p.zo," positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
-    cat(" An automatic 180 degree rotation is applied to these spectra")
-    Angle[vect] = Angle[vect] + pi 
+    if(rotation == TRUE) {
+      warning(" An automatic 180 degree rotation is applied to these spectra")
+      Angle[vect] = Angle[vect] + pi       
+    }
+
   }
   
   vect_risk = which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low value copared to mean of positive mean values?
