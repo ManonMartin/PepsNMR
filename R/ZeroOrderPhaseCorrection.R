@@ -134,7 +134,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     i = 1
     for (k in 1:nn) {
       graphics::par(mfrow=c(4,2))
-      while (i <= last)
+      while (i <= n)
       {
         last = min(i + 4-1, n)
         graphics::plot(Re(RawSpect_data[i,]), type="l", ylab = "intensity", xlab="Index",main = paste0(rownames(RawSpect_data)[i], " - Real part"))
