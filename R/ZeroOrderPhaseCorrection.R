@@ -5,7 +5,9 @@
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, Angle = NULL,   p.zo=0.8, plot_spectra = FALSE) {
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
-
+  n <- nrow(RawSpect_data)
+  rnames <- rownames(RawSpect_data)
+  
   debug_plot <- F
     
     if (is.null(Angle)) {
@@ -24,8 +26,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     return(ssa/ssb)
   }
 
-  n <- nrow(RawSpect_data)
-  rnames <- rownames(RawSpect_data)
+  
+  
   Angle <- c()
   for (k in 1:n) {
     # The function is rms is periodic (period 2pi) and it seems that there is a phase x
