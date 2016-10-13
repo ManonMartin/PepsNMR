@@ -19,12 +19,22 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     # }
     roty <- y * exp(complex(real=0, imaginary=ang))
     Rey <- Re(roty)
-    negRey <- Rey[Rey < 0]
-    a <- mean(negRey)
-    b <- mean(Rey)
-    ssa <- sqrt(sum((negRey - a)^2))
-    ssb <- sum((Rey - b)^2)
-    return(ssa/ssb)
+    # negRey <- Rey[Rey < 0]
+    # a <- mean(negRey)
+    # b <- mean(Rey)
+    # ssa <- sqrt(sum((negRey - a)^2))
+    # ssb <- sum((Rey - b)^2)
+    # return(ssa/ssb)
+    
+    Rey[abs(Rey)>=quantile(abs(Rey), .95)] = quantile(abs(Rey), .95) # trim
+    Rey = abs(Rey)*sign(Rey)
+    ReyPos <- Rey[Rey >= 0]
+    
+    POSss = sum((ReyPos-mean(ReyPos))^2)
+    
+    ss = sum((Rey - mean(Rey))^2)
+    
+    return(POSss/ss)
   }
 
   
