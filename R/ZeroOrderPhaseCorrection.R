@@ -17,19 +17,19 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     # if (debug_plot) {
     #   graphics::abline(v=ang, col="gray60")
     # }
-    roty <- y * exp(complex(real=0, imaginary=ang))
-    Rey <- Re(roty)
-    si = sign(Rey)
+    roty <- y * exp(complex(real=0, imaginary=ang)) # spectrum rotation
+    Rey <- Re(roty) 
+    si = sign(Rey) # sign of intensities
     
-    Rey[abs(Rey)>=quantile(abs(Rey), .95)] = quantile(abs(Rey), .95) # trim
-    Rey = abs(Rey)*si
-    ReyPos <- Rey[Rey >= 0]
+    Rey[abs(Rey)>=quantile(abs(Rey), .95)] = quantile(abs(Rey), .95) # trim the values
+    Rey = abs(Rey)*si # spectral trimmed values
+    ReyPos <- Rey[Rey >= 0] # select positive intensities
     
-    POSss = sum((ReyPos-mean(ReyPos))^2)
-    b <- mean(Rey)
-    ss = sum((Rey - b)^2)
+    POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
+    b <- mean(Rey) 
+    ss = sum((Rey - b)^2) # centred SS for all intensities
     
-    return(POSss/ss)
+    return(POSss/ss) # criterion : SS for positive values / SS for all intensities 
   }
 
   
