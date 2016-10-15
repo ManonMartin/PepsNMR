@@ -69,8 +69,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       debug_plot <- T
     }
 
-    best <- stats::optimize(rms, interval=interval, maximum=FALSE, y=RawSpect_data[k,])
-    ang <- best[["minimum"]]
+    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,])
+    ang <- best[["maximum"]]
 
     if (debug_plot) {
       graphics::abline(v=ang, col="black")
