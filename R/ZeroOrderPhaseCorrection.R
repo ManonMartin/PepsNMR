@@ -101,39 +101,39 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       }
   }
   
-  
-  #================== Detect a 180° rotation due to the water signal
-  MEAN_Q = c()
-  for (i in 1:nrow(RawSpect_data)) {
-    data = Re(RawSpect_data[i,])
-    data_p = data[data >= stats::quantile(data[data >=0 ], p.zo)]
-    data_n = data[data <= stats::quantile(data[data <0 ], (1-p.zo))]
-    
-    mean_quant = (sum(data_p) + sum(data_n)) / (length(data_p) +length(data_n))
-    # mean(p.zo% higher pos and neg values)
-    MEAN_Q = c(MEAN_Q, mean_quant)
-  }
-  
-  vect = which(MEAN_Q < 0)
-  if (length(vect)!=0) {
-    warning("The mean of", p.zo," positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
-    if(rotation == TRUE) {
-      warning(" An automatic 180 degree rotation is applied to these spectra")
-      Angle[vect] = Angle[vect] + pi       
-    }
-
-  }
-  
-  vect_risk = which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low value copared to mean of positive mean values?
-  if (length(vect_risk)!=0) {
-    warning("the rotation angle for spectra", paste0(rownames(RawSpect_data)[vect_risk],"; "), "might not be optimal, you need to check visually for those spectra")
-  }
-  
-  # result of automatic rotation
-  for (k in vect_risk) {
-    RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=Angle[k]))
-  }
-  #==================
+  # 
+  # #================== Detect a 180° rotation due to the water signal
+  # MEAN_Q = c()
+  # for (i in 1:nrow(RawSpect_data)) {
+  #   data = Re(RawSpect_data[i,])
+  #   data_p = data[data >= stats::quantile(data[data >=0 ], p.zo)]
+  #   data_n = data[data <= stats::quantile(data[data <0 ], (1-p.zo))]
+  #   
+  #   mean_quant = (sum(data_p) + sum(data_n)) / (length(data_p) +length(data_n))
+  #   # mean(p.zo% higher pos and neg values)
+  #   MEAN_Q = c(MEAN_Q, mean_quant)
+  # }
+  # 
+  # vect = which(MEAN_Q < 0)
+  # if (length(vect)!=0) {
+  #   warning("The mean of", p.zo," positive and negative quantiles is negative for ", paste0(rownames(RawSpect_data)[vect],"; "))
+  #   if(rotation == TRUE) {
+  #     warning(" An automatic 180 degree rotation is applied to these spectra")
+  #     Angle[vect] = Angle[vect] + pi       
+  #   }
+  # 
+  # }
+  # 
+  # vect_risk = which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low value copared to mean of positive mean values?
+  # if (length(vect_risk)!=0) {
+  #   warning("the rotation angle for spectra", paste0(rownames(RawSpect_data)[vect_risk],"; "), "might not be optimal, you need to check visually for those spectra")
+  # }
+  # 
+  # # result of automatic rotation
+  # for (k in vect_risk) {
+  #   RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=Angle[k]))
+  # }
+  # #==================
   
   
   
