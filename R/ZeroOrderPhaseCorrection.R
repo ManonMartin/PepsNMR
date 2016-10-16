@@ -25,9 +25,12 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     Rey = abs(Rey)*si # spectral trimmed values
     ReyPos <- Rey[Rey >= 0] # select positive intensities
     
-    POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
+    # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
+    POSss = sum((ReyPos)^2)
+    
     b <- mean(Rey) 
-    ss = sum((Rey - b)^2) # centred SS for all intensities
+    # ss = sum((Rey - b)^2) # centred SS for all intensities
+    ss = sum((Rey)^2) # centred SS for all intensities
     
     return(POSss/ss) # criterion : SS for positive values / SS for all intensities 
   }
@@ -71,7 +74,19 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
 
     best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,])
     ang <- best[["maximum"]]
-
+    
+    
+    ## debug
+    # x <- seq(min(interval),max(interval),length.out=100)
+    # y <- rep(1,100)
+    # for (K in (1:100)) {
+    #   y[K] <- rms(x[K], RawSpect_data[k,])
+    # }
+    # 
+    # ang = x[which(y ==max(y))]
+    ##
+    
+   
     if (debug_plot) {
       graphics::abline(v=ang, col="black")
       # grDevices::dev.off()
