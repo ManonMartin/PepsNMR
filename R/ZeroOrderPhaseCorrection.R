@@ -3,7 +3,7 @@
 #' @importFrom graphics par plot
 #' 
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
-                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE, p = 0.95) {
+                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE, quant = 0.95) {
   # plot_rms : graph of rms criterion
   # returnAngle : if TRUE, returns avector of optimal angles
   # createWindow : for plot_rms plots
@@ -12,7 +12,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   # plot_spectra : if TRUE, plot rotated spectra
   # rotation: argument à retirer, auparavant : rotation automatique si détection 
   # d'une mauvaise rotation (mais critère pas assez précis)
-  # p: probability for sample quantile used to trim the spectral intensities
+  # quant: probability for sample quantile used to trim the spectral intensities
 
  
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
@@ -24,7 +24,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   
     if (is.null(Angle)) {
 
-  rms <- function(ang, y, p=p) {
+  rms <- function(ang, y, p=0.95) {
     # if (debug_plot) {
     #   graphics::abline(v=ang, col="gray60")
     # }
@@ -60,8 +60,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     # Supposing that rms is unimodal, the classical 1D unimodal optimization will
     # work in either [-pi;pi] or [0;2pi] (this is not easy to be convinced by that I agree)
     # and we can check which one it is simply by the following trick
-    f0  <- rms(0,  RawSpect_data[k,])
-    fpi <- rms(pi, RawSpect_data[k,])
+    f0  <- rms(0,  RawSpect_data[k,], p = quant)
+    fpi <- rms(pi, RawSpect_data[k,], p = quant)
     if (f0 < fpi) {
       interval <- c(-pi, pi)
     } else {
@@ -74,7 +74,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       x <- seq(min(interval),max(interval),length.out=100)
       y <- rep(1,100)
       for (K in (1:100)) {
-        y[K] <- rms(x[K], RawSpect_data[k,])
+        y[K] <- rms(x[K], RawSpect_data[k,], p = quant)
       }
       if (createWindow==TRUE) {
         grDevices::dev.new(noRStudioGD = FALSE) 
@@ -84,7 +84,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     }
     
     # Best angle
-    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,])
+    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,], p = quant)
     ang <- best[["maximum"]]
     
    
