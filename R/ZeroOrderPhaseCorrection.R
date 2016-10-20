@@ -24,7 +24,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   
     if (is.null(Angle)) {
 
-  rms <- function(ang, y, p) {
+  rms <- function(ang, y, p=p) {
     # if (debug_plot) {
     #   graphics::abline(v=ang, col="gray60")
     # }
