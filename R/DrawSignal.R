@@ -73,7 +73,49 @@ function (Signal_data,
   if (ReImModArg[4]) {
     elements[["Arg"]] <- Arg(Signal_data)
   }
-  if (subtype == "separate" | subtype == "stacked") {
+ 
+  
+  if (n==1) {
+    main.names = deparse(substitute(Signal_data))
+    
+    
+    if (subtype == "separate") {
+      
+      for (name in names(elements)) {
+        
+        if (createWindow) {
+          grDevices::dev.new(noRStudioGD = TRUE) 
+        }
+        plots = qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
+                      main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
+        
+        if ((as.numeric(names(elements[[name]][1]))- as.numeric(names(elements[[name]][m])))>0) {
+          plots =  plots + ggplot2::scale_x_reverse() 
+        }
+        print(plots)
+        
+      }
+    } else if (subtype == "stacked") {
+      plots=list()
+      
+      for (name in names(elements)) {
+        # require(gridExtra)
+        
+        plots[[name]] = qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
+                              main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
+        
+        if ((as.numeric(names(elements[[name]][1]))- as.numeric(names(elements[[name]][m])))>0) {
+          plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
+        }
+      }
+      do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
+    } else {warning("Misspecified subtype for Signal_data as a vector: should be either \"separate\" or \"stacked\"")}
+    
+    
+    
+    
+  } else if (subtype == "separate" | subtype == "stacked") {
+  
     i = 1
     while (i <= n)
     {
