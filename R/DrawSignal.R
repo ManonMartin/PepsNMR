@@ -86,7 +86,7 @@ function (Signal_data,
         if (createWindow) {
           grDevices::dev.new(noRStudioGD = TRUE) 
         }
-        plots = qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
+        plots = ggplot2::qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
                       main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
         
         if ((as.numeric(names(elements[[name]][1]))- as.numeric(names(elements[[name]][m])))>0) {
@@ -101,7 +101,7 @@ function (Signal_data,
       for (name in names(elements)) {
         # require(gridExtra)
         
-        plots[[name]] = qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
+        plots[[name]] = ggplot2::qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
                               main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
         
         if ((as.numeric(names(elements[[name]][1]))- as.numeric(names(elements[[name]][m])))>0) {
