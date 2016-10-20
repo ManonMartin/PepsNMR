@@ -13,9 +13,17 @@ function (Signal_data,
                         createWindow) {
   subtype  <- match.arg(subtype)
 
-  scale    <- colnames(Signal_data)
-  n        <- nrow(Signal_data)
-  m        <- ncol(Signal_data)
+  if (is.vector(Signal_data)){
+    m   <- length(Signal_data)
+    n   <- 1
+    scale <- 1:m
+  } else {
+    scale    <- colnames(Signal_data)
+    n        <- nrow(Signal_data)
+    m        <- ncol(Signal_data)
+  }
+  
+  
   vticks   <- round(seq(1, m, length=nticks))
   vlabels  <- scale[vticks]
   vlabels  <- round(as.numeric(vlabels),2)
