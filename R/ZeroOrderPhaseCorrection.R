@@ -3,17 +3,28 @@
 #' @importFrom graphics par plot
 #' 
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
-                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE) {
+                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE, p = 0.95) {
+  # plot_rms : graph of rms criterion
+  # returnAngle : if TRUE, returns avector of optimal angles
+  # createWindow : for plot_rms plots
+  # Angle : If Angle is not NULL, spectra are rotated according to the Angle vector values 
+  # p.zo: idem que rotation: à retirer
+  # plot_spectra : if TRUE, plot rotated spectra
+  # rotation: argument à retirer, auparavant : rotation automatique si détection 
+  # d'une mauvaise rotation (mais critère pas assez précis)
+  # p: probability for sample quantile used to trim the spectral intensities
+
+ 
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
   n <- nrow(RawSpect_data)
   rnames <- rownames(RawSpect_data)
   
-  debug_plot <- F
     
+  
     if (is.null(Angle)) {
 
-  rms <- function(ang, y) {
+  rms <- function(ang, y, p) {
     # if (debug_plot) {
     #   graphics::abline(v=ang, col="gray60")
     # }
@@ -21,22 +32,21 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     Rey <- Re(roty) 
     si = sign(Rey) # sign of intensities
     
-    Rey[abs(Rey)>=quantile(abs(Rey), .95)] = quantile(abs(Rey), .95) # trim the values
+    Rey[abs(Rey)>=quantile(abs(Rey), p)] = quantile(abs(Rey), p) # trim the values
     Rey = abs(Rey)*si # spectral trimmed values
     ReyPos <- Rey[Rey >= 0] # select positive intensities
     
     # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
-    POSss = sum((ReyPos)^2)
+    POSss = sum((ReyPos)^2) # SS for positive intensities
     
-    b <- mean(Rey) 
-    # ss = sum((Rey - b)^2) # centred SS for all intensities
-    ss = sum((Rey)^2) # centred SS for all intensities
+    # ss = sum((Rey - mean(Rey) )^2) # centred SS for all intensities
+    ss = sum((Rey)^2) #  SS for all intensities
     
     return(POSss/ss) # criterion : SS for positive values / SS for all intensities 
   }
 
   
-  
+  # Angles computation
   Angle <- c()
   for (k in 1:n) {
     # The function is rms is periodic (period 2pi) and it seems that there is a phase x
@@ -58,6 +68,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       interval <- c(0, 2*pi)
     }
 
+    # graphs of rms criteria
     debug_plot <- F # rms should not plot anything now, only when called by optimize
     if (!is.null(plot_rms) && rnames[k] %in% plot_rms) {
       x <- seq(min(interval),max(interval),length.out=100)
@@ -71,20 +82,10 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       graphics:: plot(x, y, main =  rownames(RawSpect_data)[k])
       debug_plot <- T
     }
-
+    
+    # Best angle
     best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,])
     ang <- best[["maximum"]]
-    
-    
-    ## debug
-    # x <- seq(min(interval),max(interval),length.out=100)
-    # y <- rep(1,100)
-    # for (K in (1:100)) {
-    #   y[K] <- rms(x[K], RawSpect_data[k,])
-    # }
-    # 
-    # ang = x[which(y ==max(y))]
-    ##
     
    
     if (debug_plot) {
@@ -92,12 +93,14 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       # grDevices::dev.off()
     }
 
+    # Spectrum rotation
     RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
     Angle = c(Angle, ang)
   }
   
   
-    } else {
+    } else { 
+    # if Angle is already specified and no optimisation is needed
       
     if (!is.vector(Angle)) {
       stop("Angle is not a vector")
