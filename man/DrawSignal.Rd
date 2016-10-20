@@ -7,7 +7,7 @@ Draw Signals
 Depending on the \code{subtype}, will draw the different parts of complex signals. 
 }
 \usage{
-DrawSignal(Signal_data, subtype=c("together", "separate", "stacked", 
+DrawSignal(Signal_data, subtype=c("stacked", "together", "separate", 
     "diffmean", "diffmedian", "diffwith"), ReImModArg=c(TRUE, FALSE, FALSE, FALSE),
     vertical=T,xlab="rowname", main.names = NULL, 
     nticks=42,row=1,num.stacked=4, main.title = NULL, createWindow)
