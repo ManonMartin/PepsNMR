@@ -9,17 +9,18 @@ Corrects the spectra in order to have the more absorptive mode of their real par
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE)
+ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE,  freq = TRUE, fromto.0OPC = NULL)
 }
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
   \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
-  \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms plots, if \code{FALSE}, plots are drawn in the current device.}
+  \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms or spectra plots, if \code{FALSE}, plots are drawn in the current device.}
  \item{Angle}{If not \code{NULL}, is a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
   \item{p.zo}{Positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile are averaged to detect an incorrect rotation due to a high water signal. p is the probability for the sample quantile used as threshold.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
- \item{rotation}{If \code{TRUE}, an automatic correction on rotation is applied to spectra.}
+ \item{freq}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies (column names of spectra), if \code{FALSE} these values are indices.}
+ \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion.}
 }
 \details{
 After the First Order Phase Correction, every part of the signal, \emph{i.e.} every frequency, theorically starts synchronized at 0.
@@ -38,6 +39,9 @@ You will observe in the output that the imaginary part is not so small but the r
 
 If a very high water signal is present in the spectrum, the positiveness criterion can erroneously rotate the spectrum of 180 degrees. An automatic procedure to detect this issue will average positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile. If the mean value is below 0, an automatic 180 degrees rotation is applied to the spectrum.
 
+ \bold{3 correction methods} are available to rotate the spectra: manually define a vector of angles (with \code{Angle}), apply an automatic rotation based on a positiveness criterion that is computed for the whole spectrum or such positiveness criterion computed on selected areas of the spectrum (with \code{fromto.0OPC} not \code{NULL}).
+
+
 }
 \value{
 \item{RawSpect_data}{The matrix of rotated spectra.}
@@ -47,11 +51,12 @@ If a very high water signal is present in the spectrum, the positiveness criteri
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
 }
 \author{
-Benoît Legat
+Benoît Legat, Manon Martin
 }
 
 \examples{
-Zopc.spec <- ZeroOrderPhaseCorrection(Data_HS_sp$RawSpectData_HS_4)
+Zopc.res <- ZeroOrderPhaseCorrection(Data_HS_sp$RawSpectData_HS_4, 
+            freq = FALSE, fromto.0OPC = list(c(5000,15000)))
 }
 
 \keyword{ manip }

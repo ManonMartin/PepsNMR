@@ -3,7 +3,8 @@
 #' @importFrom graphics par plot
 #' 
 ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
-                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, rotation = TRUE, quant = 0.95) {
+                                      Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, quant = 0.95, 
+                                      freq = TRUE, fromto.0OPC = NULL) {
   # plot_rms : graph of rms criterion
   # returnAngle : if TRUE, returns avector of optimal angles
   # createWindow : for plot_rms plots
@@ -23,6 +24,36 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     
   
     if (is.null(Angle)) {
+      if (is.null(fromto.0OPC)) {
+        Data = RawSpect_data
+      }else{
+        
+        # if freq == TRUE, then fromto is in the colnames values, else, in the column index
+        if (freq == TRUE) {
+          colindex = as.numeric(colnames(RawSpect_data))
+        }else{ colindex = 1:dim(RawSpect_data)[2]}
+        
+        # Second check for the argument fromto.0OPC
+        diff = diff(unlist(fromto.0OPC))[1:length(diff(unlist(fromto.0OPC))) %% 2 != 0]
+        for (i in 1:length(diff)) {
+          if (diff[i]<=0) {
+            stop(paste("Invalid region removal because from > to"))
+          } 
+        }
+        
+        Interval = vector("list", length(fromto.0OPC))
+        for (i in 1:length(fromto.0OPC)) {
+          Interval[[i]] <- indexInterval(colindex, from = fromto.0OPC[[i]][1], to = fromto.0OPC[[i]][2], inclusive=TRUE)
+        }
+        
+        
+        vector = rep(0, dim(RawSpect_data)[2])
+        vector[unlist(Interval)]=1
+        Cropped_Spectrum = sweep(RawSpect_data, MARGIN=2,  FUN = "*", vector)
+        
+        Data = Cropped_Spectrum
+      }
+  
 
   rms <- function(ang, y, p=0.95) {
     # if (debug_plot) {
@@ -60,8 +91,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     # Supposing that rms is unimodal, the classical 1D unimodal optimization will
     # work in either [-pi;pi] or [0;2pi] (this is not easy to be convinced by that I agree)
     # and we can check which one it is simply by the following trick
-    f0  <- rms(0,  RawSpect_data[k,], p = quant)
-    fpi <- rms(pi, RawSpect_data[k,], p = quant)
+    f0  <- rms(0,  Data[k,], p = quant)
+    fpi <- rms(pi, Data[k,], p = quant)
     if (f0 < fpi) {
       interval <- c(-pi, pi)
     } else {
@@ -74,17 +105,17 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       x <- seq(min(interval),max(interval),length.out=100)
       y <- rep(1,100)
       for (K in (1:100)) {
-        y[K] <- rms(x[K], RawSpect_data[k,], p = quant)
+        y[K] <- rms(x[K], Data[k,], p = quant)
       }
       if (createWindow==TRUE) {
         grDevices::dev.new(noRStudioGD = FALSE) 
       }
-      graphics:: plot(x, y, main =  rownames(RawSpect_data)[k])
+      graphics:: plot(x, y, main =  rownames(Data)[k])
       debug_plot <- T
     }
     
     # Best angle
-    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=RawSpect_data[k,], p = quant)
+    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=Data[k,], p = quant)
     ang <- best[["maximum"]]
     
    
@@ -160,6 +191,9 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     nn = ceiling(n/4)
     i = 1
     for (k in 1:nn) {
+      if (createWindow==TRUE) {
+        grDevices::dev.new(noRStudioGD = FALSE) 
+      }
       graphics::par(mfrow=c(4,2))
       while (i <= n)
       {
