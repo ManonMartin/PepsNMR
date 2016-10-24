@@ -9,7 +9,7 @@ Corrects the spectra in order to have the more absorptive mode of their real par
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE,  freq = TRUE, fromto.0OPC = NULL)
+ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE,  quant = 0.95, freq = TRUE, fromto.0OPC = NULL)
 }
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
@@ -19,6 +19,7 @@ ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, crea
  \item{Angle}{If not \code{NULL}, is a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
   \item{p.zo}{Positive and negative intensities \emph{resp.} above and bellow the \emph{p}th quantile are averaged to detect an incorrect rotation due to a high water signal. p is the probability for the sample quantile used as threshold.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
+ \item{quant}{Quantile probability for the positiveness criterion. See details.}
  \item{freq}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies (column names of spectra), if \code{FALSE} these values are indices.}
  \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion.}
 }
