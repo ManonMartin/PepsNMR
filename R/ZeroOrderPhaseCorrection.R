@@ -2,7 +2,7 @@
 #' @importFrom stats quantile sd
 #' @importFrom graphics par plot
 #' 
-ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
+ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSelect","manual", "max"), plot_rms=NULL, returnAngle = FALSE, createWindow=TRUE, 
                                       Angle = NULL,   p.zo=0.8, plot_spectra = FALSE, quant = 0.95, 
                                       freq = TRUE, fromto.0OPC = NULL) {
   # plot_rms : graph of rms criterion
@@ -19,11 +19,47 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
   n <- nrow(RawSpect_data)
+  if (is.null(n)) {n=1}
+  m = ncol(RawSpect_data)
+  if (is.null(m)) {m=length(RawSpect_data)}
   rnames <- rownames(RawSpect_data)
   
-    
+  method = match.arg(method)
   
-    if (is.null(Angle)) {
+  if (method == "rmsALL") {fromto.0OPC = NULL}
+  
+    if (method %in% c("max", "rmsALL", "rmsSelect")) {
+      
+##### function to be optimised   
+      rms <- function(ang, y, meth = c("max", "rmsALL", "rmsSelect"), p=0.95) {
+        # if (debug_plot) {
+        #   graphics::abline(v=ang, col="gray60")
+        # }
+        roty <- y * exp(complex(real=0, imaginary=ang)) # spectrum rotation
+        Rey <- Re(roty) 
+        
+        if (meth %in% c("rmsALL", "rmsSelect")) {
+          
+          si = sign(Rey) # sign of intensities
+          
+          Rey[abs(Rey)>=quantile(abs(Rey), p)] = quantile(abs(Rey), p) # trim the values
+          Rey = abs(Rey)*si # spectral trimmed values
+          ReyPos <- Rey[Rey >= 0] # select positive intensities
+          
+          # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
+          POSss = sum((ReyPos)^2) # SS for positive intensities
+          
+          # ss = sum((Rey - mean(Rey) )^2) # centred SS for all intensities
+          ss = sum((Rey)^2) #  SS for all intensities
+          
+          return(POSss/ss) # criterion : SS for positive values / SS for all intensities 
+        } else {
+          maxi = max(Rey)
+          return(maxi)
+        }
+      }
+      
+###### Several checks and Data definition (on which we will compute the criterion)     
       if (is.null(fromto.0OPC)) {
         Data = RawSpect_data
       }else{
@@ -31,7 +67,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
         # if freq == TRUE, then fromto is in the colnames values, else, in the column index
         if (freq == TRUE) {
           colindex = as.numeric(colnames(RawSpect_data))
-        }else{ colindex = 1:dim(RawSpect_data)[2]}
+        }else{ colindex = 1:m}
         
         # Second check for the argument fromto.0OPC
         diff = diff(unlist(fromto.0OPC))[1:length(diff(unlist(fromto.0OPC))) %% 2 != 0]
@@ -40,44 +76,23 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
             stop(paste("Invalid region removal because from > to"))
           } 
         }
-        
-        Interval = vector("list", length(fromto.0OPC))
+
+        Int = vector("list", length(fromto.0OPC))
         for (i in 1:length(fromto.0OPC)) {
-          Interval[[i]] <- indexInterval(colindex, from = fromto.0OPC[[i]][1], to = fromto.0OPC[[i]][2], inclusive=TRUE)
+          Int[[i]] <- indexInterval(colindex, 
+                                         from = fromto.0OPC[[i]][1], 
+                                         to = fromto.0OPC[[i]][2], inclusive=TRUE)
         }
         
-        
-        vector = rep(0, dim(RawSpect_data)[2])
-        vector[unlist(Interval)]=1
-        Cropped_Spectrum = sweep(RawSpect_data, MARGIN=2,  FUN = "*", vector)
-        
-        Data = Cropped_Spectrum
+        vector = rep(0, m)
+        vector[unlist(Int)]=1
+        if (n>1) {
+        Data = sweep(RawSpect_data, MARGIN=2,  FUN = "*", vector) # Cropped_Spectrum
+        } else {Data = RawSpect_data*vector} # Cropped_Spectrum
       }
   
-
-  rms <- function(ang, y, p=0.95) {
-    # if (debug_plot) {
-    #   graphics::abline(v=ang, col="gray60")
-    # }
-    roty <- y * exp(complex(real=0, imaginary=ang)) # spectrum rotation
-    Rey <- Re(roty) 
-    si = sign(Rey) # sign of intensities
-    
-    Rey[abs(Rey)>=quantile(abs(Rey), p)] = quantile(abs(Rey), p) # trim the values
-    Rey = abs(Rey)*si # spectral trimmed values
-    ReyPos <- Rey[Rey >= 0] # select positive intensities
-    
-    # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
-    POSss = sum((ReyPos)^2) # SS for positive intensities
-    
-    # ss = sum((Rey - mean(Rey) )^2) # centred SS for all intensities
-    ss = sum((Rey)^2) #  SS for all intensities
-    
-    return(POSss/ss) # criterion : SS for positive values / SS for all intensities 
-  }
-
   
-  # Angles computation
+######### Angles computation
   Angle <- c()
   for (k in 1:n) {
     # The function is rms is periodic (period 2pi) and it seems that there is a phase x
@@ -91,8 +106,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     # Supposing that rms is unimodal, the classical 1D unimodal optimization will
     # work in either [-pi;pi] or [0;2pi] (this is not easy to be convinced by that I agree)
     # and we can check which one it is simply by the following trick
-    f0  <- rms(0,  Data[k,], p = quant)
-    fpi <- rms(pi, Data[k,], p = quant)
+    f0  <- rms(0,  Data[k,], p = quant, meth = method)
+    fpi <- rms(pi, Data[k,], p = quant, meth = method)
     if (f0 < fpi) {
       interval <- c(-pi, pi)
     } else {
@@ -105,7 +120,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       x <- seq(min(interval),max(interval),length.out=100)
       y <- rep(1,100)
       for (K in (1:100)) {
-        y[K] <- rms(x[K], Data[k,], p = quant)
+        y[K] <- rms(x[K], Data[k,], p = quant, meth = method)
       }
       if (createWindow==TRUE) {
         grDevices::dev.new(noRStudioGD = FALSE) 
@@ -115,7 +130,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
     }
     
     # Best angle
-    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=Data[k,], p = quant)
+    best <- stats::optimize(rms, interval=interval, maximum=TRUE, y=Data[k,], p = quant, meth = method)
     ang <- best[["maximum"]]
     
    
@@ -124,9 +139,7 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       # grDevices::dev.off()
     }
 
-    # Spectrum rotation
-    RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
-    Angle = c(Angle, ang)
+   
   }
   
   
@@ -145,10 +158,12 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, plot_rms=NULL, returnAngle 
       stop(paste("Angle has length", length(Angle), "and there are", n, "spectra to rotate."))
     }
       
-      for (k in 1:n) {
-        RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=Angle[k]))
-      }
-  }
+    
+    }  
+  
+  # Spectrum rotation
+  RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
+  Angle = c(Angle, ang)
   
   # 
   # #================== Detect a 180° rotation due to the water signal

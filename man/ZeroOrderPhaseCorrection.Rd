@@ -9,10 +9,14 @@ Corrects the spectra in order to have the more absorptive mode of their real par
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, Angle = NULL, p.zo=0.8, plot_spectra = FALSE,  quant = 0.95, freq = TRUE, fromto.0OPC = NULL)
+ZeroOrderPhaseCorrection(RawSpect_data, method =c("rmsALL", "rmsSelect","manual", "max"), 
+          plot_rms=NULL, returnAngle = FALSE, createWindow = TRUE, 
+          Angle = NULL, p.zo=0.8, plot_spectra = FALSE,  quant = 0.95, 
+          freq = TRUE, fromto.0OPC = NULL)
 }
 \arguments{
   \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
+  \item{method}{The method used to select the angles to rotate the spectra. See details.}
   \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
   \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms or spectra plots, if \code{FALSE}, plots are drawn in the current device.}
@@ -24,6 +28,10 @@ ZeroOrderPhaseCorrection(RawSpect_data, plot_rms=NULL, returnAngle = FALSE, crea
  \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion.}
 }
 \details{
+
+When \code{method} is \code{"rmsALL"}, a positiveness criterion is applied on the entire spectrum. With \code{"rmsSELECT"}, only the spectral windows in \code{fromto.0OPC} is included for the optimization. \code{"manual"} is used when a vector of angles are specified in \code{Angle} and \code{"max"} will optimize a maximum intensity in the selected spectral windows. 
+
+
 After the First Order Phase Correction, every part of the signal, \emph{i.e.} every frequency, theorically starts synchronized at 0.
 All the values of the Fourier Transform should therefore theorically have the same argument (or angle).
 The purpose is to find this argument in a robust way and to rotate the signal of this angle in the complex plane so that the spectrum becomes real positive, \emph{i.e.} has an absoptive mode.
