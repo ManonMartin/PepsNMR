@@ -29,6 +29,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSel
   if (method == "rmsALL") {fromto.0OPC = NULL}
   
     if (method %in% c("max", "rmsALL", "rmsSelect")) {
+#------------------------------------------------------------------     
+# If Angle is found by optimization
       
 ##### function to be optimised   
       rms <- function(ang, y, meth = c("max", "rmsALL", "rmsSelect"), p=0.95) {
@@ -138,13 +140,18 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSel
       graphics::abline(v=ang, col="black")
       # grDevices::dev.off()
     }
-
-   
+    
+    # Spectrum rotation
+    RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
+    Angle = c(Angle, ang)
   }
   
   
+ 
+  
     } else { 
-    # if Angle is already specified and no optimisation is needed
+#------------------------------------------------------------------    
+# if Angle is already specified and no optimisation is needed
       
     if (!is.vector(Angle)) {
       stop("Angle is not a vector")
@@ -157,13 +164,12 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSel
     if (length(Angle) != n) {
       stop(paste("Angle has length", length(Angle), "and there are", n, "spectra to rotate."))
     }
-      
-    
+      for (k in 1:n) {
+      RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
+      }
     }  
   
-  # Spectrum rotation
-  RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0, imaginary=ang))
-  Angle = c(Angle, ang)
+
   
   # 
   # #================== Detect a 180° rotation due to the water signal
