@@ -19,9 +19,8 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSel
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
   RawSpect_data <- begin_info[["Signal_data"]]
   n <- nrow(RawSpect_data)
-  if (is.null(n)) {n=1}
   m = ncol(RawSpect_data)
-  if (is.null(m)) {m=length(RawSpect_data)}
+
   rnames <- rownames(RawSpect_data)
   
   method = match.arg(method)
