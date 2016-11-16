@@ -9,13 +9,17 @@ Converts the frequency scale from Hertz to part per million (PPM).
 \usage{
 PPMConversion(RawSpect_data, RawSpect_info,
               shiftHandling = c( "cut", "zerofilling",
-              "NAfilling", "circular"),c = 2)
+              "NAfilling", "circular"),c = 2, freq = FALSE, 
+              fromto.TMSP = NULL)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 \item{shiftHandling}{See the details section.}
 \item{c}{Parameter used to fix the threshold for the TMSP peak.}
+ \item{freq}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
+ \item{fromto.TMSP}{If not \code{NULL}, a list containing the extremities of the intervals within to search for the TMSP peak.}
+ 
 }
 \details{
 
