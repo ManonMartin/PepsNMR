@@ -18,7 +18,7 @@ PPMConversion(RawSpect_data, RawSpect_info,
 \item{shiftHandling}{See the details section.}
 \item{c}{Parameter used to fix the threshold for the TMSP peak.}
  \item{freq}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
- \item{fromto.TMSP}{If not \code{NULL}, a list containing the extremities of the intervals within to search for the TMSP peak.}
+ \item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}).}
  
 }
 \details{
