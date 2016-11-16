@@ -22,10 +22,14 @@ ZeroOrderPhaseCorrection <- function (RawSpect_data, method =c("rmsALL", "rmsSel
   m = ncol(RawSpect_data)
 
   rnames <- rownames(RawSpect_data)
-  
-  method = match.arg(method)
-  
   if (method == "rmsALL") {fromto.0OPC = NULL}
+  
+  
+### CHECK INPUT ARGUMENTS 
+  method = match.arg(method)
+  checkArg(freq, c("bool"))
+  checkArg(unlist(fromto.0OPC), c("num"), can.be.null = TRUE)
+  
   
     if (method %in% c("max", "rmsALL", "rmsSelect")) {
 #------------------------------------------------------------------     
