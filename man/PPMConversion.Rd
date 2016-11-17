@@ -7,7 +7,7 @@ PPM scale conversion.
 Converts the frequency scale from Hertz to part per million (PPM).
 }
 \usage{
-PPMConversion(RawSpect_data, RawSpect_info,
+PPMConversion(RawSpect_data, RawSpect_info, method = c("thres", "max"),
               shiftHandling = c( "cut", "zerofilling",
               "NAfilling", "circular"),c = 2, freq = FALSE, 
               fromto.TMSP = NULL)
@@ -15,6 +15,7 @@ PPMConversion(RawSpect_data, RawSpect_info,
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
+\item{method}{Method used to find the TMSP peaks in spectra, either based on a threshold (\code{"thres"}, cf. details section) or by the selection of the maximum real intensity location (\code{"max"}) in the \code{fromto.TMSP} window.}
 \item{shiftHandling}{See the details section.}
 \item{c}{Parameter used to fix the threshold for the TMSP peak.}
  \item{freq}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}

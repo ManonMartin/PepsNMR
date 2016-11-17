@@ -1,5 +1,5 @@
 #' @export PPMConversion
-PPMConversion <- function(RawSpect_data, RawSpect_info,
+PPMConversion <- function(RawSpect_data, RawSpect_info, method = c("thres", "max"),
                           shiftHandling=c("cut", "zerofilling","NAfilling", "circular"), c = 2, 
                           freq = TRUE, fromto.TMSP = NULL) {
   begin_info <- beginTreatment("PPMConversion", RawSpect_data, RawSpect_info)
@@ -8,6 +8,8 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
 
 ### CHECK INPUT ARGUMENTS  
   shiftHandling = match.arg(shiftHandling)
+  method = match.arg(method)
+  
   checkArg(freq, c("bool"))
   checkArg(unlist(fromto.TMSP), c("num"), can.be.null = TRUE)
   
@@ -53,7 +55,7 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   
   
 ################################## 
-### APPLY findTMSPpeak ON SPECTRA
+### APPLY METHOD ON SPECTRA
 ################################## 
   
   n <- nrow(RawSpect_data)
@@ -86,7 +88,12 @@ PPMConversion <- function(RawSpect_data, RawSpect_info,
   }
   
   
-  TMSPpeaks <- apply(Data, 1, findTMSPpeak)
+  if (method =="thres") {
+    TMSPpeaks <- apply(Data, 1, findTMSPpeak)
+  } else {
+    TMSPpeaks <- apply(Re(Data), 1,which.max)
+  } 
+ 
   maxpeak <- max(TMSPpeaks)
   minpeak <- min(TMSPpeaks)
   
