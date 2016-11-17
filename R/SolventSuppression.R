@@ -5,11 +5,12 @@ SolventSuppression <- function(Fid_data, lambda.ss=1e6, ptw.ss=TRUE, plotSolvent
   checkArg(ptw.ss, c("bool"))
   checkArg(lambda.ss, c("num", "pos0"))
   if (ptw.ss) {
-#     require("ptw")
+    # Use of the function in ptw that smoothes signals with a finite difference penalty of order 2
     difsm <- ptw::difsm
   } else {
-    difsm <- function(y, d=2, lambda.ss) {
-#       require('Matrix')
+    # Or manual implementation based on sparse matrices (cf. Eilers, 2003. "A perfect smoother")
+    difsm <- function(y, d=2, lambda) {
+
       m <- length(y)
       # Sparse identity matrix m x m
       E <- Matrix::Diagonal(m)
