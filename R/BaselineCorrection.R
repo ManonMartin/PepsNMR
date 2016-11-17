@@ -10,6 +10,7 @@ BaselineCorrection <- function (RawSpect_data, ptw.bc=TRUE, maxIter = 42,
   } else {
     difsmw <- function (y, lambda.bc, w, d) {
       # Weighted smoothing with a finite difference penalty
+      # cf Eilers, 2003. A perfect smoother
       # y:      signal to be smoothed
       # lambda.bc: smoothing parameter 
       # w:      weights (use0 zeros for missing values)
