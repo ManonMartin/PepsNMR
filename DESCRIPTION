@@ -1,7 +1,7 @@
 Package: SOAP
 Type: Package
 Title: Preprocess H-NMR FIDs
-Version: 1.0
+Version: 0.1.0
 Date: 2015-09-28
 Description: Preprocess H-NMR signals
 License: GPL-2 | file LICENSE
