@@ -9,13 +9,12 @@ Spectra normalization to correct for the dilution factor common to all biofuid s
 }
 \usage{
 Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-              "firstquartile", "peak"), from.norm = 3.05, to.norm = 4.05, ref.norm=1)
+              "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm=1)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{type.norm}{Different types of normalization are available. See the details section.}
-  \item{from.norm}{Used if \code{type.norm} is \code{peak}. See details.}
-  \item{to.norm}{Used if \code{type.norm} is \code{peak}. See details.}
+  \item{fromto.norm}{Used if \code{type.norm} is \code{peak}. See details.}
   \item{ref.norm}{Row index for the reference spectrum if \code{type.norm} is \code{pqn}. See details.}
 }
 \details{
@@ -29,7 +28,7 @@ Types can be:
 \item{\code{mean}}{Each spectrum is divided by its mean so that its mean becomes 1.}
 \item{\code{median}}{Each spectrum is divided by its median so that its median becomes 1.}
 \item{\code{firstquartile}}{Each spectrum is divided by its first quartile so that its first quartile becomes 1.}
-\item{\code{peak}}{Each spectrum is divided by the value of the peak of the spectrum contained between \code{from.norm} and \code{to.norm} inclusive (\emph{i.e.} the maximum value of the spectrum in that interval).}
+\item{\code{peak}}{Each spectrum is divided by the value of the peak of the spectrum contained between \code{fromto.norm} inclusive (\emph{i.e.} the maximum value of the spectrum in that interval).}
 \item{\code{pqn}}{Probabilistic Quotient Normalization from Dieterle et al. (2006). If \code{ref} is missing, will use the median spectrum as the reference spectrum, otherwise will use the spectrum specified by the row index \code{ref.norm}.}
 }
 }

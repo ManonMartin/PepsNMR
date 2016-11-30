@@ -1,10 +1,14 @@
 #' @export Normalization
-Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","firstquartile", "peak"), from.norm=3.05, to.norm=4.05, ref.norm=1) {
+Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm=1) {
   begin_info <- beginTreatment("Normalization", Spectrum_data, force.real=T)
   Spectrum_data <- begin_info[["Signal_data"]]
   type.norm <- match.arg(type.norm)
-  checkArg(from.norm, "num")
-  checkArg(to.norm, "num")
+  checkArg(fromto.norm, "num")
+
+  if(length(fromto.norm)>2) {
+  warning("fromto.norm has a length > 2, only the first two elements are taken into account")
+  }
+  
   switch(type.norm,
          "mean" = { # mean
            factor <- rowMeans(Spectrum_data, na.rm = TRUE)
@@ -19,7 +23,7 @@ Normalization <- function (Spectrum_data, type.norm=c("mean","pqn", "median","fi
          },
          "peak" = {
            ppm <- as.numeric(colnames(Spectrum_data))
-           interval <- indexInterval(ppm, from.norm, to.norm, inclusive=TRUE)
+           interval <- indexInterval(ppm, fromto.norm[1], fromto.norm[2], inclusive=TRUE)
            Spectrum_dataInZone = Spectrum_data[,interval,drop=F]
            peakInZone <- which.max(colSums(Spectrum_dataInZone))
            factor <- Spectrum_dataInZone[,peakInZone]
