@@ -1,5 +1,11 @@
-beginTreatment <- function (name, Signal_data=NULL, Signal_info=NULL, force.real=FALSE) {
+beginTreatment <- function(name, Signal_data = NULL, Signal_info = NULL, 
+                            force.real = FALSE) {
+ 
   cat("Begin", name, "\n")
+  
+  
+  # Formatting the Signal_data and Signal_info -----------------------
+  
   vec <- is.vector(Signal_data)
   if (vec) {
     Signal_data <- vec2mat(Signal_data)
@@ -18,22 +24,26 @@ beginTreatment <- function (name, Signal_data=NULL, Signal_info=NULL, force.real
   if (!is.null(Signal_info) && !is.matrix(Signal_info)) {
     stop("Signal_info is not a matrix.")
   }
+  
+
   Original_data <- Signal_data
+  
+  # Extract the real part of the spectrum ---------------------------
+  
   if (force.real) {
     if (is.complex(Signal_data)) {
       Signal_data <- Re(Signal_data)
     } else {
-      # The signal is numeric
-      # Im(Signal_data) is zero anyway so let's
-      # avoid using complex(real=...,imaginary=0)
-      # which would give a complex signal in endTreatment()
+      # The signal is numeric Im(Signal_data) is zero anyway so let's avoid
+      # using complex(real=...,imaginary=0) which would give a complex signal
+      # in endTreatment()
       force.real <- FALSE
     }
   }
-  return(list(start=proc.time(),
-              vec=vec,
-              force.real=force.real,
-              Original_data=Original_data,
-              Signal_data=Signal_data,
-              Signal_info=Signal_info))
+  
+  
+  # Return the formatted data and metadata entries --------------------
+  
+  return(list(start = proc.time(), vec = vec, force.real = force.real, 
+    Original_data = Original_data, Signal_data = Signal_data, Signal_info = Signal_info))
 }

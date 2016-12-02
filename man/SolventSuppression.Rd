@@ -8,16 +8,16 @@ Signal smooting for water residuals resonance removal.
 
 }
 \usage{
-SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss=TRUE, 
-                              plotSolvent=F, returnSolvent=F)
+SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE, 
+                              plotSolvent = F, returnSolvent = F)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{lambda.ss}{Penalty on roughness used to calculate the smoothed version of the FID.
   The higher lambda is, the smoother the detected solvent signal will be.}
   \item{ptw.ss}{If \code{TRUE}, calculates the solvent signal in C using the \code{ptw} package which is a lot faster.
-  The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
-  \item{plotSolvent}{If \code{TRUE}, plots the solvent signal on the current device. If you want a specific device or device parameter, set it before calling \code{SolventSuppression}.}
+  The R version is only kept in case of problems with the installation of \code{ptw}.}
+  \item{plotSolvent}{If \code{TRUE}, plots the solvent signal on the current device.}
     \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FID, the real part of the solvent signal and the imaginary part of the solvent signal, see the Examples.}
 }
 \details{
@@ -30,7 +30,7 @@ The smoothing is done with a Whittaker smoother which is obtained by the minimiz
 where
 \itemize{
   \item \eqn{V} is the sum of the squared differences between the original and the smoothed signal.
-  \item \eqn{R} measures the roughness of the smoothed signal. The smoother it is the lower \eqn{R} will be.
+  \item \eqn{R} measures the roughness of the smoothed signal. 
 }
 }
 \value{
@@ -50,8 +50,7 @@ If \code{returnSolvent = TRUE}, will return a list with the following elements: 
 \author{
 Benoît Legat
 }
-\note{
-}
+
 
 \seealso{
 See also \code{\link{BaselineCorrection}} which also uses the Whittaker smoother.

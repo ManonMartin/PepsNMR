@@ -4,28 +4,27 @@
 PPM scale conversion.
 }
 \description{
-Converts the frequency scale from Hertz to part per million (PPM).
+The function converts the frequency scale from hertz to part per million (ppm).
 }
 \usage{
 PPMConversion(RawSpect_data, RawSpect_info, method = c("thres", "max"),
-              shiftHandling = c( "cut", "zerofilling",
-              "NAfilling", "circular"),c = 2, freq = FALSE, 
-              fromto.TMSP = NULL)
+              shiftHandling = c( "cut", "zerofilling", "NAfilling", 
+              "circular"), c = 2, freq = TRUE, fromto.TMSP = NULL)
 }
 \arguments{
-\item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
+\item{RawSpect_data}{Matrix containing the spectra in hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
-\item{method}{Method used to find the TMSP peaks in spectra, either based on a threshold (\code{"thres"}, cf. details section) or by the selection of the maximum real intensity location (\code{"max"}) in the \code{fromto.TMSP} window.}
+\item{method}{Method used to find the TMSP peaks in spectra, either based on a threshold (\code{"thres"}, cf. details section) or by the selection of the maximum real intensity location (\code{"max"}) within the \code{fromto.TMSP} interval.}
 \item{shiftHandling}{See the details section.}
-\item{c}{Parameter used to fix the threshold for the TMSP peak.}
+\item{c}{Parameter used to fix the threshold for the TMSP peak if \code{method = "thres"}}
  \item{freq}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
- \item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}).}
+ \item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies OR column indices depending on the \code{freq} value.}
  
 }
 \details{
 
 The frequency scale is dependent on the kind of spectrometer used, more precisely on its
-external magnetic field. We therefore translate it to a PPM (Part Per Million) scale which is independent of this factor.
+external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor.
 
 TMSP peak is defined as the first peak in the spectrum higher than a predefined threshold. This threshold is computed as: \code{c*(cumulated_mean/cumulated_sd)}.
 
@@ -34,8 +33,9 @@ Since the spectra can be shifted differently, we need to handle misalignment of 
 This can be illustrated here:
 
 \preformatted{
-before
 | : TMSP peak
+
+before
  1  2  3  |  5  6  7  8  9
  1  2  3  4  5  |  7  8  9
  1  2  3  4  |  6  7  8  9
@@ -47,7 +47,8 @@ shifted
     1  2  3  4  |  6  7  8  9
 }
 
-The different shift handlings are the following:
+
+The different \bold{shift handlings} (\code{shiftHandling}) are the following:
 \describe{
 \item{\code{NAfilling}}{The extremities at which a spectrum is not defined are replaced by \code{NA}. It is detected by \code{\link{WindowSelection}} which produces a warning if there are NAs in the selected window.
 \preformatted{
@@ -91,6 +92,7 @@ The difference between these shift handlings should not be critical in practice 
 Benoît Legat
 }
 \examples{
-PpmConv.spec <- PPMConversion(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, shiftHandling ="zerofilling")
+PpmConv.spec <- PPMConversion(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, 
+                              shiftHandling = "zerofilling")
 }
 \keyword{ manip }

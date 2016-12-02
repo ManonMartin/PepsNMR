@@ -1,4 +1,8 @@
+# Linear interpolation
 Interpol <- function(t, y) {
+  # y: sample
+  # t : warping function
+  
   m <- length(y)
   # t <= m-1
   # because if t > m-1, y[ti+1] will be NA when we compute g

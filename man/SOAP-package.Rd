@@ -49,8 +49,7 @@ Maintainer: Benoît Legat <benoit.legat@gmail.com>
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
 }
 \keyword{ package }
-\seealso{
-}
+
 \examples{
 path <-  system.file("extdata", package = "SOAP")
 dir(path)

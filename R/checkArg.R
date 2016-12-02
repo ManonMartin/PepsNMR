@@ -1,3 +1,4 @@
+# Check entry arguments for other functions 
 checkArg <- function(arg, checks, can.be.null=FALSE) {
   check.list <- list(bool=c(is.logical, "a boolean"),
                      int =c(function(x){x%%1==0}, "an integer"),

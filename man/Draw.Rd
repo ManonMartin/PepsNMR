@@ -14,9 +14,9 @@ Draw(Signal_data, type.draw = c("signal","pca"),
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Signal_data}{Matrix containing the FIDs, RawSpectra or Spectra, as outputted by \code{\link{ReadFids}}.}
+  \item{Signal_data}{Matrix containing the signals or spectra, one line per signal/spectrum.}
   \item{type.draw}{Either "signal" or "pca", which calls respectively \code{\link{DrawSignal}} or \code{\link{DrawPCA}} to do the drawing.}
-  \item{output}{Specifies how to display the drawings.
+  \item{output}{Specifies how to display the drawings:
   \describe{
   \item{default}{The output is the default.}
   \item{window}{Create a new window for each page.}
@@ -24,7 +24,7 @@ Draw(Signal_data, type.draw = c("signal","pca"),
   \item{pdf}{Create and save a new pdf image for each image.}
   }}
   \item{dirpath}{The path to the directory where the png or pdf are outputted.}
-  \item{filename}{The filenames of the png and pdf, see the argument \code{filename} in \code{\link{png}} doc.}
+  \item{filename}{The filenames of the png and pdf, see argument \code{filename} in \code{grDevices::png}.}
   \item{height}{height of the png and pdf in pixels.}
   \item{width}{width of the png and pdf in pixels.}
   \item{pdf.onefile}{Wen \code{output} is set to \code{"pdf"} and there are mutliples pages,

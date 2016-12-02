@@ -1,3 +1,8 @@
+# Get the argument (arg) from the info matrix
+
+# arg: name of the argument returned
+# argname: name of the argument to look for in the info matrix
+
 getArg <- function(arg, info, argname, can.be.absent=FALSE) {
   if (is.null(arg)) {
     start <- paste("impossible to get argument", argname, "it was not given directly and");

@@ -4,7 +4,7 @@
 Zeroing of negative values.
 }
 \description{
-Sets negative intensities to zero.
+The function sets negative intensities to zero.
 }
 \usage{
 NegativeValuesZeroing(RawSpect_data)
@@ -21,8 +21,7 @@ negative values does not make sense and can have bad impacts on our statistical 
 \code{\link{BaselineCorrection}} do its best to remove negative values but there might be some remaining.
 
 This filter simply sets them to zero.
-After the \code{\link{BaselineCorrection}} they should be close to zero anyway because of the high
-\eqn{1-p}{1-p} penalty given to the value of the signal after the correction if it is negative.
+After the \code{\link{BaselineCorrection}} they should be close to zero anyway because of the high penalty given to negative values of the signal after the correction.
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}

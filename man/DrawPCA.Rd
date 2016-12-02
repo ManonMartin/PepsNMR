@@ -4,21 +4,22 @@
 Draw the PCA of the signals
 }
 \description{
-Draw the PCA of the signals given as row of the matrix \code{Signal_data}.
+The function draws the PCA of the signals/spectra given in the matrix \code{Signal_data}.
 
-Do not call this function directly but rather call \code{\link{Draw}} to specify how the plot will be outputted.
+Do not call this function directly but rather call \code{\link{Draw}} to specify how the plot will be returned.
 }
 \usage{
-DrawPCA(Signal_data, drawNames=TRUE,  main = "PCA score plot", Class = NULL, axes =c(1,2),
-                     type =c("scores", "loadings"), loadingstype=c("l", "p"), num.stacked=4, xlab="rowname",                       createWindow)
+DrawPCA(Signal_data, drawNames = TRUE,  main = "PCA score plot", Class = NULL, 
+              axes = c(1,2), type = c("scores", "loadings"), loadingstype=c("l", "p"), 
+              num.stacked = 4, xlab    ="rowname", createWindow)
 
 }
 \arguments{
-  \item{Signal_data}{Matrix containing the the FIDs, RawSpectra or Spectra, as outputted by \code{\link{ReadFids}}.}
-  \item{drawNames}{Specifies whether the names of the spectra have to be shown alonside the points on the scores plot.}
-  \item{main}{Specify the plot title.}
-  \item{Class}{Additional vector (numeric or character) indicating the class of each spectra. Used for scores plot only}
-  \item{axes}{Two or more axes to draw the scores or loadings. If for drawing scores, only the first two axes are used.}
+  \item{Signal_data}{Matrix containing the signals or spectra, one line per signal/spectrum.}
+  \item{drawNames}{If \code{TRUE}, the names of the spectra have to be shown alonside the points on the scores plot.}
+  \item{main}{Plot title.}
+  \item{Class}{Vector (numeric or character) indicating the class of each spectra. Used for scores plot only.}
+  \item{axes}{Vector of score or loading numbers to be plotted. Should be of size two or more. If score's numbers, only the first two elements are used.}
   \item{type}{The type of plot, either \code{"scores"} or \code{"loadings"}}
   \item{loadingstype}{The type of Loadings plot, either a line plot (\code{"l"}) or points with histogram-like vertical lines (\code{"p"}).}
   \item{num.stacked}{Number of stacked plots.}
@@ -34,11 +35,12 @@ See Also \code{\link{Draw}} and \code{\link{DrawSignal}}.
 \examples{
 # Draw loadings
 DrawPCA(FinalSpectra_HS, main = "PCA loadings plot", Class = NULL, axes =c(1,3, 5),
-                     type ="loadings", loadingstype="l", num.stacked=4, xlab="ppm", createWindow = TRUE)
+        type ="loadings", loadingstype="l", num.stacked=4, xlab="ppm", 
+        createWindow = TRUE)
 # Draw scores
 Class = substr(rownames(FinalSpectra_HS),5,5)
-DrawPCA(FinalSpectra_HS, drawNames = TRUE, main = "PCA scores plot", Class = Class, axes =c(1,2),
-                     type ="scores",createWindow = TRUE)
+DrawPCA(FinalSpectra_HS, drawNames = TRUE, main = "PCA scores plot", Class = Class, 
+        axes =c(1,2), type ="scores", createWindow = TRUE)
 
 }
 \keyword{ hplot }

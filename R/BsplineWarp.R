@@ -1,6 +1,11 @@
-BsplineWarp <- function(ref, sample, m, t, w0, L, deg, lambda.bspline, kappa, max_it) {
+BsplineWarp <- function(ref, sample, m, t, w0, L, deg, lambda.bspline, 
+              kappa, max_it) {
+  
+  # w0: # warping function from polynomial warping
+  
+  
   # B-spline basis for warping function
-  B <- Bspline(t, x0=0, x1=m, ndx=L-deg, deg=deg)
+  B <- Bspline(t, x0 = 0, x1 = m, ndx = L - deg, deg = deg)
   nb <- ncol(B)
   
   # Penalty matrices
@@ -15,21 +20,21 @@ BsplineWarp <- function(ref, sample, m, t, w0, L, deg, lambda.bspline, kappa, ma
   }
   
   # Initialize;
-  a = matrix(0, nrow=nb, ncol=1)
+  a <- matrix(0, nrow = nb, ncol = 1)  # B-Spline coefficients
   for (it in 1:max_it) {
     # Interpolate
-    w <- w0 +  B %*% a
+    w <- w0 + B %*% a
     interp.out <- Interpol(w, sample)
     z <- interp.out$f
     sel <- interp.out$s
     g <- interp.out$g
     
-    # Improve
+    # Improve coefficients
     r <- ref[sel] - z
     # make matrix with nb identical columns 'g'
-    G <- kronecker(matrix(1, nrow=1, ncol=nb), g)
+    G <- kronecker(matrix(1, nrow = 1, ncol = nb), g)
     Q <- G * B[sel, ]
     a <- solve(t(Q) %*% Q + P, t(Q) %*% (r + Q %*% a))
   }
-  return(list(w=w, sel=sel, alpha=a, warped=z))
+  return(list(w = w, sel = sel, alpha = a, warped = z))
 }

@@ -1,3 +1,8 @@
+# Shift zero-frequency component to center of spectrum
+# When applying FT for discrete data, the multiplication 
+# shifts the spectrum of the signal by half the sampling frequency
+# ==> the zero frequency that was at 0 is now at half width
+
 fftshift1D2D <- function(x) {
   vec <- F
   if (is.vector(x)) {
@@ -6,6 +11,6 @@ fftshift1D2D <- function(x) {
   }
   m <- dim(x)[2]
   p <- ceiling(m/2)
-  new_index <- c((p+1):m, 1:p)
-  y <- x[, new_index, drop=vec]
+  new_index <- c((p + 1):m, 1:p)
+  y <- x[, new_index, drop = vec]
 }

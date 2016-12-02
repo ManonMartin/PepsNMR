@@ -1,22 +1,29 @@
 #' @export Warping
-Warping <- function(RawSpect_data,
-                    normalization.type=c("median","mean","firstquartile","peak","none"), from.normW=3.05, to.normW=4.05,
-                    reference.choosing=c("fixed", "before", "after"), reference=1,
-                    optim.crit=c("RMS", "WCC"), ptw.wp=F, K=3, L=40,
-                    lambda.smooth=0, deg=3, lambda.bspline=0.01, kappa=0.0001,
-                    max_it_Bspline=10, returnReference=FALSE, returnWarpFunc = FALSE) {
-  meanSqrDiff <- function(m, row) {
-    # for the row ref, x - m[ref,] is 0
-    # to get, the mean, we divide by nrow(data)-1 because the row ref is ignored
-    # we could actually just do the sum and not the mean, both choices are good
-    return (sum(apply(m, 1, function(x) sum((x - m[row,])^2, na.rm=T))) / (nrow(m)-1))
+Warping <- function(RawSpect_data, normalization.type = c("median", "mean", 
+                    "firstquartile", "peak", "none"), fromto.normW = c(3.05, 4.05), 
+                    reference.choosing = c("fixed", "before", "after"), reference = 1, 
+                    optim.crit = c("RMS", "WCC"), ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, 
+                    deg = 3, lambda.bspline = 0.01, kappa = 1e-04, max_it_Bspline = 10, 
+                    returnReference = FALSE, returnWarpFunc = FALSE) {
+  
+  # Mean square difference function definition --------------------------------------
+  
+  meanSqrDiff <- function(m, row){
+    # for the row ref, x - m[ref,] is 0 to get, the mean, we divide by
+    # nrow(data)-1 because the row ref is ignored we could actually just do
+    # the sum and not the mean, both choices are good
+    return(sum(apply(m, 1, function(x) sum((x - m[row, ])^2, na.rm = T)))/(nrow(m) - 
+      1))
   }
+  
+  # Data initialisation and checks ----------------------------------------------
 
-  begin_info <- beginTreatment("Warping", RawSpect_data, force.real=T)
+  begin_info <- beginTreatment("Warping", RawSpect_data, force.real = T)
   RawSpect_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
   reference.choosing <- match.arg(reference.choosing)
   optim.crit <- match.arg(optim.crit)
+  
   checkArg(K, c("int", "pos"))
   checkArg(L, c("int", "pos0"))
   checkArg(lambda.smooth, c("num", "pos0"))
@@ -24,99 +31,123 @@ Warping <- function(RawSpect_data,
   checkArg(lambda.bspline, c("num", "pos0"))
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
-
-  if (reference.choosing=="fixed" & !(reference %in% row.names(RawSpect_data))) {
-      checkArg(reference, c("int", "pos"))
-      reference <- row.names(RawSpect_data)[reference]
+  
+  if (reference.choosing == "fixed" & !(reference %in% row.names(RawSpect_data))) {
+    checkArg(reference, c("int", "pos"))
+    reference <- row.names(RawSpect_data)[reference]
   }
-
+  
   if (L > 0 && L <= deg) {
     stop("L should be greater than deg because with 1 interval, there is already deg+1 Bsplines.")
   }
   n <- nrow(RawSpect_data)
   m <- ncol(RawSpect_data)
+  
+  
+  # Data pre-normalization ----------------------------------------------
+  
   if (normalization.type != "none") {
-    RawSpect_data = Normalization(RawSpect_data, normalization.type, from.normW, to.normW)
+    RawSpect_data <- Normalization(RawSpect_data, normalization.type, 
+                                   fromto.norm = fromto.normW)
   }
+  
+  # Warping -----------------------------------------------------
+  
   rnames <- rownames(RawSpect_data)
   if (n > 1) {
+    # (pool of potential) candidate(s) as reference spectrum
     if (reference.choosing == "fixed") {
       pool <- reference
     } else if (reference.choosing == "before") {
-      argmin <- which.min(sapply(rnames, function (i) meanSqrDiff(RawSpect_data,i)))
+      argmin <- which.min(sapply(rnames, function(i) meanSqrDiff(RawSpect_data, 
+        i)))
       pool <- names(argmin)
     } else {
       pool <- rnames
     }
+    
     best.meanSqrDiff <- NULL
     best.Warped_data <- NULL
     decreasing <- FALSE
     
-    
+    # Warping for each potential reference specturm
     for (reference in pool) {
       
-      ref <- RawSpect_data[reference, ]
+      ref <- RawSpect_data[reference, ]  # reference spectrum 
       samp_rnames <- rnames[rnames != reference]
-      sample <- RawSpect_data[samp_rnames, , drop=F]
-      beta <- rep(0, K+1)
-      cur.Warped_data <- RawSpect_data
-      warp.func <- RawSpect_data
-      warp.func[reference, ] = 0
+      sample <- RawSpect_data[samp_rnames, , drop = F]  # spectra to be warped
+      beta <- rep(0, K + 1)  # starting coefficients
+      cur.Warped_data <- RawSpect_data  # initialize the matrix of warped spectra
+      warp.func <- RawSpect_data  # initialize the matrix of estimated warping functions
+      warp.func[reference, ] <- 0
       
       if (K >= 1) {
-        # This is beta_1 which should be approximately 1 because
-        # if they are perfectly aligned w(v) = v = 0*1 + 1*v + 0*v^2 + 0*v^3
-        beta[2] = 1
+        # This is beta_1 which should be approximately 1 because if they are
+        # perfectly aligned w(v) = v = 0*1 + 1*v + 0*v^2 + 0*v^3
+        beta[2] <- 1
       }
-      if (ptw.wp) {
-#         require("ptw")
-        ptw.output <- ptw::ptw(ref, sample, optim.crit=optim.crit, init.coef=beta,
-                               smooth.param=lambda.smooth)
+      if (ptw.wp)  {
+        
+        # A. Parametric time warping with polynomials
+        ptw.output <- ptw::ptw(ref, sample, optim.crit = optim.crit, 
+          init.coef = beta, smooth.param = lambda.smooth)
         cur.Warped_data[samp_rnames, ] <- ptw.output$warped.sample
         # We transpose because 'diff' is along the columns
         w <- t(ptw.output$warp.fun)
-        warp.func[samp_rnames, ] = w
-      } else {
-        if (optim.crit == "WCC") {
+        warp.func[samp_rnames, ] <- w
+      } else  {
+        
+        # or B. Semi-parametric time warping with polynomials AND B splines
+        if (optim.crit == "WCC")  {
           stop("WCC is only implemented in ptw, set ptw.wp=T to use WCC.")
         }
-        for (samp_rname in samp_rnames) {
-          sw.output <- SingleWarp(ref=ref, sample=sample[samp_rname, ], beta=beta, L=L,
-                                  lambda.smooth=lambda.smooth, deg=deg,
-                                  lambda.bspline=lambda.bspline,
-                                  kappa=kappa, max_it_Bspline=max_it_Bspline)
+        for (samp_rname in samp_rnames)  {
+          sw.output <- SingleWarp(ref = ref, sample = sample[samp_rname, 
+          ], beta = beta, L = L, lambda.smooth = lambda.smooth, 
+          deg = deg, lambda.bspline = lambda.bspline, kappa = kappa, 
+          max_it_Bspline = max_it_Bspline)
           warped <- sw.output$warped
           w <- sw.output$w
-          cur.Warped_data[samp_rname, ] = warped
-          warp.func[samp_rname, ] = w
+          cur.Warped_data[samp_rname, ] <- warped
+          warp.func[samp_rname, ] <- w
         }
       }
       cur.meanSqrDiff <- meanSqrDiff(cur.Warped_data, reference)
+      
+      # Update the results if current is best
       if (is.null(best.meanSqrDiff) || cur.meanSqrDiff < best.meanSqrDiff) {
         best.meanSqrDiff <- cur.meanSqrDiff
         best.Warped_data <- cur.Warped_data
         decreasing <- (FALSE %in% (diff(w) > 0))
-        
       }
-    
     }
+    # check if warping function is decreasing
     if (decreasing) {
-      warning("The warping function is not increasing for the sample ", samp_rname, ".")
+      warning("The warping function is not increasing for the sample ", 
+        samp_rname, ".")
     }
   } else {
     best.Warped_data <- RawSpect_data
   }
-
   
-  RawSpect_data = endTreatment("Warping", begin_info, best.Warped_data)
+  
+  
+  # Data finalisation ----------------------------------------------
+  
+  RawSpect_data <- endTreatment("Warping", begin_info, best.Warped_data)
   if (returnReference) {
-    if (returnWarpFunc) {
-    return(list(RawSpect_data=RawSpect_data, Reference=reference, Warp.func = warp.func))
-    } else {return(list(RawSpect_data=RawSpect_data, Reference=reference))}
+    if (returnWarpFunc)  {
+      return(list(RawSpect_data = RawSpect_data, Reference = reference, 
+        Warp.func = warp.func))
+    } else {
+      return(list(RawSpect_data = RawSpect_data, Reference = reference))
+    }
   } else {
     if (returnWarpFunc) {
-    return(list(RawSpect_data=RawSpect_data, Warp.func = warp.func))
-    }else { return(RawSpect_data=RawSpect_data)}
+      return(list(RawSpect_data = RawSpect_data, Warp.func = warp.func))
+    } else  {
+      return(RawSpect_data = RawSpect_data)
+    }
   }
   
 }

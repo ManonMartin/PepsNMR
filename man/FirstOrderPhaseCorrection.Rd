@@ -4,7 +4,7 @@
 Perform a First Order Phase Correction.
 }
 \description{
-Will remove the group delay from the signal. 
+Th function removes the group delay from the signal. 
 
 }
 \usage{
@@ -22,7 +22,7 @@ Due to Bruker's digital filter and to other technical reasons a first order phas
 Luckily, information about this delay is available when loading the FID with \code{\link{ReadFids}} and is written in \code{Fid_info}.
 
 This function shifts circularly each FID in order to cancel this delay.
-By circularly, we mean that the start portion of the FID becomes its end portion when applied.
+By circularly, we mean that the starting portion of the FID becomes its ending portion when applied.
 
 Each FID is shifted by the same amount since it can be non-integer and the columns names which are the time coordinates are shared between all the FIDs.
 }

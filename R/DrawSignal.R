@@ -1,38 +1,34 @@
 #' @export DrawSignal
-DrawSignal <-
-function (Signal_data,
-                        subtype=c("stacked", "together", "separate", "diffmean", "diffmedian", "diffwith"),
-                        ReImModArg=c(TRUE, FALSE, FALSE, FALSE),
-                        vertical=T,
-                        xlab="rowname",
-                        main.names=NULL,
-                        nticks=42,
-                        row=1,
-                        num.stacked=4,
-                        main.title = NULL, 
-                        createWindow) {
-  subtype  <- match.arg(subtype)
-
-    scale    <- colnames(Signal_data)
-    n        <- nrow(Signal_data)
-    m        <- ncol(Signal_data)
-
+DrawSignal <- function(Signal_data, subtype = c("stacked", "together", 
+                      "separate", "diffmean", "diffmedian", "diffwith"), 
+                      ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = T, 
+                      xlab = "rowname", RowNames = NULL, nticks = 42, 
+                      row = 1, num.stacked = 4, main.title = NULL, createWindow) {
   
   
-  vticks   <- round(seq(1, m, length=nticks))
-  vlabels  <- scale[vticks]
-  vlabels  <- round(as.numeric(vlabels),2)
+  # Data initialisation and checks ----------------------------------------------
+  
+  subtype <- match.arg(subtype)
+  
+  scale <- colnames(Signal_data)
+  n <- nrow(Signal_data)
+  m <- ncol(Signal_data)
+  
+  vticks <- round(seq(1, m, length = nticks))
+  vlabels <- scale[vticks]
+  vlabels <- round(as.numeric(vlabels), 2)
   num.plot <- sum(ReImModArg)
   
-  Var = rowname = value = NULL # only for R CMD check
+  Var <- rowname <- value <- NULL  # only for R CMD check
   
+  # Drawing array
   if (num.plot <= 0) {
     stop("Nothing selected in ReImModArg.")
   } else if (num.plot <= 2) {
-    if (vertical) {
+    if (vertical)  {
       nrow <- num.plot
       ncol <- 1
-    } else {
+    } else  {
       nrow <- 1
       ncol <- num.plot
     }
@@ -41,26 +37,29 @@ function (Signal_data,
     ncol <- 2
   }
   
-  if (is.null(main.names)) {
-    main.names <- rownames(Signal_data)
-    if (is.null(main.names)) {
-      main.names <- 1:n
+  # RowNames 
+  if (is.null(RowNames))  {
+    RowNames <- rownames(Signal_data)
+    if (is.null(RowNames))  {
+      RowNames <- 1:n
     }
   } else {
-    if (!is.vector(main.names)) {
-      stop("main.names is not a vector")
+    if (!is.vector(RowNames)) {
+      stop("RowNames is not a vector")
     }
-    if (length(main.names) != n) {
-      stop(paste("main.names has length", length(main.names), "and there are", n, "FIDs."))
+    if (length(RowNames) != n)  {
+      stop(paste("RowNames has length", length(RowNames), "and there are", 
+        n, "FIDs."))
     }
   }
-
+  
+  
   elements <- list()
   if (ReImModArg[1]) {
-    elements[["Re"]]  <- Re(Signal_data)
+    elements[["Re"]] <- Re(Signal_data)
   }
   if (ReImModArg[2]) {
-    elements[["Im"]]  <- Im(Signal_data)
+    elements[["Im"]] <- Im(Signal_data)
   }
   if (ReImModArg[3]) {
     elements[["Mod"]] <- Mod(Signal_data)
@@ -69,100 +68,73 @@ function (Signal_data,
     elements[["Arg"]] <- Arg(Signal_data)
   }
   
-  if (n==1) {
-    main.names = deparse(substitute(Signal_data))}
+  if (n == 1) {
+    RowNames <- deparse(substitute(Signal_data))
+  }
   
-  # if (n==1) {
-  #   main.names = deparse(substitute(Signal_data))
-  #   
-  #   
-  #   if (subtype == "separate") {
-  #     
-  #     for (name in names(elements)) {
-  #       
-  #       if (createWindow) {
-  #         grDevices::dev.new(noRStudioGD = TRUE) 
-  #       }
-  #       plots = ggplot2::qplot(as.numeric(scale), elements[[name]], geom = "line",
-  #                     main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
-  #       
-  #       if ((as.numeric(scale[1])- as.numeric(scale[2]))>0) {
-  #         plots =  plots + ggplot2::scale_x_reverse() 
-  #       }
-  #       print(plots)
-  #       
-  #     }
-  #   } else if (subtype == "stacked") {
-  #     plots=list()
-  #     
-  #     for (name in names(elements)) {
-  #       # require(gridExtra)
-  #       
-  #       plots[[name]] = ggplot2::qplot(as.numeric(names(elements[[name]])), elements[[name]], geom = "line",
-  #                             main=paste0(main.names, "\n", name), ylab="Intensity", xlab= xlab)
-  #       
-  #       if ((as.numeric(scale[1])- as.numeric(scale[2]))>0) {
-  #         plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
-  #       }
-  #     }
-  #     do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
-  #   } else {warning("Misspecified subtype for Signal_data as a vector: should be either \"separate\" or \"stacked\"")}
-  #   
-  #   
-  #   
-  #   
-  # } else 
-  if (subtype == "separate" | subtype == "stacked") {
   
-    i = 1
-    while (i <= n)
-    {
-      if (createWindow) {
-        grDevices::dev.new(noRStudioGD = TRUE) 
+  # Drawing --------------------------------------------------------------------
+  
+  # SEPARATE or STACKED ===============
+  if (subtype == "separate" | subtype == "stacked")  {
+    
+    i <- 1
+    while (i <= n)  {
+      if (createWindow)  {
+        grDevices::dev.new(noRStudioGD = TRUE)
       }
-      if (subtype == "separate") {
+      if (subtype == "separate")  {
         # The other uses gridExtra to do that
-        graphics::par(mfrow=c(nrow,ncol))
+        graphics::par(mfrow = c(nrow, ncol))
       }
       plots <- list()
-      if (subtype == "separate") {
-        last = i
-      } else {
-        last = min(i + num.stacked-1, n)
+      if (subtype == "separate")  {
+        last <- i
+      } else  {
+        last <- min(i + num.stacked - 1, n)
       }
-      for (name in names(elements)) {
-        if (subtype == "separate") {
-        graphics::plot(elements[[name]][i,],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-        graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
+      for (name in names(elements))  {
+        if (subtype == "separate")   {
           
-         } else {
-#           require("ggplot2")
-#           require("reshape2")
-          melted <- reshape2::melt(elements[[name]][i:last,], varnames=c("rowname", "Var"))
-          plots[[name]] <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) +
-          ggplot2::geom_line() +
-          ggplot2::facet_grid(rowname ~ ., scales = "free_y") +
-          ggplot2::theme(legend.position="none") +
-          ggplot2::labs(x=xlab, y=name)
-          ggplot2::ggtitle(main.title)
+          graphics::plot(elements[[name]][i, ], type = "l", main = RowNames[i], 
+          xaxt = "n", ylab = name, xlab = xlab)
           
-        if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
-          plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse()
-        }
+          graphics::axis(side = 1, at = vticks, labels = vlabels, 
+          cex.axis = 0.6, las = 2)
+          
+        } else   {
+        
+          melted <- reshape2::melt(elements[[name]][i:last, ], 
+          varnames = c("rowname", "Var"))
+          
+          plots[[name]] <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) + 
+                           ggplot2::geom_line() + 
+                           ggplot2::facet_grid(rowname ~ ., scales = "free_y") + 
+                           ggplot2::theme(legend.position = "none") + 
+                           ggplot2::labs(x = xlab, y = name) +
+                           ggplot2::ggtitle(main.title)
+          
+          if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 0) {
+          plots[[name]] <- plots[[name]] + ggplot2::scale_x_reverse()
+          }
         }
       }
-      if (subtype == "stacked") {
-#         require("gridExtra")
-        do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
+      
+      if (subtype == "stacked")  {
+        do.call(gridExtra::grid.arrange, c(plots, list(nrow = nrow, ncol = ncol)))
       }
-      i = last + 1
+      i <- last + 1
     }
   } else if (subtype %in% c("together", "diffmean", "diffmedian", "diffwith")) {
+    
+    # TOGHETER or DIFFMEAN or DIFFMEDIAN or DIFFWITH ===============
+    
     rainbow_colors <- grDevices::rainbow(n)
+    
     if (createWindow) {
-      grDevices::dev.new(noRStudioGD = TRUE) 
+      grDevices::dev.new(noRStudioGD = TRUE)
     }
-    graphics::par(mfrow=c(nrow,ncol))
+    graphics::par(mfrow = c(nrow, ncol))
     
     plots <- list()
     
@@ -170,50 +142,38 @@ function (Signal_data,
     for (name in names(elements)) {
       # Get this part of the signal
       element <- elements[[name]]
+      
       # Express the signal according to a reference if asked by `subtype'
-      if (subtype == "diffmean") {
-        element <- sweep(element, MARGIN=2, colMeans(element), `-`)
+      if (subtype == "diffmean")  {
+        element <- sweep(element, MARGIN = 2, colMeans(element),  `-`)
       } else if (subtype == "diffmedian") {
-#         require("matrixStats")
-        element <- sweep(element, MARGIN=2, matrixStats::colMedians(element), `-`)
-      } else if (subtype == "diffwith") {
-        element <- sweep(element, MARGIN=2, element[row, ], `-`)
-        if (row == 1 & n > 1) {
-          # Since we use plot on the first row
-          # and lines on the following, the y scale is calculated at the first row
-          # so if the first row is all 0, it causes problems
+        element <- sweep(element, MARGIN = 2, matrixStats::colMedians(element), `-`)
+      } else if (subtype == "diffwith")  {
+        element <- sweep(element, MARGIN = 2, element[row, ], `-`)
+        if (row == 1 & n > 1)  {
+          # Since we use plot on the first row and lines on the following, the y
+          # scale is calculated at the first row so if the first row is all 0, it
+          # causes problems
           tmp <- element[1, ]
           element[1, ] <- element[2, ]
           element[2, ] <- tmp
         }
       }
-      # for (i in 1:n)
-      # {
-      #   if (i == 1) {
-      #     # If it is our first plot, we need to set the axes
-      #     graphics::plot(element[i,],col=rainbow_colors[i],type="l",main=main.names[i],xaxt="n",ylab=name,xlab=xlab)
-      #     graphics::axis(side=1,at=vticks,labels=vlabels,cex.axis=0.6,las=2)
-      #   } else {
-      #     graphics::lines(element[i,],col=rainbow_colors[i])
-      #   }
-      # }
-      # graphics::legend(x="topright",legend=main.names,lty=1,lwd=2, col=rainbow_colors)
-      # 
       
-      melted <- reshape2::melt(elements[[name]], varnames=c("rowname", "Var"))
+      melted <- reshape2::melt(elements[[name]], varnames = c("rowname", "Var"))
       
-      plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes(x=Var, y=value, group=rowname, colour = rowname)) +
-        ggplot2::geom_line() +
-        ggplot2::labs(x=xlab, y=name) +
-        ggplot2::scale_colour_discrete(name = NULL) +
+      plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes(x = Var, 
+        y = value, group = rowname, colour = rowname)) + ggplot2::geom_line() + 
+        ggplot2::labs(x = xlab, y = name) + ggplot2::scale_colour_discrete(name = NULL) + 
         ggplot2::ggtitle(main.title)
       
-      if ((melted[1,"Var"] - melted[(dim(melted)[1]),"Var"])>0) {
-        plots[[name]] =  plots[[name]] + ggplot2::scale_x_reverse() 
+      if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 
+        0)  {
+        plots[[name]] <- plots[[name]] + ggplot2::scale_x_reverse()
       }
-      
-      # print(ggplot2::last_plot())
-      do.call(gridExtra::grid.arrange, c(plots, list(nrow=nrow, ncol=ncol)))
-      }
+    
+      do.call(gridExtra::grid.arrange, c(plots, list(nrow = nrow, 
+        ncol = ncol)))
+    }
   }
 }
