@@ -17,6 +17,10 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL) {
   RawSpect_data <- fftshift1D2D(t(stats::mvfft(t(Fid_data))))/m
   # recover the frequencies values
   f <- ((0:(m - 1)) - floor(m/2)) * Fid_info[1, "SW_h"]/m
+  
+  revind <- rev(1:m)
+  RawSpect_data <- RawSpect_data[,revind] # reverse the spectrum
+  
   colnames(RawSpect_data) <- f
   
   # Data finalisation ----------------------------------------------
