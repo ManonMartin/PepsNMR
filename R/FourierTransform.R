@@ -1,12 +1,15 @@
 #' @export FourierTransform
-FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL) {
+FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, reverse.axis = TRUE) {
   
   # Data initialisation and checks ----------------------------------------------
   begin_info <- beginTreatment("FourierTransform", Fid_data, Fid_info)
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
   getArg(SW_h, Fid_info, "SW_h")
+  
   m <- ncol(Fid_data)
+  
+  checkArg(reverse.axis, c("bool"))
   
   # Fourier Transformation ----------------------------------------------
   # mvfft does the unnormalized fourier transform (see ?mvfft), so we need divide
@@ -18,8 +21,10 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL) {
   # recover the frequencies values
   f <- ((0:(m - 1)) - floor(m/2)) * Fid_info[1, "SW_h"]/m
   
-  revind <- rev(1:m)
-  RawSpect_data <- RawSpect_data[,revind] # reverse the spectrum
+  if(reverse.axis == TRUE) {
+    revind <- rev(1:m)
+    RawSpect_data <- RawSpect_data[,revind] # reverse the spectrum
+  }
   
   colnames(RawSpect_data) <- f
   

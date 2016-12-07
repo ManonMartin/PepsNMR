@@ -8,12 +8,14 @@ The function takes as input the values of the FIDs in the time domain and comput
 
 }
 \usage{
-FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL)
+FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, reverse.axis = TRUE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{SW_h}{Sweep Width in Hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
+  \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
+  
 }
 \details{
 The number of points \eqn{m} doesn't change and the frequency interval is from \eqn{-SW/2} to \eqn{SW/2 - SW/m} (the \eqn{-SW/m} is due to the fact that we only have \eqn{m} points, not \eqn{m+1}, the Fourier Transform is periodic with period \eqn{SW} so it is the same at \eqn{-SW/2} and \eqn{SW/2} anyway).

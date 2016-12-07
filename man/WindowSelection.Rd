@@ -9,13 +9,12 @@ Selects an interval in the ppm scale and only returns the value of the spectrum 
 
 }
 \usage{
-WindowSelection(Spectrum_data, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE)
+WindowSelection(Spectrum_data, from.ws = 0.2, to.ws = 10)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{from.ws}{The lower ppm value of the interval. A typical value is 0.2. If NULL, default value is the lower index without NA.}
   \item{to.ws}{The higher ppm value of the interval, it should be greater or equal to from. A typical value is 10. If NULL, default value is the higher index without NA.}
-  \item{reverse.axis}{If \code{TRUE}, the ppm scale is reversed.}
 }
 \details{
 If \code{from.ws} and/or \code{to.ws} are not specified we calculate it so that we have the largest window without NA.

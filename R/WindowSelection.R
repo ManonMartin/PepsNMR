@@ -1,5 +1,5 @@
 #' @export WindowSelection
-WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10, reverse.axis = TRUE) {
+WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10) {
   
   
   # Data initialisation and checks ----------------------------------------------
