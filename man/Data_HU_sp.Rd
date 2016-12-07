@@ -9,7 +9,7 @@
 }
 \usage{data("Data_HU_sp")}
 \format{
-  A list with 16 objects that are complex matrices with 4 observations/object
+  A list with 15 objects that are complex matrices with 4 observations/object
   \describe{
     \item{\code{FidData_HU_0}}{Raw FIDs of the Human Urine database.}
     \item{\code{FidData_HU_1}}{FIDs of the Human Urine database after First Order Phase Correction.}
@@ -25,7 +25,6 @@
     \item{\code{RawSpectData_HU_12}}{Spectra of the Human Urine database after Region removal.}  
     \item{\code{RawSpectData_HU_13}}{Spectra of the Human Urine database after Zone aggregation.}      
     \item{\code{RawSpectData_HU_14}}{Spectra of the Human Urine database after Normalization.}   
-    \item{\code{RawSpectData_HU_15}}{Spectra of the Human Urine database after Scaling.}   
   }
 }
 \details{
