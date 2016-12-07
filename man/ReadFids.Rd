@@ -35,6 +35,7 @@ The columns are:
    \item{SW_h}{Sweep width in Hz}
    \item{SW}{Sweep width in ppm}
    \item{DT}{Dwell time in microseconds}
+   \item{O1}{Irradiation frequency offset}
 }
 }
 }

@@ -23,7 +23,9 @@ readParams <- function(file, paramsName) {
     line <- lines[occurences[1]]
     
     # Cut beginning and end of the line '##$TD= 65536' -> '65536'
-    first <- 1
+    igual = as.numeric(regexpr("=", line))
+    
+    first <- igual
     while (first <= nchar(line) & !isDigit(substr(line, first, first))) {
       first <- first + 1
     }
