@@ -4,16 +4,18 @@
 Provides the Fourier transform of the FID.
 }
 \description{
-The function takes as input the values of the FIDs in the time domain and computes these values in the frequency domain.
+The function takes FIDs in the time domain are translated in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm) by O1 calibration.
 
 }
 \usage{
-FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, reverse.axis = TRUE)
+FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, O1 = NULL, reverse.axis = TRUE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
-  \item{SW_h}{Sweep Width in Hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
+  \item{SW_h}{Sweep Width in hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
+  \item{SW}{Sweep width in ppm.}
+  \item{O1}{Irradiation frequency offset.}
   \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
   
 }
@@ -22,6 +24,10 @@ The number of points \eqn{m} doesn't change and the frequency interval is from \
 
 \eqn{SW} is taken in \code{Fid_info} in the column with name \code{SW_h} of the first row.
 It is assumed to be the same for every FID since their column names are shared.
+
+The frequency scale is dependent on the kind of spectrometer used, more precisely on its external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor.
+
+
 }
 \value{
 \item{RawSpect_data}{The matrix of spectra in Hertz, that is, their coordinates in Hertz are written as column names of the matrix.}

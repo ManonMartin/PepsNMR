@@ -1,30 +1,41 @@
-\name{PPMConversion}
-\alias{PPMConversion}
+\name{PPMReferencing}
+\alias{PPMReferencing}
 \title{
-PPM scale conversion.
+Chemical shift referencing.
 }
 \description{
-The function converts the frequency scale from hertz to part per million (ppm).
+Chemical shift are referenced against a reference compound, usually the TMSP.
 }
 \usage{
-PPMConversion(RawSpect_data, RawSpect_info, method = c("thres", "max"),
-              shiftHandling = c( "cut", "zerofilling", "NAfilling", 
-              "circular"), c = 2, freq = TRUE, fromto.TMSP = NULL)
+PPMReferencing(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
+              range = c("near0", "all", "window"), shiftHandling = c("cut", 
+              "zerofilling", "NAfilling", "circular"), c = 2, ppmxaxis = TRUE, 
+              fromto.TMSP = NULL, pc = 0.02, rowindex_graph = NULL)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
-\item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
-\item{method}{Method used to find the TMSP peaks in spectra, either based on a threshold (\code{"thres"}, cf. details section) or by the selection of the maximum real intensity location (\code{"max"}) within the \code{fromto.TMSP} interval.}
-\item{shiftHandling}{See the details section.}
-\item{c}{Parameter used to fix the threshold for the TMSP peak if \code{method = "thres"}}
- \item{freq}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
- \item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies OR column indices depending on the \code{freq} value.}
  
+\item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
+
+\item{method}{Method used to find the TMSP peaks in spectra, either based on a threshold (\code{"thres"}, cf. details section) or by the selection of the maximum real intensity location (\code{"max"}) within the \code{fromto.TMSP} interval.}
+
+\item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.TMSP}.}
+
+\item{shiftHandling}{See the details section.}
+
+\item{c}{Parameter used to fix the threshold for the TMSP peak if \code{method = "thres"}.}
+
+\item{ppmxaxis}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
+
+\item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppmxaxis} value.}
+ 
+\item{pc}{When \code{range} is \code{"near0"}, percentage of the ppm axis around 0 ppm to look for the TMSP peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
+
+\item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
+
 }
 \details{
 
-The frequency scale is dependent on the kind of spectrometer used, more precisely on its
-external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor.
 
 TMSP peak is defined as the first peak in the spectrum higher than a predefined threshold. This threshold is computed as: \code{c*(cumulated_mean/cumulated_sd)}.
 

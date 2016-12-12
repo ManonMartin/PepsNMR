@@ -13,11 +13,11 @@ Those pre-treatments are cited below in the advised order of their use:
   \item{\code{\link{FirstOrderPhaseCorrection}}}{Correct for the first order phase correction.}
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FID.}
   \item{\code{\link{Apodization}}}{Increase the Signal-to-Noise ratio of the FID.}
-  \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum.}
+  \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
+  \item{\code{\link{PPMReferencing}}}{Chemical scale referencing.}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
   \item{\code{\link{BaselineCorrection}}}{Remove the spectral baseline.}
   \item{\code{\link{NegativeValuesZeroing}}}{Set negatives values to 0.}
-  \item{\code{\link{PPMConversion}}}{Convert the frequency scale (Hertz -> ppm).}
   \item{\code{\link{Warping}}}{Warp the samples according to a reference spectrum.}
   \item{\code{\link{WindowSelection}}}{Select the informative part of the spectrum.}
   \item{\code{\link{Bucketing}}}{Proceed to data reduction.}
@@ -60,11 +60,11 @@ Fid_info <- fidList[["Fid_info"]]
 Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info)
 Fid_data <- SolventSuppression(Fid_data)
 Fid_data <- Apodization(Fid_data, Fid_info)
-RawSpect_data <- FourierTransform(Fid_data, Fid_info)
-RawSpect_data <- ZeroOrderPhaseCorrection(RawSpect_data)
-RawSpect_data <- BaselineCorrection(RawSpect_data)
-RawSpect_data <- NegativeValuesZeroing(RawSpect_data)
-Spectrum_data <- PPMConversion(RawSpect_data, Fid_info)
+Spectrum_data <- FourierTransform(Fid_data, Fid_info)
+Spectrum_data <- PPMReferencing(Spectrum_data, Fid_info)
+Spectrum_data <- ZeroOrderPhaseCorrection(Spectrum_data)
+Spectrum_data <- BaselineCorrection(Spectrum_data)
+Spectrum_data <- NegativeValuesZeroing(Spectrum_data)
 Spectrum_data <- Warping(Spectrum_data)
 Spectrum_data <- WindowSelection(Spectrum_data)
 Spectrum_data <- Bucketing(Spectrum_data)
