@@ -76,6 +76,9 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
   
   # Drawing --------------------------------------------------------------------
   
+  y = x = NULL # only for R CMD check
+  
+  
   # SEPARATE or STACKED ===============
   if (subtype == "separate" | subtype == "stacked")  {
     

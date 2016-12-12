@@ -173,6 +173,9 @@ PPMReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thre
   
   # Plot of the spectra ---------------------------------------------------
   
+  ppm = xstart = value = xend = Legend = NULL # only for R CMD check
+  
+  
   # with the search zone for TMSP and the location of the peaks just found
   if (!is.null(rowindex_graph)) {
     
