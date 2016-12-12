@@ -8,7 +8,8 @@ The function takes FIDs in the time domain are translated in the frequency domai
 
 }
 \usage{
-FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, O1 = NULL, reverse.axis = TRUE)
+FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
+                 O1 = NULL, reverse.axis = TRUE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
@@ -41,7 +42,7 @@ Benoît Legat
 }
 
 \examples{
-FT.spec <- FourierTransform(Data_HS_sp$FidData_HS_3, FidInfo_HS, SW_h=12019.23)
+FT.spec <- FourierTransform(Data_HS_sp$FidData_HS_3, FidInfo_HS_sp, SW_h=12019.23)
 }
 \keyword{ manip }
 
