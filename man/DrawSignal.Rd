@@ -9,8 +9,9 @@ Depending on the \code{subtype}, will draw the different parts of complex signal
 \usage{
 DrawSignal(Signal_data, subtype = c("stacked", "together", "separate", 
            "diffmean", "diffmedian", "diffwith"), ReImModArg = c(TRUE, 
-           FALSE, FALSE, FALSE), vertical = T , xlab = "rowname", RowNames = NULL, 
-           nticks = 42,row = 1, num.stacked = 4, main.title = NULL, createWindow)
+           FALSE, FALSE, FALSE), vertical = T , xlab = "rowname", 
+           RowNames = NULL, row = 1, num.stacked = 4, main.title = NULL, 
+           createWindow)
 } 
 
 \arguments{

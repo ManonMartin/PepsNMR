@@ -8,8 +8,8 @@ Chemical shift are referenced against a reference compound, usually the TMSP.
 }
 \usage{
 PPMReferencing(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
-              range = c("near0", "all", "window"), shiftHandling = c("cut", 
-              "zerofilling", "NAfilling", "circular"), c = 2, ppmxaxis = TRUE, 
+              range = c("near0", "all", "window"), shiftHandling = c("zerofilling", 
+              "cut", "NAfilling","circular"), c = 2, ppmxaxis = TRUE, 
               fromto.TMSP = NULL, pc = 0.02, rowindex_graph = NULL)
 }
 \arguments{
