@@ -9,13 +9,13 @@ The function corrects the spectra in order to have the more absorptive mode of t
 
 }
 \usage{
-ZeroOrderPhaseCorrection(RawSpect_data, method =c("rms", "manual", "max"), 
+ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"), 
                         plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
                         Angle = NULL, p.zo = 0.8, plot_spectra = FALSE,  
                         quant = 0.95, freq = TRUE, fromto.0OPC = NULL)
 }
 \arguments{
-  \item{RawSpect_data}{Matrix containing the spectra in hertz, one row per spectrum.}
+  \item{Spectrum_data}{Matrix containing the spectra in hertz, one row per spectrum.}
   \item{method}{Method used to select the angles to rotate the spectra. See details.}
   \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
@@ -25,7 +25,7 @@ ZeroOrderPhaseCorrection(RawSpect_data, method =c("rms", "manual", "max"),
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
  \item{quant}{Quantile probability for the positiveness criterion. See details.}
  \item{freq}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies (column names of spectra), if \code{FALSE} these values are indices.}
- \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion, either in frequency OR column index.}
+ \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion, either in ppm OR column index.}
 }
 \details{
 
@@ -52,7 +52,7 @@ You will observe in the output that the imaginary part is not so small but the r
 
 }
 \value{
-\item{RawSpect_data}{The matrix of rotated spectra.}
+\item{Spectrum_data}{The matrix of rotated spectra.}
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}

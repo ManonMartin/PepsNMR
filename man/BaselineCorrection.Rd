@@ -6,11 +6,11 @@ Set the baseline to a uniform zero signal.
 \description{
 The function estimates and removes the smoothed baseline from the spectra.
 }
-\usage{BaselineCorrection(RawSpect_data, ptw.bc = TRUE, maxIter = 42,
+\usage{BaselineCorrection(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
                    lambda.bc = 1e7, p.bc = 0.05, eps = 1e-8, 
                    returnBaseline = F)}
 \arguments{
-  \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
+  \item{Spectrum_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
   The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
   \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}.}
@@ -45,9 +45,9 @@ More details and motivations are given in the articles mentionned in the Referen
 
 }
 \value{
-If \code{returnBaseline} is \code{TRUE}, will return a list with the following elements: \code{RawSpect_data} and \code{Baseline}. Otherwise, the function will just return \code{RawSpect_data}.
+If \code{returnBaseline} is \code{TRUE}, will return a list with the following elements: \code{Spectrum_data} and \code{Baseline}. Otherwise, the function will just return \code{Spectrum_data}.
 
-\item{RawSpect_data}{The matrix of spectra with the baseline removed.}
+\item{Spectrum_data}{The matrix of spectra with the baseline removed.}
 \item{Baseline}{Estimation of the baseline.}
 
 }
@@ -72,7 +72,7 @@ BC_res <- BaselineCorrection(Data_HS_sp$RawSpectData_HS_5,lambda.bc=5e+06, p.bc=
 #or
 BC_res <- BaselineCorrection(Data_HS_sp$RawSpectData_HS_5,lambda.bc=5e+06, p.bc=0.05, 
                             returnBaseline=TRUE)
-BC_spec = BC_res[["RawSpect_data"]]
+BC_spec = BC_res[["Spectrum_data"]]
 plot(BC_res[["Baseline"]], type="l")
 }
 \keyword{ manip }

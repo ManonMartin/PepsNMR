@@ -2,7 +2,7 @@
 #' @importFrom stats quantile sd
 #' @importFrom graphics par plot
 #' 
-ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", "max"), 
+ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
                                      Angle = NULL, p.zo = 0.8, plot_spectra = FALSE, quant = 0.95, 
                                      freq = TRUE, fromto.0OPC = NULL) {
@@ -18,12 +18,12 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
   # quant: probability for sample quantile used to trim the spectral intensities
   
   
-  begin_info <- beginTreatment("ZeroOrderPhaseCorrection", RawSpect_data)
-  RawSpect_data <- begin_info[["Signal_data"]]
-  n <- nrow(RawSpect_data)
-  m <- ncol(RawSpect_data)
+  begin_info <- beginTreatment("ZeroOrderPhaseCorrection", Spectrum_data)
+  Spectrum_data <- begin_info[["Signal_data"]]
+  n <- nrow(Spectrum_data)
+  m <- ncol(Spectrum_data)
   
-  rnames <- rownames(RawSpect_data)
+  rnames <- rownames(Spectrum_data)
   
   # Check input arguments
   method <- match.arg(method)
@@ -64,13 +64,13 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
    
     # Define the interval where to search for (by defining Data)
     if (is.null(fromto.0OPC)) {
-      Data <- RawSpect_data
+      Data <- Spectrum_data
     } else  {
       
       # if freq == TRUE, then fromto is in the colnames values, else, in the column
       # index
       if (freq == TRUE)  {
-        colindex <- as.numeric(colnames(RawSpect_data))
+        colindex <- as.numeric(colnames(Spectrum_data))
       } else  {
         colindex <- 1:m
       }
@@ -92,9 +92,9 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
       vector <- rep(0, m)
       vector[unlist(Int)] <- 1
       if (n > 1)  {
-        Data <- sweep(RawSpect_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
+        Data <- sweep(Spectrum_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
       } else   {
-        Data <- RawSpect_data * vector
+        Data <- Spectrum_data * vector
       }  # Cropped_Spectrum
     }
     
@@ -150,7 +150,7 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
       }
       
       # Spectrum rotation
-      RawSpect_data[k, ] <- RawSpect_data[k, ] * exp(complex(real = 0, imaginary = ang))
+      Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = ang))
       Angle <- c(Angle, ang)
     }
     
@@ -173,28 +173,28 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
       stop(paste("Angle has length", length(Angle), "and there are", n, "spectra to rotate."))
     }
     for (k in 1:n)  {
-      RawSpect_data[k, ] <- RawSpect_data[k, ] * exp(complex(real = 0, imaginary = ang))
+      Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = ang))
     }
   }
   
   
   
   # #================== Detect a 180° rotation due to the water signal MEAN_Q = c()
-  # for (i in 1:nrow(RawSpect_data)) { data = Re(RawSpect_data[i,]) data_p =
+  # for (i in 1:nrow(Spectrum_data)) { data = Re(Spectrum_data[i,]) data_p =
   # data[data >= stats::quantile(data[data >=0 ], p.zo)] data_n = data[data <=
   # stats::quantile(data[data <0 ], (1-p.zo))] mean_quant = (sum(data_p) +
   # sum(data_n)) / (length(data_p) +length(data_n)) # mean(p.zo% higher pos and neg
   # values) MEAN_Q = c(MEAN_Q, mean_quant) } vect = which(MEAN_Q < 0) if
   # (length(vect)!=0) { warning('The mean of', p.zo,' positive and negative
-  # quantiles is negative for ', paste0(rownames(RawSpect_data)[vect],'; '))
+  # quantiles is negative for ', paste0(rownames(Spectrum_data)[vect],'; '))
   # if(rotation == TRUE) { warning(' An automatic 180 degree rotation is applied to
   # these spectra') Angle[vect] = Angle[vect] + pi } } vect_risk =
   # which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low
   # value copared to mean of positive mean values?  if (length(vect_risk)!=0)
   # { warning('the rotation angle for spectra',
-  # paste0(rownames(RawSpect_data)[vect_risk],'; '), 'might not be optimal, you
+  # paste0(rownames(Spectrum_data)[vect_risk],'; '), 'might not be optimal, you
   # need to check visually for those spectra') } # result of automatic rotation for
-  # (k in vect_risk) { RawSpect_data[k,] <- RawSpect_data[k,] * exp(complex(real=0,
+  # (k in vect_risk) { Spectrum_data[k,] <- Spectrum_data[k,] * exp(complex(real=0,
   # imaginary=Angle[k])) } #==================
   
   
@@ -210,10 +210,10 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
       graphics::par(mfrow = c(4, 2))
       while (i <= n)   {
         last <- min(i + 4 - 1, n)
-        graphics::plot(Re(RawSpect_data[i, ]), type = "l", ylab = "intensity", 
-          xlab = "Index", main = paste0(rownames(RawSpect_data)[i], " - Real part"))
-        graphics::plot(Im(RawSpect_data[i, ]), type = "l", ylab = "intensity", 
-          xlab = "Index", main = paste0(rownames(RawSpect_data)[i], " - Imaginary part"))
+        graphics::plot(Re(Spectrum_data[i, ]), type = "l", ylab = "intensity", 
+          xlab = "Index", main = paste0(rownames(Spectrum_data)[i], " - Real part"))
+        graphics::plot(Im(Spectrum_data[i, ]), type = "l", ylab = "intensity", 
+          xlab = "Index", main = paste0(rownames(Spectrum_data)[i], " - Imaginary part"))
         i <- i + 1
       }
       i <- last + 1
@@ -223,10 +223,10 @@ ZeroOrderPhaseCorrection <- function(RawSpect_data, method = c("rms", "manual", 
   
   # Data finalisation ----------------------------------------------
   
-  RawSpect_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, RawSpect_data)
+  Spectrum_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, Spectrum_data)
   if (returnAngle) {
-    return(list(RawSpect_data = RawSpect_data, Angle = Angle))
+    return(list(Spectrum_data = Spectrum_data, Angle = Angle))
   } else {
-    return(RawSpect_data)
+    return(Spectrum_data)
   }
 }

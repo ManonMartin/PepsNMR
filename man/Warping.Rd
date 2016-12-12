@@ -5,7 +5,7 @@
 Warps the frequency \emph{x}-axis to minimize the pairwise distance between a sample spectrum and a reference spectrum.
 }
 \usage{
-Warping(RawSpect_data, normalization.type=c("median","mean",
+Warping(Spectrum_data, normalization.type=c("median","mean",
         "firstquartile","peak","none"), fromto.normW = c(3.05, 4.05), 
         reference.choosing=c("fixed", "before", 
         "after"), reference=1, optim.crit=c("RMS", "WCC"), 
@@ -14,7 +14,7 @@ Warping(RawSpect_data, normalization.type=c("median","mean",
         returnReference = FALSE, returnWarpFunc = FALSE)
 }
 \arguments{
-\item{RawSpect_data}{Matrix containing the spectra in ppm, one row per spectrum.}
+\item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
 \item{normalization.type}{Type of normalization applied to the spectrum prior to warping.
 See \code{\link{Normalization}} for details about the different types.
 \code{none} means that no normalization is applied.
@@ -64,7 +64,7 @@ The B-Splines are estimated on the non-smoothed reference and sample using the p
 \value{
 If \code{returnReference = TRUE}, the function will return the name of the reference spectrum and if \code{returnWarpingfunc = TRUE}, it will also return the warping function.
 
-  \item{RawSpect_data}{The warped spectra.}
+  \item{Spectrum_data}{The warped spectra.}
   \item{Reference}{The name of the reference spectrum.}
   \item{Warpingfunc}{The warping function.}
 
@@ -87,7 +87,7 @@ Warp.spec <- Warping(Data_HS_sp$RawSpectData_HS_8, reference.choosing="fixed",
 Warp.res <- Warping(Data_HS_sp$RawSpectData_HS_8, reference.choosing="fixed", 
                              reference = row.names(Data_HS_sp$RawSpectData_HS_8)[1],
                              returnReference = TRUE)
-Warp.spec <- Warp.res[["RawSpect_data"]]
+Warp.spec <- Warp.res[["Spectrum_data"]]
 Warp.res[["Reference"]]
 
 

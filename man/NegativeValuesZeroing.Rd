@@ -7,13 +7,13 @@ Zeroing of negative values.
 The function sets negative intensities to zero.
 }
 \usage{
-NegativeValuesZeroing(RawSpect_data)
+NegativeValuesZeroing(Spectrum_data)
 }
 \arguments{
-  \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum..}
+  \item{Spectrum_data}{Matrix containing the spectra in Hertz, one row per spectrum..}
 }
 \value{
-\item{RawSpect_data}{The matrix of spectrums with the negative values set to zero.}
+\item{Spectrum_data}{The matrix of spectrums with the negative values set to zero.}
 }
 \details{
 As explained in \code{\link{BaselineCorrection}},

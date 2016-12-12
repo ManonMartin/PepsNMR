@@ -1,11 +1,11 @@
 #' @export BaselineCorrection
-BaselineCorrection <- function(RawSpect_data, ptw.bc = TRUE, maxIter = 42, 
+BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42, 
                                lambda.bc = 1e+07, p.bc = 0.05, eps = 1e-08, 
                                returnBaseline = F) {
   
   # Data initialisation ----------------------------------------------
-  begin_info <- beginTreatment("BaselineCorrection", RawSpect_data, force.real = T)
-  RawSpect_data <- begin_info[["Signal_data"]]
+  begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = T)
+  Spectrum_data <- begin_info[["Signal_data"]]
   p <- p.bc
   
   # Data check
@@ -67,28 +67,28 @@ BaselineCorrection <- function(RawSpect_data, ptw.bc = TRUE, maxIter = 42,
   }
   
   # Baseline estimation ----------------------------------------------
-  n <- nrow(RawSpect_data)
-  m <- ncol(RawSpect_data)
+  n <- nrow(Spectrum_data)
+  m <- ncol(Spectrum_data)
   Baseline <- matrix(NA, nrow = n, ncol = m)
   for (k in 1:n) {
-    Baseline[k, ] <- asysm(RawSpect_data[k, ], lambda.bc, p, eps)
+    Baseline[k, ] <- asysm(Spectrum_data[k, ], lambda.bc, p, eps)
     if (F & k == 1) {
-      m <- ncol(RawSpect_data)
-      graphics::plot(1:m, RawSpect_data[k, ], type = "l", col = "red")
+      m <- ncol(Spectrum_data)
+      graphics::plot(1:m, Spectrum_data[k, ], type = "l", col = "red")
       graphics::lines(1:m, Baseline[k, ], type = "l", col = "blue")
-      graphics::lines(1:m, RawSpect_data[k, ] - Baseline[k, ], type = "l", 
+      graphics::lines(1:m, Spectrum_data[k, ] - Baseline[k, ], type = "l", 
         col = "green")
     }
     
-    RawSpect_data[k, ] <- RawSpect_data[k, ] - Baseline[k, ]
+    Spectrum_data[k, ] <- Spectrum_data[k, ] - Baseline[k, ]
   }
   
   # Data finalisation ----------------------------------------------
-  RawSpect_data <- endTreatment("BaselineCorrection", begin_info, RawSpect_data)  # FIXME create removeImaginary filter ??
+  Spectrum_data <- endTreatment("BaselineCorrection", begin_info, Spectrum_data)  # FIXME create removeImaginary filter ??
   
   if (returnBaseline) {
-    return(list(RawSpect_data = RawSpect_data, Baseline = Baseline))
+    return(list(Spectrum_data = Spectrum_data, Baseline = Baseline))
   } else {
-    return(RawSpect_data)
+    return(Spectrum_data)
   }
 }
