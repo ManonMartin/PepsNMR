@@ -2,21 +2,22 @@
 DrawSignal <- function(Signal_data, subtype = c("stacked", "together", 
                       "separate", "diffmean", "diffmedian", "diffwith"), 
                       ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = T, 
-                      xlab = "rowname", RowNames = NULL, nticks = 42, 
-                      row = 1, num.stacked = 4, main.title = NULL, createWindow) {
+                      xlab = "rowname", RowNames = NULL, row = 1, num.stacked = 4, 
+                      main.title = NULL, createWindow) {
   
+  # nticks
   
   # Data initialisation and checks ----------------------------------------------
   
   subtype <- match.arg(subtype)
-  
-  scale <- colnames(Signal_data)
+
+
   n <- nrow(Signal_data)
   m <- ncol(Signal_data)
   
-  vticks <- round(seq(1, m, length = nticks))
-  vlabels <- scale[vticks]
-  vlabels <- round(as.numeric(vlabels), 2)
+
+  scale <- colnames(Signal_data)
+
   num.plot <- sum(ReImModArg)
   
   Var <- rowname <- value <- NULL  # only for R CMD check
@@ -48,11 +49,13 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
       stop("RowNames is not a vector")
     }
     if (length(RowNames) != n)  {
-      stop(paste("RowNames has length", length(RowNames), "and there are", 
-        n, "FIDs."))
+      stop(paste("RowNames has length", length(RowNames), "and there are", n, "FIDs."))
     }
   }
   
+  if (n == 1) {
+    RowNames <- deparse(substitute(Signal_data))
+  }
   
   elements <- list()
   if (ReImModArg[1]) {
@@ -68,9 +71,7 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
     elements[["Arg"]] <- Arg(Signal_data)
   }
   
-  if (n == 1) {
-    RowNames <- deparse(substitute(Signal_data))
-  }
+
   
   
   # Drawing --------------------------------------------------------------------
@@ -95,24 +96,39 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
       }
       for (name in names(elements))  {
         if (subtype == "separate")   {
+          if (n == 1) {
+          df <- data.frame(x = as.numeric(scale), y = elements[[name]])
+          } else {df <- data.frame(x = as.numeric(scale), y = elements[[name]][i, ])
+          }
+        
+          plots[[name]] <- ggplot2::ggplot(data = df, ggplot2::aes(x = x, y = y)) + 
+            ggplot2::geom_line() + 
+            ggplot2::theme(legend.position = "none") + 
+            ggplot2::labs(x = xlab, y = name) +
+            ggplot2::ggtitle(RowNames[i]) +
+            ggplot2::theme_bw()
           
-          graphics::plot(elements[[name]][i, ], type = "l", main = RowNames[i], 
-          xaxt = "n", ylab = name, xlab = xlab)
-          
-          graphics::axis(side = 1, at = vticks, labels = vlabels, 
-          cex.axis = 0.6, las = 2)
+          if ((df[1, "x"] - df[(dim(df)[1]), "x"]) > 0) {
+            plots[[name]] <- plots[[name]] + ggplot2::scale_x_reverse()
+          }
           
         } else   {
         
-          melted <- reshape2::melt(elements[[name]][i:last, ], 
-          varnames = c("rowname", "Var"))
+          if (n == 1) {
+            melted <- data.frame(rowname = rep(name, m), 
+                                 Var = as.numeric(scale), value = elements[[name]][i,])
+          } else {melted <- reshape2::melt(elements[[name]][i:last, ], 
+                                           varnames = c("rowname", "Var"))
+          }
+          
           
           plots[[name]] <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value)) + 
                            ggplot2::geom_line() + 
                            ggplot2::facet_grid(rowname ~ ., scales = "free_y") + 
                            ggplot2::theme(legend.position = "none") + 
                            ggplot2::labs(x = xlab, y = name) +
-                           ggplot2::ggtitle(main.title)
+                           ggplot2::ggtitle(main.title) +
+                           ggplot2::theme_bw()
           
           if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 0) {
           plots[[name]] <- plots[[name]] + ggplot2::scale_x_reverse()
@@ -160,7 +176,9 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
         }
       }
       
+      
       melted <- reshape2::melt(elements[[name]], varnames = c("rowname", "Var"))
+      
       
       plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes(x = Var, 
         y = value, group = rowname, colour = rowname)) + ggplot2::geom_line() + 
