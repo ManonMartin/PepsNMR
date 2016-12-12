@@ -31,7 +31,6 @@ DrawSignal(Signal_data, subtype = c("stacked", "together", "separate",
   If more, there will be 2 horizontally and 2 vertically anyway.}
   \item{xlab}{Label of the x-axis.}
   \item{RowNames}{Strings to use instead of the rownames as labels for the plots if\code{subtype = "separate"}. It should be a vector of the same length than the number of FIDs.}
-  \item{nticks}{Number of coordinates to display on the x-axis.}
   \item{row}{\code{row} to be compared to if the \code{subtype} is \code{"diffwith"}.}
   \item{num.stacked}{Number of stacked plots if \code{subtype} is \code{"stacked"}.}
   \item{main.title}{If not \code{NULL}, the main title when \code{subtype} is different from  \code{"separate"}.}
