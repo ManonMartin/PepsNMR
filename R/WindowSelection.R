@@ -8,7 +8,7 @@ WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10) {
   Spectrum_data <- begin_info[["Signal_data"]]
   checkArg(from.ws, "num", can.be.null = TRUE)
   checkArg(to.ws, "num", can.be.null = TRUE)
-  checkArg(reverse.axis, "bool")
+  
   m <- ncol(Spectrum_data)
   
   # largestWindowWithoutNA function  ----------------------------------------------
@@ -69,9 +69,6 @@ WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10) {
     to_index <- binarySearch(ppm, to.ws, FALSE)
   }
   interval <- largestWindowWithoutNA(colSums(Spectrum_data), from_index, to_index)
-  if (reverse.axis) {
-    interval <- rev(interval)
-  }
   
   # Data finalisation ----------------------------------------------
   return(endTreatment("WindowSelection", begin_info, Spectrum_data[, interval, 
