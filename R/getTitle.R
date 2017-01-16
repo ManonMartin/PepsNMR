@@ -1,6 +1,6 @@
 # Get the name of the signal from the title file or fromt the name of the subdirectory
 
-getTitle <- function(path, l) {
+getTitle <- function(path, l, subdirs) {
   title <- NULL
   title_file <- file.path(file.path(file.path(path, "pdata"), "1"), "title")
   if (file.exists(title_file)) {
@@ -17,10 +17,14 @@ getTitle <- function(path, l) {
       warning(paste("The title file is empty for directory ", path))
     }
   } else {
-    warning(paste("Title file doesn't exists for directory ", path))
+    warning(paste("Title file doesn't exists for directory ", path, "\n the repertory name is used instead"))
   }
   if (is.null(title)) {
-    title <- basename(path)
+    if(subdirs) {
+      separator <- .Platform$file.sep
+      path_elem <- strsplit(path,separator)[[1]]
+      title <- paste(path_elem[length(path_elem)-1], path_elem[length(path_elem)], sep = "_")
+    } else{title <- basename(path)} 
   }
   return(title)
 }

@@ -45,7 +45,7 @@ ReadFids <- function(path, l = 1, subdirs = FALSE) {
       if (n == 0L)  {
         stop(paste("No valid fid in", path))
       }
-      fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, USE.NAMES = F)
+      fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = F)
       for (i in 1:n)  {
         fidList <- ReadFid(fidDirs[i])
         fid <- fidList[["fid"]]

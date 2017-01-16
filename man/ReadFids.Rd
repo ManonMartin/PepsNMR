@@ -13,7 +13,8 @@ ReadFids(path, l = 1, subdirs = FALSE)
   \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have unique FID and info matrices.}
 }
 \details{
-The row names are the first line of the file "pdata/1/title" in the directory or the directory name if the title file doesn't exists or the line "l" is blank. The column names are the time coordinates of the FID.
+
+The row names are the first line of the file "pdata/1/title" in the directory or the directory (and subdirectory if \code{subdirs == TRUE}) name if the title file doesn't exists or the line "l" is blank. The column names are the time coordinates of the FID.
 All the FIDs therefore need to have the same length and time interval between points.
 
 \code{SW_h} is used in \code{Fid_info} as the Sweep Width in hertz.
