@@ -18,7 +18,7 @@ ReadFids <- function(path, l = 1, subdirs = FALSE) {
     if (n == 0L)  {
       stop(paste("No valid fid in", path))
     }
-    fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, USE.NAMES = F)
+    fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs,  USE.NAMES = F)
     for (i in 1:n)  {
       fidList <- ReadFid(fidDirs[i])
       fid <- fidList[["fid"]]
@@ -34,35 +34,36 @@ ReadFids <- function(path, l = 1, subdirs = FALSE) {
       Fid_info[i, ] <- unlist(info)
     }
     
-  } else {
+  } else  {
     maindirs <- dir(path, full.names = TRUE)
     Fid_data <- numeric()
     Fid_info <- numeric()
     
+    fidDirs <- c()
     for (j in maindirs) {
-      fidDirs <- getDirsContainingFid(j)
-      n <- length(fidDirs)
-      if (n == 0L)  {
-        stop(paste("No valid fid in", path))
-      }
-      fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = F)
-      for (i in 1:n)  {
-        fidList <- ReadFid(fidDirs[i])
-        fid <- fidList[["fid"]]
-        info <- fidList[["params"]]
-        m <- length(fid)
-        if (i == 1)  {
-          Fid_DATA <- matrix(nrow = n, ncol = m, dimnames = list(fidNames, 
-          info[["DT"]] * (0:(m - 1))))
-          Fid_INFO <- matrix(nrow = n, ncol = length(info), dimnames = list(fidNames, 
-          names(info)))
-        }
-        Fid_DATA[i, ] <- fid
-        Fid_INFO[i, ] <- unlist(info)
-      }
-      Fid_data <- rbind(Fid_data, Fid_DATA)
-      Fid_info <- rbind(Fid_info, Fid_INFO)
+      fd <- getDirsContainingFid(j)
+      n <- length(fd)
+      if (n > 0L)  {
+        fidDirs <- c(fidDirs, fd)
+      } else {warning(paste("No valid fid in",j ))}
     }
+    
+    fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = F)
+    for (i in 1:length(fidNames))  {
+      fidList <- ReadFid(fidDirs[i])
+      fid <- fidList[["fid"]]
+      info <- fidList[["params"]]
+      m <- length(fid)
+      if (i == 1)  {
+        Fid_data <- matrix(nrow = length(fidNames), ncol = m, dimnames = list(fidNames, 
+                                                                              info[["DT"]] * (0:(m - 1))))
+        Fid_info <- matrix(nrow = length(fidNames), ncol = length(info), dimnames = list(fidNames, 
+                                                                                         names(info)))
+      }
+      Fid_data[i, ] <- fid
+      Fid_info[i, ] <- unlist(info)
+    }
+    
     
   }
   
