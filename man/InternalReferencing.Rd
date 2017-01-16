@@ -1,5 +1,5 @@
-\name{PPMReferencing}
-\alias{PPMReferencing}
+\name{InternalReferencing}
+\alias{InternalReferencing}
 \title{
 Chemical shift referencing.
 }
@@ -7,10 +7,11 @@ Chemical shift referencing.
 Chemical shift are referenced against a reference compound, usually the TMSP.
 }
 \usage{
-PPMReferencing(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
-              range = c("near0", "all", "window"), shiftHandling = c("zerofilling", 
-              "cut", "NAfilling","circular"), c = 2, ppmxaxis = TRUE, 
-              fromto.TMSP = NULL, pc = 0.02, rowindex_graph = NULL)
+InternalReferencing(RawSpect_data, RawSpect_info, method = c("max", 
+               "thres"), range = c("near0", "all", "window"), 
+               shiftHandling = c("zerofilling", "cut", "NAfilling",
+               "circular"), c = 2, ppmxaxis = TRUE, fromto.TMSP = NULL, 
+               pc = 0.02, rowindex_graph = NULL)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
@@ -103,7 +104,7 @@ The difference between these shift handlings should not be critical in practice 
 Benoît Legat
 }
 \examples{
-PpmConv.spec <- PPMReferencing(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, 
+PpmConv.spec <- InternalReferencing(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, 
                               shiftHandling = "zerofilling")
 }
 \keyword{ manip }

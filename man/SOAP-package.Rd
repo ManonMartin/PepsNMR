@@ -14,7 +14,7 @@ Those pre-treatments are cited below in the advised order of their use:
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FID.}
   \item{\code{\link{Apodization}}}{Increase the Signal-to-Noise ratio of the FID.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
-  \item{\code{\link{PPMReferencing}}}{Chemical scale referencing.}
+  \item{\code{\link{InternalReferencing}}}{Chemical scale referencing.}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
   \item{\code{\link{BaselineCorrection}}}{Remove the spectral baseline.}
   \item{\code{\link{NegativeValuesZeroing}}}{Set negatives values to 0.}
@@ -61,7 +61,7 @@ Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info)
 Fid_data <- SolventSuppression(Fid_data)
 Fid_data <- Apodization(Fid_data, Fid_info)
 Spectrum_data <- FourierTransform(Fid_data, Fid_info)
-Spectrum_data <- PPMReferencing(Spectrum_data, Fid_info)
+Spectrum_data <- InternalReferencing(Spectrum_data, Fid_info)
 Spectrum_data <- ZeroOrderPhaseCorrection(Spectrum_data)
 Spectrum_data <- BaselineCorrection(Spectrum_data)
 Spectrum_data <- NegativeValuesZeroing(Spectrum_data)

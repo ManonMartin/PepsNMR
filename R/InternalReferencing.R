@@ -1,5 +1,5 @@
-#' @export PPMReferencing
-PPMReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
+#' @export InternalReferencing
+InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
                           range = c("near0", "all", "window"), 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
                           "circular"), c = 2, ppmxaxis = TRUE, fromto.TMSP = NULL, 
@@ -9,7 +9,7 @@ PPMReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thre
   
   # Data initialisation and checks ----------------------------------------------
   
-  begin_info <- beginTreatment("PPMReferencing", RawSpect_data, RawSpect_info)
+  begin_info <- beginTreatment("InternalReferencing", RawSpect_data, RawSpect_info)
   RawSpect_data <- begin_info[["Signal_data"]]
   RawSpect_info <- begin_info[["Signal_info"]]
 
@@ -246,7 +246,7 @@ PPMReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thre
   
   
   # Return the results ----------------------------------------------
-  Spectrum_data <- endTreatment("PPMReferencing", begin_info, Spectrum_data)
+  Spectrum_data <- endTreatment("InternalReferencing", begin_info, Spectrum_data)
   
   if (is.null(plots)) {
     return(Spectrum_data)
