@@ -4,7 +4,7 @@
 Provides the Fourier transform of the FID.
 }
 \description{
-The function takes FIDs in the time domain are translated in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm) by O1 calibration.
+The function takes FIDs in the time domain are translated in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm) with the transmitter frequency offset.
 
 }
 \usage{
@@ -16,7 +16,7 @@ FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL,
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{SW_h}{Sweep Width in hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
   \item{SW}{Sweep width in ppm.}
-  \item{O1}{Irradiation frequency offset.}
+  \item{O1}{TRansmitter frequency offset.}
   \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
   
 }

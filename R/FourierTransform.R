@@ -6,12 +6,22 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
   
-  SW_h <- getArg(SW_h, Fid_info, "SW_h")
-  SW <- getArg(SW, Fid_info, "SW")  # Sweep Width in ppm (semi frequency scale in ppm)
-  O1 <- getArg(O1, Fid_info, "O1")
-  
   m <- ncol(Fid_data)
   n <- nrow(Fid_data)
+  
+  if (is.null(SW_h)) {
+    SW_h <- getArg(SW_h, Fid_info, "SW_h")
+  }
+  
+  if (is.null(SW)) {
+    SW <- getArg(SW, Fid_info, "SW")  # Sweep Width in ppm (semi frequency scale in ppm)
+  }
+  
+  
+  if (is.null(O1)) {
+    O1 <- getArg(O1, Fid_info, "O1")
+  }
+
   
   checkArg(reverse.axis, c("bool"))
   
