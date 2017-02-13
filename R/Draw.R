@@ -1,4 +1,8 @@
 #' @export Draw
+#' @import ggplot2
+#' @import reshape2
+#' @import gridExtra
+#' 
 Draw <- function(Signal_data, type.draw = c("signal", "pca"), output = c("default", 
                 "window", "png", "pdf"), dirpath = ".", filename = "%003d", height = 480, 
                 width = 640, pdf.onefile = TRUE, ...) {

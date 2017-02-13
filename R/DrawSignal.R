@@ -1,4 +1,5 @@
 #' @export DrawSignal
+
 DrawSignal <- function(Signal_data, subtype = c("stacked", "together", 
                       "separate", "diffmean", "diffmedian", "diffwith"), 
                       ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = T, 
@@ -197,4 +198,6 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
         ncol = ncol)))
     }
   }
+  
+  
 }
