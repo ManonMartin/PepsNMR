@@ -4,14 +4,14 @@
 Chemical shift referencing.
 }
 \description{
-Chemical shift are referenced against a reference compound, usually the TMSP.
+Chemical shift are referenced against a reference compound (\emph{e.g.} TMSP).
 }
 \usage{
 InternalReferencing(RawSpect_data, RawSpect_info, method = c("max", 
                "thres"), range = c("near0", "all", "window"), 
                shiftHandling = c("zerofilling", "cut", "NAfilling",
-               "circular"), c = 2, ppmxaxis = TRUE, fromto.TMSP = NULL, 
-               pc = 0.02, rowindex_graph = NULL)
+               "circular"), c = 2, pc = 0.02, ppmxaxis = TRUE, 
+               fromto.TMSP = NULL, rowindex_graph = NULL)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
@@ -24,13 +24,15 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
 
 \item{shiftHandling}{See the details section.}
 
-\item{c}{Parameter used to fix the threshold for the TMSP peak if \code{method = "thres"}.}
+\item{c}{If \code{method = "thres"}, parameter used to fix the threshold for the TMSP peak.}
+
+\item{pc}{If \code{range == "near0"}, percentage of the ppm axis around 0 ppm to look for the TMSP peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
 \item{ppmxaxis}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
 
 \item{fromto.TMSP}{If not \code{NULL}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppmxaxis} value.}
  
-\item{pc}{When \code{range} is \code{"near0"}, percentage of the ppm axis around 0 ppm to look for the TMSP peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
+
 
 \item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
 
