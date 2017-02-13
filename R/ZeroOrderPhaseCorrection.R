@@ -4,7 +4,7 @@
 #' 
 ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
-                                     Angle = NULL, p.zo = 0.8, plot_spectra = FALSE, quant = 0.95, 
+                                     Angle = NULL, plot_spectra = FALSE, quant = 0.95, 
                                      freq = TRUE, fromto.0OPC = NULL) {
   
   
@@ -13,8 +13,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   # Entry arguments definition:
   # plot_rms : graph of rms criterion returnAngle : if TRUE, returns avector of
   # optimal angles createWindow : for plot_rms plots Angle : If Angle is not NULL,
-  # spectra are rotated according to the Angle vector values p.zo: idem que
-  # rotation: à retirer plot_spectra : if TRUE, plot rotated spectra  
+  # spectra are rotated according to the Angle vector values
+  # plot_spectra : if TRUE, plot rotated spectra  
   # quant: probability for sample quantile used to trim the spectral intensities
   
   
@@ -46,6 +46,11 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
         
         Rey[abs(Rey) >= quantile(abs(Rey), p)] <- quantile(abs(Rey), p)  # trim the values
         Rey <- abs(Rey) * si  # spectral trimmed values
+        
+        if ((sum(Rey==0)/length(Rey)) >= 0.99) {
+          stop("More than 99% of intensities are null, the rms criterion cannot work properly. \n
+               Either increase p or the window(s) in fromto.0OPC")
+        }
         ReyPos <- Rey[Rey >= 0]  # select positive intensities
         
         # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
@@ -78,7 +83,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       # Second check for the argument fromto.0OPC
       diff <- diff(unlist(fromto.0OPC))[1:length(diff(unlist(fromto.0OPC)))%%2 != 0]
       for (i in 1:length(diff))   {
-        if (diff[i] <= 0)   {
+        if (diff[i] < 0)   {
           stop(paste("Invalid region removal because from > to"))
         }
       }
