@@ -1,4 +1,6 @@
 #' @export BaselineCorrection
+#' @import ptw
+#' @import Matrix
 BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42, 
                                lambda.bc = 1e+07, p.bc = 0.05, eps = 1e-08, 
                                returnBaseline = F) {
@@ -7,6 +9,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = T)
   Spectrum_data <- begin_info[["Signal_data"]]
   p <- p.bc
+  n <- dim(Spectrum_data)[1]
   
   # Data check
   checkArg(ptw.bc, c("bool"))
@@ -15,6 +18,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   checkArg(p.bc, c("num", "pos0"))
   checkArg(eps, c("num", "pos0"))
   checkArg(returnBaseline, c("bool"))
+  
   
   
   # Baseline Correction implementation definition ----------------------
@@ -32,19 +36,20 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
       # w: weights (use0 zeros for missing values) 
       # d: order of differences in penalty (generally 2)
       m <- length(y)
-      W <- Matrix::Diagonal(x = w)
+      W <- Matrix::Diagonal(x=w)
       E <- Matrix::Diagonal(m)
-      D <- diff(E, differences = d)
+      D <- Matrix::diff(E, differences = d)
       C <- Matrix::chol(W + lambda.bc * t(D) %*% D)
       x <- Matrix::solve(C, Matrix::solve(t(C), w * y))
       return(as.numeric(x))
+      
     }
-    asysm <- function(y, d = 2, lambda.bc, p, eps) {
-      # Baseline estimation with asymmetric least squares 
+    asysm <- function(y, d, lambda.bc, p, eps) {
+      # Baseline estimation with asymmetric least squares
       # y: signal
-      # lambda.bc: smoothing parameter (generally 1e5 to 1e8) 
-      # p: asymmetry parameter (generally 0.001) 
-      # d: order of differences in penalty (generally 2) 
+      # lambda.bc: smoothing parameter (generally 1e5 to 1e8)
+      # p: asymmetry parameter (generally 0.001)
+      # d: order of differences in penalty (generally 2)
       # eps: 1e-8 in ptw package
       m <- length(y)
       w <- rep(1, m)
@@ -67,19 +72,18 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   }
   
   # Baseline estimation ----------------------------------------------
-  n <- nrow(Spectrum_data)
-  m <- ncol(Spectrum_data)
-  Baseline <- matrix(NA, nrow = n, ncol = m)
+  Baseline <- matrix(NA, nrow = nrow(Spectrum_data), ncol = ncol(Spectrum_data))
+
   for (k in 1:n) {
-    Baseline[k, ] <- asysm(Spectrum_data[k, ], lambda.bc, p, eps)
+    Baseline[k, ] <- asysm(y = Spectrum_data[k, ], d = 2, lambda.bc = lambda.bc, p = p, eps = eps)
     if (F & k == 1) {
       m <- ncol(Spectrum_data)
-      graphics::plot(1:m, Spectrum_data[k, ], type = "l", col = "red")
-      graphics::lines(1:m, Baseline[k, ], type = "l", col = "blue")
-      graphics::lines(1:m, Spectrum_data[k, ] - Baseline[k, ], type = "l", 
+      graphics::plot(1:mm, Spectrum_data[k, ], type = "l", col = "red")
+      graphics::lines(1:mm, Baseline[k, ], type = "l", col = "blue")
+      graphics::lines(1:m, Spectrum_data[k, ] - Baseline[k, ], type = "l",
         col = "green")
     }
-    
+
     Spectrum_data[k, ] <- Spectrum_data[k, ] - Baseline[k, ]
   }
   
