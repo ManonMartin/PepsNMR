@@ -14,7 +14,7 @@ Those pre-treatments are cited below in the advised order of their use:
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FID.}
   \item{\code{\link{Apodization}}}{Increase the Signal-to-Noise ratio of the FID.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
-  \item{\code{\link{InternalReferencing}}}{Calibrates the spectra with internal compound referencing.}
+  \item{\code{\link{InternalReferencing}}}{Calibrate the spectra with internal compound referencing.}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
   \item{\code{\link{BaselineCorrection}}}{Remove the spectral baseline.}
   \item{\code{\link{NegativeValuesZeroing}}}{Set negatives values to 0.}
@@ -34,9 +34,9 @@ Version: \tab 1.0\cr
 Date: \tab 2014-09-24\cr
 License: \tab GPLv2\cr
 }
-The FIDs are read using \code{\link{ReadFids}} which also gives a matrix with meta information about each FID.
-The other functions apply different pre-treatment steps on these FIDs, some needing the info matrix.
-During this pre-treatment, the FID is transformed through its Fourier Transform and the frequency scale is expressed in PPM.
+The FID signals are read using \code{\link{ReadFids}} which also gives a matrix with meta-information about each composite FID signal.
+The other functions apply different pre-treatment steps on these signals, some needing the info matrix.
+During this pre-treatment, the signal is transformed through its Fourier Transform and the frequency scale is expressed in ppm.
 For more detailed and illustrated explanation about these pre-treatment steps, see the documentation of each function and/or the chapter 1 of the reference below.
 }
 \author{
