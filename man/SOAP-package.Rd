@@ -6,7 +6,7 @@
 }
 \description{
 This package provides R functions for common pre-treatment steps that are applied
-on 1H-NMR data.
+on H-NMR data.
 It also provides the function \code{\link{ReadFids}} to read the FID directly from the Bruker output.
 Those pre-treatments are cited below in the advised order of their use:
 \describe{
@@ -14,7 +14,7 @@ Those pre-treatments are cited below in the advised order of their use:
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FID.}
   \item{\code{\link{Apodization}}}{Increase the Signal-to-Noise ratio of the FID.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
-  \item{\code{\link{InternalReferencing}}}{Chemical scale referencing.}
+  \item{\code{\link{InternalReferencing}}}{Calibrates the spectra with internal compound referencing.}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
   \item{\code{\link{BaselineCorrection}}}{Remove the spectral baseline.}
   \item{\code{\link{NegativeValuesZeroing}}}{Set negatives values to 0.}
