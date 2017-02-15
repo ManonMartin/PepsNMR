@@ -37,7 +37,7 @@ License: \tab GPLv2\cr
 The FID signals are read using \code{\link{ReadFids}} which also gives a matrix with meta-information about each composite FID signal.
 The other functions apply different pre-treatment steps on these signals, some needing the info matrix.
 During this pre-treatment, the signal is transformed through its Fourier Transform and the frequency scale is expressed in ppm.
-For more detailed and illustrated explanation about these pre-treatment steps, see the documentation of each function and/or the chapter 1 of the reference below.
+For more details and illustrated explanations about those pre-treatment steps, see the documentation of each function and/or the chapter 1 of the reference below.
 }
 \author{
 Benoît Legat
