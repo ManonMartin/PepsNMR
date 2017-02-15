@@ -9,12 +9,13 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = T)
   Spectrum_data <- begin_info[["Signal_data"]]
   p <- p.bc
+  lambda <- lambda.bc
   n <- dim(Spectrum_data)[1]
   
   # Data check
   checkArg(ptw.bc, c("bool"))
   checkArg(maxIter, c("int", "pos"))
-  checkArg(lambda.bc, c("num", "pos0"))
+  checkArg(lambda, c("num", "pos0"))
   checkArg(p.bc, c("num", "pos0"))
   checkArg(eps, c("num", "pos0"))
   checkArg(returnBaseline, c("bool"))
@@ -28,26 +29,26 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   if (ptw.bc) {
     asysm <- ptw::asysm
   } else {
-    difsmw <- function(y, lambda.bc, w, d) {
+    difsmw <- function(y, lambda, w, d) {
       # Weighted smoothing with a finite difference penalty cf Eilers, 2003.
       # (A perfect smoother) 
       # y: signal to be smoothed 
-      # lambda.bc: smoothing parameter 
+      # lambda: smoothing parameter 
       # w: weights (use0 zeros for missing values) 
       # d: order of differences in penalty (generally 2)
       m <- length(y)
       W <- Matrix::Diagonal(x=w)
       E <- Matrix::Diagonal(m)
       D <- Matrix::diff(E, differences = d)
-      C <- Matrix::chol(W + lambda.bc * t(D) %*% D)
+      C <- Matrix::chol(W + lambda * t(D) %*% D)
       x <- Matrix::solve(C, Matrix::solve(t(C), w * y))
       return(as.numeric(x))
       
     }
-    asysm <- function(y, d, lambda.bc, p, eps) {
+    asysm <- function(y, lambda, p, eps) {
       # Baseline estimation with asymmetric least squares
       # y: signal
-      # lambda.bc: smoothing parameter (generally 1e5 to 1e8)
+      # lambda: smoothing parameter (generally 1e5 to 1e8)
       # p: asymmetry parameter (generally 0.001)
       # d: order of differences in penalty (generally 2)
       # eps: 1e-8 in ptw package
@@ -55,7 +56,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
       w <- rep(1, m)
       i <- 1
       repeat {
-        z <- difsmw(y, lambda.bc, w, d)
+        z <- difsmw(y, lambda, w, d = 2)
         w0 <- w
         w <- p * (y > z + eps | y < 0) + (1 - p) * (y <= z + eps)
         if (sum(abs(w - w0)) == 0) {
@@ -75,7 +76,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   Baseline <- matrix(NA, nrow = nrow(Spectrum_data), ncol = ncol(Spectrum_data))
 
   for (k in 1:n) {
-    Baseline[k, ] <- asysm(y = Spectrum_data[k, ], d = 2, lambda.bc = lambda.bc, p = p, eps = eps)
+    Baseline[k, ] <- asysm(y = Spectrum_data[k, ], lambda = lambda, p = p, eps = eps)
     if (F & k == 1) {
       m <- ncol(Spectrum_data)
       graphics::plot(1:mm, Spectrum_data[k, ], type = "l", col = "red")
