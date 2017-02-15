@@ -2,8 +2,8 @@
 InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
                           range = c("near0", "all", "window"), 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
-                          "circular"), c = 2, ppmxaxis = TRUE, fromto.TMSP = NULL, 
-                          pc = 0.02, rowindex_graph = NULL) {
+                          "circular"), c = 2, pc = 0.02, fromto.TMSP = NULL,
+                          ppmxaxis = TRUE, rowindex_graph = NULL) {
   
   
   
