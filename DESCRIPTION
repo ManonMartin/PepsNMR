@@ -1,6 +1,6 @@
 Package: SOAP
 Type: Package
-Title: Preprocess H-NMR FIDs
+Title: Pre-process 1H-NMR FID signals
 Version: 0.1.0
 Date: 2015-09-28
 Description: Preprocess H-NMR signals
@@ -11,12 +11,10 @@ Encoding: UTF-8
 NeedsCompilation: no
 Depends: R (>= 2.10)
 LazyData: true
-Description: This package provides R functions for common pre-treatment steps that are applied on 1H-NMR data. It also provides a function to read the FID directly from the Bruker output.
-Authors@R: c(person("Benoît", "Legat", role = c("aut"),
-		     email = "benoit.legat@gmail.com"),
-	      person("Bernadette", "Govaerts", role = c("aut","ths")),
-	      person("Manon", "Martin", role = c("aut","cre"),
-		     email = "manon.martin@uclouvain.be"),
+Description: This package provides R functions for common pre-procssing steps that are applied on 1H-NMR data. It also provides a function to read the FID signals directly in the Bruker format.
+Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
+	  person("Bernadette", "Govaerts", role = c("aut","ths"), email = "bernadette.govaerts@uclouvain.be"),
+	  person("Benoît", "Legat", role = c("aut"),email = "benoit.legat@gmail.com"),
 		person("Pascal", "de Tullio", role = c("dtc")),
 		person("Bruno", "Boulanger", role = c("ctb")),
 		person("Paul H.C.", "Eilers", role = c("ctb")),
@@ -26,6 +24,5 @@ Note: This package originates from a previous work of Eli Lilly together with
     methods for 1H-NMR pre-treatment that was called "Bubble". (J. Vanwinsberghe.
     Bubble: development of a matlab tool for automated 1H-NMR data processing in
     metabonomics. Master's thesis Strasbourg University, 2005.)
-Contact: Benoît Legat <benoit.legat@gmail.com> and Manon Martin
-    <manon.martin@uclouvain.be>
+Contact: Manon Martin <manon.martin@uclouvain.be>, Bernadette Govaerts <bernadette.govaerts@uclouvain.be> or Benoît Legat <benoit.legat@gmail.com> 
 RoxygenNote: 5.0.1
