@@ -104,7 +104,7 @@ The difference between these shift handlings should not be critical in practice 
 Benoît Legat
 }
 \examples{
-PpmConv.spec <- InternalReferencing(Data_HS_sp$RawSpectData_HS_7, FidInfo_HS, 
+PpmConv.spec <- InternalReferencing(Data_HS_sp$Spectrum_data_HS_7, FidInfo_HS, 
                               shiftHandling = "zerofilling")
 }
 \keyword{ manip }

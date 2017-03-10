@@ -53,7 +53,7 @@ Benoît Legat, Bernadette Govaerts.
 
 
 \examples{
-Bucket.spec <- Bucketing(Data_HS_sp$RawSpectData_HS_10, m = 500)
+Bucket.spec <- Bucketing(Data_HS_sp$Spectrum_data_HS_10, m = 500)
 }
 \keyword{ manip }
 \keyword{ array }

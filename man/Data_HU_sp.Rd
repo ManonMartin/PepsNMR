@@ -14,17 +14,17 @@
     \item{\code{FidData_HU_0}}{Raw FIDs of the Human Urine database.}
     \item{\code{FidData_HU_1}}{FIDs of the Human Urine database after First Order Phase Correction.}
     \item{\code{FidData_HU_2}}{FIDs of the Human Urine database after Solvent residuals suppression.}
-    \item{\code{FidData_HU_3}}{FIDs of the Human Urine database after Apodization.}     \item{\code{RawSpectData_HU_4}}{Spectra of the Human Urine database after Fourier transformation.}   
-    \item{\code{RawSpectData_HU_5}}{Spectra of the Human Urine database after Zero Order Phase Correction.}   
-    \item{\code{RawSpectData_HU_6}}{Spectra of the Human Urine database after Baseline correction.}   
-    \item{\code{RawSpectData_HU_7}}{Spectra of the Human Urine database after Negative Values Zeroing.}   
-    \item{\code{RawSpectData_HU_8}}{Spectra of the Human Urine database after ppm conversion.}   
-    \item{\code{RawSpectData_HU_9}}{Spectra of the Human Urine database after Warping.}   
-    \item{\code{RawSpectData_HU_10}}{Spectra of the Human Urine database after window selection.}   
-    \item{\code{RawSpectData_HU_11}}{Spectra of the Human Urine database after Bucketing}   
-    \item{\code{RawSpectData_HU_12}}{Spectra of the Human Urine database after Region removal.}  
-    \item{\code{RawSpectData_HU_13}}{Spectra of the Human Urine database after Zone aggregation.}      
-    \item{\code{RawSpectData_HU_14}}{Spectra of the Human Urine database after Normalization.}   
+    \item{\code{FidData_HU_3}}{FIDs of the Human Urine database after Apodization.}     \item{\code{Spectrum_data_HU_4}}{Spectra of the Human Urine database after Fourier transformation.}   
+    \item{\code{Spectrum_data_HU_5}}{Spectra of the Human Urine database after Zero Order Phase Correction.}   
+    \item{\code{Spectrum_data_HU_6}}{Spectra of the Human Urine database after Baseline correction.}   
+    \item{\code{Spectrum_data_HU_7}}{Spectra of the Human Urine database after Negative Values Zeroing.}   
+    \item{\code{Spectrum_data_HU_8}}{Spectra of the Human Urine database after ppm conversion.}   
+    \item{\code{Spectrum_data_HU_9}}{Spectra of the Human Urine database after Warping.}   
+    \item{\code{Spectrum_data_HU_10}}{Spectra of the Human Urine database after window selection.}   
+    \item{\code{Spectrum_data_HU_11}}{Spectra of the Human Urine database after Bucketing}   
+    \item{\code{Spectrum_data_HU_12}}{Spectra of the Human Urine database after Region removal.}  
+    \item{\code{Spectrum_data_HU_13}}{Spectra of the Human Urine database after Zone aggregation.}      
+    \item{\code{Spectrum_data_HU_14}}{Spectra of the Human Urine database after Normalization.}   
   }
 }
 \details{

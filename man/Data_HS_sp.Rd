@@ -14,16 +14,16 @@ For more details on this database, see \code{help(FidData_HS)}.
     \item{\code{FidData_HS_0}}{Raw FIDs of the Human Serum database.}
     \item{\code{FidData_HS_1}}{FIDs of the Human Serum database after First Order Phase Correction.}
     \item{\code{FidData_HS_2}}{FIDs of the Human Serum database after Solvent residuals suppression.}
-    \item{\code{FidData_HS_3}}{FIDs of the Human Serum database after Apodization.}     \item{\code{RawSpectData_HS_4}}{Spectra of the Human Serum database after Fourier transformation.}   
-    \item{\code{RawSpectData_HS_5}}{Spectra of the Human Serum database after Zero Order Phase Correction.}   
-    \item{\code{RawSpectData_HS_6}}{Spectra of the Human Serum database after Baseline correction.}   
-    \item{\code{RawSpectData_HS_7}}{Spectra of the Human Serum database after Negative Values Zeroing.}   
-    \item{\code{RawSpectData_HS_8}}{Spectra of the Human Serum database after ppm conversion.}   
-    \item{\code{RawSpectData_HS_9}}{Spectra of the Human Serum database after Warping.}   
-    \item{\code{RawSpectData_HS_10}}{Spectra of the Human Serum database after window selection.}   
-    \item{\code{RawSpectData_HS_11}}{Spectra of the Human Serum database after Bucketing}   
-    \item{\code{RawSpectData_HS_12}}{Spectra of the Human Serum database after Region removal.}   
-    \item{\code{RawSpectData_HS_13}}{Spectra of the Human Serum database after Normalization.}   
+    \item{\code{FidData_HS_3}}{FIDs of the Human Serum database after Apodization.}     \item{\code{Spectrum_data_HS_4}}{Spectra of the Human Serum database after Fourier transformation.}   
+    \item{\code{Spectrum_data_HS_5}}{Spectra of the Human Serum database after Zero Order Phase Correction.}   
+    \item{\code{Spectrum_data_HS_6}}{Spectra of the Human Serum database after Baseline correction.}   
+    \item{\code{Spectrum_data_HS_7}}{Spectra of the Human Serum database after Negative Values Zeroing.}   
+    \item{\code{Spectrum_data_HS_8}}{Spectra of the Human Serum database after ppm conversion.}   
+    \item{\code{Spectrum_data_HS_9}}{Spectra of the Human Serum database after Warping.}   
+    \item{\code{Spectrum_data_HS_10}}{Spectra of the Human Serum database after window selection.}   
+    \item{\code{Spectrum_data_HS_11}}{Spectra of the Human Serum database after Bucketing}   
+    \item{\code{Spectrum_data_HS_12}}{Spectra of the Human Serum database after Region removal.}   
+    \item{\code{Spectrum_data_HS_13}}{Spectra of the Human Serum database after Normalization.}   
   }
 }
 

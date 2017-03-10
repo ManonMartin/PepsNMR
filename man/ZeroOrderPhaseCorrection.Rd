@@ -63,7 +63,7 @@ Benoît Legat, Manon Martin
 }
 
 \examples{
-Zopc.res <- ZeroOrderPhaseCorrection(Data_HS_sp$RawSpectData_HS_4, 
+Zopc.res <- ZeroOrderPhaseCorrection(Data_HS_sp$Spectrum_data_HS_4, 
             freq = FALSE, fromto.0OPC = list(c(5000,15000)))
 }
 
