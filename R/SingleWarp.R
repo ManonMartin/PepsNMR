@@ -20,13 +20,13 @@ SingleWarp <- function(ref, sample, beta, L = 40, lambda.smooth = 0, deg = 3,
   # POLYNOMIAL WARPING -------------------------------------------------
   
   # smoothing
-  if (lambda.smooth > 0) {
+  if (lambda.smooth == 0) {
+    smooth.sample <- sample
+    smooth.ref <- ref
+  } else {
     # Start with parametric warp, after heavy smoothing
     smooth.sample <- ptw::difsm(sample, lambda.smooth)
     smooth.ref <- ptw::difsm(ref, lambda.smooth)
-  } else {
-    smooth.sample <- sample
-    smooth.ref <- ref
   }
   
   # Warp with polynomials, 1, v, ..., v^K
@@ -35,14 +35,14 @@ SingleWarp <- function(ref, sample, beta, L = 40, lambda.smooth = 0, deg = 3,
   sel <- pw.out$sel  # selected indices in spectrum
   beta <- pw.out$beta  # polynomial coefficients
   
-  if (lambda.smooth > 0) {
+  if (lambda.smooth == 0) {
+    # It has not been smoothed
+    sample[sel] <- pw.out$warped
+  } else {
     # We warp the non-smooth sample
     interp.out <- Interpol(w, sample)
     sel <- interp.out$s
     sample[sel] <- interp.out$f
-  } else {
-    # It has not been smoothed
-    sample[sel] <- pw.out$warped
   }
   
   if (L >= 1) {
