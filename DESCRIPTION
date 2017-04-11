@@ -3,7 +3,7 @@ Type: Package
 Title: Pre-process 1H-NMR FID signals
 Version: 0.1.0
 Date: 2015-09-28
-Description: Preprocess H-NMR signals
+Description: This package provides R functions for common pre-procssing steps that are applied on 1H-NMR data. It also provides a function to read the FID signals directly in the Bruker format.
 License: GPL-2 | file LICENSE
 Imports:
     Matrix, ptw, ggplot2, gridExtra, matrixStats, reshape2
@@ -11,7 +11,6 @@ Encoding: UTF-8
 NeedsCompilation: no
 Depends: R (>= 2.10)
 LazyData: true
-Description: This package provides R functions for common pre-procssing steps that are applied on 1H-NMR data. It also provides a function to read the FID signals directly in the Bruker format.
 Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
 	  person("Bernadette", "Govaerts", role = c("aut","ths"), email = "bernadette.govaerts@uclouvain.be"),
 	  person("Benoît", "Legat", role = c("aut"),email = "benoit.legat@gmail.com"),
@@ -25,4 +24,4 @@ Note: This package originates from a previous work of Eli Lilly together with
     Bubble: development of a matlab tool for automated 1H-NMR data processing in
     metabonomics. Master's thesis Strasbourg University, 2005.)
 Contact: Manon Martin <manon.martin@uclouvain.be>, Bernadette Govaerts <bernadette.govaerts@uclouvain.be> or Benoît Legat <benoit.legat@gmail.com> 
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
