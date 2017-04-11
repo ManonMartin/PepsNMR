@@ -23,13 +23,13 @@ Apodization(Fid_data, Fid_info=NULL, DT=NULL,type.apod = c("exp", "cos2",
 \details{
 
 The apodization is usualy performed in order to increase the Signal-to-Noise Ratio (SNR).
-A FID of the form \eqn{s_0\exp(i2\pi\nu t)\exp(-t/\tau)}{s0 exp(i*2*pi*nu*t) exp(-t/tau)} has a peak
-in its spectrum at the frequency \eqn{\nu}{nu} of width that is inversely proportional to \eqn{\tau}{tau}.
+A FID of the form \eqn{s_0\exp(i2\pi\nu t)\exp(-t/T)}{s0 exp(i*2*pi*nu*t) exp(-t/T)} has a peak
+in its spectrum at the frequency \eqn{\nu}{nu} of width that is inversely proportional to \eqn{T}{T}.
 This peak is called a \emph{spectral line} and its width a \emph{spectral width}.
 
 In this case of the exponential multiplication (\code{"exp"}), which is the default apodization, the decaying exponential becomes:
-\deqn{\exp(-t(1/\tau + LB))}{exp(-t(1/tau + LB))}
-The new decay \eqn{\tau_2}{tau2} which satisfied \eqn{1/\tau_2 = 1/\tau + LB}{1/tau2 = 1/tau + LB} is therefore smaller so the spectral line is \emph{broader}.
+\deqn{\exp(-t(1/T + LB))}{exp(-t(1/T + LB))}
+The new decay \eqn{\T*}{T*} which satisfies \eqn{1/T* = 1/T + LB}{1/T* = 1/T  + LB} is therefore smaller so the spectral line is \emph{broader}.
 That is why we call this parameter the Line Broadening.
 
 
