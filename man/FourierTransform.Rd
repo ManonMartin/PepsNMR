@@ -4,7 +4,7 @@
 Provides the Fourier transform of the FID.
 }
 \description{
-The function takes FIDs in the time domain are translated in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm) with the transmitter frequency offset.
+The function takes FIDs in the time domain and translate it in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm).
 
 }
 \usage{
@@ -16,22 +16,22 @@ FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL,
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{SW_h}{Sweep Width in hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
   \item{SW}{Sweep width in ppm.}
-  \item{O1}{TRansmitter frequency offset.}
+  \item{O1}{Transmitter frequency offset.}
   \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
   
 }
 \details{
 The number of points \eqn{m} doesn't change and the frequency interval is from \eqn{-SW/2} to \eqn{SW/2 - SW/m} (the \eqn{-SW/m} is due to the fact that we only have \eqn{m} points, not \eqn{m+1}, the Fourier Transform is periodic with period \eqn{SW} so it is the same at \eqn{-SW/2} and \eqn{SW/2} anyway).
 
-\eqn{SW} is taken in \code{Fid_info} in the column with name \code{SW_h} of the first row.
-It is assumed to be the same for every FID since their column names are shared.
+\eqn{SW}, \eqn{SW_h} and \eqn{O1} are usually taken from the \code{Fid_info} matrix.
+\eqn{SW} and \eqn{SW_h} are assumed to be the same for every FID since their column names are shared.
 
-The frequency scale is dependent on the kind of spectrometer used, more precisely on its external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor.
 
+The frequency scale is dependent on the kind of spectrometer used, more precisely on its external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor thanks to the recovered transmitter frequency offset value (\eqn{O1}).
 
 }
 \value{
-\item{RawSpect_data}{The matrix of spectra in Hertz, that is, their coordinates in Hertz are written as column names of the matrix.}
+\item{RawSpect_data}{The matrix of spectra in ppm (or Hertz).}
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
@@ -39,6 +39,7 @@ The frequency scale is dependent on the kind of spectrometer used, more precisel
 }
 \author{
 Benoît Legat
+Manon Martin
 }
 
 \examples{
