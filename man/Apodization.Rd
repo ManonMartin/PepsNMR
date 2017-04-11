@@ -27,7 +27,7 @@ A FID of the form \eqn{s_0\exp(i2\pi\nu t)\exp(-t/\tau)}{s0 exp(i*2*pi*nu*t) exp
 in its spectrum at the frequency \eqn{\nu}{nu} of width that is inversely proportional to \eqn{\tau}{tau}.
 This peak is called a \emph{spectral line} and its width a \emph{spectral width}.
 
-With the exponential multiplication, the decaying exponential becomes
+In this case of the exponential multiplication (\code{"exp"}), which is the default apodization, the decaying exponential becomes:
 \deqn{\exp(-t(1/\tau + LB))}{exp(-t(1/tau + LB))}
 The new decay \eqn{\tau_2}{tau2} which satisfied \eqn{1/\tau_2 = 1/\tau + LB}{1/tau2 = 1/tau + LB} is therefore smaller so the spectral line is \emph{broader}.
 That is why we call this parameter the Line Broadening.
