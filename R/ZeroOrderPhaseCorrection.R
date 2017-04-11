@@ -4,7 +4,7 @@
 #' 
 ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
-                                     Angle = NULL, plot_spectra = FALSE, quant = 0.95, 
+                                     angle = NULL, plot_spectra = FALSE, quant = 0.95, 
                                      freq = TRUE, fromto.0OPC = NULL) {
   
   
@@ -12,8 +12,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   
   # Entry arguments definition:
   # plot_rms : graph of rms criterion returnAngle : if TRUE, returns avector of
-  # optimal angles createWindow : for plot_rms plots Angle : If Angle is not NULL,
-  # spectra are rotated according to the Angle vector values
+  # optimal angles createWindow : for plot_rms plots angle : If angle is not NULL,
+  # spectra are rotated according to the angle vector values
   # plot_spectra : if TRUE, plot rotated spectra  
   # quant: probability for sample quantile used to trim the spectral intensities
   
@@ -33,7 +33,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   
   # method in c("max", "rms") -----------------------------------------
   if (method %in% c("max", "rms")) {
-    # Angle is found by optimization
+    # angle is found by optimization
     
     # rms function to be optimised
     rms <- function(ang, y, meth = c("max", "rms"), p = 0.95)  {
@@ -104,7 +104,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     }
     
     
-    # Angles computation
+    # angles computation
     Angle <- c()
     for (k in 1:n)
     {
@@ -166,16 +166,16 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     # method is "manual" -------------------------------------------------------
     # if Angle is already specified and no optimisation is needed
     
-    if (!is.vector(Angle)) {
-      stop("Angle is not a vector")
+    if (!is.vector(angle)) {
+      stop("angle is not a vector")
     }
     
-    if (!is.numeric(Angle))  {
-      stop("Angle is not a numeric")
+    if (!is.numeric(angle))  {
+      stop("angle is not a numeric")
     }
     
-    if (length(Angle) != n) {
-      stop(paste("Angle has length", length(Angle), "and there are", n, "spectra to rotate."))
+    if (length(angle) != n) {
+      stop(paste("angle has length", length(angle), "and there are", n, "spectra to rotate."))
     }
     for (k in 1:n)  {
       Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = ang))
