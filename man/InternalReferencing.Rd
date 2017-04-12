@@ -9,9 +9,10 @@ Chemical shift are referenced against a Reference Compound (RC, \emph{e.g.} TMSP
 \usage{
 InternalReferencing(RawSpect_data, RawSpect_info, method = c("max", 
                "thres"), range = c("near0", "all", "window"), 
-               shiftHandling = c("zerofilling", "cut", "NAfilling",
-               "circular"), c = 2, pc = 0.02, fromto.TMSP = NULL,
-               ppmxaxis = TRUE, rowindex_graph = NULL)
+               ppm.ref = 0, shiftHandling = c("zerofilling", 
+               "cut", "NAfilling", "circular"), c = 2, pc = 0.02, 
+               fromto.TMSP = NULL, ppmxaxis = TRUE, 
+               rowindex_graph = NULL)
 }
 \arguments{
 \item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
@@ -21,6 +22,8 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
 \item{method}{Method used to find the RC peak in the spectra, \emph{cf.} Details section.}
 
 \item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.TMSP}.}
+
+\item{ppm.ref}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval can be used instead.}
 
 \item{shiftHandling}{See the details section.}
 

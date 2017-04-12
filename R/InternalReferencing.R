@@ -1,6 +1,6 @@
 #' @export InternalReferencing
 InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
-                          range = c("near0", "all", "window"), 
+                          range = c("near0", "all", "window"), ppm.ref = 0, 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
                           "circular"), c = 2, pc = 0.02, fromto.TMSP = NULL,
                           ppmxaxis = TRUE, rowindex_graph = NULL) {
@@ -19,10 +19,13 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   shiftHandling <- match.arg(shiftHandling)
   method <- match.arg(method)
   plots <- NULL
+  ppm.ref <-  match.arg(ppm.ref)
+  
   
   checkArg(ppmxaxis, c("bool"))
   checkArg(unlist(fromto.TMSP), c("num"), can.be.null = TRUE)
   checkArg(pc, c("num"))
+  checkArg(ppm.ref, c("num"))
   checkArg(rowindex_graph, "num", can.be.null = TRUE)
   
   # fromto.TMSP
@@ -138,6 +141,16 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     end <- minpeak - m
     
     ppmScale <- (start:end) * ppmInterval
+    
+    # check if ppm.ref in is the ppmScale interval
+    if(ppm.ref < min(ppmScale) | ppm.ref > max(ppmScale)) {
+    warning("ppm.ref = ", ppm.ref, " is not in the ppm interval [", 
+           round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default value 0")
+      ppm.ref = 0
+      }
+    
+    ppmScale <- ppmScale + ppm.ref
+    
     Spectrum_data <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
                             dimnames = list(rownames(RawSpect_data), ppmScale))
     for (i in 1:n)  {
@@ -156,7 +169,17 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     # circular
     start <-  maxpeak - 1
     end <- minpeak - m
+    
     ppmScale <- (start:end) * ppmInterval
+    
+    # check if ppm.ref in is the ppmScale interval
+    if(ppm.ref < min(ppmScale) | ppm.ref > max(ppmScale)) {
+      warning("ppm.ref = ", ppm.ref, " is not in the ppm interval [", 
+              round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default value 0")
+      ppm.ref = 0
+    }
+    ppmScale <- ppmScale + ppm.ref
+    
     Spectrum_data <- matrix(nrow = n, ncol = -(end - start) + 1, 
                             dimnames = list(rownames(RawSpect_data), ppmScale))
     for (i in 1:n)  {
