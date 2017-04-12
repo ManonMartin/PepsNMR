@@ -19,7 +19,6 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   shiftHandling <- match.arg(shiftHandling)
   method <- match.arg(method)
   plots <- NULL
-  ppm.ref <-  match.arg(ppm.ref)
   
   
   checkArg(ppmxaxis, c("bool"))
