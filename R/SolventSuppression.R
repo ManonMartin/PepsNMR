@@ -67,7 +67,7 @@ SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE,
   
   Fid_data <- endTreatment("SolventSuppression", begin_info, Fid_data)
   if (returnSolvent) {
-    return(list(Fid_data = Fid_data, SolventRe = Re(SolventRe), SolventIm = Im(SolventIm)))
+    return(list(Fid_data = Fid_data, SolventRe = SolventRe, SolventIm = SolventIm))
   } else {
     return(Fid_data)
   }
