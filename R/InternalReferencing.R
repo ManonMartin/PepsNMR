@@ -2,7 +2,7 @@
 InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
                           range = c("near0", "all", "window"), ppm.ref = 0, 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
-                          "circular"), c = 2, pc = 0.02, fromto.TMSP = NULL,
+                          "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
                           ppm = TRUE, rowindex_graph = NULL) {
   
   
@@ -22,14 +22,14 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   
   
   checkArg(ppm, c("bool"))
-  checkArg(unlist(fromto.TMSP), c("num"), can.be.null = TRUE)
+  checkArg(unlist(fromto.RC), c("num"), can.be.null = TRUE)
   checkArg(pc, c("num"))
   checkArg(ppm.ref, c("num"))
   checkArg(rowindex_graph, "num", can.be.null = TRUE)
   
-  # fromto.TMSP
-  if (!is.null(fromto.TMSP)) {
-    diff <- diff(unlist(fromto.TMSP))[1:length(diff(unlist(fromto.TMSP)))%%2 !=0]
+  # fromto.RC
+  if (!is.null(fromto.RC)) {
+    diff <- diff(unlist(fromto.RC))[1:length(diff(unlist(fromto.RC)))%%2 !=0]
     for (i in 1:length(diff)) {
       if (diff[i] <= 0)  {
         stop(paste("Invalid region removal because from > to"))
@@ -87,7 +87,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     Data <- RawSpect_data
   } else {
       if (range == "near0")  {
-        fromto.TMSP <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
+        fromto.RC <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
       }
       
     # if ppm == TRUE, then fromto is in the colnames values, else, in the column
@@ -99,10 +99,10 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
       }
     
     
-    Int <- vector("list", length(fromto.TMSP))
-    for (i in 1:length(fromto.TMSP))  {
-      Int[[i]] <- indexInterval(colindex, from = fromto.TMSP[[i]][1], 
-                                to = fromto.TMSP[[i]][2], inclusive = TRUE)
+    Int <- vector("list", length(fromto.RC))
+    for (i in 1:length(fromto.RC))  {
+      Int[[i]] <- indexInterval(colindex, from = fromto.RC[[i]][1], 
+                                to = fromto.RC[[i]][2], inclusive = TRUE)
     }
     
     vector <- rep(0, m)
@@ -203,16 +203,16 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     
     if (range == "window")  {
       if (ppm == TRUE)   {
-        fromto <- fromto.TMSP
+        fromto <- fromto.RC
       } else  {
         fromto <- list()
         idcol <- as.numeric(colnames(RawSpect_data))
-        for (i in 1:length(fromto.TMSP)) {
-          fromto[[i]] <- as.numeric(colnames(RawSpect_data))[fromto.TMSP[[i]]]
+        for (i in 1:length(fromto.RC)) {
+          fromto[[i]] <- as.numeric(colnames(RawSpect_data))[fromto.RC[[i]]]
         }
       }
     } else {
-      fromto <- fromto.TMSP
+      fromto <- fromto.RC
     }
     
     # TMSPloc in ppm

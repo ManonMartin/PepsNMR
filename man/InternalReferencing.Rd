@@ -11,7 +11,7 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
                "thres"), range = c("near0", "all", "window"), 
                ppm.ref = 0, shiftHandling = c("zerofilling", 
                "cut", "NAfilling", "circular"), c = 2, pc = 0.02, 
-               fromto.TMSP = NULL, ppm = TRUE, 
+               fromto.RC = NULL, ppm = TRUE, 
                rowindex_graph = NULL)
 }
 \arguments{
@@ -21,7 +21,7 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
 
 \item{method}{Method used to find the RC peak in the spectra, \emph{cf.} Details section.}
 
-\item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.TMSP}.}
+\item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.RC}.}
 
 \item{ppm.ref}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval can be used instead.}
 
@@ -31,9 +31,9 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
 
 \item{pc}{If \code{range == "near0"}, percentage of the ppm axis around 0 ppm to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
-\item{fromto.TMSP}{If \code{range == "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
+\item{fromto.RC}{If \code{range == "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.RC = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
  
-\item{ppm}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies in ppm(column names of spectra), if \code{FALSE} these values are column indices.}
+\item{ppm}{If \code{TRUE}, the values in \code{fromto.RC} represent frequencies in ppm(column names of spectra), if \code{FALSE} these values are column indices.}
 
 \item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
 
