@@ -24,7 +24,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
  \item{angle}{If not \code{NULL}, a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
  \item{quant}{Quantile probability for the positiveness criterion. See details.}
- \item{}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies in ppm value(column names of spectra), if \code{FALSE} these values are column indices.}
+ \item{ppm}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies in ppm value(column names of spectra), if \code{FALSE} these values are column indices.}
  \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion, either in ppm OR column index.}
 }
 \details{
