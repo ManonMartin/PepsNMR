@@ -1,6 +1,6 @@
-\name{SOAP-package}
-\alias{SOAP-package}
-\alias{SOAP}
+\name{PEPSNMR-package}
+\alias{PEPSNMR-package}
+\alias{PEPSNMR}
 \docType{package}
 \title{Metabolomic data pre-treatment strategy for 1H-NMR spectroscopic data
 }
@@ -28,7 +28,7 @@ Those pre-treatments are cited below in the advised order of their use:
 }
 \details{
 \tabular{ll}{
-Package: \tab SOAP\cr
+Package: \tab PEPSNMR\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2014-09-24\cr
@@ -51,7 +51,7 @@ Maintainer: Benoît Legat <benoit.legat@gmail.com>
 \keyword{ package }
 
 \examples{
-path <-  system.file("extdata", package = "SOAP")
+path <-  system.file("extdata", package = "PEPSNMR")
 dir(path)
 
 fidList <- ReadFids(file.path(path, "HumanSerum"))

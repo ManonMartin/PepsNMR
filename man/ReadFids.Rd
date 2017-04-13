@@ -47,7 +47,7 @@ Benoît Legat
 
 
 \examples{
-path <-  system.file("extdata", package = "SOAP")
+path <-  system.file("extdata", package = "PEPSNMR")
 dir(path)
 
 fidList_HS <- ReadFids(file.path(path, "HumanSerum"))

@@ -1,4 +1,4 @@
-Package: SOAP
+Package: PEPSNMR
 Type: Package
 Title: Pre-process 1H-NMR FID signals
 Version: 0.1.0
