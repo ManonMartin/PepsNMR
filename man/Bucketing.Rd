@@ -4,7 +4,7 @@
 Spectral data reduction
 }
 \description{
-Reduces the number of data points by aggregating frequencies into \eqn{m}{m} buckets.
+Reduces the number of data points by aggregating frequencies into buckets.
 
 
 }
