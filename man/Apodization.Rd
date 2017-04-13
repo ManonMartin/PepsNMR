@@ -29,7 +29,7 @@ This peak is called a \emph{spectral line} and its width a \emph{spectral width}
 
 In this case of the exponential multiplication (\code{"exp"}), which is the default apodization, the decaying exponential becomes:
 \deqn{\exp(-t(1/T + LB))}{exp(-t(1/T + LB))}
-The new decay \eqn{\T*}{T*} which satisfies \eqn{1/T* = 1/T + LB}{1/T* = 1/T  + LB} is therefore smaller so the spectral line is \emph{broader}.
+The new decay \eqn{T*}{T*} which satisfies \eqn{1/T* = 1/T + LB}{1/T* = 1/T  + LB} is therefore smaller so the spectral line is \emph{broader}.
 That is why we call this parameter the Line Broadening.
 
 
