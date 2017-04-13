@@ -79,8 +79,8 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
     Baseline[k, ] <- asysm(y = Spectrum_data[k, ], lambda = lambda, p = p, eps = eps)
     if (F & k == 1) {
       m <- ncol(Spectrum_data)
-      graphics::plot(1:mm, Spectrum_data[k, ], type = "l", col = "red")
-      graphics::lines(1:mm, Baseline[k, ], type = "l", col = "blue")
+      graphics::plot(1:m, Spectrum_data[k, ], type = "l", col = "red")
+      graphics::lines(1:m, Baseline[k, ], type = "l", col = "blue")
       graphics::lines(1:m, Spectrum_data[k, ] - Baseline[k, ], type = "l",
         col = "green")
     }
