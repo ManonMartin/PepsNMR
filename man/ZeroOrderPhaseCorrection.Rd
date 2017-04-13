@@ -29,7 +29,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
 }
 \details{
 
-When \code{method} is \code{"rms"}, a positiveness criterion is applied on the spectrum. \code{"manual"} is used when a vector of angles are specified in \code{Angle} and \code{"max"} will optimize a maximum spectral intensity. Beware that if \code{fromto.0OPC} is not \code{NULL}, the optimization will only consider the selected spectral window(s).
+When \code{method} is \code{"rms"}, a positiveness criterion is applied on the spectrum. \code{"manual"} is used when a vector of angles are specified in \code{angle} and \code{"max"} will optimize a maximum spectral intensity. Beware that if \code{fromto.0OPC} is not \code{NULL}, the optimization will only consider the selected spectral window(s).
 
 
 After the first order phase correction, every part of the signal, \emph{i.e.} every frequency, theorically starts synchronized at 0.
