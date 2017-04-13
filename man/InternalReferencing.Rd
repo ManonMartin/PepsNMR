@@ -11,7 +11,7 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
                "thres"), range = c("near0", "all", "window"), 
                ppm.ref = 0, shiftHandling = c("zerofilling", 
                "cut", "NAfilling", "circular"), c = 2, pc = 0.02, 
-               fromto.TMSP = NULL, ppmxaxis = TRUE, 
+               fromto.TMSP = NULL, ppm = TRUE, 
                rowindex_graph = NULL)
 }
 \arguments{
@@ -31,9 +31,9 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
 
 \item{pc}{If \code{range == "near0"}, percentage of the ppm axis around 0 ppm to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
-\item{fromto.TMSP}{If \code{range == "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppmxaxis} value.}
+\item{fromto.TMSP}{If \code{range == "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.TMSP = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
  
-\item{ppmxaxis}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies (column names of spectra), if \code{FALSE} these values are column indices.}
+\item{ppm}{If \code{TRUE}, the values in \code{fromto.TMSP} represent frequencies in ppm(column names of spectra), if \code{FALSE} these values are column indices.}
 
 \item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
 

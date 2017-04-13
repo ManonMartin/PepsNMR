@@ -13,7 +13,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
                         plot_rms = NULL, returnAngle = FALSE, 
                         createWindow = TRUE, 
                         angle = NULL, plot_spectra = FALSE,  
-                        quant = 0.95, freq = TRUE, fromto.0OPC = NULL)
+                        quant = 0.95, ppm = TRUE, fromto.0OPC = NULL)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in hertz, one row per spectrum.}
@@ -24,7 +24,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
  \item{angle}{If not \code{NULL}, a numeric vector with angles specified in radian to maually rotate the spectra. One angle is given per spectrum.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
  \item{quant}{Quantile probability for the positiveness criterion. See details.}
- \item{freq}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies (column names of spectra), if \code{FALSE} these values are indices.}
+ \item{}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies in ppm value(column names of spectra), if \code{FALSE} these values are column indices.}
  \item{fromto.0OPC}{If not \code{NULL}, a list containing the extremities of the intervals used to compute the positiveness criterion, either in ppm OR column index.}
 }
 \details{
@@ -64,7 +64,7 @@ Benoît Legat, Manon Martin
 
 \examples{
 Zopc.res <- ZeroOrderPhaseCorrection(Data_HS_sp$Spectrum_data_HS_4, 
-            freq = FALSE, fromto.0OPC = list(c(5000,15000)))
+            ppm = FALSE, fromto.0OPC = list(c(5000,15000)))
 }
 
 \keyword{ manip }

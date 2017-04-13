@@ -5,7 +5,7 @@
 ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
                                      angle = NULL, plot_spectra = FALSE, quant = 0.95, 
-                                     freq = TRUE, fromto.0OPC = NULL) {
+                                     ppm = TRUE, fromto.0OPC = NULL) {
   
   
   # Data initialisation and checks ----------------------------------------------
@@ -27,7 +27,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   
   # Check input arguments
   method <- match.arg(method)
-  checkArg(freq, c("bool"))
+  checkArg(ppm, c("bool"))
   checkArg(unlist(fromto.0OPC), c("num"), can.be.null = TRUE)
   
   
@@ -72,9 +72,9 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       Data <- Spectrum_data
     } else  {
       
-      # if freq == TRUE, then fromto is in the colnames values, else, in the column
+      # if ppm == TRUE, then fromto is in the colnames values, else, in the column
       # index
-      if (freq == TRUE)  {
+      if (ppm == TRUE)  {
         colindex <- as.numeric(colnames(Spectrum_data))
       } else  {
         colindex <- 1:m

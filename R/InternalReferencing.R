@@ -3,7 +3,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
                           range = c("near0", "all", "window"), ppm.ref = 0, 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
                           "circular"), c = 2, pc = 0.02, fromto.TMSP = NULL,
-                          ppmxaxis = TRUE, rowindex_graph = NULL) {
+                          ppm = TRUE, rowindex_graph = NULL) {
   
   
   
@@ -21,7 +21,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   plots <- NULL
   
   
-  checkArg(ppmxaxis, c("bool"))
+  checkArg(ppm, c("bool"))
   checkArg(unlist(fromto.TMSP), c("num"), can.be.null = TRUE)
   checkArg(pc, c("num"))
   checkArg(ppm.ref, c("num"))
@@ -90,9 +90,9 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
         fromto.TMSP <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
       }
       
-    # if ppmxaxis == TRUE, then fromto is in the colnames values, else, in the column
+    # if ppm == TRUE, then fromto is in the colnames values, else, in the column
     # index
-      if (ppmxaxis == TRUE)   {
+      if (ppm == TRUE)   {
         colindex <- as.numeric(colnames(RawSpect_data))
       } else   {
         colindex <- 1:m
@@ -202,7 +202,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   if (!is.null(rowindex_graph)) {
     
     if (range == "window")  {
-      if (ppmxaxis == TRUE)   {
+      if (ppm == TRUE)   {
         fromto <- fromto.TMSP
       } else  {
         fromto <- list()
