@@ -1,6 +1,6 @@
 #' @export DrawPCA
 DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot", 
-                    Class = NULL, axes = c(1, 2), type.pca = c("scores", "loadings"), 
+                    class = NULL, axes = c(1, 2), type.pca = c("scores", "loadings"), 
                     loadingstype = c("l", "p"), num.stacked = 4, xlab = "rowname", 
                     createWindow){
   
@@ -11,12 +11,12 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
   
   checkArg(main, "str", can.be.null = TRUE)
   
-  # Class
-  if (!is.vector(Class, mode = "any") & !is.null(Class)) {
-    stop("Class is not a numeric vector")
+  # class
+  if (!is.vector(class, mode = "any") & !is.null(class)) {
+    stop("class is not a numeric vector")
   }
-  if (is.vector(Class, mode = "numeric") & length(Class) != nrow(Signal_data)) {
-    stop("the length of Class is not equal to the nrow of Signal_data")
+  if (is.vector(class, mode = "numeric") & length(class) != nrow(Signal_data)) {
+    stop("the length of class is not equal to the nrow of Signal_data")
   }
   
   # axes
@@ -28,8 +28,8 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
     stop("At least 2 spectra are needed for PCA.")
   }
   
-  if (0 %in% Class) {
-    Class <- Class + 1
+  if (0 %in% class) {
+    class <- class + 1
   }
   
   # axes for scores plot
@@ -83,11 +83,11 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
     plots <- ggplot2::ggplot(scores, ggplot2::aes(get(colnames(scores)[Xax]), 
       get(colnames(scores)[Yax]))) + ggplot2::xlim(Xlim) + ggplot2::ylim(Ylim)
     
-    if (is.null(Class))  {
+    if (is.null(class))  {
       plots <- plots + ggplot2::geom_jitter()
     } else  {
-      plots <- plots + ggplot2::geom_jitter(ggplot2::aes(colour = Class, 
-        shape = Class))
+      plots <- plots + ggplot2::geom_jitter(ggplot2::aes(colour = class, 
+        shape = class))
     }
     
     plots <- plots + ggplot2::ggtitle(main) + ggplot2::geom_vline(xintercept = 0, 
@@ -99,7 +99,7 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
         2), "%)"))
     
     if (drawNames)  {
-      if (is.null(Class))  {
+      if (is.null(class))  {
         plots <- plots + ggplot2::geom_text(ggplot2::aes(x = scores[, 
           Xax], y = scores[, Yax], label = rownames(Signal_data)), 
           hjust = 0, nudge_x = (Xlim[2]/25), show.legend = FALSE, 
@@ -107,7 +107,7 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
       } else  {
         plots <- plots + ggplot2::geom_text(ggplot2::aes(x = scores[, 
           Xax], y = scores[, Yax], label = rownames(Signal_data), 
-          colour = Class, shape = Class), hjust = 0, nudge_x = (Xlim[2]/25), 
+          colour = class, shape = class), hjust = 0, nudge_x = (Xlim[2]/25), 
           show.legend = F, size = 2)
       }
     }
