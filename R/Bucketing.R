@@ -1,5 +1,5 @@
 #' @export Bucketing
-Bucketing <- function(Spectrum_data, m = 500, width = FALSE, boundary = NULL, 
+Bucketing <- function(Spectrum_data, width = FALSE, m = 500, boundary = NULL, 
                       intmeth = c("r", "t"), tolbuck = 10^-4) {
   
   # Data initialisation and checks ---------------------------------------------- 
