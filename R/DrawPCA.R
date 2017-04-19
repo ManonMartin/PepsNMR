@@ -1,13 +1,13 @@
 #' @export DrawPCA
 DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot", 
-                    Class = NULL, axes = c(1, 2), type = c("scores", "loadings"), 
+                    Class = NULL, axes = c(1, 2), type.pca = c("scores", "loadings"), 
                     loadingstype = c("l", "p"), num.stacked = 4, xlab = "rowname", 
                     createWindow){
   
   
   # Data initialisation and checks ----------------------------------------------
   loadingstype <- match.arg(loadingstype)
-  type <- match.arg(type)
+  type.pca <- match.arg(type.pca)
   
   checkArg(main, "str", can.be.null = TRUE)
   
@@ -68,7 +68,7 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
   Var <- rowname <- value <- NULL  # only for R CMD check
   
   # SCORES ===============
-  if (type == "scores") {
+  if (type.pca == "scores") {
     
     if (!length(axes) == 2) {
       stop("the length of axes is not equal to 2 for scores plot")

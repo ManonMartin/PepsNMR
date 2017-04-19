@@ -10,7 +10,7 @@ Do not call this function directly but rather call \code{\link{Draw}} to specify
 }
 \usage{
 DrawPCA(Signal_data, drawNames = TRUE,  main = "PCA score plot", Class = NULL, 
-              axes = c(1,2), type = c("scores", "loadings"), loadingstype=c("l", "p"), 
+              axes = c(1,2), type.pca = c("scores", "loadings"), loadingstype=c("l", "p"), 
               num.stacked = 4, xlab    ="rowname", createWindow)
 
 }
@@ -20,7 +20,7 @@ DrawPCA(Signal_data, drawNames = TRUE,  main = "PCA score plot", Class = NULL,
   \item{main}{Plot title.}
   \item{Class}{Vector (numeric or character) indicating the class of each spectra. Used for scores plot only.}
   \item{axes}{Vector of score or loading numbers to be plotted. Should be of size two or more. If score's numbers, only the first two elements are used.}
-  \item{type}{The type of plot, either \code{"scores"} or \code{"loadings"}}
+  \item{type.pca}{The type of plot, either \code{"scores"} or \code{"loadings"}}
   \item{loadingstype}{The type of Loadings plot, either a line plot (\code{"l"}) or points with histogram-like vertical lines (\code{"p"}).}
   \item{num.stacked}{Number of stacked plots.}
   \item{xlab}{Label of the x-axis of loadings plot.}
