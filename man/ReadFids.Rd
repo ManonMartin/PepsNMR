@@ -5,21 +5,22 @@
 them in a matrix.
 }
 \usage{
-ReadFids(path, l = 1, subdirs = FALSE)
+ReadFids(path, l = 1, subdirs = FALSE, subdirs.names = FALSE)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}
   \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have unique FID and info matrices.}
+  \item{subdirs.names}{If \code{TRUE}, the FID names are recovered from the subdirectories names, provided one subdirectory corresponds to one FID.}
 }
+
+
 \details{
 
-The row names are the first line of the file "pdata/1/title" in the directory or the directory (and subdirectory if \code{subdirs == TRUE}) name if the title file doesn't exists or the line "l" is blank. The column names are the time coordinates of the FID.
+The row names are the first line of the file "pdata/1/title" in the directory or the directory name(and subdirectory if \code{subdirs == TRUE}) if the title file doesn't exists or the line \code{l} is blank. The column names are the time coordinates of the FID.
 All the FIDs therefore need to have the same length and time interval between points.
-
-\code{SW_h} is used in \code{Fid_info} as the Sweep Width in hertz.
-This is half of the width (in hertz, not in angular frequency) of the Fourier Transform \emph{i.e.} \eqn{1/2DT}{1/2DT}, where DT is the Dwell Time, the time between two data points in the FID.
 }
+
 \value{
 Returns a list with the FIDs and their related information.
 \item{Fid_data}{The matrix containing the FIDs.}
@@ -35,14 +36,15 @@ The columns are:
    \item{DSPFVS}{DSP firmware version}
    \item{SW_h}{Sweep width in Hz}
    \item{SW}{Sweep width in ppm}
-   \item{O1}{Irradiation frequency offset}
+   \item{O1}{Spectrometer frequency offset}
+   \item{GPRDLY}{Group Delay}
    \item{DT}{Dwell time in microseconds}
 }
 }
 }
 
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 
 
