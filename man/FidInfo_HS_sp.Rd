@@ -1,15 +1,11 @@
 \name{FidInfo_HS_sp}
 \alias{FidInfo_HS_sp}
 \docType{data}
-\title{Information about the Human Serum FIDs.
-%%   ~~ data name/kind ... ~~
-}
-\description{Matrix containing acquisition parameters of the Human Serum FIDs.
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
-}
+\title{Information about the 4 first Human Serum FIDs.}
+\description{Matrix containing acquisition parameters for the 4 first Human Serum FIDs.}
 \usage{data("FidInfo_HS_sp")}
 \format{
-A matrix with 4 observations and 8 variables. }
+A matrix with 4 observations and 9 variables. }
 
 \details{
 Variables are:
@@ -21,11 +17,15 @@ Variables are:
    \item{DSPFVS}{DSP firmware version}
    \item{SW_h}{Sweep width in Hz}
    \item{SW}{Sweep width in ppm}
+   \item{O1}{Spectrometer frequency offset}
    \item{DT}{Dwell time in microseconds}
    }
 }
 \source{Data provided by Dr. Pascal de Tullio and coworkers of the Pharmaceutical Chemistry Laboratory in the Pharmacy Department of the University of Liege (ULg), Belgium.
 }
+
+\seealso{
+See also \code{\link{FidData_HS_sp}} for the FIDs.}
 
 \examples{
 data(FidInfo_HS)

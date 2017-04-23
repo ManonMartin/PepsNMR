@@ -23,10 +23,10 @@ This aggregation is usually performed with urine samples that contains citrate.
 \item{Spectrum_data}{The matrix of spectra with their zone aggregated.}
 }
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 \examples{
-\dontrun{Spectrum_data <- ZoneAggregation(Data_HU_sp$Spectrum_data_HU_12, 
+\dontrun{Spectrum_data <- ZoneAggregation(FidData_HU_sp$Spectrum_data_HU_12, 
 fromto.za = list(Citrate =c(2.5, 2.7)))}
 
 }

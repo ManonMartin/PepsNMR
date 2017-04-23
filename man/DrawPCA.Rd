@@ -30,7 +30,7 @@ DrawPCA(Signal_data, drawNames = TRUE,  main = "PCA score plot", class = NULL,
 Benoît Legat & Manon Martin
 }
 \seealso{
-See Also \code{\link{Draw}} and \code{\link{DrawSignal}}.
+See also \code{\link{Draw}} and \code{\link{DrawSignal}}.
 }
 \examples{
 # Draw loadings

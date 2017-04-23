@@ -4,7 +4,7 @@
 Chemical shift referencing.
 }
 \description{
-Chemical shift are referenced against a Reference Compound (RC, \emph{e.g.} TMSP).
+Chemical shifts are referenced against a Reference Compound (RC, \emph{e.g.} TMSP).
 }
 \usage{
 InternalReferencing(RawSpect_data, RawSpect_info, method = c("max", 
@@ -15,32 +15,32 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
                rowindex_graph = NULL)
 }
 \arguments{
-\item{RawSpect_data}{Matrix containing the spectra in Hertz, one row per spectrum, as returned by \code{\link{ReadFids}}.}
+\item{RawSpect_data}{Matrix containing the spectra in ppm, one row per spectrum.}
  
 \item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 
-\item{method}{Method used to find the RC peak in the spectra, \emph{cf.} Details section.}
+\item{method}{Method used to find the RC peak in the spectra, See the details section.}
 
 \item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.RC}.}
 
-\item{ppm.ref}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval can be used instead.}
+\item{ppm.ref}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval of spectra can be used instead.}
 
 \item{shiftHandling}{See the details section.}
 
 \item{c}{If \code{method = "thres"}, parameter used to fix the threshold for the RC peak.}
 
-\item{pc}{If \code{range == "near0"}, percentage of the ppm axis around 0 ppm to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
+\item{pc}{If \code{range = "near0"}, percentage of the ppm axis around the \code{ppm.ref} ppm value to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
-\item{fromto.RC}{If \code{range == "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the TMSP peak (e.g. \code{fromto.RC = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
+\item{fromto.RC}{If \code{range = "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the RC peak (e.g. \code{fromto.RC = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
  
-\item{ppm}{If \code{TRUE}, the values in \code{fromto.RC} represent frequencies in ppm(column names of spectra), if \code{FALSE} these values are column indices.}
+\item{ppm}{If \code{TRUE}, the values in \code{fromto.RC} represent frequencies in ppm (column names of spectra), if \code{FALSE} these values are column indices.}
 
 \item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
 
 }
 \details{
 
-Once the search zone is defined with \code{range}, the Referencing Compound (RC) is found depending on the \code{method}. If \code{method = "thres"}, RC is the first peak in the spectrum higher than a predefined threshold which is computed as: \code{c*(cumulated_mean/cumulated_sd)}. If \code{method = "max"}, the maximum intensity in the search zone is defined as the RC.
+Once the search zone is defined with \code{range}, the RC is found depending on the \code{method}. If \code{method = "thres"}, RC is the first peak in the spectrum higher than a predefined threshold which is computed as: \code{c*(cumulated_mean/cumulated_sd)}. If \code{method = "max"}, the maximum intensity in the search zone is defined as the RC.
 
 
 Since the spectra can be shifted differently, we need to handle misalignment of the left and right of the spectrum.
@@ -104,10 +104,10 @@ The difference between these shift handlings should not be critical in practice 
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
 }
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 \examples{
-PpmConv.spec <- InternalReferencing(Data_HS_sp$Spectrum_data_HS_7, FidInfo_HS, 
+PpmConv.spec <- InternalReferencing(FidData_HS_sp$Spectrum_data_HS_7, FidInfo_HS, 
                               shiftHandling = "zerofilling")
 }
 \keyword{ manip }

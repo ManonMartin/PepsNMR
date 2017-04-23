@@ -10,33 +10,33 @@ The function estimates and removes the smoothed baseline from the spectra.
                    lambda.bc = 1e7, p.bc = 0.05, eps = 1e-8, 
                    returnBaseline = F)}
 \arguments{
-  \item{Spectrum_data}{Matrix containing the spectra in Hertz, one row per spectrum.}
+  \item{Spectrum_data}{Matrix containing the spectra, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
-  The R version is only kept because it is easier to understand than C and in case of problems with the installation of \code{ptw}.}
-  \item{maxIter}{Maximum of iterations if \code{ptw.bc} is set to \code{FALSE}.}
-  \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8).}
-  \item{p.bc}{Asymmetry parameter.}
+  The R version is only kept because it is easier to understand than C and in case of problems with the installation of the \code{ptw} package.}
+  \item{maxIter}{Maximum number of iterations for the R version (if \code{ptw.bc} is set to \code{FALSE}).}
+  \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8). See details.}
+  \item{p.bc}{Asymmetry parameter. See details.}
   \item{eps}{Numerical precision for convergence when estimating the baseline.}
-  \item{returnBaseline}{If TRUE, will return the estimation of the baseline.}
+  \item{returnBaseline}{If \code{TRUE}, returns the estimated baselines.}
 }
 \details{
-The signal should be an addition of positive peaks which represent metabolites from the sample.
-These peaks are added to the baseline which is the signal representing the absence of any metabolite and should therefore be uniformly zero. For each spectrum, its baseline is thus estimated and removed from it. Let \eqn{F}{F} be our initial spectrum an \eqn{Z}{Z} be its baseline. Once \eqn{Z}{Z} is approximated, the corrected spectrum is \eqn{F-Z}{F-Z}.
+The signal should be an addition of positive peaks which represent metabolites from the samples.
+These peaks are added to the baseline which is the signal representing the absence of any metabolite and should therefore be uniformly zero. For each spectrum, its baseline is thus estimated and removed. Let \eqn{F}{F} be our initial spectrum an \eqn{Z}{Z} be its baseline. Once \eqn{Z}{Z} is approximated, the corrected spectrum is \eqn{F - Z}{F - Z}.
 
 
-A negative signal doesn't make sense and creates problems with the statistical analysis and the estimated baseline should not be such that \eqn{F-Z < 0}{F-Z < 0}.
-Hence, in the objective function to be minimized, we take the squared difference \eqn{F-Z}{F-Z} multiplied by \eqn{p}{p} if \eqn{F-Z > 0}{F-Z > 0} or \eqn{1-p}{1-p} if \eqn{F-Z < 0}{F-Z < 0}.
-\eqn{p}{p} is indeed taken very small, \emph{e.g.} \code{0.05}. The function \code{\link{NegativeValuesZeroing}} is used thereafter to set the negative values to zero after Baseline Correction.
+A negative signal doesn't make sense and creates problems with the statistical analysis. The estimated baseline should then not be such that \eqn{F - Z < 0}{F - Z < 0}.
+Hence, in the objective function to be minimized, the squared difference \eqn{F-Z}{F-Z} are weighted by \eqn{p}{p} if \eqn{F - Z > 0}{F - Z > 0} or \eqn{1 - p}{1 - p} if \eqn{F - Z < 0}{F - Z < 0}.
+\eqn{p}{p} is indeed taken very small, \emph{e.g.} \code{0.05}, to avoid negative intensities. The function \code{\link{NegativeValuesZeroing}} is used thereafter to set the remaining negative intensities to zero after the baseline correction.
 
-With this function to minimize, we would simply have \eqn{F=Z}{F=Z} as a solution which would make \eqn{F-Z}{F-Z} uniformly zero. Therefore, the penalty on roughness on \eqn{Z}{Z} is applied so that it does not match the peaks.
-This smoothness constraint is multiplied by \eqn{\lambda}{lambda} and is typically equal to \code{1e7}.
+With this function to minimize, we would simply have \eqn{F = Z}{F = Z} as a solution which would make \eqn{F - Z}{F - Z} uniformly zero. Therefore, a roughness penalty term on \eqn{Z}{Z} is applied so that it does not match exactly the peaks.
+The importance of this smoothness constraint in the objective function is tuned by \eqn{\lambda}{\lambda} which is typically equal to \code{1e7}.
 
 
 \bold{In summary}, usefull parameters are:
 \describe{
-  \item{\code{p}}{The default value is \code{0.05}, the smaller it is, the less \eqn{Z}{Z} will try to follow peaks when it is under the function and the more it will try to be under the function.}
-  \item{\code{lambda}}{The default value is \code{1e7}, the larger it is, the smoother \eqn{Z}{Z} will be.
-  With \code{lambda=0}, the baseline will be equal to the signal and the corrected signal will be zero.}
+  \item{\code{p.bc}}{The default value is \code{0.05}. The smaller it is, the less \eqn{Z}{Z} will try to follow peaks when it is under the function and the more it will try to be under the function.}
+  \item{\code{lambda.bc}}{The default value is \code{1e7}. The larger it is, the smoother \eqn{Z}{Z} will be.
+  With \code{lambda = 0}, the baseline will be equal to the signal and the corrected signal will be zero.}
 }
 
 The algorithm used to find the baseline is iterative. In \code{ptw}, the iteration is done until the baseline is found but if \code{ptw.bc} is set to \code{FALSE}, we stop after \code{maxIter} iterations.
@@ -60,7 +60,7 @@ least squares smoothing.} Leiden University Medical Centre report,
 2005.
 }
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 
 
@@ -68,9 +68,9 @@ Benoît Legat
 See also \code{\link{SolventSuppression}} which also uses the Whittaker smoother.
 }
 \examples{
-BC_res <- BaselineCorrection(Data_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05)
+BC_res <- BaselineCorrection(FidData_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05)
 #or
-BC_res <- BaselineCorrection(Data_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05, 
+BC_res <- BaselineCorrection(FidData_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05, 
                             returnBaseline=TRUE)
 BC_spec = BC_res[["Spectrum_data"]]
 plot(BC_res[["Baseline"]], type="l")

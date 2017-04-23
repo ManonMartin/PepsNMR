@@ -14,15 +14,15 @@ SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE,
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{lambda.ss}{Penalty on roughness used to calculate the smoothed version of the FID.
-  The higher lambda is, the smoother the detected solvent signal will be.}
+  The higher lambda is, the smoother the estimated solvent signal will be.}
   \item{ptw.ss}{If \code{TRUE}, calculates the solvent signal in C using the \code{ptw} package which is a lot faster.
   The R version is only kept in case of problems with the installation of \code{ptw}.}
   \item{plotSolvent}{If \code{TRUE}, plots the solvent signal on the current device.}
-    \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FID, the real part of the solvent signal and the imaginary part of the solvent signal, see the Examples.}
+    \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FIDs, the real and imaginary parts of the estimated solvent signal, see the examples.}
 }
 \details{
-FIDs usually present a wavy shape. Under the assumption that water is the main component of the analyzed solution, its signal can be modelled by the smoothing of the composite FID.
-We then substract this wave, \emph{i.e.} the solvent residuals resonance, from the original FID.
+FIDs usually present a wavy shape. Under the assumption that water is the main compound of the analyzed samples, its signal can be modelled by the smoothing of the FIDs.
+We then subtract this wave, \emph{i.e.} the solvent residuals resonance signal, from the original FIDs.
 
 
 The smoothing is done with a Whittaker smoother which is obtained by the minimization of
@@ -30,7 +30,7 @@ The smoothing is done with a Whittaker smoother which is obtained by the minimiz
 where
 \itemize{
   \item \eqn{V} is the sum of the squared differences between the original and the smoothed signal.
-  \item \eqn{R} measures the roughness of the smoothed signal. 
+  \item \eqn{R} measures the roughness of the estimated signal. 
 }
 }
 \value{
@@ -48,7 +48,7 @@ If \code{returnSolvent = TRUE}, will return a list with the following elements: 
 
 }
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 
 
@@ -56,10 +56,10 @@ Benoît Legat
 See also \code{\link{BaselineCorrection}} which also uses the Whittaker smoother.
 }
 \examples{
-Ss.fid <- SolventSuppression(Data_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=FALSE)
+Ss.fid <- SolventSuppression(FidData_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=FALSE)
 
 #or
-Ss.res <- SolventSuppression(Data_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=TRUE)
+Ss.res <- SolventSuppression(FidData_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=TRUE)
 Ss.fid = Ss.res[["Fid_data"]]
 SolventRe = Ss.res[["SolventRe"]]
 plot(SolventRe[1,], type="l")

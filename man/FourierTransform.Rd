@@ -1,10 +1,10 @@
 \name{FourierTransform}
 \alias{FourierTransform}
 \title{
-Provides the Fourier transform of the FID.
+Applies the fourier transforationm to the FIDs.
 }
 \description{
-The function takes FIDs in the time domain and translate it in the frequency domain. It also converts the frequency scale from hertz to part per million (ppm).
+The function takes the FIDs in the time domain and translate it into the frequency domain. It also converts the frequency scale from hertz to part per million (ppm).
 
 }
 \usage{
@@ -14,36 +14,35 @@ FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL,
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
-  \item{SW_h}{Sweep Width in hertz, \emph{i.e.} the period of the Fourier Transform. It is equal to \eqn{1/DT} where \eqn{DT} is the Dwell Time, the time between two points in the time domain. If given, the value in \code{Fid_info} is ignored.}
-  \item{SW}{Sweep width in ppm.}
-  \item{O1}{Transmitter frequency offset.}
+  \item{SW_h}{Sweep Width in hertz. If given, the value in \code{Fid_info} is ignored.}
+  \item{SW}{Sweep width in ppm. If given, the value in \code{Fid_info} is ignored.}
+  \item{O1}{Spectrometer frequency offset. If given, the value in \code{Fid_info} is ignored.}
   \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
   
 }
 \details{
-The number of points \eqn{m} doesn't change and the frequency interval is from \eqn{-SW/2} to \eqn{SW/2 - SW/m} (the \eqn{-SW/m} is due to the fact that we only have \eqn{m} points, not \eqn{m+1}, the Fourier Transform is periodic with period \eqn{SW} so it is the same at \eqn{-SW/2} and \eqn{SW/2} anyway).
+The number of points \eqn{m} doesn't change and the frequency interval is from \eqn{-SW/2} to \eqn{SW/2 - SW/m} (the \eqn{-SW/m} is due to the fact that we only have \eqn{m} points, not \eqn{m+1} and the fourier transform is periodic with period \eqn{SW} so it is the same at \eqn{-SW/2} and \eqn{SW/2} anyway).
 
 \eqn{SW}, \eqn{SW_h} and \eqn{O1} are usually taken from the \code{Fid_info} matrix.
 \eqn{SW} and \eqn{SW_h} are assumed to be the same for every FID since their column names are shared.
 
 
-The frequency scale is dependent on the kind of spectrometer used, more precisely on its external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this factor thanks to the recovered transmitter frequency offset value (\eqn{O1}).
+The frequency scale is dependent on the kind of spectrometer used, more precisely on its external magnetic field. We therefore translate it to a ppm (part per million) scale which is independent of this external magnetic field thanks to the recovered transmitter frequency offset value (\eqn{O1}).
 
 }
 \value{
-\item{RawSpect_data}{The matrix of spectra in ppm (or Hertz).}
+\item{RawSpect_data}{The matrix of spectra in ppm.}
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
 }
 \author{
-Benoît Legat
-Manon Martin
+Benoît Legat & Manon Martin
 }
 
 \examples{
-FT.spec <- FourierTransform(Data_HS_sp$FidData_HS_3, FidInfo_HS_sp, SW_h=12019.23)
+FT.spec <- FourierTransform(FidData_HS_sp$FidData_HS_3, FidInfo_HS_sp, SW_h=12019.23)
 }
 \keyword{ manip }
 

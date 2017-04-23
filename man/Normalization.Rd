@@ -1,7 +1,7 @@
 \name{Normalization}
 \alias{Normalization}
 \title{
-Normalizes the spectrum
+Normalizes the spectra
 }
 \description{
 
@@ -21,7 +21,7 @@ Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median",
 
 Normalization of spectra before their warping or their statistical analysis is necessary in order to be able to efficiently compare their relative peak intensities. 
 
-It is therefore appropriate to call this filter at the end of the preprocessing.
+It is therefore appropriate to call this filter at the end of the preprocessing workflow.
 
 Normalization types can be:
 \describe{
@@ -43,10 +43,10 @@ Normalization types can be:
   Dieterle, F., Ross, A. , Schlotterbeck, G.,and Senn, H (2006). Probabilistic Quotient Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures. \emph{Analytical Chemistry} 78 (13), 4281-4290 
 }
 \author{
-Benoît Legat
+Benoît Legat & Manon Martin
 }
 \examples{
-Norm.spec <- Normalization(Data_HS_sp$Spectrum_data_HS_12)
+Norm.spec <- Normalization(FidData_HS_sp$Spectrum_data_HS_12)
 }
 \keyword{ manip }
 
