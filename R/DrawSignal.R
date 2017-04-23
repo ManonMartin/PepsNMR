@@ -4,8 +4,7 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
                       "separate", "diffmean", "diffmedian", "diffwith"), 
                       ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = T, 
                       xlab = "rowname", RowNames = NULL, row = 1, num.stacked = 4, 
-                      main.title = NULL, createWindow) {
-  
+                      main = NULL, createWindow) {
   # nticks
   
   # Data initialisation and checks ----------------------------------------------
@@ -118,8 +117,11 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
           
         } else   {
         
-          if (n == 1) {
+          if (n == 1 ) {
             melted <- data.frame(rowname = rep(name, m), 
+                                 Var = as.numeric(scale), value = elements[[name]][i,])
+          } else if (last==i){ 
+            melted <- data.frame(rowname = rep(rownames(elements[[name]])[i], m), 
                                  Var = as.numeric(scale), value = elements[[name]][i,])
           } else {melted <- reshape2::melt(elements[[name]][i:last, ], 
                                            varnames = c("rowname", "Var"))
@@ -131,7 +133,7 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
                            ggplot2::facet_grid(rowname ~ ., scales = "free_y") + 
                            ggplot2::theme(legend.position = "none") + 
                            ggplot2::labs(x = xlab, y = name) +
-                           ggplot2::ggtitle(main.title) +
+                           ggplot2::ggtitle(label = main) +
                            ggplot2::theme_bw()
           
           if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 0) {
@@ -187,7 +189,7 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
       plots[[name]] <- ggplot2::ggplot(melted, ggplot2::aes(x = Var, 
         y = value, group = rowname, colour = rowname)) + ggplot2::geom_line() + 
         ggplot2::labs(x = xlab, y = name) + ggplot2::scale_colour_discrete(name = NULL) + 
-        ggplot2::ggtitle(main.title)
+        ggplot2::ggtitle(main)
       
       if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 
         0)  {
