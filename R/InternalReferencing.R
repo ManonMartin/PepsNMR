@@ -118,7 +118,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   if (method == "thres") {
     TMSPpeaks <- apply(Data, 1, findTMSPpeak)
   } else {
-    TMSPpeaks <- apply(Re(Data), 1, which.max)
+    TMSPpeaks <- apply(abs(Re(Data)), 1, which.max)
   }
   
   # TMSPpeaks is an column index
