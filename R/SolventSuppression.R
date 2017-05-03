@@ -43,8 +43,8 @@ SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE,
   for (i in 1:n) {
     FidRe <- Re(Fid_data[i, ])
     FidIm <- Im(Fid_data[i, ])
-    solventRe <- difsm(FidRe, lambda = lambda.ss)
-    solventIm <- difsm(FidIm, lambda = lambda.ss)
+    solventRe <- difsm(y = FidRe, lambda = lambda.ss)
+    solventIm <- difsm(y = FidIm, lambda = lambda.ss)
     
     if (plotSolvent)  {
       m <- length(FidRe)
