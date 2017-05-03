@@ -1,6 +1,6 @@
-\name{PEPSNMR-package}
-\alias{PEPSNMR-package}
-\alias{PEPSNMR}
+\name{PepsNMR-package}
+\alias{PepsNMR-package}
+\alias{PepsNMR}
 \docType{package}
 \title{Metabolomic data preprocessing strategy for 1H-NMR spectroscopic data
 }
@@ -28,7 +28,7 @@ Those preprocessing are cited below in the advised order of their application:
 }
 \details{
 \tabular{ll}{
-Package: \tab PEPSNMR\cr
+Package: \tab PepsNMR\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2017-04-19\cr
@@ -51,7 +51,7 @@ Maintainer: Manon Martin <manon.martin@uclouvain.be>
 \keyword{ package }
 
 \examples{
-path <-  system.file("extdata", package = "PEPSNMR")
+path <-  system.file("extdata", package = "PepsNMR")
 dir(path)
 
 fidList <- ReadFids(file.path(path, "HumanSerum"))

@@ -1,4 +1,4 @@
-\name{PEPSNMR-internal}
+\name{PepsNMR-internal}
 \alias{Bspline}
 \alias{BsplineWarp}
 \alias{Interpol}
@@ -19,7 +19,7 @@
 \alias{vec2mat}
 
 
-\title{Internal PEPSNMR Functions}
+\title{Internal PepsNMR Functions}
 \description{
   Internal PEPSNMR Functions
 }
