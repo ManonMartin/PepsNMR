@@ -21,7 +21,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
   \item{plot_rms}{Contains a vector of row names for which a debug plot should be made showing the value of the function we try to minimize as a function of the phase.}
   \item{returnAngle}{If \code{TRUE}, will return the rotation angle used for phase correction.}
   \item{createWindow}{If \code{TRUE}, will open a new window to draw the rms or spectra plots, if \code{FALSE}, plots are drawn in the current device.}
- \item{angle}{If not \code{NULL}, a numeric vector with angles specified in radian to manually rotate the spectra. One angle is given per spectrum.}
+ \item{angle}{If not \code{NULL}, a numeric vector with angles specified in radian to manually rotate the spectra, one angle per spectrum. By convention, the spectra are rotated with the correction angle \code{- angle}.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
  \item{quant}{Quantile probability for the positiveness criterion. See details.}
  \item{ppm}{If \code{TRUE}, the values in \code{fromto.0OPC} represent frequencies in ppm value (column names of spectra), if \code{FALSE} these values are column indices.}
