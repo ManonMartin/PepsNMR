@@ -166,8 +166,8 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     
  } else {
     # circular
-    start <-  maxpeak - 1
-    end <- minpeak - m
+    start <- 1 - maxpeak
+    end <- m - maxpeak
     
     ppmScale <- (start:end) * ppmInterval
     
@@ -179,13 +179,13 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     }
     ppmScale <- ppmScale + ppm.ref
     
-    Spectrum_data <- matrix(nrow = n, ncol = -(end - start) + 1, 
-                            dimnames = list(rownames(RawSpect_data), ppmScale))
-    for (i in 1:n)  {
-      shift <- (maxpeak - TMSPpeaks[i])
-      Spectrum_data[i, (1 + shift):m] <- RawSpect_data[i, 1:(m - shift)]
-      if (shift > 0)  {
-        Spectrum_data[i, 1:shift] <- RawSpect_data[i, (m - shift + 1):m]
+    Spectrum_data <- matrix(nrow=n, ncol=end-start+1,
+                            dimnames=list(rownames(RawSpect_data), ppmScale))
+    for (i in 1:n) {
+      shift <- (maxpeak-TMSPpeaks[i])
+      Spectrum_data[i,(1+shift):m] <- RawSpect_data[i,1:(m-shift)]
+      if (shift > 0) {
+        Spectrum_data[i,1:shift] <- RawSpect_data[i,(m-shift+1):m]
       }
     }
   }
