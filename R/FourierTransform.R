@@ -33,7 +33,7 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
   # FT
   RawSpect_data <- fftshift1D2D(t(stats::mvfft(t(Fid_data))))/m
   # recover the frequencies values
-  f <- ((0:(m - 1)) - floor(m/2)) * Fid_info[1, "SW_h"]/m-1
+  f <- ((0:(m - 1)) - floor(m/2)) * Fid_info[1, "SW_h"]/(m-1)
   
   if(reverse.axis == TRUE) {
     revind <- rev(1:m)
@@ -47,9 +47,9 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
   
   # The Sweep Width has to be the same since the column names are the same
   
-  ppmInterval <- SW/m-1  
+  ppmInterval <- SW/(m-1)
   
-  O1index <- binarySearch(a = f, target = O1, lower = TRUE)
+  O1index = round((m+1)/2+O1*(m - 1) / SW_h)
   
   end <- O1index - m
   start <- O1index -1
