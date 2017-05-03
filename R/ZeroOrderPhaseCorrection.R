@@ -44,24 +44,24 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       if (meth == "rms")  {
         si <- sign(Rey)  # sign of intensities
         
-        Rey[abs(Rey) >= quantile(abs(Rey), p)] <- quantile(abs(Rey), p)  # trim the values
+        Rey[abs(Rey) >= quantile(abs(Rey), p,na.rm = TRUE)] <- quantile(abs(Rey), p,na.rm = TRUE)  # trim the values
         Rey <- abs(Rey) * si  # spectral trimmed values
         
-        if ((sum(Rey==0)/length(Rey)) >= 0.99) {
+        if ((sum(Rey==0, na.rm = TRUE)/sum(!is.na(Rey))) >= 0.99) {
           stop("More than 99% of intensities are null, the rms criterion cannot work properly. \n
                Either increase p or the window(s) in fromto.0OPC")
         }
         ReyPos <- Rey[Rey >= 0]  # select positive intensities
         
         # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
-        POSss <- sum((ReyPos)^2)  # SS for positive intensities
+        POSss <- sum((ReyPos)^2,na.rm = TRUE)  # SS for positive intensities
         
         # ss = sum((Rey - mean(Rey) )^2) # centred SS for all intensities
-        ss <- sum((Rey)^2)  #  SS for all intensities
+        ss <- sum((Rey)^2, na.rm = TRUE)  #  SS for all intensities
         
         return(POSss/ss)  # criterion : SS for positive values / SS for all intensities 
       } else  {
-        maxi <- max(Rey)
+        maxi <- max(Rey, na.rm = TRUE)
         return(maxi)
       }
     }
