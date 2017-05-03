@@ -10,7 +10,7 @@ on 1H-NMR data.
 It also provides the function \code{\link{ReadFids}} to read the FID directly from the Bruker format.
 Those preprocessing are cited below in the advised order of their application:
 \describe{
-  \item{\code{\link{FirstOrderPhaseCorrection}}}{Correct for the first order phase correction.}
+  \item{\code{\link{GroupDelayCorrection}}}{Correct for the first order phase correction.}
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FIDs.}
   \item{\code{\link{Apodization}}}{Increase the sensitivity/resolution of the FIDs.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
@@ -57,7 +57,7 @@ dir(path)
 fidList <- ReadFids(file.path(path, "HumanSerum"))
 Fid_data <- fidList[["Fid_data"]]
 Fid_info <- fidList[["Fid_info"]]
-Fid_data <- FirstOrderPhaseCorrection(Fid_data, Fid_info)
+Fid_data <- GroupDelayCorrection(Fid_data, Fid_info)
 Fid_data <- SolventSuppression(Fid_data)
 Fid_data <- Apodization(Fid_data, Fid_info)
 Spectrum_data <- FourierTransform(Fid_data, Fid_info)

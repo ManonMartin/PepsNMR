@@ -1,11 +1,10 @@
-#' @export FirstOrderPhaseCorrection
-FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) {
+#' @export GroupDelayCorrection
+GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) {
   
-  warning("the FirstOrderPhaseCorrection() function is deprecated and will not be updated anymore, 
-          use the GroupDelayCorrection() function instead. See help(GroupDelayCorrection).")
+  
   # Data initialisation and checks ----------------------------------------------
   
-  begin_info <- beginTreatment("FirstOrderPhaseCorrection", Fid_data, Fid_info)
+  begin_info <- beginTreatment("GroupDelayCorrection", Fid_data, Fid_info)
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
   checkArg(group_delay, c("num", "pos0"), can.be.null = TRUE)
@@ -42,7 +41,7 @@ FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = N
   m <- ncol(Fid_data)
   
   
-  # FirstOrderPhaseCorrection ----------------------------------------------
+  # GroupDelayCorrection ----------------------------------------------
   
   # We do the shifting in the Fourier domain because the shift can be non-integer.
   # That way we automatically have the circular behaviour of the shift and the
@@ -56,5 +55,5 @@ FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = N
   
   # Data finalisation ----------------------------------------------
   
-  return(endTreatment("FirstOrderPhaseCorrection", begin_info, Fid_data))
+  return(endTreatment("GroupDelayCorrection", begin_info, Fid_data))
 }
