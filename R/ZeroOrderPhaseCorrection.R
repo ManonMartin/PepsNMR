@@ -178,7 +178,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       stop(paste("angle has length", length(angle), "and there are", n, "spectra to rotate."))
     }
     for (k in 1:n)  {
-      Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = angle[k]))
+      Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = - angle[k]))
     }
   }
   
