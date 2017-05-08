@@ -1,5 +1,5 @@
 #' @export InternalReferencing
-InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", "thres"), 
+InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thres"), 
                           range = c("near0", "all", "window"), ppm.ref = 0, 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
                           "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
@@ -9,9 +9,9 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   
   # Data initialisation and checks ----------------------------------------------
   
-  begin_info <- beginTreatment("InternalReferencing", RawSpect_data, RawSpect_info)
-  RawSpect_data <- begin_info[["Signal_data"]]
-  RawSpect_info <- begin_info[["Signal_info"]]
+  begin_info <- beginTreatment("InternalReferencing", Spectrum_data, Fid_info)
+  Spectrum_data <- begin_info[["Signal_data"]]
+  Fid_info <- begin_info[["Signal_info"]]
 
   
   # Check input arguments
@@ -76,15 +76,15 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
   # Apply the method ('thres' or 'max') on spectra
   # ----------------------------------------------
   
-  n <- nrow(RawSpect_data)
-  m <- ncol(RawSpect_data)
+  n <- nrow(Spectrum_data)
+  m <- ncol(Spectrum_data)
   
   # The Sweep Width has to be the same since the column names are the same
-  SW <- RawSpect_info[1, "SW"]  # Sweep Width in ppm (semi frequency scale in ppm)
+  SW <- Fid_info[1, "SW"]  # Sweep Width in ppm (semi frequency scale in ppm)
   ppmInterval <- SW/m  # FIXME divide by two ??
   
   if (range == "all") {
-    Data <- RawSpect_data
+    Data <- Spectrum_data
   } else {
       if (range == "near0")  {
         fromto.RC <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
@@ -93,7 +93,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     # if ppm == TRUE, then fromto is in the colnames values, else, in the column
     # index
       if (ppm == TRUE)   {
-        colindex <- as.numeric(colnames(RawSpect_data))
+        colindex <- as.numeric(colnames(Spectrum_data))
       } else   {
         colindex <- 1:m
       }
@@ -108,9 +108,9 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     vector <- rep(0, m)
     vector[unlist(Int)] <- 1
     if (n > 1)  {
-      Data <- sweep(RawSpect_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
+      Data <- sweep(Spectrum_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
     } else  {
-      Data <- RawSpect_data * vector
+      Data <- Spectrum_data * vector
     }  # Cropped_Spectrum
   }
   
@@ -151,10 +151,10 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     ppmScale <- ppmScale + ppm.ref
     
     Spectrum_data <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
-                            dimnames = list(rownames(RawSpect_data), ppmScale))
+                            dimnames = list(rownames(Spectrum_data), ppmScale))
     for (i in 1:n)  {
       shift <- (1 - TMSPpeaks[i]) + start
-      Spectrum_data[i, (1 + shift):(m + shift)] <- RawSpect_data[i, ]
+      Spectrum_data[i, (1 + shift):(m + shift)] <- Spectrum_data[i, ]
     }
     
     if (shiftHandling == "cut")  {
@@ -180,12 +180,12 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     ppmScale <- ppmScale + ppm.ref
     
     Spectrum_data <- matrix(nrow=n, ncol=end-start+1,
-                            dimnames=list(rownames(RawSpect_data), ppmScale))
+                            dimnames=list(rownames(Spectrum_data), ppmScale))
     for (i in 1:n) {
       shift <- (maxpeak-TMSPpeaks[i])
-      Spectrum_data[i,(1+shift):m] <- RawSpect_data[i,1:(m-shift)]
+      Spectrum_data[i,(1+shift):m] <- Spectrum_data[i,1:(m-shift)]
       if (shift > 0) {
-        Spectrum_data[i,1:shift] <- RawSpect_data[i,(m-shift+1):m]
+        Spectrum_data[i,1:shift] <- Spectrum_data[i,(m-shift+1):m]
       }
     }
   }
@@ -206,9 +206,9 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
         fromto <- fromto.RC
       } else  {
         fromto <- list()
-        idcol <- as.numeric(colnames(RawSpect_data))
+        idcol <- as.numeric(colnames(Spectrum_data))
         for (i in 1:length(fromto.RC)) {
-          fromto[[i]] <- as.numeric(colnames(RawSpect_data))[fromto.RC[[i]]]
+          fromto[[i]] <- as.numeric(colnames(Spectrum_data))[fromto.RC[[i]]]
         }
       }
     } else {
@@ -216,7 +216,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
     }
     
     # TMSPloc in ppm
-    TMSPloc <- as.numeric(colnames(RawSpect_data))[TMSPpeaks[rowindex_graph]]
+    TMSPloc <- as.numeric(colnames(Spectrum_data))[TMSPpeaks[rowindex_graph]]
     
     # num plot per window
     num.stacked <- 6
@@ -227,7 +227,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
                         Legend = "TMSP search zone and location")
     
     # vlines for TMSP peak
-    addlines <- data.frame(rowname = rownames(RawSpect_data)[rowindex_graph],TMSPloc)
+    addlines <- data.frame(rowname = rownames(Spectrum_data)[rowindex_graph],TMSPloc)
     
     nn <- length(rowindex_graph)
     i <- 1
@@ -238,7 +238,7 @@ InternalReferencing <- function(RawSpect_data, RawSpect_info, method = c("max", 
       
       last <- min(i + num.stacked - 1, nn)
       
-      melted <- reshape2::melt(Re(RawSpect_data[i:last, ]), 
+      melted <- reshape2::melt(Re(Spectrum_data[i:last, ]), 
                                varnames = c("rowname", "ppm"))
       
       plots[[j]] <- ggplot2::ggplot() + ggplot2::theme_bw() + 

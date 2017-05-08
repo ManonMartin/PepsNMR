@@ -7,7 +7,7 @@ Chemical shift referencing.
 Chemical shifts are referenced against a Reference Compound (RC, \emph{e.g.} TMSP).
 }
 \usage{
-InternalReferencing(RawSpect_data, RawSpect_info, method = c("max", 
+InternalReferencing(Spectrum_data, Fid_info, method = c("max", 
                "thres"), range = c("near0", "all", "window"), 
                ppm.ref = 0, shiftHandling = c("zerofilling", 
                "cut", "NAfilling", "circular"), c = 2, pc = 0.02, 
@@ -15,9 +15,9 @@ InternalReferencing(RawSpect_data, RawSpect_info, method = c("max",
                rowindex_graph = NULL)
 }
 \arguments{
-\item{RawSpect_data}{Matrix containing the spectra in ppm, one row per spectrum.}
+\item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
  
-\item{RawSpect_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
+\item{Fid_info}{Matrix containing the information for each spectrum, one row per spectrum, as returned by \code{\link{ReadFids}}.}
 
 \item{method}{Method used to find the RC peak in the spectra, See the details section.}
 
