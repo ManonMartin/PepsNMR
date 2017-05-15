@@ -31,7 +31,7 @@ InternalReferencing(Spectrum_data, Fid_info, method = c("max",
 
 \item{pc}{If \code{range = "near0"}, percentage of the ppm axis around the \code{ppm.ref} ppm value to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
-\item{fromto.RC}{If \code{range = "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the RC peak (e.g. \code{fromto.RC = list(c(0,10000))}). These extremities are either frequencies in ppm value OR column indices depending on the \code{ppm} value.}
+\item{fromto.RC}{If \code{range = "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the RC peak. These extremities are either frequencies in ppm (decreasing values) OR in column indices (increasing values) depending on the \code{ppm} value (e.g. \code{fromto.RC = list(c(0,10000))} if \code{ppm == FALSE} or \code{fromto.RC = list(c(1,-1))} if \code{ppm == TRUE}).}
  
 \item{ppm}{If \code{TRUE}, the values in \code{fromto.RC} represent frequencies in ppm (column names of spectra), if \code{FALSE} these values are column indices.}
 

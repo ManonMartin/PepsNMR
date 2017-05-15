@@ -31,9 +31,9 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (!is.null(fromto.RC)) {
     diff <- diff(unlist(fromto.RC))[1:length(diff(unlist(fromto.RC)))%%2 !=0]
     for (i in 1:length(diff)) {
-      if (diff[i] <= 0)  {
-        stop(paste("Invalid region removal because from > to"))
-      }
+      if (ppm == TRUE & diff[i] >= 0)  {
+        stop(paste("Invalid region removal because from <= to in ppm"))
+      } else if (ppm == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
     }
   }
   
@@ -150,17 +150,17 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     
     ppmScale <- ppmScale + ppm.ref
     
-    Spectrum_data <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
+    Spectrum_data_calib <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
                             dimnames = list(rownames(Spectrum_data), ppmScale))
     for (i in 1:n)  {
       shift <- (1 - TMSPpeaks[i]) + start
-      Spectrum_data[i, (1 + shift):(m + shift)] <- Spectrum_data[i, ]
+      Spectrum_data_calib[i, (1 + shift):(m + shift)] <- Spectrum_data[i, ]
     }
     
     if (shiftHandling == "cut")  {
-      Spectrum_data = as.matrix(stats::na.omit(t(Spectrum_data)))
-      Spectrum_data = t(Spectrum_data)
-      base::attr(Spectrum_data, "na.action") <- NULL
+      Spectrum_data_calib = as.matrix(stats::na.omit(t(Spectrum_data_calib)))
+      Spectrum_data_calib = t(Spectrum_data_calib)
+      base::attr(Spectrum_data_calib, "na.action") <- NULL
     }
   
     
@@ -179,13 +179,13 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     }
     ppmScale <- ppmScale + ppm.ref
     
-    Spectrum_data <- matrix(nrow=n, ncol=end-start+1,
+    Spectrum_data_calib <- matrix(nrow=n, ncol=end-start+1,
                             dimnames=list(rownames(Spectrum_data), ppmScale))
     for (i in 1:n) {
       shift <- (maxpeak-TMSPpeaks[i])
-      Spectrum_data[i,(1+shift):m] <- Spectrum_data[i,1:(m-shift)]
+      Spectrum_data_calib[i,(1+shift):m] <- Spectrum_data[i,1:(m-shift)]
       if (shift > 0) {
-        Spectrum_data[i,1:shift] <- Spectrum_data[i,(m-shift+1):m]
+        Spectrum_data_calib[i,1:shift] <- Spectrum_data[i,(m-shift+1):m]
       }
     }
   }
@@ -268,7 +268,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   
   # Return the results ----------------------------------------------
-  Spectrum_data <- endTreatment("InternalReferencing", begin_info, Spectrum_data)
+  Spectrum_data <- endTreatment("InternalReferencing", begin_info, Spectrum_data_calib)
   
   if (is.null(plots)) {
     return(Spectrum_data)

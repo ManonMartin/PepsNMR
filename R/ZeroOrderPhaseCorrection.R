@@ -4,8 +4,8 @@
 #' 
 ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
-                                     angle = NULL, plot_spectra = FALSE, quant = 0.95, 
-                                     ppm = TRUE, fromto.0OPC = NULL) {
+                                     angle = NULL, plot_spectra = FALSE,  
+                                     ppm = TRUE, exclude = list(c(5.1,4.5))) {
   
   
   # Data initialisation and checks ----------------------------------------------
@@ -15,7 +15,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   # optimal angles createWindow : for plot_rms plots angle : If angle is not NULL,
   # spectra are rotated according to the angle vector values
   # plot_spectra : if TRUE, plot rotated spectra  
-  # quant: probability for sample quantile used to trim the spectral intensities
+ 
   
   
   begin_info <- beginTreatment("ZeroOrderPhaseCorrection", Spectrum_data)
@@ -28,7 +28,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   # Check input arguments
   method <- match.arg(method)
   checkArg(ppm, c("bool"))
-  checkArg(unlist(fromto.0OPC), c("num"), can.be.null = TRUE)
+  checkArg(unlist(exclude), c("num"), can.be.null = TRUE)
   
   
   # method in c("max", "rms") -----------------------------------------
@@ -36,29 +36,15 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     # angle is found by optimization
     
     # rms function to be optimised
-    rms <- function(ang, y, meth = c("max", "rms"), p = 0.95)  {
+    rms <- function(ang, y, meth = c("max", "rms"))  {
       # if (debug_plot) { graphics::abline(v=ang, col='gray60') }
       roty <- y * exp(complex(real = 0, imaginary = ang))  # spectrum rotation
       Rey <- Re(roty)
       
       if (meth == "rms")  {
-        si <- sign(Rey)  # sign of intensities
-        
-        Rey[abs(Rey) >= quantile(abs(Rey), p,na.rm = TRUE)] <- quantile(abs(Rey), p,na.rm = TRUE)  # trim the values
-        Rey <- abs(Rey) * si  # spectral trimmed values
-        
-        if ((sum(Rey==0, na.rm = TRUE)/sum(!is.na(Rey))) >= 0.99) {
-          stop("More than 99% of intensities are null, the rms criterion cannot work properly. \n
-               Either increase p or the window(s) in fromto.0OPC")
-        }
         ReyPos <- Rey[Rey >= 0]  # select positive intensities
-        
-        # POSss = sum((ReyPos-mean(ReyPos))^2) # centred SS for positive intensities
-        POSss <- sum((ReyPos)^2,na.rm = TRUE)  # SS for positive intensities
-        
-        # ss = sum((Rey - mean(Rey) )^2) # centred SS for all intensities
+        POSss <- sum((ReyPos)^2, na.rm = TRUE)  # SS for positive intensities
         ss <- sum((Rey)^2, na.rm = TRUE)  #  SS for all intensities
-        
         return(POSss/ss)  # criterion : SS for positive values / SS for all intensities 
       } else  {
         maxi <- max(Rey, na.rm = TRUE)
@@ -68,7 +54,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     
    
     # Define the interval where to search for (by defining Data)
-    if (is.null(fromto.0OPC)) {
+    if (is.null(exclude)) {
       Data <- Spectrum_data
     } else  {
       
@@ -80,22 +66,23 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
         colindex <- 1:m
       }
       
-      # Second check for the argument fromto.0OPC
-      diff <- diff(unlist(fromto.0OPC))[1:length(diff(unlist(fromto.0OPC)))%%2 != 0]
-      for (i in 1:length(diff))   {
-        if (diff[i] < 0)   {
-          stop(paste("Invalid region removal because from > to"))
+      # Second check for the argument exclude
+        diff <- diff(unlist(exclude))[1:length(diff(unlist(exclude)))%%2 !=0]
+        for (i in 1:length(diff)) {
+          if (ppm == TRUE & diff[i] >= 0)  {
+            stop(paste("Invalid region removal because from <= to in ppm"))
+          } else if (ppm == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
         }
+      
+      
+      Int <- vector("list", length(exclude))
+      for (i in 1:length(exclude))  {
+        Int[[i]] <- indexInterval(colindex, from = exclude[[i]][1], 
+                                  to = exclude[[i]][2], inclusive = TRUE)
       }
       
-      Int <- vector("list", length(fromto.0OPC))
-      for (i in 1:length(fromto.0OPC))  {
-        Int[[i]] <- indexInterval(colindex, from = fromto.0OPC[[i]][1], 
-                                  to = fromto.0OPC[[i]][2], inclusive = TRUE)
-      }
-      
-      vector <- rep(0, m)
-      vector[unlist(Int)] <- 1
+      vector <- rep(1, m)
+      vector[unlist(Int)] <- 0
       if (n > 1)  {
         Data <- sweep(Spectrum_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
       } else   {
@@ -120,8 +107,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       # work in either [-pi;pi] or [0;2pi] (this is not easy to be convinced by that I
       # agree) and we can check which one it is simply by the following trick
       
-      f0 <- rms(0, Data[k, ], p = quant, meth = method)
-      fpi <- rms(pi, Data[k, ], p = quant, meth = method)
+      f0 <- rms(0, Data[k, ],meth = method)
+      fpi <- rms(pi, Data[k, ], meth = method)
       if (f0 < fpi) {
         interval <- c(-pi, pi)
       } else {
@@ -134,7 +121,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
         x <- seq(min(interval), max(interval), length.out = 100)
         y <- rep(1, 100)
         for (K in (1:100))   {
-          y[K] <- rms(x[K], Data[k, ], p = quant, meth = method)
+          y[K] <- rms(x[K], Data[k, ],  meth = method)
         }
         if (createWindow == TRUE)  {
           grDevices::dev.new(noRStudioGD = FALSE)
@@ -145,7 +132,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       
       # Best angle
       best <- stats::optimize(rms, interval = interval, maximum = TRUE, 
-                              y = Data[k,], p = quant, meth = method)
+                              y = Data[k,],  meth = method)
       ang <- best[["maximum"]]
       
       
@@ -181,27 +168,6 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       Spectrum_data[k, ] <- Spectrum_data[k, ] * exp(complex(real = 0, imaginary = - angle[k]))
     }
   }
-  
-  
-  
-  # #================== Detect a 180° rotation due to the water signal MEAN_Q = c()
-  # for (i in 1:nrow(Spectrum_data)) { data = Re(Spectrum_data[i,]) data_p =
-  # data[data >= stats::quantile(data[data >=0 ], p.zo)] data_n = data[data <=
-  # stats::quantile(data[data <0 ], (1-p.zo))] mean_quant = (sum(data_p) +
-  # sum(data_n)) / (length(data_p) +length(data_n)) # mean(p.zo% higher pos and neg
-  # values) MEAN_Q = c(MEAN_Q, mean_quant) } vect = which(MEAN_Q < 0) if
-  # (length(vect)!=0) { warning('The mean of', p.zo,' positive and negative
-  # quantiles is negative for ', paste0(rownames(Spectrum_data)[vect],'; '))
-  # if(rotation == TRUE) { warning(' An automatic 180 degree rotation is applied to
-  # these spectra') Angle[vect] = Angle[vect] + pi } } vect_risk =
-  # which(MEAN_Q<0.1*mean(MEAN_Q[MEAN_Q>0])) # is there any MEAN_Q with a very low
-  # value copared to mean of positive mean values?  if (length(vect_risk)!=0)
-  # { warning('the rotation angle for spectra',
-  # paste0(rownames(Spectrum_data)[vect_risk],'; '), 'might not be optimal, you
-  # need to check visually for those spectra') } # result of automatic rotation for
-  # (k in vect_risk) { Spectrum_data[k,] <- Spectrum_data[k,] * exp(complex(real=0,
-  # imaginary=Angle[k])) } #==================
-  
   
   
   #  Draw spectra
