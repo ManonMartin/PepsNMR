@@ -1,11 +1,11 @@
 #' @export Bucketing
-Bucketing <- function(Spectrum_data, width = FALSE, m = 500, boundary = NULL, 
+Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL, 
                       intmeth = c("r", "t"), tolbuck = 10^-4) {
   
   # Data initialisation and checks ---------------------------------------------- 
   begin_info <- beginTreatment("Bucketing", Spectrum_data)
   Spectrum_data <- begin_info[["Signal_data"]]
-  checkArg(m, c("num", "pos"))
+  checkArg(mb, c("num", "pos"))
   checkArg(width, "bool", can.be.null = FALSE)
   checkArg(boundary, "num", can.be.null = TRUE)
   checkArg(tolbuck, "num", can.be.null = TRUE)
@@ -16,7 +16,7 @@ Bucketing <- function(Spectrum_data, width = FALSE, m = 500, boundary = NULL,
     warning("boundary has a length > 2, only the first two elements are taken into account.")
   }
   
-  if (m == 1) {
+  if (mb == 1) {
     stop("A minimum of 2 buckets is required")
   }
   
@@ -34,10 +34,10 @@ Bucketing <- function(Spectrum_data, width = FALSE, m = 500, boundary = NULL,
   }
   
   if (width == TRUE) {
-    mb <- floor(old_width * (old_m - 1)/m)
+    mb <- floor(old_width * (old_m - 1)/mb)
   } else {
-    checkArg(m, c("int", "pos"), can.be.null = FALSE)
-    mb <- m
+    checkArg(mb, c("int", "pos"), can.be.null = FALSE)
+    # mb <- mb
   }
   
   # values of ppmleft and ppmright if NULL in input arguments

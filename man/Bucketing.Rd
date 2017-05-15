@@ -9,13 +9,13 @@ Reduces the number of data points by aggregating intensities into buckets.
 
 }
 \usage{
-Bucketing(Spectrum_data, width = FALSE, m = 500, boundary = NULL, 
+Bucketing(Spectrum_data, width = FALSE, mb = 500, boundary = NULL, 
           intmeth = c("r", "t"), tolbuck = 10^-4)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{width}{If \code{width} is \code{TRUE}, then \code{m} represents the buckets width, otherwise, it represents the number of buckets.}
-  \item{m}{The number of buckets OR the buckets' width. If \code{m} represents the number of buckets, it should be an integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}
+  \item{mb}{The number of buckets OR the buckets' width. If \code{mb} represents the number of buckets, it should be an integer smaller or equal to the number of frequencies in \code{Spectrum_data}.}
   \item{boundary}{Numeric vector of left and right boundaries for ppm integration.}
   \item{intmeth}{Type of bucketing: rectangular (\code{"r"}) or trapezoidal (\code{"t"}). See details below.}
   \item{tolbuck}{Tolerance threshold to check if the buckets of the original spectra are of constant length.}
@@ -31,7 +31,7 @@ Bucketing has two main interests:
   Of course, the better the prior warping is, the larger \eqn{m}{m} can be without major misalignment and the more informative the spectra will be.}
 }
 
-  The ppm interval of \code{Spectrum_data}, let's say \eqn{[a,b]}{[a,b]} where \eqn{a > b}{a > b}, is divided into \eqn{m}{m} buckets of size \eqn{(a-b)/m}{(a-b)/m}.
+  The ppm interval of \code{Spectrum_data}, let's say \eqn{[a,b]}{[a,b]} where \eqn{a > b}{a > b}, is divided into \eqn{mb}{mb} buckets of size \eqn{(a-b)/mb}{(a-b)/mb}.
   The new ppm scale contains the \eqn{m}{m} centers of these intervals.
   The spectral intensity at these centers is the integral of the initial spectral intensity on
   this bucket using either trapezoidal or rectangular integration.
@@ -51,7 +51,7 @@ Benoît Legat, Bernadette Govaerts & Manon Martin
 
 
 \examples{
-Bucket.spec <- Bucketing(FidData_HS_sp$Spectrum_data_HS_10, m = 500)
+Bucket.spec <- Bucketing(FidData_HS_sp$Spectrum_data_HS_10, mb = 500)
 }
 \keyword{ manip }
 \keyword{ array }
