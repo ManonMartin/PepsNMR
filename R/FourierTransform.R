@@ -31,7 +31,7 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
   # normalized.
   
   # FT
-  RawSpect_data <- fftshift1D2D(t(stats::mvfft(t(Fid_data))))/m
+  RawSpect_data <- fftshift1D2D(t(stats::mvfft(t(Fid_data))))
   # recover the frequencies values
   f <- ((0:(m - 1)) - floor(m/2)) * Fid_info[1, "SW_h"]/(m-1)
   
