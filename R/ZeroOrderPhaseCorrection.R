@@ -126,7 +126,9 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
         if (createWindow == TRUE)  {
           grDevices::dev.new(noRStudioGD = FALSE)
         }
-        graphics::plot(x, y, main = rownames(Data)[k])
+        graphics::plot(x, y, main = paste("Criterion maximization \n", 
+                                          rownames(Data)[k]), ylim = c(0, 1.1),
+                       ylab = "positiveness criterion", xlab = "angle ")
         debug_plot <- T
       }
       
@@ -138,7 +140,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       
       if (debug_plot)  {
         graphics::abline(v = ang, col = "black")
-        # grDevices::dev.off()
+        graphics::text(x = (ang+0.1*ang), y = (y[ang]-0.1*y[ang]), labels = round(ang, 3))
       }
       
       # Spectrum rotation
@@ -152,6 +154,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   } else {
     # method is "manual" -------------------------------------------------------
     # if Angle is already specified and no optimisation is needed
+    Angle <- angle
     
     if (!is.vector(angle)) {
       stop("angle is not a vector")
