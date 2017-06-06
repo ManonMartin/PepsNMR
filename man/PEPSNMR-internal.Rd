@@ -21,7 +21,7 @@
 
 \title{Internal PepsNMR Functions}
 \description{
-  Internal PEPSNMR Functions
+  Internal PepsNMR Functions
 }
 \details{
   These are not to be called by the user (or in some cases are just
