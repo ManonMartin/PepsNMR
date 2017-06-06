@@ -29,7 +29,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, method = c("rms", "manual", "max"),
 
 We focus our optimization on the positiveness of the real part which should be in an absoptive mode.
 
-When \code{method} is \code{"rms"}, a positiveness criterion is measured for each spectrum. \code{"manual"} is used when a vector of angles are specified in \code{angle} and \code{"max"} will optimize the maximum spectral intensity in the \code{exclude} window(s). Beware that if \code{exclude} is not \code{NULL}, the optimization will only consider the non-excluded spectral window(s). 
+When \code{method} is \code{"rms"}, a positiveness criterion is measured for each spectrum. \code{"manual"} is used when a vector of angles are specified in \code{angle} and \code{"max"} will optimize the maximum spectral intensity in the non-excluded window(s). Beware that if \code{exclude} is not \code{NULL}, the optimization will only consider the non-excluded spectral window(s). 
 
 By default the water region (5.1 - 4.5) is ignored.
 
