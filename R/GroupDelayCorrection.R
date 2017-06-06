@@ -47,11 +47,11 @@ GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) 
   # That way we automatically have the circular behaviour of the shift and the
   # interpolation if it is non-integer.
   
-  Spectrum <- t(stats::mvfft(t(Fid_data)))/m
+  Spectrum <- t(stats::mvfft(t(Fid_data)))
   Omega <- (0:(m - 1))/m
   i <- complex(real = 0, imaginary = 1)
   Spectrum <- sweep(Spectrum, MARGIN = 2, exp(i * group_delay * 2 * pi * Omega), `*`)
-  Fid_data <- t(stats::mvfft(t(Spectrum), inverse = TRUE))
+  Fid_data <- t(stats::mvfft(t(Spectrum), inverse = TRUE))/m
   
   # Data finalisation ----------------------------------------------
   
