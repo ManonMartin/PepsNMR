@@ -1,6 +1,7 @@
 #' @export Normalization
 Normalization <- function(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-                           "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm = 1)  {
+                           "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), 
+                          ref.norm = 1, returnFactor = F)  {
   
   # Data initialisation and checks ----------------------------------------------
   begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = T)
@@ -55,6 +56,8 @@ Normalization <- function(Spectrum_data, type.norm = c("mean", "pqn", "median",
   
   
   # Data normalization and finalisation ----------------------------------------------
+  if (returnFactor) {
+    return(list(Spectrum_data = endTreatment("Normalization", begin_info, Spectrum_data/factor), factor = factor))
+  } else {return(endTreatment("Normalization", begin_info, Spectrum_data/factor))}
   
-  return(endTreatment("Normalization", begin_info, Spectrum_data/factor))
 }

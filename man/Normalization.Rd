@@ -9,13 +9,15 @@ Spectra normalization to correct for the dilution factor common to all biofuid s
 }
 \usage{
 Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-              "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm = 1)
+              "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm = 1,
+              returnFactor = F)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{type.norm}{Different types of normalization available. See the details section.}
   \item{fromto.norm}{Used if \code{type.norm} is \code{"peak"}. See details.}
   \item{ref.norm}{Row index for the reference spectrum if \code{type.norm} is \code{"pqn"}. See details.}
+  \item{returnFactor}{If \code{TRUE}, returns a vector with the normalization factors.}
 }
 \details{
 
