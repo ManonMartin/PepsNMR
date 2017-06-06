@@ -81,7 +81,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   # The Sweep Width has to be the same since the column names are the same
   SW <- Fid_info[1, "SW"]  # Sweep Width in ppm (semi frequency scale in ppm)
-  ppmInterval <- SW/m  # FIXME divide by two ??
+  ppmInterval <- SW/(m-1)  # FIXME divide by two ??
   
   if (range == "all") {
     Data <- Spectrum_data
