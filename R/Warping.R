@@ -47,8 +47,10 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   # Data pre-normalization ----------------------------------------------
   
   if (normalization.type != "none") {
-    Spectrum_data <- Normalization(Spectrum_data, normalization.type, 
-                                   fromto.norm = fromto.normW)
+    norm.res <- Normalization(Spectrum_data, normalization.type, 
+                                   fromto.norm = fromto.normW, returnFactor = TRUE)
+    Spectrum_data <- norm.res[["Spectrum_data"]]
+    normFactor <- norm.res[["factor"]]
   }
   
   # Warping -----------------------------------------------------
@@ -133,6 +135,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   
   
   # Data finalisation ----------------------------------------------
+  best.Warped_data <- best.Warped_data*normFactor # denormalize the spectra
   
   Spectrum_data <- endTreatment("Warping", begin_info, best.Warped_data)
   if (returnReference) {
