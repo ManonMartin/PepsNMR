@@ -3,7 +3,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
                           range = c("near0", "all", "window"), ppm.ref = 0, 
                           shiftHandling = c("zerofilling", "cut", "NAfilling", 
                           "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
-                          ppm = TRUE, rowindex_graph = NULL) {
+                          ppm.ir = TRUE, rowindex_graph = NULL) {
   
   
   
@@ -21,7 +21,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   plots <- NULL
   
   
-  checkArg(ppm, c("bool"))
+  checkArg(ppm.ir, c("bool"))
   checkArg(unlist(fromto.RC), c("num"), can.be.null = TRUE)
   checkArg(pc, c("num"))
   checkArg(ppm.ref, c("num"))
@@ -31,9 +31,9 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (!is.null(fromto.RC)) {
     diff <- diff(unlist(fromto.RC))[1:length(diff(unlist(fromto.RC)))%%2 !=0]
     for (i in 1:length(diff)) {
-      if (ppm == TRUE & diff[i] >= 0)  {
-        stop(paste("Invalid region removal because from <= to in ppm"))
-      } else if (ppm == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
+      if (ppm.ir == TRUE & diff[i] >= 0)  {
+        stop(paste("Invalid region removal because from <= to in ppm.ir"))
+      } else if (ppm.ir == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
     }
   }
   
@@ -92,7 +92,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
       
     # if ppm == TRUE, then fromto is in the colnames values, else, in the column
     # index
-      if (ppm == TRUE)   {
+      if (ppm.ir == TRUE)   {
         colindex <- as.numeric(colnames(Spectrum_data))
       } else   {
         colindex <- 1:m
@@ -202,7 +202,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (!is.null(rowindex_graph)) {
     
     if (range == "window")  {
-      if (ppm == TRUE)   {
+      if (ppm.ir == TRUE)   {
         fromto <- fromto.RC
       } else  {
         fromto <- list()

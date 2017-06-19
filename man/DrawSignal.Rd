@@ -48,7 +48,7 @@ See also \code{\link{Draw}} and \code{\link{DrawPCA}}.
 }
 \examples{
 
-plots = DrawSignal(FinalSpectra_HS[1:4,], subtype = "together",
+plots <- DrawSignal(FinalSpectra_HS[1:4,], subtype = "together",
             ReImModArg = c(TRUE, TRUE, FALSE, FALSE), createWindow = TRUE)
 
 grid::grid.draw(plots)

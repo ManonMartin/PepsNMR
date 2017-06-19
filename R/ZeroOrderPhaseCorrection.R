@@ -2,10 +2,10 @@
 #' @importFrom stats quantile sd
 #' @importFrom graphics par plot
 #' 
-ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", "max"), 
+ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
                                      angle = NULL, plot_spectra = FALSE,  
-                                     ppm = TRUE, exclude = list(c(5.1,4.5))) {
+                                     ppm.zopc = TRUE, exclude.zopc = list(c(5.1,4.5))) {
   
   
   # Data initialisation and checks ----------------------------------------------
@@ -26,13 +26,13 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
   rnames <- rownames(Spectrum_data)
   
   # Check input arguments
-  method <- match.arg(method)
-  checkArg(ppm, c("bool"))
-  checkArg(unlist(exclude), c("num"), can.be.null = TRUE)
+  type.zopc <- match.arg(type.zopc)
+  checkArg(ppm.zopc, c("bool"))
+  checkArg(unlist(exclude.zopc), c("num"), can.be.null = TRUE)
   
   
-  # method in c("max", "rms") -----------------------------------------
-  if (method %in% c("max", "rms")) {
+  # type.zopc in c("max", "rms") -----------------------------------------
+  if (type.zopc %in% c("max", "rms")) {
     # angle is found by optimization
     
     # rms function to be optimised
@@ -54,31 +54,31 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     
    
     # Define the interval where to search for (by defining Data)
-    if (is.null(exclude)) {
+    if (is.null(exclude.zopc)) {
       Data <- Spectrum_data
     } else  {
       
-      # if ppm == TRUE, then fromto is in the colnames values, else, in the column
+      # if ppm.zopc == TRUE, then fromto is in the colnames values, else, in the column
       # index
-      if (ppm == TRUE)  {
+      if (ppm.zopc == TRUE)  {
         colindex <- as.numeric(colnames(Spectrum_data))
       } else  {
         colindex <- 1:m
       }
       
-      # Second check for the argument exclude
-        diff <- diff(unlist(exclude))[1:length(diff(unlist(exclude)))%%2 !=0]
+      # Second check for the argument exclude.zopc
+        diff <- diff(unlist(exclude.zopc))[1:length(diff(unlist(exclude.zopc)))%%2 !=0]
         for (i in 1:length(diff)) {
-          if (ppm == TRUE & diff[i] >= 0)  {
-            stop(paste("Invalid region removal because from <= to in ppm"))
-          } else if (ppm == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
+          if (ppm.zopc == TRUE & diff[i] >= 0)  {
+            stop(paste("Invalid region removal because from <= to in ppm.zopc"))
+          } else if (ppm.zopc == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
         }
       
       
-      Int <- vector("list", length(exclude))
-      for (i in 1:length(exclude))  {
-        Int[[i]] <- indexInterval(colindex, from = exclude[[i]][1], 
-                                  to = exclude[[i]][2], inclusive = TRUE)
+      Int <- vector("list", length(exclude.zopc))
+      for (i in 1:length(exclude.zopc))  {
+        Int[[i]] <- indexInterval(colindex, from = exclude.zopc[[i]][1], 
+                                  to = exclude.zopc[[i]][2], inclusive = TRUE)
       }
       
       vector <- rep(1, m)
@@ -107,8 +107,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       # work in either [-pi;pi] or [0;2pi] (this is not easy to be convinced by that I
       # agree) and we can check which one it is simply by the following trick
       
-      f0 <- rms(0, Data[k, ],meth = method)
-      fpi <- rms(pi, Data[k, ], meth = method)
+      f0 <- rms(0, Data[k, ],meth = type.zopc)
+      fpi <- rms(pi, Data[k, ], meth = type.zopc)
       if (f0 < fpi) {
         interval <- c(-pi, pi)
       } else {
@@ -121,7 +121,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
         x <- seq(min(interval), max(interval), length.out = 100)
         y <- rep(1, 100)
         for (K in (1:100))   {
-          y[K] <- rms(x[K], Data[k, ],  meth = method)
+          y[K] <- rms(x[K], Data[k, ],  meth = type.zopc)
         }
         if (createWindow == TRUE)  {
           grDevices::dev.new(noRStudioGD = FALSE)
@@ -134,7 +134,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
       
       # Best angle
       best <- stats::optimize(rms, interval = interval, maximum = TRUE, 
-                              y = Data[k,],  meth = method)
+                              y = Data[k,],  meth = type.zopc)
       ang <- best[["maximum"]]
       
       
@@ -152,7 +152,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, method = c("rms", "manual", 
     
     
   } else {
-    # method is "manual" -------------------------------------------------------
+    # type.zopc is "manual" -------------------------------------------------------
     # if Angle is already specified and no optimisation is needed
     Angle <- angle
     
