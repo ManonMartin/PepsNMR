@@ -149,7 +149,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
     if (returnWarpFunc) {
       return(list(Spectrum_data = Spectrum_data, Warp.func = warp.func))
     } else  {
-      return(Spectrum_data = Spectrum_data)
+      return(Spectrum_data)
     }
   }
   
