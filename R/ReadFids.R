@@ -1,5 +1,5 @@
 #' @export ReadFids
-ReadFids <- function(path, l = 1, subdirs = FALSE, subdirs.names = FALSE) {
+ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
   begin_info <- beginTreatment("ReadFids")
@@ -18,7 +18,12 @@ ReadFids <- function(path, l = 1, subdirs = FALSE, subdirs.names = FALSE) {
     if (n == 0L)  {
       stop(paste("No valid fid in", path))
     }
-    fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs,  USE.NAMES = F)
+    if (dirs.names) {
+      separator <- .Platform$file.sep
+      path_elem <- strsplit(fidDirs,separator)
+      fidNames <- sapply(path_elem, function(x) x[[length(path_elem[[1]])]])
+    }else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs,  USE.NAMES = F)}
+    
     for (i in 1:n)  {
       fidList <- ReadFid(fidDirs[i])
       fid <- fidList[["fid"]]
@@ -47,9 +52,15 @@ ReadFids <- function(path, l = 1, subdirs = FALSE, subdirs.names = FALSE) {
         fidDirs <- c(fidDirs, fd)
       } else {warning(paste("No valid fid in",j ))}
     }
-    
-    if (subdirs.names==TRUE) {
-      fidNames <- dir(path)
+     
+    if (dirs.names==TRUE) {
+      if (length(fidDirs)!= length(dir(path))) { # at least one subdir contains more than 1 FID
+        separator <- .Platform$file.sep
+        path_elem <- strsplit(fidDirs,separator)
+        fidNames <- sapply(path_elem, function(x) paste(x[[length(path_elem[[1]])-1]],
+                                                        x[[length(path_elem[[1]])]], sep = "_"))
+      }else {fidNames <- dir(path)}
+      
     } else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = F)}
     
     for (i in 1:length(fidNames))  {

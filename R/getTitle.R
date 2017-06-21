@@ -10,14 +10,14 @@ getTitle <- function(path, l, subdirs) {
       if (nchar(first_line) >= 1)  {
         title <- first_line
       } else {
-        warning(paste("The first line of the title file is blank for directory ", 
-          path))
+        warning(paste("The", l ,"line of the title file is blank for directory ", 
+          path, "and the (sub)dirs names are used instead"))
       }
     } else {
-      warning(paste("The title file is empty for directory ", path))
+      warning(paste("The title file is empty for directory ", path, "and the (sub)dirs names are used instead"))
     }
   } else {
-    warning(paste("Title file doesn't exists for directory ", path, "\n the repertory name is used instead"))
+    warning(paste("Title file doesn't exists for directory ", path, "\n the (sub)dirs names are  used instead"))
   }
   if (is.null(title)) {
     if(subdirs) {

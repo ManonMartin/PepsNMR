@@ -5,13 +5,13 @@
 them in a matrix.
 }
 \usage{
-ReadFids(path, l = 1, subdirs = FALSE, subdirs.names = FALSE)
+ReadFids(path, l = 1, subdirs = FALSE, dirs.names = FALSE)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}
   \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have unique FID and info matrices.}
-  \item{subdirs.names}{If \code{TRUE}, the FID names are recovered from the subdirectories names, provided one subdirectory corresponds to one FID.}
+  \item{dirs.names}{If \code{TRUE}, the FID names are recovered from the (sub)directories names, provided one subdirectory corresponds to one FID.}
 }
 
 
@@ -19,6 +19,18 @@ ReadFids(path, l = 1, subdirs = FALSE, subdirs.names = FALSE)
 
 The row names are the first line of the file "pdata/1/title" in the directory or the directory name(and subdirectory if \code{subdirs == TRUE}) if the title file doesn't exists or the line \code{l} is blank. The column names are the time coordinates of the FID.
 All the FIDs therefore need to have the same length and time interval between points.
+
+Case 1: \code{subdirs = FALSE} 
+
+DIR1 => 1, 2, 3, ...
+        
+Case 2a: \code{subdirs = TRUE} 
+
+DIR1 => 1 ; DIR2 => 1 ; DIR3 => 1 ; ...
+
+Case 2b: \code{subdirs = TRUE} 
+
+DIR1 => 1, 2,  ... ; DIR2 => 1, 2, ... ; ...
 }
 
 \value{
