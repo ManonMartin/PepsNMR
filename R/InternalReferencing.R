@@ -1,8 +1,8 @@
 #' @export InternalReferencing
 InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thres"), 
-                          range = c("near0", "all", "window"), ppm.ref = 0, 
-                          shiftHandling = c("zerofilling", "cut", "NAfilling", 
-                          "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
+                          range = c("nearvalue", "all", "window"), ppm.value = 0, 
+                          direction = "left", shiftHandling = c("zerofilling", "cut", 
+                          "NAfilling", "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
                           ppm.ir = TRUE, rowindex_graph = NULL) {
   
   
@@ -24,7 +24,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   checkArg(ppm.ir, c("bool"))
   checkArg(unlist(fromto.RC), c("num"), can.be.null = TRUE)
   checkArg(pc, c("num"))
-  checkArg(ppm.ref, c("num"))
+  checkArg(ppm.value, c("num"))
   checkArg(rowindex_graph, "num", can.be.null = TRUE)
   
   # fromto.RC
@@ -40,12 +40,17 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   
   # findTMSPpeak function ----------------------------------------------
-  findTMSPpeak <- function(ft, c = 2) {
+  findTMSPpeak <- function(ft, c = 2, direction = "left") {
     ft <- Re(ft)  # extraction de la partie réelle
     N <- length(ft)
+    if (direction == "left") {
+      newindex <- rev(1:N)
+      ft <- rev(ft)
+    }
     thres <- 99999
     i <- 1000  # Start at point 1000 to find the peak
     vect <- ft[1:i]
+    
     while (vect[i] <= (c * thres)) {
       cumsd <- stats::sd(vect)
       cummean <- mean(vect)
@@ -53,7 +58,10 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
       i <- i + 1
       vect <- ft[1:i]
     }
-    v <- i
+    if (direction == "left") {
+      v <- newindex[i]
+    } else {v <- i}
+    
     if (is.na(v))  {
       warning("No peak found, need to lower the threshold.")
       return(NA)
@@ -86,7 +94,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (range == "all") {
     Data <- Spectrum_data
   } else {
-      if (range == "near0")  {
+      if (range == "nearvalue")  {
         fromto.RC <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
       }
       
@@ -116,7 +124,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   
   if (method == "thres") {
-    TMSPpeaks <- apply(Data, 1, findTMSPpeak)
+    TMSPpeaks <- apply(Data, 1, findTMSPpeak, c = c, direction = direction)
   } else {
     TMSPpeaks <- apply(abs(Re(Data)), 1, which.max)
   }
@@ -141,14 +149,14 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     
     ppmScale <- (start:end) * ppmInterval
     
-    # check if ppm.ref in is the ppmScale interval
-    if(ppm.ref < min(ppmScale) | ppm.ref > max(ppmScale)) {
-    warning("ppm.ref = ", ppm.ref, " is not in the ppm interval [", 
-           round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default value 0")
-      ppm.ref = 0
+    # check if ppm.value is in the ppmScale interval
+    if(ppm.value < min(ppmScale) | ppm.value > max(ppmScale)) {
+    warning("ppm.value = ", ppm.value, " is not in the ppm interval [", 
+           round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default ppm.value 0")
+      ppm.value = 0
       }
     
-    ppmScale <- ppmScale + ppm.ref
+    ppmScale <- ppmScale + ppm.value
     
     Spectrum_data_calib <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
                             dimnames = list(rownames(Spectrum_data), ppmScale))
@@ -171,13 +179,13 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     
     ppmScale <- (start:end) * ppmInterval
     
-    # check if ppm.ref in is the ppmScale interval
-    if(ppm.ref < min(ppmScale) | ppm.ref > max(ppmScale)) {
-      warning("ppm.ref = ", ppm.ref, " is not in the ppm interval [", 
-              round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default value 0")
-      ppm.ref = 0
+    # check if ppm.value in is the ppmScale interval
+    if(ppm.value < min(ppmScale) | ppm.value > max(ppmScale)) {
+      warning("ppm.value = ", ppm.value, " is not in the ppm interval [", 
+              round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default ppm.value 0")
+      ppm.value = 0
     }
-    ppmScale <- ppmScale + ppm.ref
+    ppmScale <- ppmScale + ppm.value
     
     Spectrum_data_calib <- matrix(nrow=n, ncol=end-start+1,
                             dimnames=list(rownames(Spectrum_data), ppmScale))

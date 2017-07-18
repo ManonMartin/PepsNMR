@@ -8,11 +8,11 @@ Chemical shifts are referenced against a Reference Compound (RC, \emph{e.g.} TMS
 }
 \usage{
 InternalReferencing(Spectrum_data, Fid_info, method = c("max", 
-               "thres"), range = c("near0", "all", "window"), 
-               ppm.ref = 0, shiftHandling = c("zerofilling", 
-               "cut", "NAfilling", "circular"), c = 2, pc = 0.02, 
-               fromto.RC = NULL, ppm.ir = TRUE, 
-               rowindex_graph = NULL)
+               "thres"), range = c("nearvalue", "all", "window"), 
+               ppm.value = 0, direction = "left", 
+               shiftHandling = c("zerofilling",  "cut", "NAfilling", 
+               "circular"), c = 2, pc = 0.02, fromto.RC = NULL, 
+               ppm.ir = TRUE, rowindex_graph = NULL)
 }
 \arguments{
 \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -21,15 +21,18 @@ InternalReferencing(Spectrum_data, Fid_info, method = c("max",
 
 \item{method}{Method used to find the RC peak in the spectra, See the details section.}
 
-\item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{near0}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.RC}.}
+\item{range}{How the search zone is defined. Either accross the whole ppm axis (\code{"all"}), near the 0 ppm location (\code{nearvalue}) with parameter \code{pc}, or in a manually specified area of the ppm axis (\code{"window"}) with the non-null parameter \code{fromto.RC}.}
 
-\item{ppm.ref}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval of spectra can be used instead.}
+\item{ppm.value}{By default, the ppm value of the reference compound is set to 0, but any arbitrary value in the ppm interval of spectra can be used instead.}
+
+
+\item{direction}{If \code{method = "thres"}, the direction towards which to search for the RC peak.}
 
 \item{shiftHandling}{See the details section.}
 
 \item{c}{If \code{method = "thres"}, parameter used to fix the threshold for the RC peak.}
 
-\item{pc}{If \code{range = "near0"}, percentage of the ppm axis around the \code{ppm.ref} ppm value to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
+\item{pc}{If \code{range = "nearvalue"}, percentage of the ppm axis around the \code{ppm.value} ppm value to look for the RC peak (\emph{e.g.} for \code{pc = 0.02}, intensities whose index values are 0.01\% below and above 0 ppm are investiguated).}
 
 \item{fromto.RC}{If \code{range = "window"}, a list containing numerical vectors indicating the extremities of the intervals within which to search for the RC peak. These extremities are either frequencies in ppm (decreasing values) OR in column indices (increasing values) depending on the \code{ppm.ir} value (e.g. \code{fromto.RC = list(c(0,10000))} if \code{ppm.ir == FALSE} or \code{fromto.RC = list(c(1,-1))} if \code{ppm.ir == TRUE}).}
  
