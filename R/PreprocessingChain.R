@@ -27,7 +27,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   # data import checks
   
   if (is.null(Fid_data) + is.null(Fid_info) == 1) {
-    error("Either Fid_data or Fid_info is NULL and the other is not.")
+    stop("Either Fid_data or Fid_info is NULL and the other is not.")
   } else if (is.null(Fid_data) + is.null(Fid_info) == 0) {
     begin_info <- beginTreatment("PreprocessingChain", Fid_data, Fid_info)
     Fid_data <- begin_info[["Signal_data"]]
@@ -45,7 +45,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   
   if(readFids){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(ReadFids)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(ReadFids)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     fidList <- do.call(what = "ReadFids", args = c(data.path, moreArgs))
@@ -61,7 +61,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   if(groupDelayCorr){
 
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(GroupDelayCorrection)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(GroupDelayCorrection)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "GroupDelayCorrection", args = c(list(Fid_data = data, Fid_info = Fid_info), moreArgs))
@@ -71,7 +71,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   if(solventSuppression){
 
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(SolventSuppression)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(SolventSuppression)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "SolventSuppression", args = c(list(Fid_data = data, returnSolvent = F), moreArgs))
@@ -80,7 +80,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(apodization){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(Apodization)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(Apodization)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "Apodization", args = c(list(Fid_data = data, Fid_info = Fid_info,
@@ -91,7 +91,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(fourierTransform){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(FourierTransform)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(FourierTransform)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "FourierTransform", args = c(list(Fid_data = data, Fid_info = Fid_info), moreArgs))
@@ -101,7 +101,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(internalReferencing){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(InternalReferencing)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(InternalReferencing)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     data = do.call(what = "InternalReferencing", args = c(list(Spectrum_data = data, 
                                                                Fid_info = Fid_info), moreArgs))
@@ -111,7 +111,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(zeroOrderPhaseCorr){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(ZeroOrderPhaseCorrection)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(ZeroOrderPhaseCorrection)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "ZeroOrderPhaseCorrection", args = c(list(Spectrum_data = data,
@@ -121,7 +121,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(baselineCorrection){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(BaselineCorrection)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(BaselineCorrection)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "BaselineCorrection", args = c(list(Spectrum_data = data,
@@ -132,7 +132,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(negativeValues0){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(NegativeValuesZeroing)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(NegativeValuesZeroing)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "NegativeValuesZeroing", args = c(list(Spectrum_data = data), moreArgs))
@@ -143,7 +143,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(warping){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(Warping)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(Warping)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "Warping", args = c(list(Spectrum_data = data, 
@@ -156,7 +156,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   
   if(windowSelection){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(WindowSelection)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(WindowSelection)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "WindowSelection", args = c(list(Spectrum_data =  data), moreArgs))
@@ -166,7 +166,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(bucketing){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(Bucketing)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(Bucketing)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "Bucketing", args = c(list(Spectrum_data = data), moreArgs))
@@ -176,7 +176,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(regionRemoval){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(RegionRemoval)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(RegionRemoval)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "RegionRemoval", args = c(list(Spectrum_data = data), moreArgs))
@@ -187,7 +187,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(zoneAggregation){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(ZoneAggregation)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(ZoneAggregation)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "ZoneAggregation", args = c(list(Spectrum_data = data), moreArgs))
@@ -198,7 +198,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   if(normalization){
     moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% formalArgs(Normalization)]
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(Normalization)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
     data = do.call(what = "Normalization", args = c(list(Spectrum_data = data, returnFactor = F), moreArgs))
@@ -212,12 +212,12 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     if (format == "Rdata"){
       save(Spectra, Fid_info, file = file.path(out.path, paste0(filename, ".RData")))
     } else if (format == "csv"){
-      write.csv(Spectra, file = file.path(out.path, paste0(filename, "_SpectralIntensities.csv")))
-      write.csv(Fid_info, file = file.path(out.path, paste0(filename, "_FidInfo.csv")))
+      utils::write.csv(Spectra, file = file.path(out.path, paste0(filename, "_SpectralIntensities.csv")))
+      utils::write.csv(Fid_info, file = file.path(out.path, paste0(filename, "_FidInfo.csv")))
     } else { # txt
-      write.table(Spectra, file = file.path(out.path, paste0(filename, "_SpectralIntensities.txt")),
+      utils::write.table(Spectra, file = file.path(out.path, paste0(filename, "_SpectralIntensities.txt")),
                   sep="\t",row.names=TRUE)
-      write.table(Fid_info, file = file.path(out.path, paste0(filename, "_FidInfo.txt")),
+      utils::write.table(Fid_info, file = file.path(out.path, paste0(filename, "_FidInfo.txt")),
                   sep="\t",row.names=TRUE)
     }
 
