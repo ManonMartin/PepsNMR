@@ -1,5 +1,5 @@
 #' @export WindowSelection
-WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10) {
+WindowSelection <- function(Spectrum_data, from.ws = 10, to.ws = 0.2) {
   
   
   # Data initialisation and checks ----------------------------------------------
@@ -57,9 +57,7 @@ WindowSelection <- function(Spectrum_data, from.ws = 0.2, to.ws = 10) {
   
   # Window Selection  ----------------------------------------------
   ppm <- as.numeric(colnames(Spectrum_data))
-  if (!is.null(from.ws) && !is.null(to.ws) && from.ws > to.ws) {
-    stop(paste("Invalid window selection because ", from.ws, " > ", to.ws))
-  }
+
   from_index <- NULL
   to_index <- NULL
   if (!is.null(from.ws)) {
