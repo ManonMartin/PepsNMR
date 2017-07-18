@@ -11,9 +11,10 @@ The function is a wrapper for all the preprocessing steps available in PepsNMR.
 PreprocessingChain(Fid_data = NULL, Fid_info = NULL, data.path = NULL, readFids = TRUE, 
     groupDelayCorr = TRUE, solventSuppression = TRUE, apodization = TRUE, 
     fourierTransform = TRUE, internalReferencing = TRUE, zeroOrderPhaseCorr = TRUE, 
-    baselineCorrection = TRUE, negativeValues0 = TRUE, warping = TRUE, windowSelection = TRUE, 
-    bucketing = TRUE, regionRemoval = TRUE, zoneAggregation = TRUE,normalization = TRUE, ..., 
-    export = FALSE, format = c("Rdata", "csv", "txt"), out.path = ".",  filename = "filename", 
+    baselineCorrection = TRUE, negativeValues0 = TRUE, warping = TRUE, 
+    windowSelection = TRUE, bucketing = TRUE, regionRemoval = TRUE, 
+    zoneAggregation = TRUE,normalization = TRUE, ...,  export = FALSE, 
+    format = c("Rdata", "csv", "txt"), out.path = ".",  filename = "filename", 
     writeArg = c("none", "return", "txt"))
 }
 
