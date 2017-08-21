@@ -23,7 +23,7 @@ ZeroOrderPhaseCorrection(Spectrum_data, type.zopc = c("rms", "manual", "max"),
  \item{angle}{If not \code{NULL}, a numeric vector with angles specified in radian to manually rotate the spectra, one angle per spectrum. By convention, the spectra are rotated with the correction angle \code{- angle}.}
  \item{plot_spectra}{If \code{TRUE}, will draw real and imaginary parts of the rotated spectra.}
  \item{ppm.zopc}{If \code{TRUE}, the values in \code{exclude.zopc} represent frequencies in ppm value (column names of spectra), if \code{FALSE} these values are column indices.}
- \item{exclude.zopc}{If not \code{NULL}, a list containing the extremities of the intervals excluded for the computation of the positiveness criterion, either expressed in ppm (decreasing values) OR in column indices (increasing values), e.g. \code{fromto.RC = list(c(0,10000))} if \code{ppm.zopc == FALSE} or \code{fromto.RC = list(c(1,-1))} if \code{ppm.zopc == TRUE}.}
+ \item{exclude.zopc}{If not \code{NULL}, a list containing the extremities of the intervals excluded for the computation of the positiveness criterion, either expressed in ppm (decreasing values) OR in column indices (increasing values), e.g. \code{exclude.zopc = list(c(0,10000))} if \code{ppm.zopc == FALSE} or \code{exclude.zopc = list(c(1,-1))} if \code{ppm.zopc == TRUE}.}
 }
 \details{
 

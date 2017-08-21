@@ -58,7 +58,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
       Data <- Spectrum_data
     } else  {
       
-      # if ppm.zopc == TRUE, then fromto is in the colnames values, else, in the column
+      # if ppm.zopc == TRUE, then exclude.zopc is in the colnames values, else, in the column
       # index
       if (ppm.zopc == TRUE)  {
         colindex <- as.numeric(colnames(Spectrum_data))
