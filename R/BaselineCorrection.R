@@ -3,6 +3,7 @@
 #' @import Matrix
 BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42, 
                                lambda.bc = 1e+07, p.bc = 0.05, eps = 1e-08, 
+                               ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
                                returnBaseline = F) {
   
   # Data initialisation ----------------------------------------------
@@ -19,8 +20,23 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   checkArg(p.bc, c("num", "pos0"))
   checkArg(eps, c("num", "pos0"))
   checkArg(returnBaseline, c("bool"))
+  checkArg(ppm.bc, c("bool"))
+  checkArg(unlist(exclude.bc), c("num"), can.be.null = TRUE)
   
+  # if ppm.bc == TRUE, then exclude.bc is in the colnames values, else, in the column
+  # index
+  if (ppm.bc == TRUE)  {
+    colindex <- as.numeric(colnames(Spectrum_data))
+  } else  {
+    colindex <- 1:m
+  }
   
+  Int <- vector("list", length(exclude.bc))
+  for (i in 1:length(exclude.bc))  {
+    Int[[i]] <- indexInterval(colindex, from = exclude.bc[[i]][1], 
+                              to = exclude.bc[[i]][2], inclusive = TRUE)
+  }
+  exclude_index <- unlist(Int)
   
   # Baseline Correction implementation definition ----------------------
   
@@ -45,7 +61,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
       return(as.numeric(x))
       
     }
-    asysm <- function(y, lambda, p, eps) {
+    asysm <- function(y, lambda, p, eps, exclude_index) {
       # Baseline estimation with asymmetric least squares
       # y: signal
       # lambda: smoothing parameter (generally 1e5 to 1e8)
@@ -58,7 +74,13 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
       repeat {
         z <- difsmw(y, lambda, w, d = 2)
         w0 <- w
-        w <- p * (y > z + eps | y < 0) + (1 - p) * (y <= z + eps)
+        p_vect <- rep((1-p), m) # if y <= z + eps
+        p_vect[y > z + eps | y < 0] <- p  # if y > z + eps | y < 0
+        p_vect[exclude_index] <- 0 # if exclude area
+        
+        w <- p_vect  
+        # w <- p * (y > z + eps | y < 0) + (1 - p) * (y <= z + eps)
+        
         if (sum(abs(w - w0)) == 0) {
           break
         }
@@ -75,18 +97,20 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   # Baseline estimation ----------------------------------------------
   Baseline <- matrix(NA, nrow = nrow(Spectrum_data), ncol = ncol(Spectrum_data))
 
-  for (k in 1:n) {
-    Baseline[k, ] <- asysm(y = Spectrum_data[k, ], lambda = lambda, p = p, eps = eps)
-    if (F & k == 1) {
-      m <- ncol(Spectrum_data)
-      graphics::plot(1:m, Spectrum_data[k, ], type = "l", col = "red")
-      graphics::lines(1:m, Baseline[k, ], type = "l", col = "blue")
-      graphics::lines(1:m, Spectrum_data[k, ] - Baseline[k, ], type = "l",
-        col = "green")
-    }
-
-    Spectrum_data[k, ] <- Spectrum_data[k, ] - Baseline[k, ]
+  # for (k in 1:n) {
+    # Baseline[k, ] <- asysm(y = Spectrum_data[k, ], lambda = lambda, p = p, eps = eps)
+    
+  if (ptw.bc ){
+    Baseline <- apply(Spectrum_data,1, asysm, lambda = lambda, p = p, 
+                      eps = eps)
+  }else {
+    Baseline <- apply(Spectrum_data,1, asysm, lambda = lambda, p = p, 
+                      eps = eps, exclude_index = exclude_index)
   }
+    
+    
+    Spectrum_data <- Spectrum_data - t(Baseline)
+  # }
   
   # Data finalisation ----------------------------------------------
   Spectrum_data <- endTreatment("BaselineCorrection", begin_info, Spectrum_data)  # FIXME create removeImaginary filter ??

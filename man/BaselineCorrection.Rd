@@ -8,6 +8,7 @@ The function estimates and removes the smoothed baseline from the spectra.
 }
 \usage{BaselineCorrection(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
                    lambda.bc = 1e7, p.bc = 0.05, eps = 1e-8, 
+                   ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
                    returnBaseline = F)}
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra, one row per spectrum.}
@@ -17,6 +18,8 @@ The function estimates and removes the smoothed baseline from the spectra.
   \item{lambda.bc}{Smoothing parameter (generally 1e5 -- 1e8). See details.}
   \item{p.bc}{Asymmetry parameter. See details.}
   \item{eps}{Numerical precision for convergence when estimating the baseline.}
+   \item{ppm.bc}{If \code{TRUE}, the values in \code{exclude.zopc} represent frequencies in ppm value (column names of spectra), if \code{FALSE} these values are column indices.}
+ \item{exclude.bc}{If not \code{NULL} and \code{ptw.bc == FALSE}, a list containing the extremities of the intervals excluded for the baseline estimation, either expressed in ppm (decreasing values) OR in column indices (increasing values), e.g. \code{exclude.bc = list(c(0,10000))} if \code{ppm.bc == FALSE} or \code{exclude.bc = list(c(1,-1))} if \code{ppm.bc == TRUE}.}
   \item{returnBaseline}{If \code{TRUE}, returns the estimated baselines.}
 }
 \details{
