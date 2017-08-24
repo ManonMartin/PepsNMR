@@ -23,20 +23,25 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   checkArg(ppm.bc, c("bool"))
   checkArg(unlist(exclude.bc), c("num"), can.be.null = TRUE)
   
+  # Define the interval where to search for (by defining Data)
+  if (is.null(exclude.bc)) {
+    exclude_index <- NULL
+  } else  {
   # if ppm.bc == TRUE, then exclude.bc is in the colnames values, else, in the column
   # index
-  if (ppm.bc == TRUE)  {
-    colindex <- as.numeric(colnames(Spectrum_data))
-  } else  {
-    colindex <- 1:m
+    if (ppm.bc == TRUE)  {
+      colindex <- as.numeric(colnames(Spectrum_data))
+    } else  {
+      colindex <- 1:m
+    }
+    
+    Int <- vector("list", length(exclude.bc))
+    for (i in 1:length(exclude.bc))  {
+      Int[[i]] <- indexInterval(colindex, from = exclude.bc[[i]][1], 
+                                to = exclude.bc[[i]][2], inclusive = TRUE)
+    }
+    exclude_index <- unlist(Int)
   }
-  
-  Int <- vector("list", length(exclude.bc))
-  for (i in 1:length(exclude.bc))  {
-    Int[[i]] <- indexInterval(colindex, from = exclude.bc[[i]][1], 
-                              to = exclude.bc[[i]][2], inclusive = TRUE)
-  }
-  exclude_index <- unlist(Int)
   
   # Baseline Correction implementation definition ----------------------
   
@@ -76,7 +81,9 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
         w0 <- w
         p_vect <- rep((1-p), m) # if y <= z + eps
         p_vect[y > z + eps | y < 0] <- p  # if y > z + eps | y < 0
-        p_vect[exclude_index] <- 0 # if exclude area
+        if(!is.null(exclude_index)){
+          p_vect[exclude_index] <- 0 # if exclude area
+        }
         
         w <- p_vect  
         # w <- p * (y > z + eps | y < 0) + (1 - p) * (y <= z + eps)
