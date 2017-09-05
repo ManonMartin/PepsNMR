@@ -8,20 +8,20 @@ For more details on this database, use \code{help(FidData_HU)}.}
 \format{
   A list with 15 objects that are complex matrices with 4 observations/object:
   \describe{
-    \item{\code{FidData_HS_0}}{Raw FIDs.}
-    \item{\code{FidData_HS_1}}{FIDs after first order phase correction.}
-    \item{\code{FidData_HS_2}}{FIDs after solvent residuals suppression.}
-    \item{\code{FidData_HS_3}}{FIDs after apodization.}     
-    \item{\code{Spectrum_data_HS_4}}{Spectra after fourier transformation.} 
-    \item{\code{Spectrum_data_HS_5}}{Spectra after internal calibration.}
-    \item{\code{Spectrum_data_HS_6}}{Spectra after zero order phase correction.}  
-    \item{\code{Spectrum_data_HS_7}}{Spectra after baseline correction.}   
-    \item{\code{Spectrum_data_HS_8}}{Spectra after negative values zeroing.}   
-    \item{\code{Spectrum_data_HS_9}}{Spectra after warping.}   
-    \item{\code{Spectrum_data_HS_10}}{Spectra after window selection.}   
-    \item{\code{Spectrum_data_HS_11}}{Spectra after bucketing}   
-    \item{\code{Spectrum_data_HS_12}}{Spectra after region removal.}   
-    \item{\code{Spectrum_data_HS_13}}{Spectra after zone aggregation for the citrate peak.}  
+    \item{\code{FidData_HU_0}}{Raw FIDs.}
+    \item{\code{FidData_HU_1}}{FIDs after first order phase correction.}
+    \item{\code{FidData_HU_2}}{FIDs after solvent residuals suppression.}
+    \item{\code{FidData_HU_3}}{FIDs after apodization.}     
+    \item{\code{Spectrum_data_HU_4}}{Spectra after fourier transformation.} 
+    \item{\code{Spectrum_data_HU_5}}{Spectra after internal calibration.}
+    \item{\code{Spectrum_data_HU_6}}{Spectra after zero order phase correction.}  
+    \item{\code{Spectrum_data_HU_7}}{Spectra after baseline correction.}   
+    \item{\code{Spectrum_data_HU_8}}{Spectra after negative values zeroing.}   
+    \item{\code{Spectrum_data_HU_9}}{Spectra after warping.}   
+    \item{\code{Spectrum_data_HU_10}}{Spectra after window selection.}   
+    \item{\code{Spectrum_data_HU_11}}{Spectra after bucketing}   
+    \item{\code{Spectrum_data_HU_12}}{Spectra after region removal.}   
+    \item{\code{Spectrum_data_HU_13}}{Spectra after zone aggregation for the citrate peak.}  
     \item{\code{Spectrum_data_HU_14}}{Spectra after normalization.}  
     
   }
