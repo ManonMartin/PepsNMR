@@ -89,23 +89,23 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   # The Sweep Width has to be the same since the column names are the same
   SW <- Fid_info[1, "SW"]  # Sweep Width in ppm (semi frequency scale in ppm)
-  ppmInterval <- SW/(m-1)  # FIXME divide by two ??
+  ppmInterval <- SW/(m-1)  
   
   if (range == "all") {
     Data <- Spectrum_data
-  } else {
-      if (range == "nearvalue")  {
-        fromto.RC <- list(c(-(SW * pc)/2, (SW * pc)/2))  # automatic fromto values in ppm
-      }
+  } else { # range = "nearvalue" or "window"
       
-    # if ppm == TRUE, then fromto is in the colnames values, else, in the column
-    # index
-      if (ppm.ir == TRUE)   {
+      if (range == "nearvalue")  {
+        fromto.RC <- list(c(-(SW * pc)/2 + ppm.value, (SW * pc)/2 + ppm.value))  # automatic fromto values in ppm
         colindex <- as.numeric(colnames(Spectrum_data))
-      } else   {
-        colindex <- 1:m
-      }
-    
+      } else {
+          if (ppm.ir == TRUE)   {
+            colindex <- as.numeric(colnames(Spectrum_data))
+          } else   {
+            colindex <- 1:m
+          }
+        }
+
     
     Int <- vector("list", length(fromto.RC))
     for (i in 1:length(fromto.RC))  {
@@ -281,7 +281,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (is.null(plots)) {
     return(Spectrum_data)
   } else {
-    return(list(Spectrum_data, plots))
+    return(list(Spectrum_data = Spectrum_data, plots = plots))
   }
   
 }

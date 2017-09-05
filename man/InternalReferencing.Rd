@@ -100,7 +100,15 @@ It makes sense since the spectrum is periodic since it is the result of FFT.
 The difference between these shift handlings should not be critical in practice since the extremities of the spectra are not used most of the time and are removed in \code{\link{WindowSelection}.
 }}}
 \value{
+if \code{rowindex_graph} is \code{NULL}:
 \item{Spectrum_data}{The matrix of the spectral value in the ppm scale.}
+
+
+if \code{rowindex_graph} is not \code{NULL}:
+\item{Spectrum_data}{The matrix of the spectral value in the ppm scale.}
+\item{plots}{The spectra that need to be plotted for inspection.}
+
+
 }
 \references{
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
