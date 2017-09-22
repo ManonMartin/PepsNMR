@@ -14,8 +14,8 @@ Those preprocessing are cited below in the advised order of their application:
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FIDs.}
   \item{\code{\link{Apodization}}}{Increase the sensitivity/resolution of the FIDs.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
-  \item{\code{\link{InternalReferencing}}}{Calibrate the spectra with internal compound referencing.}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
+  \item{\code{\link{InternalReferencing}}}{Calibrate the spectra with internal compound referencing.}
   \item{\code{\link{BaselineCorrection}}}{Remove the spectral baseline.}
   \item{\code{\link{NegativeValuesZeroing}}}{Set negatives values to 0.}
   \item{\code{\link{Warping}}}{Warp the samples according to a reference spectrum.}
@@ -61,8 +61,8 @@ Fid_data <- GroupDelayCorrection(Fid_data, Fid_info)
 Fid_data <- SolventSuppression(Fid_data)
 Fid_data <- Apodization(Fid_data, Fid_info)
 Spectrum_data <- FourierTransform(Fid_data, Fid_info)
-Spectrum_data <- InternalReferencing(Spectrum_data, Fid_info)
 Spectrum_data <- ZeroOrderPhaseCorrection(Spectrum_data)
+Spectrum_data <- InternalReferencing(Spectrum_data, Fid_info)
 Spectrum_data <- BaselineCorrection(Spectrum_data)
 Spectrum_data <- NegativeValuesZeroing(Spectrum_data)
 Spectrum_data <- Warping(Spectrum_data)
