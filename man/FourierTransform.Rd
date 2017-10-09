@@ -42,7 +42,7 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
-FT.spec <- FourierTransform(FidData_HS_sp$FidData_HS_3, FidInfo_HS_sp, SW_h=12019.23)
+FT.spec <- FourierTransform(Data_HS_sp$FidData_HS_3, FidInfo_HS_sp, SW_h=12019.23)
 }
 \keyword{ manip }
 

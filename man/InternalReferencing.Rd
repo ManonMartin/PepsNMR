@@ -118,7 +118,7 @@ if \code{rowindex_graph} is not \code{NULL}:
 Benoît Legat & Manon Martin
 }
 \examples{
-PpmConv.spec <- InternalReferencing(FidData_HS_sp$Spectrum_data_HS_7, FidInfo_HS, 
+PpmConv.spec <- InternalReferencing(Data_HS_sp$Spectrum_data_HS_5, FidInfo_HS, 
                               shiftHandling = "zerofilling")
 }
 \keyword{ manip }

@@ -56,10 +56,10 @@ Benoît Legat & Manon Martin
 See also \code{\link{BaselineCorrection}} which also uses the Whittaker smoother.
 }
 \examples{
-Ss.fid <- SolventSuppression(FidData_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=FALSE)
+Ss.fid <- SolventSuppression(Data_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=FALSE)
 
 #or
-Ss.res <- SolventSuppression(FidData_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=TRUE)
+Ss.res <- SolventSuppression(Data_HS_sp$FidData_HS_1, plotSolvent=FALSE, returnSolvent=TRUE)
 Ss.fid = Ss.res[["Fid_data"]]
 SolventRe = Ss.res[["SolventRe"]]
 plot(SolventRe[1,], type="l")

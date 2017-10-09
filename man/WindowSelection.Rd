@@ -28,10 +28,10 @@ Benoît Legat & Manon Martin
 }
 \examples{
 # The interval is chosen so that we have the largest interval without NA
-Ws.spec <- WindowSelection(FidData_HS_sp$Spectrum_data_HS_9)
+Ws.spec <- WindowSelection(Data_HS_sp$Spectrum_data_HS_9)
 
 # or
-Ws.spec <- WindowSelection(FidData_HS_sp$Spectrum_data_HS_9, from.ws=10, to.ws=0.2)
+Ws.spec <- WindowSelection(Data_HS_sp$Spectrum_data_HS_9, from.ws=10, to.ws=0.2)
 }
 \keyword{ manip }
 

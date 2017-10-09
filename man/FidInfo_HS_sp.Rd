@@ -25,7 +25,7 @@ Variables are:
 }
 
 \seealso{
-See also \code{\link{FidData_HS_sp}} for the FIDs.}
+See also \code{\link{Data_HS_sp}} for the FIDs.}
 
 \examples{
 data(FidInfo_HS)

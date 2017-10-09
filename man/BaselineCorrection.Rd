@@ -71,9 +71,9 @@ Benoît Legat & Manon Martin
 See also \code{\link{SolventSuppression}} which also uses the Whittaker smoother.
 }
 \examples{
-BC_res <- BaselineCorrection(FidData_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05)
+BC_res <- BaselineCorrection(Data_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05)
 #or
-BC_res <- BaselineCorrection(FidData_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05, 
+BC_res <- BaselineCorrection(Data_HS_sp$Spectrum_data_HS_5,lambda.bc=5e+06, p.bc=0.05, 
                             returnBaseline=TRUE)
 BC_spec = BC_res[["Spectrum_data"]]
 plot(BC_res[["Baseline"]], type="l")

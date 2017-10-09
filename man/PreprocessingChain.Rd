@@ -10,7 +10,7 @@ The function is a wrapper for all the preprocessing steps available in PepsNMR.
 \usage{
 PreprocessingChain(Fid_data = NULL, Fid_info = NULL, data.path = NULL, readFids = TRUE, 
     groupDelayCorr = TRUE, solventSuppression = TRUE, apodization = TRUE, 
-    fourierTransform = TRUE, internalReferencing = TRUE, zeroOrderPhaseCorr = TRUE, 
+    fourierTransform = TRUE, zeroOrderPhaseCorr = TRUE, internalReferencing = TRUE,
     baselineCorrection = TRUE, negativeValues0 = TRUE, warping = TRUE, 
     windowSelection = TRUE, bucketing = TRUE, regionRemoval = TRUE, 
     zoneAggregation = TRUE,normalization = TRUE, ...,  export = FALSE, 
@@ -43,11 +43,11 @@ If \code{TRUE}, applies the \code{\link{Apodization}} function to the data.
   \item{fourierTransform}{
 If \code{TRUE}, applies the \code{\link{FourierTransform}} function to the data.
 }
-  \item{internalReferencing}{
-If \code{TRUE}, applies the \code{\link{InternalReferencing}} function to the data.
-}
   \item{zeroOrderPhaseCorr}{
 If \code{TRUE}, applies the \code{\link{ZeroOrderPhaseCorrection}} function to the data.
+}
+  \item{internalReferencing}{
+If \code{TRUE}, applies the \code{\link{InternalReferencing}} function to the data.
 }
   \item{baselineCorrection}{
 If \code{TRUE}, applies the \code{\link{BaselineCorrection}} function to the data.

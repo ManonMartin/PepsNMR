@@ -2,8 +2,8 @@
 PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL, readFids = TRUE,
                                groupDelayCorr = TRUE, solventSuppression = TRUE,
                                apodization = TRUE,
-                               fourierTransform = TRUE, internalReferencing = TRUE,
-                               zeroOrderPhaseCorr = TRUE,  baselineCorrection = TRUE,
+                               fourierTransform = TRUE, zeroOrderPhaseCorr = TRUE,
+                               internalReferencing = TRUE,  baselineCorrection = TRUE,
                                negativeValues0 = TRUE, warping = TRUE, windowSelection = TRUE,
                                bucketing = TRUE,regionRemoval = TRUE, zoneAggregation = TRUE,
                                normalization = TRUE, ...,
@@ -99,16 +99,6 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
   }
 
 
-  if(internalReferencing){
-    moreArgs <- list()
-    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(InternalReferencing)]
-    moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
-    data = do.call(what = "InternalReferencing", args = c(list(Spectrum_data = data, 
-                                                               Fid_info = Fid_info), moreArgs))
-
-  }
-
-
   if(zeroOrderPhaseCorr){
     moreArgs <- list()
     extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(ZeroOrderPhaseCorrection)]
@@ -117,7 +107,16 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     data = do.call(what = "ZeroOrderPhaseCorrection", args = c(list(Spectrum_data = data,
                                                                     returnAngle = FALSE), moreArgs))
   }
-
+  
+  if(internalReferencing){
+    moreArgs <- list()
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(InternalReferencing)]
+    moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
+    data = do.call(what = "InternalReferencing", args = c(list(Spectrum_data = data, 
+                                                               Fid_info = Fid_info), moreArgs))
+    
+  }
+  
 
   if(baselineCorrection){
     moreArgs <- list()
