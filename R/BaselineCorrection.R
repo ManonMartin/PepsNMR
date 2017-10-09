@@ -12,6 +12,8 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   p <- p.bc
   lambda <- lambda.bc
   n <- dim(Spectrum_data)[1]
+  m <- dim(Spectrum_data)[2]
+  
   
   # Data check
   checkArg(ptw.bc, c("bool"))
