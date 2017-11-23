@@ -31,12 +31,12 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (!is.null(fromto.RC)) {
     diff <- diff(unlist(fromto.RC))[1:length(diff(unlist(fromto.RC)))%%2 !=0]
     for (i in 1:length(diff)) {
-      if (ppm.ir == TRUE & diff[i] >= 0)  {
-        stop(paste("Invalid region removal because from <= to in ppm.ir"))
-      } else if (ppm.ir == FALSE & diff[i] <= 0) {stop(paste("Invalid region removal because from >= to in column index"))}
+      if (diff[i] >= 0)  {
+        fromto <- c(fromto.RC[[i]][2], fromto.RC[[i]][1])
+        fromto.RC[[i]] <- fromto
+      }
     }
   }
-  
   
   
   # findTMSPpeak function ----------------------------------------------
