@@ -1,4 +1,5 @@
 .Rproj.user
+^.*\.Rproj$
 .Rhistory
 .RData
 SOAP-NMR.Rproj
@@ -9,3 +10,4 @@ sshkey
 .Rproj
 .travis.yml
 .DS_Store
+^\.Rbuildignore$

@@ -48,9 +48,15 @@ GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) 
   # interpolation if it is non-integer.
   
   Spectrum <- t(stats::mvfft(t(Fid_data)))
+  # Spectrum <- FourierTransform(Fid_data, Fid_info)
+  p <- ceiling(m/2)
+  new_index <- c((p + 1):m, 1:p)
+  Spectrum <- Spectrum[,new_index]
+  
   Omega <- (0:(m - 1))/m
   i <- complex(real = 0, imaginary = 1)
   Spectrum <- sweep(Spectrum, MARGIN = 2, exp(i * group_delay * 2 * pi * Omega), `*`)
+  Spectrum <- Spectrum[,new_index]
   Fid_data <- t(stats::mvfft(t(Spectrum), inverse = TRUE))/m
   
   # Data finalisation ----------------------------------------------

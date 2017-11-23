@@ -8,7 +8,7 @@ Signal smooting for water residuals resonance removal.
 
 }
 \usage{
-SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE, 
+SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE,
                               plotSolvent = F, returnSolvent = F)
 }
 \arguments{
@@ -30,7 +30,7 @@ The smoothing is done with a Whittaker smoother which is obtained by the minimiz
 where
 \itemize{
   \item \eqn{V} is the sum of the squared differences between the original and the smoothed signal.
-  \item \eqn{R} measures the roughness of the estimated signal. 
+  \item \eqn{R} measures the roughness of the estimated signal.
 }
 }
 \value{
