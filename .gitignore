@@ -11,3 +11,4 @@ sshkey
 .travis.yml
 .DS_Store
 ^\.Rbuildignore$
+PEPSNMR-proj.Rproj
