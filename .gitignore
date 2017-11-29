@@ -2,7 +2,6 @@
 ^.*\.Rproj$
 .Rhistory
 .RData
-SOAP-NMR.Rproj
 *~
 *.swp
 sshkey.pub
