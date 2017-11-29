@@ -18,6 +18,9 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
   n <- nrow(Signal_data)
   m <- ncol(Signal_data)
   
+  if (n < num.stacked){
+    num.stacked <- n
+  }
 
   scale <- colnames(Signal_data)
 
@@ -151,7 +154,8 @@ DrawSignal <- function(Signal_data, subtype = c("stacked", "together",
       
       if (subtype == "stacked")  {
         do.call(gridExtra::grid.arrange, c(plots, list(nrow = nrow, ncol = ncol)))
-      }
+      } 
+   
       i <- last + 1
     }
   } else if (subtype %in% c("together", "diffmean", "diffmedian", "diffwith")) {
