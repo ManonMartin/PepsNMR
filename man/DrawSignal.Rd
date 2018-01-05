@@ -9,7 +9,7 @@ Depending on the \code{subtype}, will draw the different parts of the complex FI
 \usage{
 DrawSignal(Signal_data, subtype = c("stacked", "together", "separate", 
            "diffmean", "diffmedian", "diffwith"), ReImModArg = c(TRUE, 
-           FALSE, FALSE, FALSE), vertical = T , xlab = "rowname", 
+           FALSE, FALSE, FALSE), vertical = T , xlab = "index", 
            RowNames = NULL, row = 1, num.stacked = 4, main = NULL, 
            createWindow)
 } 
