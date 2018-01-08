@@ -232,7 +232,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     # rectanglar bands of color for the search zone
     rects <- data.frame(xstart = sapply(fromto, function(x) x[[1]]), 
                         xend = sapply(fromto, function(x) x[[2]]), 
-                        Legend = "TMSP search zone and location")
+                        Legend = "Peak search zone and location")
     
     # vlines for TMSP peak
     addlines <- data.frame(rowname = rownames(Spectrum_data)[rowindex_graph],TMSPloc)
@@ -258,7 +258,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
         ggplot2::theme(legend.position = "none") + 
         ggplot2::geom_vline(data = addlines, ggplot2::aes(xintercept = TMSPloc), 
                             color = "red", show.legend = TRUE) + 
-        ggplot2::ggtitle("TMSP peak search zone and location") + 
+        ggplot2::ggtitle("Peak search zone and location") + 
         ggplot2::theme(legend.position = "top", legend.text = ggplot2::element_text())
       
       
