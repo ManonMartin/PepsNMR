@@ -5,7 +5,7 @@
 \usage{
 Apodization(Fid_data, Fid_info = NULL, DT = NULL, type.apod = c("exp","cos2", 
             "blockexp","blockcos2","gauss","hanning","hamming"), phase = 0,
-            rectRatio = 1/2, gaussLB = 1, expLB = 1, plotWindow = F, 
+            rectRatio = 1/2, gaussLB = 1, expLB = 0.3, plotWindow = F, 
             returnFactor = F)
 }
 \arguments{
@@ -35,7 +35,7 @@ In the case of the exponential multiplication (\code{"exp"}), which is the defau
 The new decay \eqn{T^*}{T*} which satisfies \eqn{1/T^* = 1/T + LB}{1/T* = 1/T  + LB} is therefore smaller so the spectral line is \emph{broader}.
 That is why we call this parameter the Line Broadening.
 
-
+If \emph{LB} increases, the SNR increases but at the expense of the spectral resolution. Usual values in proton NMR for “LB” found in the literature are 0.3 for the NOESY presat pulse sequence and -0.01 for the CMPG presat pulse sequence. It should not exceed the value of 1 to avoid information loss.
 
 The different types of apodization are:
 \describe{
