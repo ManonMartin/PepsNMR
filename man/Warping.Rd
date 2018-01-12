@@ -8,7 +8,7 @@ Warps the frequency \emph{x}-axis to minimize the pairwise distance between a sa
 Warping(Spectrum_data, normalization.type = c("median","mean",
         "firstquartile","peak","none"), fromto.normW = c(3.05, 4.05), 
         reference.choosing = c("fixed", "before", 
-        "after"), reference = 1, optim.crit = c("RMS", "WCC"), 
+        "after", "manual"), reference = 1, optim.crit = c("RMS", "WCC"), 
         ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, deg = 3, 
         lambda.bspline = 0.01, kappa = 0.0001, max_it_Bspline = 10, 
         returnReference = FALSE, returnWarpFunc = FALSE)
@@ -25,8 +25,9 @@ It is advised to use \code{median} instead of the default \code{mean} normalizat
 \item{\code{"fixed"}}{The reference is specified by the rowname given in \code{reference}.}
 \item{\code{"before"}}{The reference is taken as the spectrum with the minimum sum of square difference with the other spectra.}
 \item{\code{"after"}}{Each spectrum is taken as the reference and the sum of square difference with the other spectra is calculated after the warping. See details below.}
+\item{\code{"manual"}}{The reference spectrum is specified in the \code{reference} argument.}
 }}
-\item{reference}{The row number or name of the reference spectrum when \code{reference.choosing} is \code{fixed}.}
+\item{reference}{The row number or name of the reference spectrum when \code{reference.choosing} is \code{"fixed"} or a numeric vector with the reference spectrum when \code{reference.choosing} is \code{"manual"}.}
 \item{optim.crit}{If \code{ptw.wp} is set to \code{TRUE}, \code{WCC} can also be considered as a criterion for optimization, see \code{ptw::ptw} for details.}
 \item{ptw.wp}{If set to \code{TRUE}, it applies the Parametric Time Warping with the \code{ptw::ptw} function to the data.
 In this case, the warping does not use B-splines and the arguments \code{L}, \code{deg}, \code{lambda.bspline}, \code{kappa} and \code{max_it_Bspline} are ignored.}
