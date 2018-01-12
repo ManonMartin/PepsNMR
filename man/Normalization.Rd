@@ -4,19 +4,17 @@
 Normalizes the spectra
 }
 \description{
-
 Spectra normalization to correct for the dilution factor common to all biofuid samples.
 }
 \usage{
-Normalization(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-              "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), ref.norm = 1,
+Normalization(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05), ref.norm = "median",
               returnFactor = F)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
-  \item{type.norm}{Different types of normalization available. See the details section.}
+  \item{type.norm}{Different types of normalization are available: \code{"mean"}, \code{"pqn"}, \code{"median"}, \code{"firstquartile"} or \code{"peak"}. No default value is provided. See the details section for more info.}
   \item{fromto.norm}{Used if \code{type.norm} is \code{"peak"}. See details.}
-  \item{ref.norm}{Row index for the reference spectrum if \code{type.norm} is \code{"pqn"}. See details.}
+  \item{ref.norm}{The reference spectrum if \code{type.norm} is \code{"pqn"}. See details.}
   \item{returnFactor}{If \code{TRUE}, returns a vector with the normalization factors.}
 }
 \details{
@@ -31,7 +29,7 @@ Normalization types can be:
 \item{\code{median}}{Each spectrum is divided by its median so that its median becomes 1.}
 \item{\code{firstquartile}}{Each spectrum is divided by its first quartile so that its first quartile becomes 1.}
 \item{\code{peak}}{Each spectrum is divided by the value of the peak of the spectrum contained between \code{"fromto.norm"} inclusive (\emph{i.e.} the maximum value of spectral intensities in that interval).}
-\item{\code{pqn}}{Probabilistic Quotient Normalization from Dieterle et al. (2006). If \code{ref} is missing, will use the median spectrum as the reference spectrum, otherwise will use the spectrum specified by the row index \code{"ref.norm"}.}
+\item{\code{pqn}}{Probabilistic Quotient Normalization from Dieterle et al. (2006). If \code{ref.norm} is \code{"median"} or \code{"mean"}, will use the median or the mean spectrum as the reference spectrum ; if it is a single number, will use the spectrum located at that row in the spectral matrix; if \code{ref.norm} is a numeric vertor of length equal to the number of spectral variables, it defines manually the reference spectrum.}
 }
 }
 \value{

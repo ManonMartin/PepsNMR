@@ -1,13 +1,33 @@
 #' @export Normalization
-Normalization <- function(Spectrum_data, type.norm = c("mean", "pqn", "median", 
-                           "firstquartile", "peak"), fromto.norm = c(3.05, 4.05), 
-                          ref.norm = 1, returnFactor = F)  {
+Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05), 
+                          ref.norm = "median", returnFactor = F)  {
   
   # Data initialisation and checks ----------------------------------------------
   begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = T)
   Spectrum_data <- begin_info[["Signal_data"]]
-  type.norm <- match.arg(type.norm)
+  # type.norm <- match.arg(type.norm)
   checkArg(fromto.norm, "num")
+
+  if (missing(type.norm)){
+    stop("The \"type.norm\" argument has to be defined by the user")
+  }
+  
+  if (!type.norm %in% c("mean", "pqn", "median", "firstquartile", "peak")){
+    stop("type.norm should one of: \"mean\", \"pqn\", 
+         \"median\", \"firstquartile\" or \"peak\"")
+  }
+  
+  if (length(ref.norm)==1) {
+    if (!ref.norm %in% c("median", "mean") & !is.numeric(ref.norm)) {
+      stop("ref.norm is misspecified")
+    }
+  } else if (length(ref.norm) == dim(Spectrum_data)[2] ) {
+     if (!is.numeric(ref.norm)) {
+       stop("ref.norm is misspecified")
+       }
+  } else {stop("ref.norm is misspecified")
+    }
+
   
   if (length(fromto.norm) > 2) {
     warning("fromto.norm has a length > 2, only the first two elements are taken into account")
@@ -35,11 +55,17 @@ Normalization <- function(Spectrum_data, type.norm = c("mean", "pqn", "median",
     factor <- Spectrum_dataInZone[, peakInZone]
   }, pqn = {
     # pqn
-    if (missing(ref.norm)){
-      ref.norm <- matrixStats::colMedians(Spectrum_data, na.rm = TRUE)
-    } else ref.norm <- Spectrum_data[ref.norm, ]
+    if (length(ref.norm) == 1) { 
+      if (ref.norm == "median"){
+        ref.norm <- matrixStats::colMedians(Spectrum_data, na.rm = TRUE)
+      } else if (ref.norm == "mean") {
+        ref.norm <- matrixStats::colMeans2(Spectrum_data, na.rm = TRUE)
+      } else {
+        ref.norm <- Spectrum_data[ref.norm, ] 
+        }
+      }
+    quotient <- t(Spectrum_data)/ref.norm 
     
-    quotient <- t(Spectrum_data)/ref.norm
     factor <- quotient.median <- matrixStats::colMedians(quotient, na.rm = TRUE)
   })
   
