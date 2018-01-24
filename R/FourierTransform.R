@@ -40,8 +40,9 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
     RawSpect_data <- RawSpect_data[,revind] # reverse the spectrum
   }
   
+  RawSpect_data <- matrix(RawSpect_data, nrow = n, ncol = m)
   colnames(RawSpect_data) <- f
-  
+  rownames(RawSpect_data) <- rownames(Fid_data)
   
   # PPM conversion ----------------------------------------------
   
