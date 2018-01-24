@@ -6,6 +6,7 @@ GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) 
   
   begin_info <- beginTreatment("GroupDelayCorrection", Fid_data, Fid_info)
   Fid_data <- begin_info[["Signal_data"]]
+  dimension_names <- dimnames(Fid_data)
   Fid_info <- begin_info[["Signal_info"]]
   checkArg(group_delay, c("num", "pos0"), can.be.null = TRUE)
   # if Fid_info and group_delay are NULL, getArg will generate an error
@@ -48,6 +49,7 @@ GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) 
   # interpolation if it is non-integer.
   
   Spectrum <- t(stats::mvfft(t(Fid_data)))
+  
   # Spectrum <- FourierTransform(Fid_data, Fid_info)
   p <- ceiling(m/2)
   new_index <- c((p + 1):m, 1:p)
@@ -57,13 +59,19 @@ GroupDelayCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) 
   Omega <- (0:(m - 1))/m
   i <- complex(real = 0, imaginary = 1)
   
-  Spectrum <- sweep(Spectrum, MARGIN = 2, exp(i * group_delay * 2 * pi * Omega), `*`)
-
-  Spectrum <- Spectrum[,new_index]
+  if (n>1) {
+    Spectrum <- sweep(Spectrum, MARGIN = 2, exp(i * group_delay * 2 * pi * Omega), `*`)
+    Spectrum <- Spectrum[,new_index]
+  }else {
+    Spectrum <- Spectrum* exp(i * group_delay * 2 * pi * Omega)
+    Spectrum <- Spectrum[new_index]
+    Spectrum <- matrix(data = Spectrum, ncol = m, nrow = n)
+  }
   
-  Spectrum <- matrix(data = Spectrum, ncol = m, nrow = n)
   
   Fid_data <- t(stats::mvfft(t(Spectrum), inverse = TRUE))/m
+  colnames(Fid_data) <- dimension_names[[2]]
+  rownames(Fid_data) <- dimension_names[[1]]
   
   # Data finalisation ----------------------------------------------
   
