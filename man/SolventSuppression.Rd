@@ -32,6 +32,11 @@ where
   \item \eqn{V} is the sum of the squared differences between the original and the smoothed signal.
   \item \eqn{R} measures the roughness of the estimated signal.
 }
+
+The larger \eqn{\lambda} is, the smoother the solvent residuals resonance signal.
+Eilers (2003) suggests two ways to tune \eqn{\lambda} in order to optimise the smoothing: either visually or by cross-validation. 
+
+
 }
 \value{
 If \code{returnSolvent = TRUE}, will return a list with the following elements: \code{Fid_data}, \code{SolventRe} and \code{SolventIm}. Otherwise, the function will just return \code{Fid_data}.
