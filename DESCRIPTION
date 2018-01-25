@@ -10,6 +10,7 @@ Imports:
 Encoding: UTF-8
 NeedsCompilation: no
 Depends: R (>= 2.10)
+Suggests: knitr, markdown, rmarkdown
 LazyData: true
 Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
 	  person("Bernadette", "Govaerts", role = c("aut","ths"), email = "bernadette.govaerts@uclouvain.be"),
@@ -25,3 +26,5 @@ Note: This package originates from a previous work of Eli Lilly together with
     metabonomics. Master's thesis Strasbourg University, 2005.)
 Contact: Manon Martin <manon.martin@uclouvain.be>, Bernadette Govaerts <bernadette.govaerts@uclouvain.be> or Benoît Legat <benoit.legat@gmail.com> 
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+

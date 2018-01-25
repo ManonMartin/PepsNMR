@@ -43,7 +43,7 @@ You can install the library either directly from Github [https://github.com/Mano
 
 # install.packages("devtools") # need to be installed at first 
 require ("devtools")
-devtools::install_github("ManonMartin/PepsNMR", dependencies = TRUE)
+devtools::install_github("ManonMartin/PepsNMR", build_vignettes = TRUE)
 require(PepsNMR)
 
 ```
@@ -342,7 +342,7 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 
 ## Negative Values Zeroing
 
-```{r NVZ, cache=TRUE}
+```{r NVZ}
 # ==== NegativeValuesZeroing =================
 Spectrum_data.NVZ <- NegativeValuesZeroing(Spectrum_data.BC)
 ```
@@ -358,7 +358,7 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 
 ## Warping
 
-```{r, cache=TRUE, dependson='NVZ'}
+```{r}
 # ==== Warping =================
 W.res <- Warping(Spectrum_data.NVZ, returnWarpFunc = TRUE, 
                  reference.choosing = "fixed")
