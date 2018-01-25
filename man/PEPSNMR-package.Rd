@@ -70,5 +70,5 @@ Spectrum_data <- WindowSelection(Spectrum_data)
 Spectrum_data <- Bucketing(Spectrum_data)
 Spectrum_data <- RegionRemoval(Spectrum_data, typeofspectra = "serum")
 Spectrum_data <- ZoneAggregation(Spectrum_data)
-Spectrum_data <- Normalization(Spectrum_data)
+Spectrum_data <- Normalization(Spectrum_data, type.norm = "mean")
 }

@@ -67,7 +67,7 @@ For any other situation (large difference between the groups, other kind of samp
 Benoît Legat & Manon Martin
 }
 \examples{
-Norm.spec <- Normalization(Data_HS_sp$Spectrum_data_HS_12)
+Norm.spec <- Normalization(Data_HS_sp$Spectrum_data_HS_12, type.norm = "mean")
 }
 \keyword{ manip }
 
