@@ -34,7 +34,8 @@ where
 }
 
 The larger \eqn{\lambda} is, the smoother the solvent residuals resonance signal.
-Eilers (2003) suggests two ways to tune \eqn{\lambda} in order to optimise the smoothing: either visually or by cross-validation. 
+Eilers (2003) and Frasso & Eilers (2015) suggest different ways to tune \eqn{\lambda} in order to optimise the smoothing: either visually, by cross-validation or using the V-curve procedure.
+ 
 
 
 }
@@ -46,10 +47,11 @@ If \code{returnSolvent = TRUE}, will return a list with the following elements: 
 \item{SolventIm}{The imaginary part of the solvent signal.}
 }
 \references{
-  Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
-  (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
+  Eilers, P.H.C. (2003). A perfect smoother. \emph{Analytical Chemistry},  75(14), 3631-3636.
 
-  Eilers, PHC. (2003). \emph{A perfect smoother}. Analytical Chemistry,  75(14), 3631-3636.
+  Frasso, G., & Eilers, P.H.C. (2015). L-and V-curves for optimal smoothing. \emph{Statistical Modelling}, 15(1), 91-111.
+  
+   Rousseau, R. (2011). Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy. PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium.
 
 }
 \author{

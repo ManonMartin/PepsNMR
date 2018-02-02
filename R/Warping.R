@@ -148,7 +148,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
     
     # check if warping function is decreasing
     if (decreasing) {
-      warning("The warping function is not increasing for the sample ", 
+      warning("The warping function is not increasing for the sample", 
         samp_rname, ".")
     }
   } else {
