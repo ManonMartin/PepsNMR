@@ -36,8 +36,8 @@ In this case, the warping does not use B-splines and the arguments \code{L}, \co
 It should be either 0 or greater than \code{deg}.}
 \item{lambda.smooth}{Nonnegative coefficient for the smoothing \code{lambda.smooth = 0} means no smoothing. See \code{ptw::difsm} for more details.}
 \item{deg}{Degree of the B-splines.}
-\item{lambda.bspline}{Nonnegative roughness penalty coefficient for the B-splines warping. See the reference for more details.}
-\item{kappa}{Nonnegative ridge penalty coefficient for the B-splines warping.
+\item{lambda.bspline}{Nonnegative second-order smoothness penalty coefficient for the B-splines warping. See the reference for more details.}
+\item{kappa}{Nonnegative ridge (zero-order) penalty coefficient for the B-splines warping.
 See the reference for more details.}
 \item{max_it_Bspline}{Maximum number of iterations for the B-splines warping.}
 \item{returnReference}{If \code{TRUE}, will return the name of the reference spectrum.}
@@ -60,6 +60,11 @@ See the reference for details.
 
 First, the polynomial is estimated on the reference and the sample both smoothed with parameter \code{lambda.smooth}.
 The B-splines are estimated on the non-smoothed reference and sample using the polynomial just found.
+
+
+The higher \code{lambda.bspline} and \code{kappa} are, the less flexible the warping function will be.
+
+
 }
 \value{
 If \code{returnReference = TRUE}, the function will return the name of the reference spectrum and if \code{returnWarpingfunc = TRUE}, it will also return the warping functions.
