@@ -385,7 +385,7 @@ The spectra are realigned based on a reference spectrum with a Semi-Parametric T
 ```{r}
 # ==== Warping =================
 W.res <- Warping(Spectrum_data.NVZ, returnWarpFunc = TRUE, 
-                 reference.choosing = "fixed")
+                 reference.choice = "fixed")
 
 Spectrum_data.W = W.res[["Spectrum_data"]]
 warp_func = W.res[["Warp.func"]]

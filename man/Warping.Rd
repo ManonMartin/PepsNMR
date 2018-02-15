@@ -7,7 +7,7 @@ Warps the frequency \emph{x}-axis to minimize the pairwise distance between a sa
 \usage{
 Warping(Spectrum_data, normalization.type = c("median","mean",
         "firstquartile","peak","none"), fromto.normW = c(3.05, 4.05), 
-        reference.choosing = c("fixed", "before", 
+        reference.choice = c("fixed", "before", 
         "after", "manual"), reference = 1, optim.crit = c("RMS", "WCC"), 
         ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, deg = 3, 
         lambda.bspline = 0.01, kappa = 0.0001, max_it_Bspline = 10, 
@@ -20,14 +20,14 @@ See \code{\link{Normalization}} for details about the different types.
 \code{none} means that no normalization is applied.
 It is advised to use \code{median} instead of the default \code{mean} normalization.}
 \item{fromto.normW}{Used by \code{\link{Normalization}} when \code{normalization.type} is \code{peak}.}
-\item{reference.choosing}{Specifies how the reference will be chosen:
+\item{reference.choice}{Specifies how the reference will be chosen:
 \describe{
 \item{\code{"fixed"}}{The reference is specified by the rowname given in \code{reference}.}
 \item{\code{"before"}}{The reference is taken as the spectrum with the minimum sum of square difference with the other spectra.}
 \item{\code{"after"}}{Each spectrum is taken as the reference and the sum of square difference with the other spectra is calculated after the warping. See details below.}
 \item{\code{"manual"}}{The reference spectrum is specified in the \code{reference} argument.}
 }}
-\item{reference}{The row number or name of the reference spectrum when \code{reference.choosing} is \code{"fixed"} or a numeric vector with the reference spectrum when \code{reference.choosing} is \code{"manual"}.}
+\item{reference}{The row number or name of the reference spectrum when \code{reference.choice} is \code{"fixed"} or a numeric vector with the reference spectrum when \code{reference.choice} is \code{"manual"}.}
 \item{optim.crit}{If \code{ptw.wp} is set to \code{TRUE}, \code{WCC} can also be considered as a criterion for optimization, see \code{ptw::ptw} for details.}
 \item{ptw.wp}{If set to \code{TRUE}, it applies the Parametric Time Warping with the \code{ptw::ptw} function to the data.
 In this case, the warping does not use B-splines and the arguments \code{L}, \code{deg}, \code{lambda.bspline}, \code{kappa} and \code{max_it_Bspline} are ignored.}
@@ -46,7 +46,7 @@ See the reference for more details.}
 }
 \details{
 
-When \code{reference.choosing} is \code{"after"}, the reference with the minimum sum is taken as the reference and the warped spectra according to this reference (that have already been calculated at this stage) are returned. This is \eqn{n}{n} times slower than the 2 others where \eqn{n}{n} is the number of spectra.
+When \code{reference.choice} is \code{"after"}, the reference with the minimum sum is taken as the reference and the warped spectra according to this reference (that have already been calculated at this stage) are returned. This is \eqn{n}{n} times slower than the 2 others where \eqn{n}{n} is the number of spectra.
 
 
 \bold{Principle}: 
@@ -85,11 +85,11 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
-Warp.spec <- Warping(Data_HS_sp$Spectrum_data_HS_8, reference.choosing="fixed", 
+Warp.spec <- Warping(Data_HS_sp$Spectrum_data_HS_8, reference.choice="fixed", 
                              reference = row.names(Data_HS_sp$Spectrum_data_HS_8)[1],
                              returnReference = FALSE)
 #or
-Warp.res <- Warping(Data_HS_sp$Spectrum_data_HS_8, reference.choosing="fixed", 
+Warp.res <- Warping(Data_HS_sp$Spectrum_data_HS_8, reference.choice="fixed", 
                              reference = row.names(Data_HS_sp$Spectrum_data_HS_8)[1],
                              returnReference = TRUE)
 Warp.spec <- Warp.res[["Spectrum_data"]]

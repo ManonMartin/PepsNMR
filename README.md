@@ -184,7 +184,7 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 
 # ==== Warping =================
 W.res <- Warping(Spectrum_data.NVZ, returnWarpFunc = TRUE, 
-                 reference.choosing = "fixed")
+                 reference.choice = "fixed")
 
 Spectrum_data.W = W.res[["Spectrum_data"]]
 warp_func = W.res[["Warp.func"]]

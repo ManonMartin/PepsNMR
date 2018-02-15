@@ -1,7 +1,7 @@
 #' @export Warping
 Warping <- function(Spectrum_data, normalization.type = c("median", "mean", 
                     "firstquartile", "peak", "none"), fromto.normW = c(3.05, 4.05), 
-                    reference.choosing = c("fixed", "before", "after", "manual"), reference = 1, 
+                    reference.choice = c("fixed", "before", "after", "manual"), reference = 1, 
                     optim.crit = c("RMS", "WCC"), ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, 
                     deg = 3, lambda.bspline = 0.01, kappa = 1e-04, max_it_Bspline = 10, 
                     returnReference = FALSE, returnWarpFunc = FALSE) {
@@ -21,7 +21,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   begin_info <- beginTreatment("Warping", Spectrum_data, force.real = T)
   Spectrum_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
-  reference.choosing <- match.arg(reference.choosing)
+  reference.choice <- match.arg(reference.choice)
   optim.crit <- match.arg(optim.crit)
   
   checkArg(K, c("int", "pos"))
@@ -32,13 +32,13 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   checkArg(kappa, c("num", "pos0"))
   checkArg(max_it_Bspline, c("int", "pos"))
   
-  if (reference.choosing == "fixed" & !(reference[1] %in% row.names(Spectrum_data))) {
+  if (reference.choice == "fixed" & !(reference[1] %in% row.names(Spectrum_data))) {
     checkArg(reference, c("int", "pos"))
     reference <- row.names(Spectrum_data)[reference]
   }
   
-  if (reference.choosing == "manual" & (length(reference) != dim(Spectrum_data)[2] | !is.numeric(reference))) {
-  stop("reference is misspecified with reference.choosing == manual")
+  if (reference.choice == "manual" & (length(reference) != dim(Spectrum_data)[2] | !is.numeric(reference))) {
+  stop("reference is misspecified with reference.choice == manual")
   }
   
   if (L > 0 && L <= deg) {
@@ -47,7 +47,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
  
   
   # adding the manual reference to the spectral matrix 
-  if (reference.choosing == "manual") {
+  if (reference.choice == "manual") {
     colnam <- colnames(Spectrum_data)
     rownam <- rownames(Spectrum_data)
     Spectrum_data <- rbind(reference, Spectrum_data)
@@ -73,13 +73,13 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   rnames <- rownames(Spectrum_data)
   if (n > 1) {
     # (pool of potential) candidate(s) as reference spectrum
-    if (reference.choosing == "fixed") {
+    if (reference.choice == "fixed") {
       pool <- reference
-    } else if (reference.choosing == "before") {
+    } else if (reference.choice == "before") {
       argmin <- which.min(sapply(rnames, function(i) meanSqrDiff(Spectrum_data, 
         i)))
       pool <- names(argmin)
-    } else if (reference.choosing == "after") {
+    } else if (reference.choice == "after") {
       pool <- rnames
     } else {pool = "manual_ref"} # dummy value that works
     
@@ -100,7 +100,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
         cur.Warped_data <- Spectrum_data  # initialize the matrix of warped spectra
         warp.func <- Spectrum_data  # initialize the matrix of estimated warping functions
         
-        # if (reference.choosing %in% c("fixed", "before", "after")) { 
+        # if (reference.choice %in% c("fixed", "before", "after")) { 
         warp.func[reference, ] <- 0
         # }
         
@@ -160,7 +160,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   # Data finalisation ----------------------------------------------
   best.Warped_data <- best.Warped_data*normFactor # denormalize the spectra
   
-  if (reference.choosing=="manual") {
+  if (reference.choice=="manual") {
     best.Warped_data <- best.Warped_data[-1,] # remove the manual reference spectrum
   }
   
