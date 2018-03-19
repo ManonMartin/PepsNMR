@@ -16,7 +16,7 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
     warning("boundary has a length > 2, only the first two elements are taken into account.")
   }
   
-  if (mb == 1) {
+  if (mb == 1 & width == FALSE) {
     stop("A minimum of 2 buckets is required")
   }
   
@@ -25,30 +25,95 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
   n <- nrow(Spectrum_data)
   old_m <- ncol(Spectrum_data)
   
+  
+  
   # calculates the limits of the old buckets
   old_buckets <- c((ppm[1] - (ppm[2] - ppm[1])/2), (ppm[2:old_m] + ppm[1:(old_m - 
                  1)])/2, ppm[old_m] + (ppm[old_m] - ppm[old_m - 1])/2)
  
+  if (is.null(boundary)) {
+    boundary <- c(ppm[1], ppm[length(ppm)])
+  } else if ((boundary[2] - boundary[1]) == 0){
+    stop("the boundaries are identical")
+  }
+  
   if (n == 0) {
     stop("Empty ppm scale")
   }
   
+  decreasing <- (ppm[old_m] <= ppm[1])
+  
   if (width == TRUE) {
-    mb <- floor(old_width * (old_m - 1)/mb)
-  } else {
-    checkArg(mb, c("int", "pos"), can.be.null = FALSE)
-    # mb <- mb
-  }
+    
+    if (mb <= old_width) {
+      stop("mb is <= old_width")
+    }
+    boundary <- sort(boundary, decreasing=FALSE)
+    new_width <- mb
+    
+    if (decreasing){
+      buckets <- seq(from = boundary[2], to = boundary[1], by = - new_width)# new limits of the buckets intervals
+      mb <- length(buckets)-1
+      ppmleft <- buckets[1]
+      ppmright <- buckets[mb+1]
+      
+    } else{
+      buckets <- seq(from = boundary[1], to = boundary[2], by = new_width)# new limits of the buckets intervals
+      mb <- length(buckets)-1
+      ppmleft <- buckets[1]
+      ppmright <- buckets[mb+1]
+    }
+    
+    
+    if (length(buckets) == 1 | is.null(buckets)) {
+      stop("modify width, mb or boundary to create at leat 2 buckets")
+    }    
+    
+  } else { # width == FALSE
+      checkArg(mb, c("int", "pos"), can.be.null = FALSE)
+      
+      if (mb == 1 ) {
+        stop("A minimum of 2 buckets is required")
+      }
   
-  # values of ppmleft and ppmright if NULL in input arguments
-  if (is.null(boundary)) {
-    ppmleft <- old_buckets[1]
-    ppmright <- old_buckets[old_m + 1]
-  } else {
-    ppmleft = boundary[1]
-    ppmright = boundary[2]
+      # values of ppmleft and ppmright 
+      if(decreasing & ((boundary[2] - boundary[1])>0)){
+            boundary <- rev(boundary)
+      }
+    
+      ppmleft = boundary[1]
+      ppmright = boundary[2]
+      
+      # Verifies if the new ppm interval is effective and in the right direction
+      if (!decreasing) {
+        if ((ppmright - ppmleft) <= 0) 
+          stop("Your new ppm interval is not coherent with the old spectral matrix")
+      }
+      if (decreasing) {
+        if ((ppmright - ppmleft) >= 0) 
+          stop("Your new ppm interval is not coherent with the old spectral matrix")
+      }
+      
+      # Check for values of ppmleft and ppmright when manually imputed
+      # Verifies if the new ppm interval is included in the old one
+      if (decreasing == F) {
+        if ((ppmleft < old_buckets[1]) | (ppmright > old_buckets[old_m + 
+          1]))
+          {
+          stop("new ppm limits not included in original ppm limits")
+        }
+      } else {
+        if ((ppmleft > old_buckets[1]) | (ppmright < old_buckets[old_m + 1]))  {
+          stop("new ppm limits not included in original ppm limits")
+        }
+      }
+      
+      # Calculates the limits of the buckets intervals and centers for the
+      # new spectral matrix
+      buckets <- seq(ppmleft, ppmright, length.out = mb + 1)  # new limits of the buckets intervals
+      
+      
   }
-  
   
   # Bucketting ----------------------------------------------
   
@@ -60,40 +125,9 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
   if (sum(abs(old_buckets_lengths - mbl_old) > tolbuck * old_buckets_lengths) > 0) {
     warning("The buckets of your original spectra are not of constant length")
   }
-  
-  decreasing <- (ppm[old_m] <= ppm[1])
-  
-  # Verifies if the new ppm interval is effective and in the right direction
-  if (!decreasing) {
-    if ((ppmright - ppmleft) <= 0) 
-      stop("Your new ppm interval is not coherent with the old spectral matrix")
-  }
-  if (decreasing) {
-    if ((ppmright - ppmleft) >= 0) 
-      stop("Your new ppm interval is not coherent with the old spectral matrix")
-  }
-  
-  # Check for values of ppmleft and ppmright when manually imputed
-  # Verifies if the new ppm interval is included in the old one
-  if (decreasing == F) {
-    if ((ppmleft < old_buckets[1]) | (ppmright > old_buckets[old_m + 
-      1]))
-      {
-      stop("new ppm limits not included in original ppm limits")
-    }
-  } else {
-    if ((ppmleft > old_buckets[1]) | (ppmright < old_buckets[old_m + 1]))  {
-      stop("new ppm limits not included in original ppm limits")
-    }
-  }
-  
-  # Calculates the limits of the buckets intervals and centers for the
-  # new spectral matrix
-  buckets <- seq(ppmleft, ppmright, length.out = mb + 1)  # new limits of the buckets intervals
-  # buckets <- seq(ppm[1], ppm[old_m], length.out=mb+1) previous
-  # calculation REMOVE ??
+  # calculation 
   centers <- (buckets[1:mb] + buckets[2:(mb + 1)])/2  # new centers of the buckets intervals
-  bl_new <- abs(ppmright - ppmleft)/mb
+  bl_new <- abs(ppmright - ppmleft)/(mb)
   
   # verifies if data reduction is effective
   if (bl_new < mbl_old) {
@@ -198,5 +232,14 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
     
   }
   # Data finalisation ----------------------------------------------
+
+  cat("PPM range of the bucketted spectral matrix:",  
+      sprintf("%.5f",c(as.numeric(colnames(bucketed)[1])+bl_new/2,
+         as.numeric(colnames(bucketed)[mb])+bl_new/2)), "\n")
+  
+  cat("PPM width between 2 buckets:", 
+      sprintf("%.5f",abs(as.numeric(colnames(bucketed)[1]) -
+            as.numeric(colnames(bucketed)[2]))), "\n") 
+        
   return(endTreatment("Bucketing", begin_info, bucketed))
 }
