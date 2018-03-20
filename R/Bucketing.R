@@ -32,7 +32,9 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
                  1)])/2, ppm[old_m] + (ppm[old_m] - ppm[old_m - 1])/2)
  
   if (is.null(boundary)) {
+
     boundary <- c(ppm[1], ppm[length(ppm)])
+
   } else if ((boundary[2] - boundary[1]) == 0){
     stop("the boundaries are identical")
   }
