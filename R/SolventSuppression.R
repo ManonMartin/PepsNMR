@@ -1,6 +1,6 @@
 #' @export SolventSuppression
 SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE, 
-                               plotSolvent = F, returnSolvent = F) {
+                                returnSolvent = F) {
   
   # Data initialisation and checks ----------------------------------------------
   
@@ -46,13 +46,14 @@ SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE,
     solventRe <- difsm(y = FidRe, lambda = lambda.ss)
     solventIm <- difsm(y = FidIm, lambda = lambda.ss)
     
-    if (plotSolvent)  {
-      m <- length(FidRe)
-      graphics::plot(1:m, FidRe, type = "l", col = "red")
-      graphics::lines(1:m, solventRe, type = "l", col = "blue")
-      graphics::plot(1:m, FidIm, type = "l", col = "red")
-      graphics::lines(1:m, solventIm, type = "l", col = "blue")
-    }
+    # if (plotSolvent)  {
+    #   m <- length(FidRe)
+    #   graphics::plot(1:m, FidRe, type = "l", col = "red")
+    #   graphics::lines(1:m, solventRe, type = "l", col = "blue")
+    #   graphics::plot(1:m, FidIm, type = "l", col = "red")
+    #   graphics::lines(1:m, solventIm, type = "l", col = "blue")
+    # }
+    
     FidRe <- FidRe - solventRe
     FidIm <- FidIm - solventIm
     Fid_data[i, ] <- complex(real = FidRe, imaginary = FidIm)
