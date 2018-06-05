@@ -14,12 +14,12 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   Fid_info <- begin_info[["Signal_info"]]
 
   
-  # Check input arguments
+  ######## Check input arguments
+  
   range <- match.arg(range)
   shiftHandling <- match.arg(shiftHandling)
   method <- match.arg(method)
   plots <- NULL
-  
   
   checkArg(ppm.ir, c("bool"))
   checkArg(unlist(fromto.RC), c("num"), can.be.null = TRUE)
@@ -27,7 +27,8 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   checkArg(ppm.value, c("num"))
   checkArg(rowindex_graph, "num", can.be.null = TRUE)
   
-  # fromto.RC
+  # fromto.RC : if range == "window", 
+  # fromto.RC defines the spectral window where to search for the peak
   if (!is.null(fromto.RC)) {
     diff <- diff(unlist(fromto.RC))[1:length(diff(unlist(fromto.RC)))%%2 !=0]
     for (i in 1:length(diff)) {
@@ -40,6 +41,9 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   
   # findTMSPpeak function ----------------------------------------------
+  # If method == "tresh", findTMSPpeak will find the position of the first 
+  # peak (from left or right) which is higher than a predefined threshold 
+  # and is computed as: c*(cumulated_mean/cumulated_sd)
   findTMSPpeak <- function(ft, c = 2, direction = "left") {
     ft <- Re(ft)  # extraction de la partie réelle
     N <- length(ft)
@@ -81,24 +85,31 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   }
   
   
-  # Apply the method ('thres' or 'max') on spectra
-  # ----------------------------------------------
+  # Define the search zone  ----------------------------------------
   
   n <- nrow(Spectrum_data)
   m <- ncol(Spectrum_data)
   
-  # The Sweep Width has to be the same since the column names are the same
-  SW <- Fid_info[1, "SW"]  # Sweep Width in ppm (semi frequency scale in ppm)
-  ppmInterval <- SW/(m-1)  
+  # The Sweep Width (SW) has to be the same since the column names are the same
+  SW <- Fid_info[1, "SW"]  # Sweep Width in ppm 
+  ppmInterval <- SW/(m-1)  # size of a ppm interval
   
+  # range: How the search zone is defined ("all", "nearvalue" or "window")
   if (range == "all") {
+    
     Data <- Spectrum_data
+    
   } else { # range = "nearvalue" or "window"
+      # Need to define colindex (column indexes) to apply indexInterval on it
       
-      if (range == "nearvalue")  {
+    if (range == "nearvalue")  {
+        
         fromto.RC <- list(c(-(SW * pc)/2 + ppm.value, (SW * pc)/2 + ppm.value))  # automatic fromto values in ppm
         colindex <- as.numeric(colnames(Spectrum_data))
-      } else {
+      
+        } else {
+          # range == "window"
+          # fromto.RC is already user-defined
           if (ppm.ir == TRUE)   {
             colindex <- as.numeric(colnames(Spectrum_data))
           } else   {
@@ -106,37 +117,46 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
           }
         }
 
-    
-    Int <- vector("list", length(fromto.RC))
+    # index intervals taking into account the different elements in the list fromto.RC
+    Int <- vector("list", length(fromto.RC)) 
     for (i in 1:length(fromto.RC))  {
       Int[[i]] <- indexInterval(colindex, from = fromto.RC[[i]][1], 
                                 to = fromto.RC[[i]][2], inclusive = TRUE)
     }
     
-    vector <- rep(0, m)
-    vector[unlist(Int)] <- 1
-    if (n > 1)  {
-      Data <- sweep(Spectrum_data, MARGIN = 2, FUN = "*", vector)  # Cropped_Spectrum
-    } else  {
-      Data <- Spectrum_data * vector
-    }  # Cropped_Spectrum
+    # define Data as the cropped spectrum including the index intervals
+    # outside the research zone, the intensities are set to the minimal 
+    # intensity of the research zone
+    
+    if (n > 1){
+      Data <- apply(Re(Spectrum_data[,unlist(Int)]),1, function(x) rep(min(x), m))
+      Data <- t(Data)
+      Data[,unlist(Int)] <- Re(Spectrum_data[,unlist(Int)])
+    } else {
+      Data <- rep(min(Re(Spectrum_data)) ,m)
+      Data[unlist(Int)] <- Re(Spectrum_data[unlist(Int)])
+    }
+    
   }
   
+  
+  # Apply the peak location search method ('thres' or 'max') on spectra
+  # -----------------------------------------------------------------------
   
   if (method == "thres") {
     TMSPpeaks <- apply(Data, 1, findTMSPpeak, c = c, direction = direction)
-  } else {
+  } else { # method == "max
     TMSPpeaks <- apply(abs(Re(Data)), 1, which.max)
   }
-  
-  # TMSPpeaks is an column index
-  maxpeak <- max(TMSPpeaks)
-  minpeak <- min(TMSPpeaks)
-  
   
   
   # Shift spectra according to the TMSPpeaks found --------------------------------
   # Depends on the shiftHandling
+  
+  # TMSPpeaks is a column index
+  maxpeak <- max(TMSPpeaks) # max accross spectra
+  minpeak <- min(TMSPpeaks) # min accross spectra
+  
   
   if (shiftHandling %in% c("zerofilling", "NAfilling",  "cut")) {
     fill <- NA
@@ -147,6 +167,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     start <-  maxpeak - 1
     end <- minpeak - m
     
+    # ppm values of each interval for the whole spectral range of the spectral matrix
     ppmScale <- (start:end) * ppmInterval
     
     # check if ppm.value is in the ppmScale interval
@@ -156,10 +177,14 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
       ppm.value = 0
       }
     
+    # if ppm.value != 0, ppmScale is adapted
     ppmScale <- ppmScale + ppm.value
     
+    # create the spectral matrix with realigned spectra
     Spectrum_data_calib <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
                             dimnames = list(rownames(Spectrum_data), ppmScale))
+    
+    # fills in Spectrum_data_calib with shifted spectra
     for (i in 1:n)  {
       shift <- (1 - TMSPpeaks[i]) + start
       Spectrum_data_calib[i, (1 + shift):(m + shift)] <- Spectrum_data[i, ]
@@ -185,10 +210,15 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
               round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default ppm.value 0")
       ppm.value = 0
     }
+    
+    # if ppm.value != 0, ppmScale is adapted
     ppmScale <- ppmScale + ppm.value
     
+    # create the spectral matrix with realigned spectra
     Spectrum_data_calib <- matrix(nrow=n, ncol=end-start+1,
                             dimnames=list(rownames(Spectrum_data), ppmScale))
+    
+    # fills in Spectrum_data_calib with shifted spectra
     for (i in 1:n) {
       shift <- (maxpeak-TMSPpeaks[i])
       Spectrum_data_calib[i,(1+shift):m] <- Spectrum_data[i,1:(m-shift)]
@@ -201,7 +231,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
 
   
-  # Plot of the spectra ---------------------------------------------------
+  # Plot of the spectra (depending on rowindex_graph) ---------------------------------------------------
   
   ppm = xstart = value = xend = Legend = NULL # only for R CMD check
   
