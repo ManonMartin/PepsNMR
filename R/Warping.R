@@ -62,7 +62,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   # Data pre-normalization ----------------------------------------------
   
   if (normalization.type != "none") {
-    norm.res <- Normalization(Spectrum_data, normalization.type, 
+    norm.res <- Normalization(Spectrum_data, type.norm = normalization.type, 
                                    fromto.norm = fromto.normW, returnFactor = TRUE)
     Spectrum_data <- norm.res[["Spectrum_data"]]
     normFactor <- norm.res[["factor"]]

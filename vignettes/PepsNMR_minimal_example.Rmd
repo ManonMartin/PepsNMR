@@ -19,6 +19,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>",  fig.width = 10, fig.heig
                       tidy.opts=list(width.cutoff=80), fig.keep = 'high')
 ```
 
+
 ```{r, include=FALSE}
 # ==== set graphical parameters =================
 # select the index of the spectrum that will be drawn
@@ -117,8 +118,7 @@ StepsDescr <- c("Correct for the Bruker Group Delay.",
                 "Increase the Signal-to-Noise ratio of the FID.",
                 "Transform the FID into a spectrum and convert the frequency scale (Hz ->  ppm).",
                 "Correct for the zero order phase dephasing.",
-                "Calibrate the spectra with an internal compound referencing.
-                ",
+                "Calibrate the spectra with an internal reference compound. Referencing with an internal (e.g. TMSP at 0ppm)",
                  "Remove the spectral baseline.",
                 "Set negatives values to 0.",
                 "Warp the spectra according to a reference spectrum.",
