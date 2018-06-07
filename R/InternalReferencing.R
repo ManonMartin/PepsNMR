@@ -146,7 +146,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   if (method == "thres") {
     TMSPpeaks <- apply(Data, 1, findTMSPpeak, c = c, direction = direction)
   } else { # method == "max
-    TMSPpeaks <- apply(abs(Re(Data)), 1, which.max)
+    TMSPpeaks <- apply(Re(Data), 1, which.max)
   }
   
   
