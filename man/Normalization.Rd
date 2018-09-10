@@ -50,18 +50,21 @@ For any other situation (large difference between the groups, other kind of samp
 \item{Spectrum_data}{The matrix of normalized spectra.}
 }
 \references{
+
+Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger, B., & Govaerts, B. (2018). PepsNMR for 1H NMR metabolomic data pre-processing. \emph{Analytica chimica acta}, 1019, 1-13.
   
-  Dieterle, F., Ross, A. , Schlotterbeck, G.,and Senn, H (2006). Probabilistic Quotient Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures. \emph{Analytical Chemistry} 78 (13), 4281-4290 
   
+  Yiman Wu, Liang Li. (2016). \emph{Sample normalization methods in quantitative metabolomics}, Journal of Chromatography A, Volume 1430, Pages 80-95, ISSN 0021-9673
+ 
+ 
+ Tang KWA, Toh QC, Teo BW. (2015). \emph{Normalisation of urinary biomarkers to creatinine for clinical practice and research – when and why.} Singapore Medical Journal. 56(1):7-10. 
+ 
    Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
  
- 
-  Tang KWA, Toh QC, Teo BW. (2015). \emph{Normalisation of urinary biomarkers to creatinine for clinical practice and research – when and why.} Singapore Medical Journal. 56(1):7-10. 
   
-  Yiman Wu, Liang Li. (2016). \emph{Sample normalization methods in quantitative metabolomics}, Journal of Chromatography A, Volume 1430, Pages 80-95, ISSN 0021-9673
-
-
+  Dieterle, F., Ross, A. , Schlotterbeck, G.,and Senn, H (2006). Probabilistic Quotient Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures. \emph{Analytical Chemistry} 78 (13), 4281-4290 
+  
 }
 \author{
 Benoît Legat & Manon Martin

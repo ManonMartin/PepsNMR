@@ -46,12 +46,16 @@ If \code{returnSolvent = TRUE}, will return a list with the following elements: 
 \item{SolventIm}{The imaginary part of the solvent signal.}
 }
 \references{
-  Eilers, P.H.C. (2003). A perfect smoother. \emph{Analytical Chemistry},  75(14), 3631-3636.
+
+  Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger, B., & Govaerts, B. (2018). PepsNMR for 1H NMR metabolomic data pre-processing. \emph{Analytica chimica acta}, 1019, 1-13.
+  
 
   Frasso, G., & Eilers, P.H.C. (2015). L-and V-curves for optimal smoothing. \emph{Statistical Modelling}, 15(1), 91-111.
   
    Rousseau, R. (2011). Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy. PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium.
 
+  Eilers, P.H.C. (2003). A perfect smoother. \emph{Analytical Chemistry},  75(14), 3631-3636.
+  
 }
 \author{
 Benoît Legat & Manon Martin

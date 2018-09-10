@@ -30,8 +30,7 @@ Those preprocessing are cited below in the advised order of their application:
 \tabular{ll}{
 Package: \tab PepsNMR\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2017-04-19\cr
+Version: \tab 1.1.1\cr
 License: \tab GPLv2\cr
 }
 The FIDs are read using \code{\link{ReadFids}} which also gives a matrix with meta-information about each FID.
@@ -45,6 +44,9 @@ Benoît Legat, Bernadette Govaerts & Manon Martin
 Maintainer: Manon Martin <manon.martin@uclouvain.be>
 }
 \references{
+Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger, B., & Govaerts, B. (2018). PepsNMR for 1H NMR metabolomic data pre-processing. \emph{Analytica chimica acta}, 1019, 1-13.
+  
+ 
   Rousseau, R. (2011). \emph{Statistical contribution to the analysis of metabonomics data in 1H NMR spectroscopy}
   (Doctoral dissertation, PhD thesis. Institut de statistique, biostatistique et sciences actuarielles, Université catholique de Louvain, Belgium).
 }
