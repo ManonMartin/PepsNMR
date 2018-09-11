@@ -30,7 +30,7 @@ Those preprocessing are cited below in the advised order of their application:
 \tabular{ll}{
 Package: \tab PepsNMR\cr
 Type: \tab Package\cr
-Version: \tab 1.1.1\cr
+Version: \tab 0.99.0\cr
 License: \tab GPLv2\cr
 }
 The FIDs are read using \code{\link{ReadFids}} which also gives a matrix with meta-information about each FID.
