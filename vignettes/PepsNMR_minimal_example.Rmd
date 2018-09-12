@@ -1,22 +1,57 @@
 ---
 title: "Application of PepsNMR on the Human Serum dataset"
+shorttitle: "Application of PepsNMR"
 author: "Manon Martin"
 date: "`r Sys.Date()`"
+package: PepsNMR
 output:
-  rmarkdown::html_vignette:
-    fig_caption: yes
+ BiocStyle::html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Application of PepsNMR on the Human Serum dataset}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+
+references:
+- id: Martin2018
+  title: PepsNMR for 1H NMR metabolomic data pre-processing
+  author:
+  - family: Martin
+    given: Manon
+  - family: Legat
+    given: Benoît 
+  - family: Leenders
+    given: Justine 
+  - family: Vanwinsberghe
+    given: Julien
+  - family: Rousseau
+    given: Réjane
+  - family: Boulanger
+    given: Bruno
+  - family: Eilers
+    given: Paul H.C.  
+  - family: De Tullio
+    given: Pascal 
+  - family: Govaerts
+    given: Bernadette    
+  container-title: Analytica Chimica Acta
+  volume: 1019
+  URL: https://doi.org/10.1016/j.aca.2018.02.067
+  DOI: 10.1016/j.aca.2018.02.067
+  page: 1-13
+  type: article-journal
+  issued:
+    year: 2018
 ---
+
 
 ```{r setup, include = FALSE}
 require(knitr)
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>",  fig.width = 10, fig.height = 6, fig.align = "center", out.width = "600px", tidy = TRUE,
-                      tidy.opts=list(width.cutoff=80), fig.keep = 'high')
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",  fig.width = 10, fig.height = 6, fig.align = "center", out.width = "600px", tidy = TRUE, tidy.opts=list(width.cutoff=80), fig.keep = 'high')
 ```
 
 
@@ -27,18 +62,20 @@ spectrIndex <- 1
 # colors
 col1 <-  "gray18"
 col2 <- "firebrick1"
-options(width=120)
+require(PepsNMR)
 ```
 
 
 
-# Overview
-This document provides a brief summary on how to use the PepsNMR package
+# Introduction
 
-# Package installation
+This document provides a brief summary on how to use the `r Githubpkg("manonmartin/PepsNMR")` package. In this package, pre-processing functions transform raw FID signals from 1H NMR spectroscopy into a set of interpretable spectra. 
 
 
-You can install the package either directly from Github [https://github.com/ManonMartin/PepsNMR.git](https://github.com/ManonMartin/PepsNMR.git)
+# Installation
+
+
+The package can be installed either directly from Github [https://github.com/ManonMartin/PepsNMR.git](https://github.com/ManonMartin/PepsNMR.git)
 :
 ```{r install1,  eval = FALSE, background = "#EFFBF5", highlight = TRUE}
 # install.packages("devtools") # need to be installed at first 
@@ -48,7 +85,7 @@ require(PepsNMR)
 
 ```
 
-Or download first the compressed package files, unzip it and save the local copy. Then install from it after modifying `"path-to-PepsNMR"`: 
+Or by first downloading the compressed package files from GitHub, unziping it and saving as a local copy. Then installing from this local copy after modifying `"path-to-PepsNMR"`: 
 
 ```{r install2,  eval=FALSE}
 install.packages("path-to-PepsNMR", repos = NULL, type="source")
@@ -56,15 +93,10 @@ require(PepsNMR)
 ```
 
 
-# Load PepsNMR
-
-```{r}
-require(PepsNMR)
-```
 
 # Data importation
 
-The first step is meant to access the data files. To import FIDs in Bruker format, use the `ReadFids` function. This function will return a list with the FID data matrix (here saved as `Fid_data`) and information about these FIDs (here saved as `Fid_info`).
+The first step is meant to access the raw data files. To import Free Induction Decays (FIDs) in Bruker format, use the `ReadFidss` function. This function will return a list with the FID data matrix (saved in `Fid_data`) and metadata about these FIDs (saved in `Fid_info`).
 
 ```{r dataimport, eval = FALSE}
 fidList <- ReadFids(file.path(path,dataset_name)) 
@@ -74,27 +106,25 @@ Fid_info <- fidList[["Fid_info"]]
 ```
 
 
+The possible directory structures are illustrated here:
+
+```{r, fig.cap="Accepted directory structures for the raw Bruker files", echo=FALSE}
+include_graphics("ReadFids.png")
+```
+
+
+And is to be linked with the possible options of the `ReadFids` function:
+
+1. If use of _title_ file and presence of sub-directories: set the FID Title line, `subdirs = TRUE`,  `dirs.names = FALSE`
+2. If use of _title_ file and no sub-directories: set the FID Title line, `subdirs = FALSE`,  `dirs.names = FALSE`
+3. If no use of _title_ file and presence of sub-directories: `subdirs = TRUE`,  `dirs.names = TRUE`
+4. If no use of _title_ file and no sub-directories: `subdirs = FALSE`,  `dirs.names = TRUE`
 
 
 
+# Pre-processing steps
 
-The possible folders structures is illustrated here:
-
-<img src="ReadFids.png" alt="Drawing" style="width: 650px;"/>
-
-
-And is to be linked with the possible options of the `ReadFids()` function:
-
-1. use title file and presence of sub-directories: set the FID Title line, `subdirs = TRUE`,  `dirs.names = FALSE`
-2. use title file and no sub-directories: set the FID Title line, `subdirs = FALSE`,  `dirs.names = FALSE`
-3. don't use title file and presence of sub-directories: `subdirs = TRUE`,  `dirs.names = TRUE`
-4. don't use title file and no sub-directories: `subdirs = FALSE`,  `dirs.names = TRUE`
-
-
-
-# Pre-treatment steps
-
-Here is the recommended pre-treatment workflow on the FIDs and the spectra once data have been loaded:
+Here is the recommended pre-processing workflow on the FIDs and the spectra once the raw data have been loaded in R:
 
 ```{r steps, echo=FALSE,  eval=TRUE}
 
@@ -114,11 +144,11 @@ Steps <- c("Group Delay Correction",
            "Normalization")
 
 StepsDescr <- c("Correct for the Bruker Group Delay.",
-                "Remove the solvent signal from the FID.",
-                "Increase the Signal-to-Noise ratio of the FID.",
-                "Transform the FID into a spectrum and convert the frequency scale (Hz ->  ppm).",
+                "Remove the solvent signal from the FIDs.",
+                "Increase the Signal-to-Noise ratio of the FIDs.",
+                "Transform the FIDs into a spectrum and convert the frequency scale (Hz ->  ppm).",
                 "Correct for the zero order phase dephasing.",
-                "Calibrate the spectra with an internal reference compound. Referencing with an internal (e.g. TMSP at 0ppm)",
+                "Calibrate the spectra with an internal reference compound. Referencing with an internal (e.g. TMSP at 0 ppm)",
                  "Remove the spectral baseline.",
                 "Set negatives values to 0.",
                 "Warp the spectra according to a reference spectrum.",
@@ -131,15 +161,15 @@ StepsDescr <- c("Correct for the Bruker Group Delay.",
 
 StepsTable <- cbind(Steps = Steps, Description = StepsDescr)
 
-kable(StepsTable)
+kable(StepsTable, caption = "Pre-processing steps. They are presented in the suggested order.")
    
 ```
 
-Information on each function is provided in R, (e.g. type `?ReadFids` in the R console).
+Information on each function is provided in R, (e.g. type `?ReadFids` in the R console) and methodological details are found in @Martin2018.
 
 
 # Available datasets
-Human serum (`HS`) and urine datasets (`HU`) are available as raw data (FIDs in Bruker format) and as (partially) pre-treated spectra.
+Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra.
 
 Here are examples of available datasets:
 ```{r availdata}
@@ -148,12 +178,12 @@ str(FidData_HU)
 str(FinalSpectra_HS)
 ```
 
-Information for each dataset is available, (e.g. type `?FidData_HS` in the R console).
+Information for each dataset is available, (e.g. enter `?FidData_HS` in the R Console).
 
 # Demo of the pre-processing functions on the Human Serum dataset
 
 ## Load the data
-This dataset is already present in the PepsNMR package. We can load the FIDs from where PepsNMR has been intalled:
+Raw Bruker FIDs can be loaded from where `r Githubpkg("manonmartin/PepsNMR")` has been intalled:
 ```{r}
 data_path <-  system.file("extdata", package = "PepsNMR")
 dir(data_path)
@@ -163,7 +193,8 @@ dir(data_path)
 ## Read the FID data file
 
 
-To import FIDs in Bruker format, the `ReadFids()` function is used. This function will return a list with the FID data matrix (here saved as `Fid_data`) and information about these FIDs (here saved as `Fid_info`).
+To import FIDs in Bruker format, the `ReadFids` function is used. This function will return a list with the FID data matrix (here saved as `Fid_data`) and information about these FIDs (here saved as `Fid_info`).
+
 
 ```{r}
 # ==== read the FIDs and their metadata =================
@@ -174,7 +205,7 @@ kable(head(Fid_info))
 ```
 
 
-```{r, echo = FALSE}
+```{r FIGRawFID, echo = FALSE, out.width = '100%', fig.cap="Raw FID."}
 time <- as.numeric(colnames(Fid_data0))*1000
 plot(time, Re(Fid_data0[spectrIndex,]),type="l", col = col1, xlab=
        expression(paste("Time (", mu,"s)")), ylab = "Intensity", 
@@ -184,7 +215,7 @@ plot(time, Re(Fid_data0[spectrIndex,]),type="l", col = col1, xlab=
 
 ## Group Delay Correction
 
-The Bruker's digital filter produces a Group Delay that is removed during this step.
+The Bruker's digital filter originally produces a Group Delay that is removed during this step.
 ```{r}
 # ==== GroupDelayCorrection =================
 Fid_data.GDC <- GroupDelayCorrection(Fid_data0, Fid_info)
@@ -192,31 +223,33 @@ Fid_data.GDC <- GroupDelayCorrection(Fid_data0, Fid_info)
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Signal before and after the Group Delay removal.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
 plot(time[0:300], Re(Fid_data0[spectrIndex,0:300]),  
-     type="l", ylab = "Intensity", xlab="", 
-     main="FID with the Group Delay (real part - zoom)", col = col1)
+     type = "l", ylab = "Intensity", xlab="", 
+     main = "FID with the Group Delay (real part - zoom)", col = col1)
 plot(time[0:300], Re(Fid_data.GDC[spectrIndex,0:300]), 
      type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
-     main="FID Group Delay removal (real part - zoom)", col = col1)
+     main="FID after Group Delay removal (real part - zoom)", col = col1)
 ```
 
 
 ## Solvent Suppression
 
-Pre-acquisition techniques for solvent suppression can be unsufficient to remove the solvent signal from the FIDs. `SolventSuppression()` estimates and removes this residual solvent signal based on a Whittaker smoother.
+Pre-acquisition techniques for solvent suppression can be unsufficient to remove the solvent signal from the FIDs. `SolventSuppression` estimates and removes this residual solvent signal based on a Whittaker smoother.
 
 ```{r}
 # ====  SolventSuppression =================
 SS.res <- SolventSuppression(Fid_data.GDC, returnSolvent=TRUE)
 
-Fid_data.SS = SS.res[["Fid_data"]]
-SolventRe = SS.res[["SolventRe"]]
+Fid_data.SS <- SS.res[["Fid_data"]]
+SolventRe <- SS.res[["SolventRe"]]
 
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Signal before and after the Residual Solvent Removal.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
 plot(time[0:4000], Re(Fid_data.GDC[spectrIndex,0:4000]),  col=col1, 
      type="l", ylab = "Intensity", xlab="", 
      main="FID and solvent residuals signal (real part - zoom)")
@@ -242,19 +275,20 @@ Fid_data.A <- Apodization(Fid_data.SS, Fid_info)
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Signal before and after Apodization.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
 plot(time, Re(Fid_data.SS[spectrIndex,]),  col=col1, 
-     type="l", ylab = "Intensity", xlab="", main="FID before Apodisation")
+     type="l", ylab = "Intensity", xlab="", main="FID before Apodization")
 
 plot(time, Re(Fid_data.A[spectrIndex,]), col=col1, 
      type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
-     main="FID after Apodisation")
+     main="FID after Apodization")
 ```
 
 
 ## FourierTransform
 
-The Fourier Transform is applied to the FIDs to obtain spectra expressed in frequencies. The `FourierTransform` function further converts this frequency scale originally in hertz into part per million (ppm).
+The Fourier Transform is applied to the FIDs to obtain spectra expressed in the frequency domain. The `FourierTransform` function further converts this frequency scale originally in hertz into parts per million (ppm).
 
 
 ```{r}
@@ -263,7 +297,7 @@ RawSpect_data.FT <- FourierTransform(Fid_data.A, Fid_info)
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum after FT.", out.width = '100%'}
 plot(Re(RawSpect_data.FT[spectrIndex,]), col=col1, xaxt="n",
      type="l", ylab = "Intensity", xlab = "ppm", 
      main="Spectrum after Fourier Transform")
@@ -275,7 +309,7 @@ axis(side=1, at = at,
 
 ## Zero Order Phase Correction
 
-After Fourier Transform, the spectra need to be phased to be in pure absoptive mode (i.e. with positive intensities).
+After Fourier Transform, the spectra need to be phased for the real part to be in pure absoptive mode (i.e. with positive intensities).
 
 ```{r}
 # ==== ZeroOrderPhaseCorrection =================
@@ -283,8 +317,7 @@ Spectrum_data.ZOPC <- ZeroOrderPhaseCorrection(RawSpect_data.FT)
 ```
 
 
-```{r, echo = FALSE}
- 
+```{r, echo = FALSE, fig.cap="Spectrum after Zero Order Phase Correction.", out.width = '100%'}
 plot(Re(Spectrum_data.ZOPC[spectrIndex,]), col=col1, xaxt="n",
      type="l", ylab = "Intensity", xlab = "ppm", 
      main="Spectrum after Zero Order Phase Correction")
@@ -296,7 +329,7 @@ axis(side=1, at = at,
 
 ## Internal Referencing
 
-During this step, the spectra are aligned with an internal reference compound (e.g. with the TMSP). The user determines the ppm value of the reference compound. 
+During this step, the spectra are aligned with an internal reference compound (e.g. with the TMSP). The user determines the ppm value of the reference compound which is by default 0. 
 
 ```{r}
 # ==== InternalReferencing =================
@@ -308,11 +341,12 @@ Spectrum_data.IR <- InternalReferencing(Spectrum_data.ZOPC, Fid_info,
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum after Internal Referencing.", out.width = '100%'}
+
 ppmvalues <- as.numeric(colnames(Spectrum_data.IR))
 plot(Re(Spectrum_data.IR[spectrIndex,]), col=col1, xaxt="n",
      type="l", ylab = "Intensity", xlab = "ppm", 
-     main="Spectrum after Zero Order Phase Correction")
+     main="Spectrum after internal referencing")
 at <- seq(1,dim(Spectrum_data.IR)[2], floor(dim(Spectrum_data.IR)[2]/10))
 axis(side=1, at = at, 
      labels = round(ppmvalues[at],2))
@@ -338,9 +372,10 @@ BC.res <- BaselineCorrection(Spectrum_data.IR, returnBaseline = TRUE,
 ```
 
 
-```{r, echo = FALSE}
-Spectrum_data.BC = BC.res[["Spectrum_data"]] 
-Baseline = BC.res[["Baseline"]]
+```{r, echo = FALSE, fig.cap="Spectrum before and after the Baseline Correction.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
+Spectrum_data.BC <- BC.res[["Spectrum_data"]] 
+Baseline <- BC.res[["Baseline"]]
 
 
 plot(Re(Spectrum_data.IR[spectrIndex,]), col=col1, xaxt="n",
@@ -361,13 +396,13 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 
 ## Negative Values Zeroing
 
-The remaining negative values are set to 0.
+The remaining negative values are set to 0 since they cannot be interpreted.
 ```{r NVZ}
 # ==== NegativeValuesZeroing =================
 Spectrum_data.NVZ <- NegativeValuesZeroing(Spectrum_data.BC)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum after Negative Values Zeroing.", out.width = '100%'}
 
 plot(Re(Spectrum_data.NVZ[spectrIndex,]), col=col1, xaxt="n",
      type="l", ylab = "Intensity", xlab = "ppm", 
@@ -382,22 +417,26 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 
 The spectra are realigned based on a reference spectrum with a Semi-Parametric Time Warping technique.
 
+
 ```{r}
+Spectrum_data.W <- Spectrum_data.NVZ
 # ==== Warping =================
 W.res <- Warping(Spectrum_data.NVZ, returnWarpFunc = TRUE, 
                  reference.choice = "fixed")
 
-Spectrum_data.W = W.res[["Spectrum_data"]]
-warp_func = W.res[["Warp.func"]]
+Spectrum_data.W <- W.res[["Spectrum_data"]]
+warp_func <- W.res[["Warp.func"]]
 
 ```
 
 
 
-```{r, echo = FALSE}
-f = c(21, 20, 24) # warped spectra index to draw
-fen = c(17780:18240) # x-window
-ylim = c(0, max(c(Re(Spectrum_data.NVZ[c(1, f),fen]), Re(Spectrum_data.W[c(spectrIndex, f),fen]))))
+```{r, echo = FALSE, fig.cap="Spectrum before and after the Baseline Correction.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
+
+f <- c(21, 20, 24) # warped spectra index to draw
+fen <- c(17780:18240) # x-window
+ylim <- c(0, max(c(Re(Spectrum_data.NVZ[c(1, f),fen]), Re(Spectrum_data.W[c(spectrIndex, f),fen]))))
 
 # Unwarped spectra
 plot(Re(Spectrum_data.NVZ[1, fen]),   xaxt = "n", col=col2, ylab = "Intensity",ylim=ylim, type="l", xlab="ppm", main="Spectra before warping (real part - zoom)")
@@ -427,7 +466,8 @@ Spectrum_data.WS <- WindowSelection(Spectrum_data.W, from.ws = 10, to.ws = 0.2)
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum after Window Selection.", out.width = '100%'}
+
 at <- seq(1,dim(Spectrum_data.WS)[2], floor(dim(Spectrum_data.WS)[2]/10))
 ppmvalues <- as.numeric(colnames(Spectrum_data.WS))
 plot(Re(Spectrum_data.WS[spectrIndex,]), col = col1, xaxt = "n",
@@ -439,7 +479,7 @@ axis(side = 1, at = at, labels = round(ppmvalues[at],2))
 
 ## Bucketing
 
-The `Bucketing()` function reduces the number of spectral descriptors by aggregating intensities into a series of buckets.
+The `Bucketing` function reduces the number of spectral descriptors by aggregating intensities into a series of buckets.
 
 ```{r}
 # ==== Bucketing =================
@@ -447,7 +487,8 @@ Spectrum_data.B <- Bucketing(Spectrum_data.WS, intmeth = "t")
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum before and after Bucketing.", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
 
 at <- seq(1,dim(Spectrum_data.WS)[2], floor(dim(Spectrum_data.WS)[2]/10))
 ppmvalues <- as.numeric(colnames(Spectrum_data.WS))
@@ -474,7 +515,8 @@ By default, this step sets to zero spectral areas that are of no interest or hav
 Spectrum_data.RR <- RegionRemoval(Spectrum_data.B, typeofspectra = "serum")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum after Region Removal", out.width = '100%'}
+
 plot(Re(Spectrum_data.RR[spectrIndex,]), col = col1, xaxt = "n",
      type = "l", ylab = "Intensity", xlab = "ppm", 
      main = "Spectrum after Region Removal")
@@ -483,7 +525,7 @@ axis(side = 1, at = at, labels = round(ppmvalues[at],2))
 
 ## Normalization
 
-The normalisation copes with the dilution factor and other issues that render the spectral profiles non-comparable to each other.
+The normalization copes with the dilution factor and other issues that render the spectral profiles non-comparable to each other.
 
 ```{r}
 # ==== Normalization =================
@@ -491,7 +533,9 @@ Spectrum_data.N <- Normalization(Spectrum_data.RR, type.norm = "mean")
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.cap="Spectrum before and after Normalization", out.width = '100%', fig.height=12}
+par(mfrow=c(2,1))
+
 
 plot(Re(Spectrum_data.RR[spectrIndex,]), col = col1, xaxt = "n",
      type = "l", ylab = "Intensity", xlab = "ppm", 
@@ -512,20 +556,30 @@ Note: the function `ZoneAggregation` is not used here, but is can be applied e.g
 
 # Final spectra visualisation 
 
-The `Draw` function enables to produce line plots with `type.draw = "signal"` or PCA results with `type.draw = "pca"` of FIDs or spectra. These plots can be saved as pdf files with the option `output = "pdf"`, see `?Draw`, `?DrawSignal` and `?DrawPCA` for more details on available options.
+The `Draw` function enables to produce line plots with `type.draw = "signal"` or PCA results with `type.draw = "pca"` of FIDs or spectra. These plots can be saved as pdf files with the option `output = "pdf"`, see `?Draw`, `?DrawSignal` and `?DrawPCA` for more details on the other available options.
 
-```{r, fig.height=7, fig.width=8}
+```{r, fig.height=7, fig.width=8, out.width='100%', fig.cap = "4 first pre-processed spectra"}
 Draw(Spectrum_data.N[1:4,], type.draw = c("signal"), subtype= "stacked", output = c("default"))
 ```
 
 
-```{r, fig.height=6, fig.width=8, out.width='70%'}
+```{r, fig.height=6, fig.width=8, out.width='100%', fig.cap = "PCA scores of the pre-processed spectra"}
 Draw(Spectrum_data.N, type.draw = c("pca"), output = c("default"), 
      Class = Group_HS, type.pca = "scores")
 ```
 
 
-```{r, out.width='100%'}
+```{r, out.width='100%', out.width='70%', out.width='100%', fig.cap = "PCA loadings of the pre-processed spectra"}
 Draw(Spectrum_data.N, type.draw = c("pca"), output = c("default"), 
      Class = Group_HS, type.pca = "loadings")
 ```
+
+
+
+# Session info
+```{r}
+sessionInfo()
+```
+
+# References
+
