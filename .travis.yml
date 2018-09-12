@@ -1,6 +1,10 @@
 language: r
-sudo: false
+r: bioc-devel
+sudo: true
 cache: packages
 os:
   - linux
   - osx
+warnings_are_errors: false 
+bioc_required: true
+bioc_use_devel: true
