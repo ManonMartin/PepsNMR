@@ -257,7 +257,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     TMSPloc <- as.numeric(colnames(Spectrum_data))[TMSPpeaks[rowindex_graph]]
     
     # num plot per window
-    num.stacked <- 6
+    num.stacked <- min(6, length(rowindex_graph))
     
     # rectanglar bands of color for the search zone
     rects <- data.frame(xstart = sapply(fromto, function(x) x[[1]]), 
@@ -272,11 +272,12 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     j <- 1
     plots <- vector(mode = "list", length = ceiling(nn/num.stacked))
     
+    Data <- Spectrum_data[rowindex_graph,]
     while (i <= nn) {
       
       last <- min(i + num.stacked - 1, nn)
       
-      melted <- reshape2::melt(Re(Spectrum_data[i:last, ]), 
+      melted <- reshape2::melt(Re(Data[i:last, ]), 
                                varnames = c("rowname", "ppm"))
       
       plots[[j]] <- ggplot2::ggplot() + ggplot2::theme_bw() + 
