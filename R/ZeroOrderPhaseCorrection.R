@@ -93,8 +93,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
     
     # angles computation
     Angle <- c()
-    for (k in 1:n)
-    {
+    for (k in 1:n){
       # The function is rms is periodic (period 2pi) and it seems that there is a phase
       # x such that rms is unimodal (i.e. decreasing then increasing) on the interval
       # [x; x+2pi].  However, if we do the optimization for example on [x-pi; x+pi],
@@ -126,6 +125,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
         if (createWindow == TRUE)  {
           grDevices::dev.new(noRStudioGD = FALSE)
         }
+        
         graphics::plot(x, y, main = paste("Criterion maximization \n", 
                                           rownames(Data)[k]), ylim = c(0, 1.1),
                        ylab = "positiveness criterion", xlab = "angle ")
@@ -139,8 +139,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
       
       
       if (debug_plot)  {
-        graphics::abline(v = ang, col = "black")
-        graphics::text(x = (ang+0.1*ang), y = (y[ang]-0.1*y[ang]), labels = round(ang, 3))
+        graphics::abline(v = ang, col = "red")
+        graphics::text(x = (ang+0.1*ang), y = max(y)*0.9, labels = round(ang, 3), col="red")
       }
       
       # Spectrum rotation
@@ -175,14 +175,17 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
   
   #  Draw spectra
   if (plot_spectra == TRUE) {
+    if (createWindow == TRUE)  {
+      grDevices::dev.new(noRStudioGD = FALSE)
+      graphics::par(mfrow = c(4, 2))
+    }
     nn <- ceiling(n/4)
     i <- 1
-    for (k in 1:nn)  {
-      if (createWindow == TRUE)  {
-        grDevices::dev.new(noRStudioGD = FALSE)
-      }
-      graphics::par(mfrow = c(4, 2))
       while (i <= n)   {
+        if (createWindow == TRUE & i%%4==0)  {
+          grDevices::dev.new(noRStudioGD = FALSE)
+          graphics::par(mfrow = c(4, 2))
+          }
         last <- min(i + 4 - 1, n)
         graphics::plot(Re(Spectrum_data[i, ]), type = "l", ylab = "intensity", 
           xlab = "Index", main = paste0(rownames(Spectrum_data)[i], " - Real part"))
@@ -191,7 +194,6 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
         i <- i + 1
       }
       i <- last + 1
-    }
   }
   
   
