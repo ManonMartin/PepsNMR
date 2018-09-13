@@ -116,7 +116,7 @@ Manon Martin
 
 \examples{
 
-path <-  system.file("extdata", package = "PepsNMR")
+path <-  system.file("extdata", package = "PepsNMRData")
 data.path <-  file.path(path, "HumanSerum")
 res <-  PreprocessingChain(Fid_data = NULL, Fid_info = NULL, data.path = data.path, ReadFids = TRUE,
                           type.norm = "mean", export = FALSE, writeArg = "return")

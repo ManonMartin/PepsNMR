@@ -53,7 +53,7 @@ Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger,
 \keyword{ package }
 
 \examples{
-path <-  system.file("extdata", package = "PepsNMR")
+path <-  system.file("extdata", package = "PepsNMRData")
 dir(path)
 
 fidList <- ReadFids(file.path(path, "HumanSerum"))

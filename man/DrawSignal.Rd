@@ -47,7 +47,7 @@ Benoît Legat & Manon Martin
 See also \code{\link{Draw}} and \code{\link{DrawPCA}}.
 }
 \examples{
-
+require(PepsNMRData)
 plots <- DrawSignal(FinalSpectra_HS[1:4,], subtype = "together",
             ReImModArg = c(TRUE, TRUE, FALSE, FALSE), createWindow = TRUE)
 

@@ -68,10 +68,13 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
-Apod_res <- Apodization(Data_HS_sp$FidData_HS_2, FidInfo_HS, plotWindow=FALSE)
+require(PepsNMRData)
+Apod_res <- Apodization(Data_HS_sp$FidData_HS_2, 
+                          FidInfo_HS, plotWindow=FALSE)
 
 #or
-Apod_res <- Apodization(Data_HS_sp$FidData_HS_2, FidInfo_HS, plotWindow=FALSE, returnFactor=TRUE)
+Apod_res <- Apodization(Data_HS_sp$FidData_HS_2, 
+                          FidInfo_HS, plotWindow=FALSE, returnFactor=TRUE)
 Apod_fid = Apod_res[["Fid_data"]]
 plot(Apod_res[["Factor"]], type="l")
 }

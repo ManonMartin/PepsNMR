@@ -40,6 +40,7 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
-Fopc.fid <- FirstOrderPhaseCorrection(Data_HS_sp$FidData_HS_0, FidInfo_HS)
+require(PepsNMRData)
+Fopc.fid <- FirstOrderPhaseCorrection(Data_HS_sp$FidData_HS_0,FidInfo_HS)
 }
 \keyword{manip }

@@ -61,7 +61,7 @@ Benoît Legat & Manon Martin
 
 
 \examples{
-path <-  system.file("extdata", package = "PepsNMR")
+path <-  system.file("extdata", package = "PepsNMRData")
 dir(path)
 
 fidList_HS <- ReadFids(file.path(path, "HumanSerum"))

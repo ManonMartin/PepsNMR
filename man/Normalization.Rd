@@ -70,7 +70,9 @@ Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger,
 Benoît Legat & Manon Martin
 }
 \examples{
-Norm.spec <- Normalization(Data_HS_sp$Spectrum_data_HS_12, type.norm = "mean")
+require(PepsNMRData)
+Norm.spec <- Normalization(Data_HS_sp$Spectrum_data_HS_12, 
+                                type.norm = "mean")
 }
 \keyword{ manip }
 

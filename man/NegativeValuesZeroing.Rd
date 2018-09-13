@@ -33,6 +33,7 @@ Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger,
 Benoît Legat & Manon Martin
 }
 \examples{
+require(PepsNMRData)
 Nvz.spec <- NegativeValuesZeroing(Data_HS_sp$Spectrum_data_HS_7)
 }
 \keyword{ manip }

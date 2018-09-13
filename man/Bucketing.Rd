@@ -53,6 +53,7 @@ Benoît Legat, Bernadette Govaerts & Manon Martin
 
 
 \examples{
+require(PepsNMRData)
 Bucket.spec <- Bucketing(Data_HS_sp$Spectrum_data_HS_10, mb = 500)
 }
 \keyword{ manip }

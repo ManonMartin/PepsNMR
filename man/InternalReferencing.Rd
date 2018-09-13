@@ -120,7 +120,8 @@ Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger,
 Benoît Legat & Manon Martin
 }
 \examples{
-PpmConv.spec <- InternalReferencing(Data_HS_sp$Spectrum_data_HS_5, FidInfo_HS, 
-                              shiftHandling = "zerofilling")
+require(PepsNMRData)
+PpmConv.spec <- InternalReferencing(Data_HS_sp$Spectrum_data_HS_5, 
+                             FidInfo_HS, shiftHandling = "zerofilling")
 }
 \keyword{ manip }

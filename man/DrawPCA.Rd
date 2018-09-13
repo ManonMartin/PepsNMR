@@ -34,14 +34,16 @@ Benoît Legat & Manon Martin
 See also \code{\link{Draw}} and \code{\link{DrawSignal}}.
 }
 \examples{
+require(PepsNMRData)
 # Draw loadings
-DrawPCA(FinalSpectra_HS, main = "PCA loadings plot", Class = NULL, axes =c(1,3, 5),
-        type ="loadings", loadingstype="l", num.stacked=4, xlab="ppm", 
-        createWindow = TRUE)
+DrawPCA(FinalSpectra_HS, main = "PCA loadings plot", 
+      Class = NULL, axes =c(1,3, 5), type ="loadings", loadingstype="l", 
+      num.stacked=4, xlab="ppm", createWindow = TRUE)
+
 # Draw scores
 class = substr(rownames(FinalSpectra_HS),5,5)
-DrawPCA(FinalSpectra_HS, drawNames = TRUE, main = "PCA scores plot", Class = class, 
-        axes = c(1,2), type = "scores", createWindow = TRUE)
+DrawPCA(FinalSpectra_HS, drawNames = TRUE, main = "PCA scores plot", 
+        Class = class,  axes = c(1,2), type = "scores", createWindow = TRUE)
 
 }
 \keyword{ hplot }

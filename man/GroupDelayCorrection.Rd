@@ -40,6 +40,7 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
+require(PepsNMRData)
 Fopc.fid <- GroupDelayCorrection(Data_HS_sp$FidData_HS_0, FidInfo_HS)
 }
 \keyword{manip }

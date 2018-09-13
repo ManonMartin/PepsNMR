@@ -66,6 +66,7 @@ Benoît Legat & Manon Martin
 See also \code{\link{BaselineCorrection}} which also uses the Whittaker smoother.
 }
 \examples{
+require(PepsNMRData)
 Ss.fid <- SolventSuppression(Data_HS_sp$FidData_HS_1, returnSolvent=FALSE)
 
 #or

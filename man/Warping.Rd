@@ -87,6 +87,7 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
+require(PepsNMRData)
 Warp.spec <- Warping(Data_HS_sp$Spectrum_data_HS_8, reference.choice="fixed", 
                              reference = row.names(Data_HS_sp$Spectrum_data_HS_8)[1],
                              returnReference = FALSE)

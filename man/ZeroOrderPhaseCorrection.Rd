@@ -49,6 +49,7 @@ Benoît Legat & Manon Martin
 }
 
 \examples{
+require(PepsNMRData)
 Zopc.res <- ZeroOrderPhaseCorrection(Data_HS_sp$Spectrum_data_HS_4, 
             ppm.zopc = FALSE, exclude.zopc = list(c(5000,15000)))
 }

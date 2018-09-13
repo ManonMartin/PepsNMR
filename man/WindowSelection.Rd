@@ -27,6 +27,7 @@ Those NAs are typically produced by the \code{InternalReferencing} function.
 Benoît Legat & Manon Martin
 }
 \examples{
+require(PepsNMRData)
 # The interval is chosen so that we have the largest interval without NA
 Ws.spec <- WindowSelection(Data_HS_sp$Spectrum_data_HS_9)
 
