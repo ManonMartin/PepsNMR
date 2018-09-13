@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/ManonMartin/PepsNMR.svg?branch=master)](https://travis-ci.org/ManonMartin/PepsNMR)
 
 # PepsNMR
-An R package for 1H-NMR data pre-treatment.
+An R package for 1H NMR data pre-processing.
 
 ## R code to install and load/attach the package:
 
@@ -9,13 +9,13 @@ An R package for 1H-NMR data pre-treatment.
 
 ```R
 require(devtools)
-install_github("manonmartin/pepsnmr", dependencies = TRUE)
+install_github("ManonMartin/PepsNMR", dependencies = TRUE)
 require(PepsNMR)
 ```
 
 #### Second option:
 
-Download first the compressed package files, unzip it and save the local copy, then:
+Download first the compressed package files from GithHub, unzip it and save the local copy, then:
 
 ```R
 install.packages("path-to-PepsNMR_folder", repos = NULL, type="source")
@@ -73,8 +73,8 @@ plot(time[0:300], Re(Fid_data.GDC[spectrIndex,0:300]),
 
 # ====  SolventSuppression =================
 SS.res <- SolventSuppression(Fid_data.GDC, returnSolvent=TRUE)
-Fid_data.SS = SS.res[["Fid_data"]]
-SolventRe = SS.res[["SolventRe"]]
+Fid_data.SS <- SS.res[["Fid_data"]]
+SolventRe <- SS.res[["SolventRe"]]
 
 par(mar=c(4,4,1.5,1), mfrow=c(2,1))
 plot(time[0:4000], Re(Fid_data.GDC[spectrIndex,0:4000]),  col=col1, 
@@ -137,7 +137,7 @@ par(default.par)
 ppmvalues <- as.numeric(colnames(Spectrum_data.IR))
 plot(Re(Spectrum_data.IR[spectrIndex,]), col=col1, xaxt="n",
      type="l", ylab = "Intensity", xlab = "ppm", 
-     main="Spectrum after Zero Order Phase Correction")
+     main="Spectrum after Internal Referencing")
 at <- seq(1,dim(Spectrum_data.IR)[2], floor(dim(Spectrum_data.IR)[2]/10))
 axis(side=1, at = at, 
      labels = round(ppmvalues[at],2))
@@ -153,8 +153,8 @@ legend("topright", bty = "n", legend = "Peak location",
 BC.res <- BaselineCorrection(Spectrum_data.IR, returnBaseline = TRUE,
                              lambda.bc = 1e8, p.bc = 0.01)
 
-Spectrum_data.BC = BC.res[["Spectrum_data"]] 
-Baseline = BC.res[["Baseline"]]
+Spectrum_data.BC <- BC.res[["Spectrum_data"]] 
+Baseline <- BC.res[["Baseline"]]
 
 par(mar=c(4,4,1,1), mfrow=c(2,1))
 plot(Re(Spectrum_data.IR[spectrIndex,]), col=col1, xaxt="n",
@@ -186,8 +186,8 @@ axis(side=1, at = at, labels = round(ppmvalues[at],2))
 W.res <- Warping(Spectrum_data.NVZ, returnWarpFunc = TRUE, 
                  reference.choice = "fixed")
 
-Spectrum_data.W = W.res[["Spectrum_data"]]
-warp_func = W.res[["Warp.func"]]
+Spectrum_data.W <- W.res[["Spectrum_data"]]
+warp_func <- W.res[["Warp.func"]]
 
 par(mfrow=c(2,1),mar=c(4,4,1.5,1))
 f = c(21, 20, 24) # warped spectra index to draw
