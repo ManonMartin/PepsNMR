@@ -97,7 +97,7 @@ require(PepsNMR)
 
 # Data importation
 
-The first step is meant to access the raw data files. To import Free Induction Decays (FIDs) in Bruker format, use the `ReadFidss` function. This function will return a list with the FID data matrix (saved in `Fid_data`) and metadata about these FIDs (saved in `Fid_info`).
+The first step is meant to access the raw data files. To import Free Induction Decays (FIDs) in Bruker format, use the `ReadFids` function. This function will return a list with the FID data matrix (saved in `Fid_data`) and metadata about these FIDs (saved in `Fid_info`).
 
 ```{r dataimport, eval = FALSE}
 fidList <- ReadFids(file.path(path,dataset_name)) 
@@ -170,7 +170,7 @@ Information on each function is provided in R, (e.g. type `?ReadFids` in the R c
 
 
 # Available datasets
-Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the `r Githubpkg("manonmartin/PepsNMRData")` package.
+Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the ad hoc `r Githubpkg("manonmartin/PepsNMRData")` package.
 
 Here are examples of available datasets:
 ```{r availdata}
