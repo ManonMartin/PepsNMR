@@ -10,7 +10,7 @@ Imports:
     PepsNMRData
 Encoding: UTF-8
 NeedsCompilation: no
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5)
 Suggests: knitr, markdown, rmarkdown, BiocStyle
 LazyData: true
 Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
