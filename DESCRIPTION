@@ -6,11 +6,10 @@ Description: This package provides R functions for common pre-procssing steps th
 License: GPL-2 | file LICENSE
 URL: https://github.com/ManonMartin/PepsNMR
 Imports:
-    Matrix, ptw, ggplot2, gridExtra, matrixStats, reshape2, methods, 
-    PepsNMRData
+    Matrix, ptw, ggplot2, gridExtra, matrixStats, reshape2, methods, graphics, stats
 Encoding: UTF-8
 NeedsCompilation: no
-Depends: R (>= 3.5)
+Depends: R (>= 3.5), PepsNMRData
 Suggests: knitr, markdown, rmarkdown, BiocStyle
 LazyData: true
 Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
