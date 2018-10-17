@@ -74,7 +74,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(SolventSuppression)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
-    data = do.call(what = "SolventSuppression", args = c(list(Fid_data = data, returnSolvent = F), moreArgs))
+    data = do.call(what = "SolventSuppression", args = c(list(Fid_data = data, returnSolvent = FALSE), moreArgs))
 
   }
 
@@ -84,7 +84,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "Apodization", args = c(list(Fid_data = data, Fid_info = Fid_info,
-                                                       returnFactor = F), moreArgs))
+                                                       returnFactor = FALSE), moreArgs))
 
   }
 
@@ -124,7 +124,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
     
     data = do.call(what = "BaselineCorrection", args = c(list(Spectrum_data = data,
-                                                              returnBaseline = F), moreArgs))
+                                                              returnBaseline = FALSE), moreArgs))
 
   }
 
@@ -200,7 +200,7 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
     extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(Normalization)]
     moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
 
-    data = do.call(what = "Normalization", args = c(list(Spectrum_data = data, returnFactor = F), moreArgs))
+    data = do.call(what = "Normalization", args = c(list(Spectrum_data = data, returnFactor = FALSE), moreArgs))
 
   }
 

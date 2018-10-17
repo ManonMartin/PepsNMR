@@ -4,10 +4,10 @@
 BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42, 
                                lambda.bc = 1e+07, p.bc = 0.05, eps = 1e-08, 
                                ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
-                               returnBaseline = F) {
+                               returnBaseline = FALSE) {
   
   # Data initialisation ----------------------------------------------
-  begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   p <- p.bc
   lambda <- lambda.bc

@@ -9,7 +9,7 @@ The function estimates and removes the smoothed baseline from the spectra.
 \usage{BaselineCorrection(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
                    lambda.bc = 1e7, p.bc = 0.05, eps = 1e-8, 
                    ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
-                   returnBaseline = F)}
+                   returnBaseline = FALSE)}
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.

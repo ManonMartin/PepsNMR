@@ -6,7 +6,7 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "serum", "u
   
   # Data initialisation and checks ----------------------------------------------
   
-  begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.rr) & !missing(fromto.rr)) {
     stop(deparse(substitute(fromto.rr)), " is nor a list nor NULL.")

@@ -5,7 +5,7 @@ ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7
   
   # Data initialisation and checks ----------------------------------------------
   
-  begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.za)) {
     stop(deparse(substitute(fromto.za)), " is not a list.")
@@ -20,7 +20,7 @@ ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7
     interval <- indexInterval(ppm, from = fromto.za[[i]][1], 
                               to = fromto.za[[i]][2], inclusive = TRUE)
     p <- length(interval)
-    SpectOld <- Spectrum_data[, interval, drop = F]
+    SpectOld <- Spectrum_data[, interval, drop = FALSE]
     S <- rowSums(Re(SpectOld))
     if (p < 3) {
       # Do nothing, the interval is so small that it does not make sense to aggregate
@@ -32,7 +32,7 @@ ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7
     } else {
       d <- 4 * S/((p - 1) * (p - 1))
       rise <- t(sapply(d * ((p - 1)/2 - 1), function(top) seq(0, top, length.out = (p - 1)/2)))
-      triangle <- cbind(rise, d * (p - 1)/2, rise[, ncol(rise):1, drop = F])
+      triangle <- cbind(rise, d * (p - 1)/2, rise[, ncol(rise):1, drop = FALSE])
     }
     Spectrum_data[, interval] <- complex(real = triangle, imaginary = Im(SpectOld))
   }

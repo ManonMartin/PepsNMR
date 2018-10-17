@@ -2,7 +2,7 @@
 
 DrawSignal <- function(Signal_data, subtype = c("stacked", "together", 
                       "separate", "diffmean", "diffmedian", "diffwith"), 
-                      ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = T, 
+                      ReImModArg = c(TRUE, FALSE, FALSE, FALSE), vertical = TRUE, 
                       xlab = "index", RowNames = NULL, row = 1, num.stacked = 4, 
                       main = NULL, createWindow) {
   # nticks

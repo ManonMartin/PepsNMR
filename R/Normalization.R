@@ -1,9 +1,9 @@
 #' @export Normalization
 Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05), 
-                          ref.norm = "median", returnFactor = F)  {
+                          ref.norm = "median", returnFactor = FALSE)  {
   
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   # type.norm <- match.arg(type.norm)
   checkArg(fromto.norm, "num")
@@ -50,7 +50,7 @@ Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05),
     # peak
     ppm <- as.numeric(colnames(Spectrum_data))
     interval <- indexInterval(ppm, fromto.norm[1], fromto.norm[2], inclusive = TRUE)
-    Spectrum_dataInZone <- Spectrum_data[, interval, drop = F]
+    Spectrum_dataInZone <- Spectrum_data[, interval, drop = FALSE]
     peakInZone <- which.max(colSums(Spectrum_dataInZone))
     factor <- Spectrum_dataInZone[, peakInZone]
   }, pqn = {

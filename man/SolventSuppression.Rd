@@ -9,7 +9,7 @@ Signal smooting for water residuals resonance removal.
 }
 \usage{
 SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE,
-                               returnSolvent = F)
+                               returnSolvent = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}

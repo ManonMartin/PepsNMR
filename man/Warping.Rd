@@ -9,7 +9,7 @@ Warping(Spectrum_data, normalization.type = c("median","mean",
         "firstquartile","peak","none"), fromto.normW = c(3.05, 4.05), 
         reference.choice = c("fixed", "before", 
         "after", "manual"), reference = 1, optim.crit = c("RMS", "WCC"), 
-        ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, deg = 3, 
+        ptw.wp = FALSE, K = 3, L = 40, lambda.smooth = 0, deg = 3, 
         lambda.bspline = 0.01, kappa = 0.0001, max_it_Bspline = 10, 
         returnReference = FALSE, returnWarpFunc = FALSE)
 }

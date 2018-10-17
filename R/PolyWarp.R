@@ -29,7 +29,7 @@ PolyWarp <- function(ref, sample, beta) {
     
     # Compute residuals and check convergence
     r <- ref[sel] - z
-    rms <- sqrt(mean(r * r, na.rm = T))
+    rms <- sqrt(mean(r * r, na.rm = TRUE))
     drms <- abs((rms - rms_old)/(rms + 1e-10))
     if (drms < 1e-06) {
       break

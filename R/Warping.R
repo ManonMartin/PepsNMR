@@ -2,7 +2,7 @@
 Warping <- function(Spectrum_data, normalization.type = c("median", "mean", 
                     "firstquartile", "peak", "none"), fromto.normW = c(3.05, 4.05), 
                     reference.choice = c("fixed", "before", "after", "manual"), reference = 1, 
-                    optim.crit = c("RMS", "WCC"), ptw.wp = F, K = 3, L = 40, lambda.smooth = 0, 
+                    optim.crit = c("RMS", "WCC"), ptw.wp = FALSE, K = 3, L = 40, lambda.smooth = 0, 
                     deg = 3, lambda.bspline = 0.01, kappa = 1e-04, max_it_Bspline = 10, 
                     returnReference = FALSE, returnWarpFunc = FALSE) {
   
@@ -12,13 +12,13 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
     # for the row ref, x - m[ref,] is 0 to get, the mean, we divide by
     # nrow(data)-1 because the row ref is ignored we could actually just do
     # the sum and not the mean, both choices are good
-    return(sum(apply(m, 1, function(x) sum((x - m[row, ])^2, na.rm = T)))/(nrow(m) - 
+    return(sum(apply(m, 1, function(x) sum((x - m[row, ])^2, na.rm = TRUE)))/(nrow(m) - 
       1))
   }
   
   # Data initialisation and checks ----------------------------------------------
 
-  begin_info <- beginTreatment("Warping", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("Warping", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
   reference.choice <- match.arg(reference.choice)
@@ -95,7 +95,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
         ref <- Spectrum_data[reference, ]  # reference spectrum 
         
         samp_rnames <- rnames[rnames != reference]
-        sample <- Spectrum_data[samp_rnames, , drop = F]  # spectra to be warped
+        sample <- Spectrum_data[samp_rnames, , drop = FALSE]  # spectra to be warped
         beta <- rep(0, K + 1)  # starting coefficients
         cur.Warped_data <- Spectrum_data  # initialize the matrix of warped spectra
         warp.func <- Spectrum_data  # initialize the matrix of estimated warping functions

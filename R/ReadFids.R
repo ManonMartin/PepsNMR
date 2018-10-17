@@ -22,7 +22,7 @@ ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE) {
       separator <- .Platform$file.sep
       path_elem <- strsplit(fidDirs,separator)
       fidNames <- sapply(path_elem, function(x) x[[length(path_elem[[1]])]])
-    }else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs,  USE.NAMES = F)}
+    }else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs,  USE.NAMES = FALSE)}
     
     for (i in 1:n)  {
       fidList <- ReadFid(fidDirs[i])
@@ -61,7 +61,7 @@ ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE) {
                                                         x[[length(path_elem[[1]])]], sep = "_"))
       }else {fidNames <- dir(path)}
       
-    } else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = F)}
+    } else {fidNames <- sapply(X = fidDirs, FUN = getTitle, l = l, subdirs = subdirs, USE.NAMES = FALSE)}
     
     for (i in 1:length(fidNames))  {
       fidList <- ReadFid(fidDirs[i])

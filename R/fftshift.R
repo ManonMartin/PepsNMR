@@ -4,10 +4,10 @@
 # ==> the zero frequency that was at 0 is now at half width
 
 fftshift1D2D <- function(x) {
-  vec <- F
+  vec <- FALSE
   if (is.vector(x)) {
     x <- vec2mat(x)
-    vec <- T
+    vec <- TRUE
   }
   m <- dim(x)[2]
   p <- ceiling(m/2)

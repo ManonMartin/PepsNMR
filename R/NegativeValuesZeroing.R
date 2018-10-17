@@ -1,7 +1,7 @@
 #' @export NegativeValuesZeroing
 NegativeValuesZeroing <- function(Spectrum_data) {
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("NegativeValuesZeroing", Spectrum_data, force.real = T)
+  begin_info <- beginTreatment("NegativeValuesZeroing", Spectrum_data, force.real = TRUE)
   Spectrum_data <- begin_info[["Signal_data"]]
   
   # NegativeValuesZeroing ----------------------------------------------

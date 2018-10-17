@@ -115,7 +115,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
       }
       
       # graphs of rms criteria
-      debug_plot <- F  # rms should not plot anything now, only when called by optimize
+      debug_plot <- FALSE  # rms should not plot anything now, only when called by optimize
       if (!is.null(plot_rms) && rnames[k] %in% plot_rms) {
         x <- seq(min(interval), max(interval), length.out = 100)
         y <- rep(1, 100)
@@ -129,7 +129,7 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
         graphics::plot(x, y, main = paste("Criterion maximization \n", 
                                           rownames(Data)[k]), ylim = c(0, 1.1),
                        ylab = "positiveness criterion", xlab = "angle ")
-        debug_plot <- T
+        debug_plot <- TRUE
       }
       
       # Best angle

@@ -98,7 +98,7 @@ PrincipalComponentAnalysis <- function(xnorm, z, titlePlot = c("spectres pretrai
   
   # Calcul des CP
   
-  pcs <- pcs/matrix(pcd, nrow = n, ncol = nc, byrow = T)
+  pcs <- pcs/matrix(pcd, nrow = n, ncol = nc, byrow = TRUE)
   pcs
   
   # Calcul des pourcentages de variance des 4 premières valeurs propres
@@ -180,7 +180,7 @@ PrincipalComponentAnalysis <- function(xnorm, z, titlePlot = c("spectres pretrai
     # couleur (ex: 'logiciel')
     for (id.facteur.couleur in 1:length(valeurfacteur.couleur)) {
       # Si le spectres correspond cet état
-      if (T | z[i, ndesign.couleur] == valeurfacteur.couleur[id.facteur.couleur])  {
+      if (TRUE | z[i, ndesign.couleur] == valeurfacteur.couleur[id.facteur.couleur])  {
           # Si l'option est activée, on affiche le n° du spectre sur la projection
           if (length(f) != 0)  {
           graphics::text(pcs[i, 3], pcs[i, 4], f[i], cex = 0.7, col = couleur[id.facteur.couleur])
@@ -204,7 +204,7 @@ PrincipalComponentAnalysis <- function(xnorm, z, titlePlot = c("spectres pretrai
   
   
   
-  graphics::title(titlePlot, outer = T)
+  graphics::title(titlePlot, outer = TRUE)
   grDevices::savePlot(paste(repertoiregraph, lenom, "Projection", ".png", sep = ""), 
     type = c("png"))
   

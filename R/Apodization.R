@@ -2,7 +2,7 @@
 Apodization <- function(Fid_data, Fid_info = NULL, DT = NULL, 
                         type.apod = c("exp","cos2", "blockexp", "blockcos2", 
                         "gauss", "hanning", "hamming"), phase = 0, rectRatio = 1/2, 
-                        gaussLB = 1, expLB = 0.3, plotWindow = F, returnFactor = F) {
+                        gaussLB = 1, expLB = 0.3, plotWindow = FALSE, returnFactor = FALSE) {
   
     # Data initialisation and checks ----------------------------------------------
     begin_info <- beginTreatment("Apodization", Fid_data, Fid_info)

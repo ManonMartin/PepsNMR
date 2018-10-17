@@ -1,6 +1,6 @@
 #' @export SolventSuppression
 SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE, 
-                                returnSolvent = F) {
+                                returnSolvent = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
   

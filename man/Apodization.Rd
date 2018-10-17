@@ -5,8 +5,8 @@
 \usage{
 Apodization(Fid_data, Fid_info = NULL, DT = NULL, type.apod = c("exp","cos2", 
             "blockexp","blockcos2","gauss","hanning","hamming"), phase = 0,
-            rectRatio = 1/2, gaussLB = 1, expLB = 0.3, plotWindow = F, 
-            returnFactor = F)
+            rectRatio = 1/2, gaussLB = 1, expLB = 0.3, plotWindow = FALSE, 
+            returnFactor = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}

@@ -98,7 +98,7 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
       
       # Check for values of ppmleft and ppmright when manually imputed
       # Verifies if the new ppm interval is included in the old one
-      if (decreasing == F) {
+      if (decreasing == FALSE) {
         if ((ppmleft < old_buckets[1]) | (ppmright > old_buckets[old_m + 
           1]))
           {

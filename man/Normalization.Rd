@@ -8,7 +8,7 @@ Spectra normalization to correct for the dilution factor common to all biofuid s
 }
 \usage{
 Normalization(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05), ref.norm = "median",
-              returnFactor = F)
+              returnFactor = FALSE)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
