@@ -62,7 +62,7 @@ spectrIndex <- 1
 # colors
 col1 <-  "gray18"
 col2 <- "firebrick1"
-require(PepsNMR)
+library(PepsNMR)
 
 ```
 
@@ -70,29 +70,25 @@ require(PepsNMR)
 
 # Introduction
 
-This document provides a brief summary on how to use the `r Githubpkg("manonmartin/PepsNMR")` package. In this package, pre-processing functions transform raw FID signals from 1H NMR spectroscopy into a set of interpretable spectra. 
+This document provides a brief summary on how to use the `r Biocpkg("PepsNMR")` package. In this package, pre-processing functions transform raw FID signals from 1H NMR spectroscopy into a set of interpretable spectra. 
 
 
 # Installation
 
 
-The package can be installed either directly from Github [https://github.com/ManonMartin/PepsNMR.git](https://github.com/ManonMartin/PepsNMR.git)
-:
+The `r Biocpkg("PepsNMR")` package is available on Bioconductor and can be installed via `BiocManager::install`:
 ```{r install1,  eval = FALSE, background = "#EFFBF5", highlight = TRUE}
-# install.packages("devtools") # need to be installed at first 
-require ("devtools")
-devtools::install_github("ManonMartin/PepsNMR", build_vignettes = TRUE)
-require(PepsNMR)
-
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("PepsNMR")
 ```
 
-Or by first downloading the compressed package files from GitHub, unziping it and saving as a local copy. Then installing from this local copy after modifying `"path-to-PepsNMR"`: 
-
-```{r install2,  eval=FALSE}
-install.packages("path-to-PepsNMR", repos = NULL, type="source")
-require(PepsNMR)
+The package needs to be loaded once installed to be used:
+```{r library,  eval = FALSE, background = "#EFFBF5", highlight = TRUE}
+library(PepsNMR)
 ```
 
+The package development version is available on Github: [https://github.com/ManonMartin/PepsNMR](https://github.com/ManonMartin/PepsNMR), although it is highly recommended to rely on the Bioconductor release version of the package to avoid any package version mismatch.
 
 
 # Data importation
@@ -170,11 +166,11 @@ Information on each function is provided in R, (e.g. type `?ReadFids` in the R c
 
 
 # Available datasets
-Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the ad hoc `r Githubpkg("manonmartin/PepsNMRData")` package.
+Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the ad hoc `r Biocpkg("PepsNMRData")` package automatically installed with `r Biocpkg("PepsNMR")`.
 
 Here are examples of available datasets:
 ```{r availdata}
-require(PepsNMRData)
+library(PepsNMRData)
 str(FidData_HU)
 
 str(FinalSpectra_HS)
@@ -185,7 +181,7 @@ Information for each dataset is available, (e.g. enter `?FidData_HS` in the R Co
 # Demo of the pre-processing functions on the Human Serum dataset
 
 ## Load the data
-Raw Bruker FIDs can be loaded from where `r Githubpkg("manonmartin/PepsNMRData")` has been intalled:
+Raw Bruker FIDs can be loaded from where `r Biocpkg("PepsNMRData")` has been intalled:
 ```{r}
 data_path <-  system.file("extdata", package = "PepsNMRData")
 dir(data_path)
