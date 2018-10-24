@@ -120,7 +120,7 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
         plots <- plots + ggplot2::geom_text(ggplot2::aes(x = scores[, 
           Xax], y = scores[, Yax], label = rownames(Signal_data), 
           colour = Class), hjust = 0, nudge_x = (Xlim[2]/25), 
-          show.legend = F, size = 2)
+          show.legend = FALSE, size = 2)
       }
     }
     

@@ -122,7 +122,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
           
           # or B. Semi-parametric time warping with polynomials AND B splines
           if (optim.crit == "WCC")  {
-            stop("WCC is only implemented in ptw, set ptw.wp=T to use WCC.")
+            stop("WCC is only implemented in ptw, set ptw.wp = TRUE to use WCC.")
           }
           for (samp_rname in samp_rnames)  {
             sw.output <- SingleWarp(ref = ref, sample = sample[samp_rname, 

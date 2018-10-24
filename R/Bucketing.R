@@ -210,12 +210,12 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
         half_intervals_length <- abs(ppm[(from + 1):to] - ppm[from:(to - 1)])/2
         # The contribution of the points to half the area of the trapezium on
         # their right
-        trapz_right <- base::rowSums(sweep(Spectrum_data[, from:(to - 1), drop = F], 
+        trapz_right <- base::rowSums(sweep(Spectrum_data[, from:(to - 1), drop = FALSE], 
                                            MARGIN = 2, half_intervals_length, `*`))
         
         # The contribution of the points to half the area of the trapezium on
         # their left
-        trapz_left <- base::rowSums(sweep(Spectrum_data[, (from + 1):to, drop = F], 
+        trapz_left <- base::rowSums(sweep(Spectrum_data[, (from + 1):to, drop = FALSE], 
                                           MARGIN = 2, half_intervals_length, `*`))
         
         # Integral of the part of the integral of the leftmost trapezium that

@@ -135,7 +135,7 @@ PrincipalComponentAnalysis <- function(xnorm, z, titlePlot = c("spectres pretrai
     # couleur (ex: 'logiciel')
     for (id.facteur.couleur in 1:length(valeurfacteur.couleur))  {
       # Si le spectres correspond cet état
-      if (T | z[i, ndesign.couleur] == valeurfacteur.couleur[id.facteur.couleur])   {
+      if (TRUE | z[i, ndesign.couleur] == valeurfacteur.couleur[id.facteur.couleur])   {
           # Si l'option est activée, on affiche le n° du spectre sur la projection
           if (length(f) != 0)   {
           graphics::text(pcs[i, 1], pcs[i, 2], f[i], cex = 0.7, col = couleur[id.facteur.couleur])
