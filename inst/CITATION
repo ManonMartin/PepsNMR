@@ -1,0 +1,28 @@
+citHeader("To cite the PepsNMR package use:")
+
+citEntry(entry="article",  
+   author=c(
+   person("M.", "Martin"), 
+   person("B.", "Legat"), 
+   person("J.", "Leenders"),
+   person("J.", "Vanwinsberghe"),
+   person("R.", "Rousseau"),
+   person("B.", "Boulanger"),
+   person(c("P.", "H.", "C."), "Eilers"),
+   person("P.", c("De", "Tullio")),
+   person("B.", "Govaerts")),
+   title="PepsNMR for 1H NMR metabolomic data pre-processing.",
+   journal="Analytica Chimica Acta",
+   issn = "0003-2670",
+   year="2018",
+   volume="1019",
+   pages="1 - 13",
+   url="http://www.sciencedirect.com/science/article/pii/S0003267018303490",
+   textVersion = paste("Martin, M., Legat, B., Leenders, J., Vanwinsberghe, J., Rousseau, R., Boulanger, B., Eilers, P.H.C., 
+   De Tullio, P., Govaerts, B.",
+                       "(2018).",
+                       "PepsNMR for 1H NMR metabolomic data
+                       pre-processing.",
+                       "Analytica Chimica Acta,",
+                       "1019,",
+                       "1-13."))
