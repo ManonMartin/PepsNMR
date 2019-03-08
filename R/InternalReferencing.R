@@ -134,7 +134,9 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
       Data[,unlist(Int)] <- Re(Spectrum_data[,unlist(Int)])
     } else {
       Data <- rep(min(Re(Spectrum_data)) ,m)
-      Data[unlist(Int)] <- Re(Spectrum_data[unlist(Int)])
+      Data <- as.matrix(Data)
+      Data <- t(Data)
+      Data[, unlist(Int)] <- Re(Spectrum_data[,unlist(Int)])
     }
     
   }
