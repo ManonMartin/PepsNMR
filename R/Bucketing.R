@@ -160,9 +160,15 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
       # bucket
       if ((from + 1) < (to - 1))  {
         # calculates the sum of intensities x the bucket length
-        int_inside <- base::apply(as.matrix(Spectrum_data[, as.vector((from + 
-          1):(to - 2))], nrows = n, ncol = to - from - 2), 1, sum) * 
-          mbl_old
+        if (n>1){   
+          int_inside <- base::apply(as.matrix(Spectrum_data[, as.vector((from + 1):(to - 2))], 
+                                              nrows = n, ncol = to - from - 2), 1, sum) * 
+            mbl_old
+        } else{
+          int_inside <- sum(Spectrum_data[, as.vector((from + 1):(to - 2))]) * 
+            mbl_old
+        }
+        
       } else {
         # else the integral is just 0
         int_inside <- 0
