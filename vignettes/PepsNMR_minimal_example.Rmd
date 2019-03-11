@@ -284,6 +284,29 @@ plot(time, Re(Fid_data.A[spectrIndex,]), col=col1,
      main="FID after Apodization")
 ```
 
+## Zero Filling
+
+The zero filling adds 0 to the end of the FIDs to improve the visual representation of spectra.
+
+```{r}
+# ==== Zero Filling =================
+Fid_data.ZF <- ZeroFilling(Fid_data.A, fn = ncol(Fid_data.A))
+
+```
+
+```{r}
+par(mar=c(4,4,1.5,1), mfrow=c(2,1))
+plot(time, Re(Fid_data.A[spectrIndex,]),  col=col1, 
+     type="l", ylab = "Intensity", xlab="", main="FID before Zero Filling")
+
+time <- as.numeric(colnames(Fid_data.ZF))*1000
+plot(time, Re(Fid_data.ZF[spectrIndex,]), col=col1, 
+     type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
+     main="FID after Zero Filling")
+
+
+```
+
 
 ## FourierTransform
 
@@ -292,7 +315,7 @@ The Fourier Transform is applied to the FIDs to obtain spectra expressed in the 
 
 ```{r}
 # ==== FourierTransform =================
-RawSpect_data.FT <- FourierTransform(Fid_data.A, Fid_info)
+RawSpect_data.FT <- FourierTransform(Fid_data.ZF, Fid_info)
 ```
 
 

@@ -47,7 +47,7 @@ col1 <-  "gray18"
 col2 <- "firebrick1"
 
 # ==== define the path to the data files =================
-data_path <-  system.file("extdata", package = "PepsNMR")
+data_path <-  system.file("extdata", package = "PepsNMRData")
 
 # ==== read the FIDs and their metadata =================
 fidList <- ReadFids(file.path(data_path, "HumanSerum"))
@@ -102,10 +102,22 @@ plot(time, Re(Fid_data.A[spectrIndex,]), col=col1,
      type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
      main="FID after Apodisation")
 
+# ==== Zero Filling =================
+Fid_data.ZF <- ZeroFilling(Fid_data.A, fn = ncol(Fid_data.A))
+
+par(mar=c(4,4,1.5,1), mfrow=c(2,1))
+plot(time, Re(Fid_data.A[spectrIndex,]),  col=col1, 
+     type="l", ylab = "Intensity", xlab="", main="FID before Zero Filling")
+
+time <- as.numeric(colnames(Fid_data.ZF))*1000
+plot(time, Re(Fid_data.ZF[spectrIndex,]), col=col1, 
+     type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
+     main="FID after Zero Filling")
+
 
 
 # ==== FourierTransform =================
-RawSpect_data.FT <- FourierTransform(Fid_data.A, Fid_info)
+RawSpect_data.FT <- FourierTransform(Fid_data.ZF, Fid_info)
 
 par(default.par) 
 plot(Re(RawSpect_data.FT[spectrIndex,]), col=col1, xaxt="n",

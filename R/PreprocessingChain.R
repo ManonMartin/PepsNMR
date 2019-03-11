@@ -1,7 +1,7 @@
 #' @export PreprocessingChain
 PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL, readFids = TRUE,
                                groupDelayCorr = TRUE, solventSuppression = TRUE,
-                               apodization = TRUE,
+                               apodization = TRUE, zerofilling = TRUE,
                                fourierTransform = TRUE, zeroOrderPhaseCorr = TRUE,
                                internalReferencing = TRUE,  baselineCorrection = TRUE,
                                negativeValues0 = TRUE, warping = TRUE, windowSelection = TRUE,
@@ -88,6 +88,15 @@ PreprocessingChain <- function(Fid_data = NULL, Fid_info = NULL, data.path=NULL,
 
   }
 
+  if(zerofilling){
+    moreArgs <- list()
+    extraArgsNames <- names(extraArgs)[names(extraArgs) %in% methods::formalArgs(ZeroFilling)]
+    moreArgs[extraArgsNames] <- extraArgs[extraArgsNames]
+    
+    data = do.call(what = "ZeroFilling", args = c(list(Fid_data = data), moreArgs))
+    
+  }
+  
 
   if(fourierTransform){
     moreArgs <- list()
