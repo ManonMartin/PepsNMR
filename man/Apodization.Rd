@@ -6,7 +6,7 @@
 Apodization(Fid_data, Fid_info = NULL, DT = NULL, type.apod = c("exp","cos2", 
             "blockexp","blockcos2","gauss","hanning","hamming"), phase = 0,
             rectRatio = 1/2, gaussLB = 1, expLB = 0.3, plotWindow = FALSE, 
-            returnFactor = FALSE)
+            returnFactor = FALSE, verbose=FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
@@ -18,7 +18,8 @@ Apodization(Fid_data, Fid_info = NULL, DT = NULL, type.apod = c("exp","cos2",
   \item{gaussLB}{Line Broadening for the gaussian window, see details.}
   \item{expLB}{Line Broadening for the exponential window, see details.}
   \item{plotWindow}{If \code{TRUE}, a plot of the signal applied to the FID is displayed.}
-    \item{returnFactor}{If \code{TRUE}, returns a list with the final FIDs and the apodization function.}
+  \item{returnFactor}{If \code{TRUE}, returns a list with the final FIDs and the apodization function.}
+  \item{verbose}{If\code{"TRUE"}, will print processing information.}
 }
 \details{
 

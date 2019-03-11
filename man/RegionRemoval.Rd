@@ -10,14 +10,14 @@ Removes the non-informative regions by setting the values of the spectra in thes
 \usage{
 RegionRemoval(Spectrum_data, typeofspectra = c("manual", "serum", "urine"), 
                           type.rr = c( "zero", "NA"), 
-                          fromto.rr = list(Water = c(4.5, 5.1)))
+                          fromto.rr = list(Water = c(4.5, 5.1)), verbose = FALSE)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{typeofspectra}{Type of spectra, if not \code{"manual"}, will automatically remove unwanted regions depending on the nature of spectra.}
   \item{type.rr}{Type of region removal method. If \code{type.rr = "zero"}, intensities are set to 0; if \code{type.rr = "NA"}, intensities are set to NA.}
   \item{fromto.rr}{List containing the extremities of the intervals to be removed.}
-
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \details{
 The presence of non-informative regions can strongly bias the subsequent statistical analysis.

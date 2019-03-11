@@ -1,8 +1,9 @@
 #' @export ReadFids
-ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE) {
+ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE, verbose = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("ReadFids")
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("ReadFids", verbose = verbose)
   checkArg(path, c("str"))
   checkArg(l, c("pos"))
   if (file.exists(path) == FALSE) {
@@ -82,16 +83,19 @@ ReadFids <- function(path, l = 1, subdirs = FALSE, dirs.names = FALSE) {
   }
   
   # Check for non-unique IDs ----------------------------------------------
-  NonnuniqueIds <- sum(duplicated(row.names(Fid_data)))
-  cat("dim Fid_data: ", dim(Fid_data), "\n")
-  cat("IDs: ", rownames(Fid_data), "\n")
-  cat("non-unique IDs?", NonnuniqueIds, "\n")
-  if (NonnuniqueIds > 0) {
-    warning("There are duplicated IDs: ", Fid_data[duplicated(Fid_data)])
+  if (verbose == TRUE){
+  
+    NonnuniqueIds <- sum(duplicated(row.names(Fid_data)))
+    cat("dim Fid_data: ", dim(Fid_data), "\n")
+    cat("IDs: ", rownames(Fid_data), "\n")
+    cat("non-unique IDs?", NonnuniqueIds, "\n")
+    if (NonnuniqueIds > 0) {
+      warning("There are duplicated IDs: ", Fid_data[duplicated(Fid_data)])
+    }
+    
   }
   
-  
   # Return the results ----------------------------------------------
-  return(list(Fid_data = endTreatment("ReadFids", begin_info, Fid_data), Fid_info = Fid_info))
+  return(list(Fid_data = endTreatment("ReadFids", begin_info, Fid_data, verbose = verbose), Fid_info = Fid_info))
   
 }

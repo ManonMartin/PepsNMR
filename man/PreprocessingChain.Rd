@@ -15,7 +15,7 @@ PreprocessingChain(Fid_data = NULL, Fid_info = NULL, data.path = NULL, readFids 
     warping = TRUE, windowSelection = TRUE, bucketing = TRUE, regionRemoval = TRUE, 
     zoneAggregation = TRUE,normalization = TRUE, ...,  export = FALSE, 
     format = c("Rdata", "csv", "txt"), out.path = ".",  filename = "filename", 
-    writeArg = c("none", "return", "txt"))
+    writeArg = c("none", "return", "txt"), verbose = FALSE)
 }
 
 \arguments{
@@ -94,6 +94,10 @@ Name given to exported files.
   \item{writeArg}{
 If not \code{"none"}, will export the function arguments, either in the return of the function (\code{"return"}) or as a text file (\code{"txt"}).
 }
+ \item{verbose}{
+If \code{"TRUE"}, will print processing information.
+}
+
 
 }
 

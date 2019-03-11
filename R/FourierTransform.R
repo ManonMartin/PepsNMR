@@ -1,8 +1,10 @@
 #' @export FourierTransform
-FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, O1 = NULL, reverse.axis = TRUE) {
+FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
+                             O1 = NULL, reverse.axis = TRUE,verbose = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("FourierTransform", Fid_data, Fid_info)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("FourierTransform", Fid_data, Fid_info,verbose = verbose)
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
   
@@ -24,6 +26,7 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
 
   
   checkArg(reverse.axis, c("bool"))
+ 
   
   # Fourier Transformation ----------------------------------------------
   # mvfft does the unnormalized fourier transform (see ?mvfft), so we need divide
@@ -60,5 +63,5 @@ FourierTransform <- function(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
    
   
   # Data finalisation ----------------------------------------------
-  return(endTreatment("FourierTransform", begin_info, RawSpect_data))
+  return(endTreatment("FourierTransform", begin_info, RawSpect_data,verbose = verbose))
 }

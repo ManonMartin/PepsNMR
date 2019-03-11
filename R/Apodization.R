@@ -2,16 +2,19 @@
 Apodization <- function(Fid_data, Fid_info = NULL, DT = NULL, 
                         type.apod = c("exp","cos2", "blockexp", "blockcos2", 
                         "gauss", "hanning", "hamming"), phase = 0, rectRatio = 1/2, 
-                        gaussLB = 1, expLB = 0.3, plotWindow = FALSE, returnFactor = FALSE) {
+                        gaussLB = 1, expLB = 0.3, plotWindow = FALSE, returnFactor = FALSE,
+                        verbose = FALSE) {
   
     # Data initialisation and checks ----------------------------------------------
-    begin_info <- beginTreatment("Apodization", Fid_data, Fid_info)
+    checkArg(verbose, c("bool"))
+    begin_info <- beginTreatment("Apodization", Fid_data, Fid_info, verbose = verbose)
     Fid_data <- begin_info[["Signal_data"]]
     Fid_info <- begin_info[["Signal_info"]]
     # Data check
     type.apod <- match.arg(type.apod)
     checkArg(DT, c("num", "pos"), can.be.null = TRUE)
     checkArg(phase, c("num"))
+    
     
     # Apodization ----------------------------------------------
     DT <- getArg(DT, Fid_info, "DT")  # Dwell Time
@@ -57,7 +60,7 @@ Apodization <- function(Fid_data, Fid_info = NULL, DT = NULL,
     Fid_data <- sweep(Fid_data, MARGIN = 2, Factor, `*`)
     
     # Data finalisation ----------------------------------------------
-    Fid_data <- endTreatment("Apodization", begin_info, Fid_data)
+    Fid_data <- endTreatment("Apodization", begin_info, Fid_data, verbose = verbose)
     if (returnFactor) {
         return(list(Fid_data = Fid_data, Factor = Factor))
     } else {

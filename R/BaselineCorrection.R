@@ -4,10 +4,12 @@
 BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42, 
                                lambda.bc = 1e+07, p.bc = 0.05, eps = 1e-08, 
                                ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
-                               returnBaseline = FALSE) {
+                               returnBaseline = FALSE, verbose = FALSE) {
   
   # Data initialisation ----------------------------------------------
-  begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = TRUE)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("BaselineCorrection", Spectrum_data, force.real = TRUE, 
+                               verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   p <- p.bc
   lambda <- lambda.bc
@@ -24,6 +26,7 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   checkArg(returnBaseline, c("bool"))
   checkArg(ppm.bc, c("bool"))
   checkArg(unlist(exclude.bc), c("num"), can.be.null = TRUE)
+
   
   # Define the interval where to search for (by defining Data)
   if (is.null(exclude.bc)) {
@@ -122,7 +125,8 @@ BaselineCorrection <- function(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
   # }
   
   # Data finalisation ----------------------------------------------
-  Spectrum_data <- endTreatment("BaselineCorrection", begin_info, Spectrum_data)  # FIXME create removeImaginary filter ??
+  Spectrum_data <- endTreatment("BaselineCorrection", begin_info, Spectrum_data,
+                                verbose = verbose)  # FIXME create removeImaginary filter ??
   
   if (returnBaseline) {
     return(list(Spectrum_data = Spectrum_data, Baseline = Baseline))

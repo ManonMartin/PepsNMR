@@ -1,14 +1,16 @@
 #' @export Bucketing
 Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL, 
-                      intmeth = c("r", "t"), tolbuck = 10^-4) {
+                      intmeth = c("r", "t"), tolbuck = 10^-4, verbose = FALSE) {
   
   # Data initialisation and checks ---------------------------------------------- 
-  begin_info <- beginTreatment("Bucketing", Spectrum_data)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("Bucketing", Spectrum_data, verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   checkArg(mb, c("num", "pos"))
   checkArg(width, "bool", can.be.null = FALSE)
   checkArg(boundary, "num", can.be.null = TRUE)
   checkArg(tolbuck, "num", can.be.null = TRUE)
+
   
   intmeth <- match.arg(intmeth)
   
@@ -240,7 +242,7 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
     
   }
   # Data finalisation ----------------------------------------------
-
+ if (verbose == TRUE){
   cat("PPM range of the bucketted spectral matrix:",  
       sprintf("%.5f",c(as.numeric(colnames(bucketed)[1])+bl_new/2,
          as.numeric(colnames(bucketed)[mb])+bl_new/2)), "\n")
@@ -248,6 +250,7 @@ Bucketing <- function(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
   cat("PPM width between 2 buckets:", 
       sprintf("%.5f",abs(as.numeric(colnames(bucketed)[1]) -
             as.numeric(colnames(bucketed)[2]))), "\n") 
-        
-  return(endTreatment("Bucketing", begin_info, bucketed))
+ }
+  
+  return(endTreatment("Bucketing", begin_info, bucketed, verbose = verbose))
 }

@@ -12,7 +12,7 @@ InternalReferencing(Spectrum_data, Fid_info, method = c("max",
                ppm.value = 0, direction = "left", 
                shiftHandling = c("zerofilling",  "cut", "NAfilling", 
                "circular"), c = 2, pc = 0.02, fromto.RC = NULL, 
-               ppm.ir = TRUE, rowindex_graph = NULL)
+               ppm.ir = TRUE, rowindex_graph = NULL, verbose = FALSE)
 }
 \arguments{
 \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -40,6 +40,8 @@ InternalReferencing(Spectrum_data, Fid_info, method = c("max",
 
 \item{rowindex_graph}{If not \code{NULL}, a numeric vector with the row numbers of spectra that need to be plotted for inspection.}
 
+\item{verbose}{If\code{"TRUE"}, will print processing information.}
+  
 }
 \details{
 

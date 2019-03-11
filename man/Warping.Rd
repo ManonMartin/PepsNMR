@@ -11,7 +11,7 @@ Warping(Spectrum_data, normalization.type = c("median","mean",
         "after", "manual"), reference = 1, optim.crit = c("RMS", "WCC"), 
         ptw.wp = FALSE, K = 3, L = 40, lambda.smooth = 0, deg = 3, 
         lambda.bspline = 0.01, kappa = 0.0001, max_it_Bspline = 10, 
-        returnReference = FALSE, returnWarpFunc = FALSE)
+        returnReference = FALSE, returnWarpFunc = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -42,7 +42,7 @@ See the reference for more details.}
 \item{max_it_Bspline}{Maximum number of iterations for the B-splines warping.}
 \item{returnReference}{If \code{TRUE}, will return the name of the reference spectrum.}
 \item{returnWarpFunc}{If \code{TRUE}, will return the warping functions.}
-
+\item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \details{
 

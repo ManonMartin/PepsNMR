@@ -10,7 +10,7 @@ Reduces the number of data points by aggregating intensities into buckets.
 }
 \usage{
 Bucketing(Spectrum_data, width = FALSE, mb = 500, boundary = NULL, 
-          intmeth = c("r", "t"), tolbuck = 10^-4)
+          intmeth = c("r", "t"), tolbuck = 10^-4, verbose = FALSE)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
@@ -19,6 +19,7 @@ Bucketing(Spectrum_data, width = FALSE, mb = 500, boundary = NULL,
   \item{boundary}{Numeric vector of left and right boundaries for ppm integration.}
   \item{intmeth}{Type of bucketing: rectangular (\code{"r"}) or trapezoidal (\code{"t"}). See details below.}
   \item{tolbuck}{Tolerance threshold to check if the buckets of the original spectra are of constant length.}
+  \item{verbose}{If\code{"TRUE"}, will print processing information.}
 }
 \details{
 

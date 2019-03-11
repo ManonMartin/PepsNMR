@@ -9,7 +9,7 @@ Signal smooting for water residuals resonance removal.
 }
 \usage{
 SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE,
-                               returnSolvent = FALSE)
+                               returnSolvent = FALSE, verbose = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
@@ -17,7 +17,8 @@ SolventSuppression(Fid_data, lambda.ss = 1e6, ptw.ss = TRUE,
   The higher lambda is, the smoother the estimated solvent signal will be.}
   \item{ptw.ss}{If \code{TRUE}, calculates the solvent signal in C using the \code{ptw} package which is a lot faster.
   The R version is only kept in case of problems with the installation of \code{ptw}.}
-    \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FIDs, the real and imaginary parts of the estimated solvent signal, see the examples.}
+  \item{returnSolvent}{If \code{TRUE}, returns a list with the resulting FIDs, the real and imaginary parts of the estimated solvent signal, see the examples.}
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \details{
 FIDs usually present a wavy shape. Under the assumption that water is the main compound of the analyzed samples, its signal can be modelled by the smoothing of the FIDs.

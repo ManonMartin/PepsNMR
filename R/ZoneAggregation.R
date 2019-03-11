@@ -1,11 +1,13 @@
 #' @export ZoneAggregation
 
-ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7))) {
+ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7)), 
+                            verbose = FALSE) {
  
   
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real = TRUE)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("ZoneAggregation", Spectrum_data, force.real = TRUE, 
+                               verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.za)) {
     stop(deparse(substitute(fromto.za)), " is not a list.")
@@ -39,5 +41,5 @@ ZoneAggregation <- function(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7
   
   
   # Data finalisation ----------------------------------------------
-  return(endTreatment("ZoneAggregation", begin_info, Spectrum_data))
+  return(endTreatment("ZoneAggregation", begin_info, Spectrum_data, verbose = verbose))
 }

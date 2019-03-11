@@ -1,14 +1,17 @@
 #' @export FirstOrderPhaseCorrection
-FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL) {
+FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = NULL,
+                                      verbose = FALSE) {
   
   warning("the FirstOrderPhaseCorrection() function is deprecated and will not be updated anymore, 
           use the GroupDelayCorrection() function instead. See help(GroupDelayCorrection).")
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("FirstOrderPhaseCorrection", Fid_data, Fid_info)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("FirstOrderPhaseCorrection", Fid_data, Fid_info,verbose = verbose)
   Fid_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
   checkArg(group_delay, c("num", "pos0"), can.be.null = TRUE)
+
+  
   # if Fid_info and group_delay are NULL, getArg will generate an error
   
   group_delay <- getArg(group_delay, Fid_info, "GRPDLY", can.be.absent = TRUE)
@@ -56,5 +59,5 @@ FirstOrderPhaseCorrection <- function(Fid_data, Fid_info = NULL, group_delay = N
   
   # Data finalisation ----------------------------------------------
   
-  return(endTreatment("FirstOrderPhaseCorrection", begin_info, Fid_data))
+  return(endTreatment("FirstOrderPhaseCorrection", begin_info, Fid_data,verbose = verbose))
 }

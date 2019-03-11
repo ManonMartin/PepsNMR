@@ -5,7 +5,8 @@
 ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual", "max"), 
                                      plot_rms = NULL, returnAngle = FALSE, createWindow = TRUE, 
                                      angle = NULL, plot_spectra = FALSE,  
-                                     ppm.zopc = TRUE, exclude.zopc = list(c(5.1,4.5))) {
+                                     ppm.zopc = TRUE, exclude.zopc = list(c(5.1,4.5)),
+                                     verbose = FALSE) {
   
   
   # Data initialisation and checks ----------------------------------------------
@@ -16,9 +17,9 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
   # spectra are rotated according to the angle vector values
   # plot_spectra : if TRUE, plot rotated spectra  
  
+  checkArg(verbose, c("bool"))
   
-  
-  begin_info <- beginTreatment("ZeroOrderPhaseCorrection", Spectrum_data)
+  begin_info <- beginTreatment("ZeroOrderPhaseCorrection", Spectrum_data, verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   n <- nrow(Spectrum_data)
   m <- ncol(Spectrum_data)
@@ -199,7 +200,8 @@ ZeroOrderPhaseCorrection <- function(Spectrum_data, type.zopc = c("rms", "manual
   
   # Data finalisation ----------------------------------------------
   
-  Spectrum_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, Spectrum_data)
+  Spectrum_data <- endTreatment("ZeroOrderPhaseCorrection", begin_info, Spectrum_data,
+                                verbose = verbose)
   if (returnAngle) {
     return(list(Spectrum_data = Spectrum_data, Angle = Angle))
   } else {

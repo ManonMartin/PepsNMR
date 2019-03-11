@@ -9,7 +9,7 @@ The function takes the FIDs in the time domain and translate it into the frequen
 }
 \usage{
 FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL, 
-                 O1 = NULL, reverse.axis = TRUE)
+                 O1 = NULL, reverse.axis = TRUE, verbose = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
@@ -18,6 +18,7 @@ FourierTransform(Fid_data, Fid_info = NULL, SW_h = NULL, SW = NULL,
   \item{SW}{Sweep width in ppm. If given, the value in \code{Fid_info} is ignored.}
   \item{O1}{Spectrometer frequency offset. If given, the value in \code{Fid_info} is ignored.}
   \item{reverse.axis}{If \code{TRUE}, the frequency scale is reversed.}
+  \item{verbose}{If\code{"TRUE"}, will print processing information.}
   
 }
 \details{

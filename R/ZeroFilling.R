@@ -1,9 +1,10 @@
 #' @export ZeroFilling
 
-ZeroFilling <- function(Fid_data, fn = ncol(Fid_data)) {
+ZeroFilling <- function(Fid_data, fn = ncol(Fid_data), verbose = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("ZeroFilling", Fid_data)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("ZeroFilling", Fid_data, verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   checkArg(fn, c("num", "pos"))
   
@@ -24,7 +25,7 @@ ZeroFilling <- function(Fid_data, fn = ncol(Fid_data)) {
   Fid_data <- mat_ZeroFilled
   
   # Data finalisation ----------------------------------------------
-  Fid_data <- endTreatment("ZeroFilling", begin_info, Fid_data)
+  Fid_data <- endTreatment("ZeroFilling", begin_info, Fid_data,verbose = verbose)
   
   return(Fid_data)
   

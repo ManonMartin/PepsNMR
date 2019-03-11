@@ -8,12 +8,12 @@ The function replaces the values given in specified intervals by triangular shap
 
 }
 \usage{
-ZoneAggregation(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7)))
+ZoneAggregation(Spectrum_data, fromto.za = list(Citrate = c(2.5, 2.7)), verbose = FALSE)
 }
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
   \item{fromto.za}{List containing the borders in ppm of the intervals to aggregate.}
-
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \details{
 The interval is specified in the unit of the column names (which should be ppm).

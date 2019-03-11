@@ -1,12 +1,14 @@
 #' @export RegionRemoval
 
 RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "serum", "urine"), 
-                          type.rr = c("zero", "NA"), fromto.rr = list(Water = c(4.5, 5.1))) {
+                          type.rr = c("zero", "NA"), fromto.rr = list(Water = c(4.5, 5.1)),
+                          verbose = FALSE) {
   
   
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real = TRUE)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("RegionRemoval", Spectrum_data, force.real = TRUE, 
+                               verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   if (!is.list(fromto.rr) & !missing(fromto.rr)) {
     stop(deparse(substitute(fromto.rr)), " is nor a list nor NULL.")
@@ -52,5 +54,5 @@ RegionRemoval <- function(Spectrum_data, typeofspectra = c("manual", "serum", "u
   
   # Data finalisation ----------------------------------------------
   
-  return(endTreatment("RegionRemoval", begin_info, Spectrum_data))
+  return(endTreatment("RegionRemoval", begin_info, Spectrum_data,verbose = verbose))
 }

@@ -3,11 +3,12 @@
 \title{Zero Filling}
 \description{The function applies zero filling to the FIDs.}
 \usage{
-ZeroFilling(Fid_data, fn = ncol(Fid_data))
+ZeroFilling(Fid_data, fn = ncol(Fid_data), verbose = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{fn}{Number of 0 to be added.}
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \details{
 

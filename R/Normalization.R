@@ -1,13 +1,16 @@
 #' @export Normalization
 Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05), 
-                          ref.norm = "median", returnFactor = FALSE)  {
+                          ref.norm = "median", returnFactor = FALSE,verbose = FALSE)  {
   
   # Data initialisation and checks ----------------------------------------------
-  begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = TRUE)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("Normalization", Spectrum_data, force.real = TRUE,
+                               verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   # type.norm <- match.arg(type.norm)
   checkArg(fromto.norm, "num")
-
+  
+  
   if (missing(type.norm)){
     stop("The \"type.norm\" argument has to be defined by the user")
   }
@@ -83,7 +86,8 @@ Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05),
   
   # Data normalization and finalisation ----------------------------------------------
   if (returnFactor) {
-    return(list(Spectrum_data = endTreatment("Normalization", begin_info, Spectrum_data/factor), factor = factor))
-  } else {return(endTreatment("Normalization", begin_info, Spectrum_data/factor))}
+    return(list(Spectrum_data = endTreatment("Normalization", begin_info, Spectrum_data/factor, verbose = verbose), 
+                factor = factor))
+  } else {return(endTreatment("Normalization", begin_info, Spectrum_data/factor, verbose = verbose))}
   
 }

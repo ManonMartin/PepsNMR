@@ -1,10 +1,10 @@
 #' @export WindowSelection
-WindowSelection <- function(Spectrum_data, from.ws = 10, to.ws = 0.2) {
+WindowSelection <- function(Spectrum_data, from.ws = 10, to.ws = 0.2, verbose = FALSE) {
   
   
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("WindowSelection", Spectrum_data)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("WindowSelection", Spectrum_data, verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   checkArg(from.ws, "num", can.be.null = TRUE)
   checkArg(to.ws, "num", can.be.null = TRUE)
@@ -70,5 +70,5 @@ WindowSelection <- function(Spectrum_data, from.ws = 10, to.ws = 0.2) {
   
   # Data finalisation ----------------------------------------------
   return(endTreatment("WindowSelection", begin_info, Spectrum_data[, interval, 
-    drop = FALSE]))
+    drop = FALSE], verbose = verbose))
 }

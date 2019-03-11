@@ -1,7 +1,10 @@
 beginTreatment <- function(name, Signal_data = NULL, Signal_info = NULL, 
-                            force.real = FALSE) {
+                            force.real = FALSE, verbose = FALSE) {
  
-  cat("Begin", name, "\n")
+  if (verbose == TRUE){
+    cat("Begin", name, "\n")
+  }
+  
   
   
   # Formatting the Signal_data and Signal_info -----------------------

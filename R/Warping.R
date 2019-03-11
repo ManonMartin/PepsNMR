@@ -4,7 +4,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
                     reference.choice = c("fixed", "before", "after", "manual"), reference = 1, 
                     optim.crit = c("RMS", "WCC"), ptw.wp = FALSE, K = 3, L = 40, lambda.smooth = 0, 
                     deg = 3, lambda.bspline = 0.01, kappa = 1e-04, max_it_Bspline = 10, 
-                    returnReference = FALSE, returnWarpFunc = FALSE) {
+                    returnReference = FALSE, returnWarpFunc = FALSE, verbose = FALSE) {
   
   # Mean square difference function definition --------------------------------------
   
@@ -17,8 +17,8 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
   }
   
   # Data initialisation and checks ----------------------------------------------
-
-  begin_info <- beginTreatment("Warping", Spectrum_data, force.real = TRUE)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("Warping", Spectrum_data, force.real = TRUE,verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   normalization.type <- match.arg(normalization.type)
   reference.choice <- match.arg(reference.choice)
@@ -164,7 +164,7 @@ Warping <- function(Spectrum_data, normalization.type = c("median", "mean",
     best.Warped_data <- best.Warped_data[-1,] # remove the manual reference spectrum
   }
   
-  Spectrum_data <- endTreatment("Warping", begin_info, best.Warped_data)
+  Spectrum_data <- endTreatment("Warping", begin_info, best.Warped_data,verbose = verbose)
   if (returnReference) {
     if (returnWarpFunc)  {
       return(list(Spectrum_data = Spectrum_data, Reference = reference, 

@@ -9,7 +9,7 @@ The function estimates and removes the smoothed baseline from the spectra.
 \usage{BaselineCorrection(Spectrum_data, ptw.bc = TRUE, maxIter = 42,
                    lambda.bc = 1e7, p.bc = 0.05, eps = 1e-8, 
                    ppm.bc = TRUE, exclude.bc = list(c(5.1,4.5)),
-                   returnBaseline = FALSE)}
+                   returnBaseline = FALSE, verbose = FALSE)}
 \arguments{
   \item{Spectrum_data}{Matrix containing the spectra, one row per spectrum.}
   \item{ptw.bc}{If \code{TRUE}, calculates the baseline in C using the \code{ptw} library which is a lot faster.
@@ -21,6 +21,7 @@ The function estimates and removes the smoothed baseline from the spectra.
    \item{ppm.bc}{If \code{TRUE}, the values in \code{exclude.zopc} represent frequencies in ppm value (column names of spectra), if \code{FALSE} these values are column indices.}
  \item{exclude.bc}{If not \code{NULL} and \code{ptw.bc == FALSE}, a list containing the extremities of the intervals excluded for the baseline estimation, either expressed in ppm (decreasing values) OR in column indices (increasing values), e.g. \code{exclude.bc = list(c(0,10000))} if \code{ppm.bc == FALSE} or \code{exclude.bc = list(c(1,-1))} if \code{ppm.bc == TRUE}.}
   \item{returnBaseline}{If \code{TRUE}, returns the estimated baselines.}
+  \item{verbose}{If\code{"TRUE"}, will print processing information.}
 }
 \details{
 The signal should be an addition of positive peaks which represent metabolites from the samples.

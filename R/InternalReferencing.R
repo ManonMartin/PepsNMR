@@ -3,13 +3,13 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
                           range = c("nearvalue", "all", "window"), ppm.value = 0, 
                           direction = "left", shiftHandling = c("zerofilling", "cut", 
                           "NAfilling", "circular"), c = 2, pc = 0.02, fromto.RC = NULL,
-                          ppm.ir = TRUE, rowindex_graph = NULL) {
+                          ppm.ir = TRUE, rowindex_graph = NULL, verbose = FALSE) {
   
   
   
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("InternalReferencing", Spectrum_data, Fid_info)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("InternalReferencing", Spectrum_data, Fid_info,verbose = verbose)
   Spectrum_data <- begin_info[["Signal_data"]]
   Fid_info <- begin_info[["Signal_info"]]
 
@@ -26,6 +26,7 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   checkArg(pc, c("num"))
   checkArg(ppm.value, c("num"))
   checkArg(rowindex_graph, "num", can.be.null = TRUE)
+
   
   # fromto.RC : if range == "window", 
   # fromto.RC defines the spectral window where to search for the peak
@@ -310,7 +311,8 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
   
   
   # Return the results ----------------------------------------------
-  Spectrum_data <- endTreatment("InternalReferencing", begin_info, Spectrum_data_calib)
+  Spectrum_data <- endTreatment("InternalReferencing", begin_info, Spectrum_data_calib,
+                                verbose = verbose)
   
   if (is.null(plots)) {
     return(Spectrum_data)

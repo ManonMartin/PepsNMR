@@ -7,10 +7,11 @@ Zeroing of negative values.
 The function sets negative intensities to zero.
 }
 \usage{
-NegativeValuesZeroing(Spectrum_data)
+NegativeValuesZeroing(Spectrum_data, verbose = FALSE)
 }
 \arguments{
-  \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum..}
+  \item{Spectrum_data}{Matrix containing the spectra in ppm, one row per spectrum.}
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 \value{
 \item{Spectrum_data}{The matrix of spectrums with the negative values set to zero.}

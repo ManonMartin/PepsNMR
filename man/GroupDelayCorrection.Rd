@@ -8,12 +8,13 @@ The function removes the group delay at the beginning of the FIDs.
 
 }
 \usage{
-GroupDelayCorrection(Fid_data, Fid_info = NULL, group_delay = NULL)
+GroupDelayCorrection(Fid_data, Fid_info = NULL, group_delay = NULL, verbose = FALSE)
 }
 \arguments{
   \item{Fid_data}{Matrix containing the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{Fid_info}{Matrix containing the info about the FIDs, one row per signal, as outputted by \code{\link{ReadFids}}.}
   \item{group_delay}{If given, it is used instead of \code{Fid_info} to decide how much the FIDs must be shifted to the left. It can be non-integer, in that case the values are interpolated. However it has to be non-negative since in our practical case, it would make no sense to add a part of the end of the FID at the beginning.}
+  \item{verbose}{If\code{"TRUE"}, will print processing information.}
 }
 \details{
 First Order Phase Correction step could also called "removal of Bruker digital filter".

@@ -1,10 +1,10 @@
 #' @export SolventSuppression
 SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE, 
-                                returnSolvent = FALSE) {
+                                returnSolvent = FALSE, verbose = FALSE) {
   
   # Data initialisation and checks ----------------------------------------------
-  
-  begin_info <- beginTreatment("SolventSuppression", Fid_data)
+  checkArg(verbose, c("bool"))
+  begin_info <- beginTreatment("SolventSuppression", Fid_data,verbose = verbose)
   Fid_data <- begin_info[["Signal_data"]]
   checkArg(ptw.ss, c("bool"))
   checkArg(lambda.ss, c("num", "pos0"))
@@ -66,7 +66,7 @@ SolventSuppression <- function(Fid_data, lambda.ss = 1e+06, ptw.ss = TRUE,
   
   # Data finalisation ----------------------------------------------
   
-  Fid_data <- endTreatment("SolventSuppression", begin_info, Fid_data)
+  Fid_data <- endTreatment("SolventSuppression", begin_info, Fid_data, verbose = verbose)
   if (returnSolvent) {
     return(list(Fid_data = Fid_data, SolventRe = SolventRe, SolventIm = SolventIm))
   } else {

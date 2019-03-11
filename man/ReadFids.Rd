@@ -5,13 +5,14 @@
 them in a matrix.
 }
 \usage{
-ReadFids(path, l = 1, subdirs = FALSE, dirs.names = FALSE)
+ReadFids(path, l = 1, subdirs = FALSE, dirs.names = FALSE, verbose = FALSE)
 }
 \arguments{
   \item{path}{A character string specifying the directory where the FIDs are searched.}
   \item{l}{A positive number indicating which line of the title file to use as spectra names.}
   \item{subdirs}{If \code{TRUE}, will search inside subdirectories for FIDs and will merge them to have unique FID and info matrices.}
   \item{dirs.names}{If \code{TRUE}, the FID names are recovered from the (sub)directories names, provided one subdirectory corresponds to one FID.}
+  \item{verbose}{If \code{"TRUE"}, will print processing information.}
 }
 
 
