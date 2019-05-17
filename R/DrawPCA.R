@@ -154,8 +154,19 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
           "Var"))
       }
       
+      plot_data <- data.frame(
+        facet = paste0("L", i:last," ",
+                       paste0("(", round(variance[i:last],2), "%)")),
+        x = melted$Var,
+        y = melted$value
+      )
       
-      plots <- ggplot2::ggplot(data = melted, ggplot2::aes(x = Var, y = value))
+      # to silence CMD check
+      # in the future you will be able to use ggplot2::vars(.data$facet)
+      # but this is currently not supported (tidyverse/ggplot2#2963)
+      facet <- NULL; rm(facet)
+      
+      plots <- ggplot2::ggplot(data = plot_data, ggplot2::aes(x = .data$x, y = .data$y))
       
       if (loadingstype == "l")  {
         plots <- plots + ggplot2::geom_line()
@@ -165,17 +176,16 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
         warning("loadingstype is misspecified")
       }
       
-      plots <- plots + ggplot2::ggtitle(main) + ggplot2::facet_grid(rowname ~  ., scales = "free_y") + 
+      plots <-  plots +   ggplot2::facet_grid(facet ~  ., scales = "free_y") 
+      
+      plots <- plots + ggplot2::ggtitle(main) + 
         ggplot2::theme(legend.position = "none") + 
         ggplot2::labs(x = xlab, y = "Loadings") + 
-        ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed", colour = "gray60") + 
-        ggplot2::annotate("text", x = -Inf, y = Inf, label = paste0("(", round(variance[i:last], 
-          2), "%)"), vjust = 1, hjust = 1)
+        ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed", colour = "gray60") 
       
       if ((melted[1, "Var"] - melted[(dim(melted)[1]), "Var"]) > 0)  {
         plots <- plots + ggplot2::scale_x_reverse()
       }
-      
       
       # Plot finalisation ----------------------------------------------
       
