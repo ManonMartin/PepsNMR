@@ -155,7 +155,7 @@ DrawPCA <- function(Signal_data, drawNames = TRUE, main = "PCA score plot",
       }
       
       plot_data <- data.frame(
-        facet = paste0("L", i:last," ",
+        facet = paste0("L", axes[i:last]," ",
                        paste0("(", round(variance[i:last],2), "%)")),
         x = melted$Var,
         y = melted$value
