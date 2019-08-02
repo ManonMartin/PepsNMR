@@ -276,12 +276,12 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     j <- 1
     plots <- vector(mode = "list", length = ceiling(nn/num.stacked))
     
-    Data <- Spectrum_data[rowindex_graph,]
+    Data <- Spectrum_data[rowindex_graph,,drop = FALSE]
     while (i <= nn) {
       
       last <- min(i + num.stacked - 1, nn)
       
-      melted <- reshape2::melt(Re(Data[i:last, ]), 
+      melted <- reshape2::melt(Re(Data[i:last, ,drop = FALSE]), 
                                varnames = c("rowname", "ppm"))
       
       plots[[j]] <- ggplot2::ggplot() + ggplot2::theme_bw() + 
