@@ -2,18 +2,18 @@
 \alias{PepsNMR-package}
 \alias{PepsNMR}
 \docType{package}
-\title{Metabolomic data preprocessing strategy for 1H-NMR spectroscopic data
+\title{Metabolomic data pre-processing strategy for 1H NMR spectroscopic data
 }
 \description{
-This package provides R functions for classic and advanced preprocessing steps that are applied
+This package provides R functions for classic and advanced pre-processing steps that are applied
 on 1H NMR data.
 It also provides the function \code{\link{ReadFids}} to read the FID directly from the Bruker format.
-Those preprocessing are cited below in the advised order of their application:
+Those pre-processing are cited below in the advised order of their application:
 \describe{
   \item{\code{\link{GroupDelayCorrection}}}{Correct for the first order phase correction.}
   \item{\code{\link{SolventSuppression}}}{Remove solvent signal from the FIDs.}
   \item{\code{\link{Apodization}}}{Increase the sensitivity/resolution of the FIDs.}
-  \item{\code{\link{ZeroFilling}}}{Improve the visual visual representation of the spectra.}
+  \item{\code{\link{ZeroFilling}}}{Improve the visual representation of the spectra.}
   \item{\code{\link{FourierTransform}}}{Transform the FID into a spectrum and convert the frequency scale (Hertz -> ppm).}
   \item{\code{\link{ZeroOrderPhaseCorrection}}}{Correct for the zero order phase correction.}
   \item{\code{\link{InternalReferencing}}}{Calibrate the spectra with internal compound referencing.}
@@ -35,8 +35,8 @@ Version: \tab 0.99.0\cr
 License: \tab GPLv2\cr
 }
 The FIDs are read using \code{\link{ReadFids}} which also gives a matrix with meta-information about each FID.
-The other functions apply different preprocessing steps on these signals, and some need the info matrix as outputted from \code{ReadFids} .
-During this preprocessing, the signal is transformed through fourier transformation and the frequency scale is expressed in ppm.
+The other functions apply different pre-processing steps on these signals, and some need the info matrix as outputted from \code{ReadFids} .
+During this pre-processing, the signal is transformed through fourier transformation and the frequency scale is expressed in ppm.
 For more details and illustrated explanations about those pre-treatment steps, see the documentation of each function and/or the chapter 1 of the reference below.
 }
 \author{
