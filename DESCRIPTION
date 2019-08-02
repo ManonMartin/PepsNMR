@@ -9,7 +9,7 @@ Imports:
     Matrix, ptw, ggplot2, gridExtra, matrixStats, reshape2, methods, graphics, stats
 Encoding: UTF-8
 NeedsCompilation: no
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 Suggests: knitr, markdown, rmarkdown, BiocStyle, PepsNMRData
 LazyData: true
 Authors@R: c(person("Manon", "Martin", role = c("aut","cre"),email = "manon.martin@uclouvain.be"),
@@ -29,4 +29,3 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 biocViews: Software, Preprocessing, Visualization, Metabolomics, DataImport
 BugReports: https://github.com/ManonMartin/PepsNMR/issues
-Remotes: manonmartin/PepsNMRData
