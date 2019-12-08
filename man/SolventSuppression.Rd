@@ -59,7 +59,7 @@ If \code{returnSolvent = TRUE}, will return a list with the following elements: 
   
 }
 \author{
-Benoît Legat & Manon Martin
+Benoît Legat, Manon Martin & Paul H. C. Eilers
 }
 
 

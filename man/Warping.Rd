@@ -83,7 +83,7 @@ If \code{returnReference = TRUE}, the function will return the name of the refer
   
 }
 \author{
-Benoît Legat & Manon Martin
+Benoît Legat, Manon Martin & Paul H. C. Eilers
 }
 
 \examples{

@@ -1,4 +1,5 @@
 Changes in version 0.99.0 (Release date: in development)
+--------------------------
 + Submitted to Bioconductor
 
 
@@ -17,3 +18,31 @@ NEW FEATURES
 
 + Added the ZeroFilling function 
 + Made the printed text for each pre-processing function optional
+
+
+Changes in version 1.3.1 (2019-05-17)
+--------------------------
+
+BUG CORRECTION 
+
++ Prevented future bug with ggplot2::annotate()
+
+IMPROVEMENT
+
++ Improved PCA loadings graphs
+
+
+
+Changes in version 1.3.2 (2019-08-05)
+--------------------------
+
+BUG CORRECTION 
+
++ Debugged InternalReferencing for plotting Peak search zone and location of only 1 spectrum
+
+
+IMPROVEMENT
+
++ Improved the Vignette
+
+

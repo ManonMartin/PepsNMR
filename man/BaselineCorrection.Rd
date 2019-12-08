@@ -66,7 +66,7 @@ least squares smoothing.} Leiden University Medical Centre report,
 2005.
 }
 \author{
-Benoît Legat & Manon Martin
+Benoît Legat, Manon Martin & Paul H. C. Eilers
 }
 
 

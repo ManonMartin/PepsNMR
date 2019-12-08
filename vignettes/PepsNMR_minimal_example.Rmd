@@ -51,7 +51,7 @@ references:
 
 ```{r setup, include = FALSE}
 require(knitr)
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>",  fig.width = 10, fig.height = 6, fig.align = "center", tidy = TRUE, tidy.opts=list(width.cutoff=80), fig.keep = 'high', dpi=40)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",  fig.width = 10, fig.height = 6, fig.align = "center", tidy = FALSE, tidy.opts=list(width.cutoff=80), fig.keep = 'high', dpi=40)
 ```
 
 
@@ -80,15 +80,19 @@ The `r Biocpkg("PepsNMR")` package is available on Bioconductor and can be insta
 ```{r install1,  eval = FALSE, background = "#EFFBF5", highlight = TRUE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
-BiocManager::install("PepsNMR")
+
+BiocManager::install("PepsNMR", 
+                     dependencies = c("Depends", "Imports", "Suggests"))
 ```
+
+Note tha installing the `Suggests` dependencies will install the `r Biocpkg("PepsNMRData")` package to run the demo below.
 
 The package needs to be loaded once installed to be used:
 ```{r library,  eval = FALSE, background = "#EFFBF5", highlight = TRUE}
 library(PepsNMR)
 ```
 
-The package development version is available on Github: [https://github.com/ManonMartin/PepsNMR](https://github.com/ManonMartin/PepsNMR), although it is highly recommended to rely on the Bioconductor release version of the package to avoid any package version mismatch.
+The package development version is available on Github (Master branch): [https://github.com/ManonMartin/PepsNMR](https://github.com/ManonMartin/PepsNMR), although it is highly recommended to rely on the Bioconductor release version of the package to avoid any package version mismatch.
 
 
 # Data importation
@@ -128,6 +132,7 @@ Here is the recommended pre-processing workflow on the FIDs and the spectra once
 Steps <- c("Group Delay Correction", 
            "Solvent Suppression",
            "Apodization",
+           "ZeroFilling",
            "Fourier Transform",
            "Zero Order Phase Correction",
            "Internal Referencing",
@@ -143,6 +148,7 @@ Steps <- c("Group Delay Correction",
 StepsDescr <- c("Correct for the Bruker Group Delay.",
                 "Remove the solvent signal from the FIDs.",
                 "Increase the Signal-to-Noise ratio of the FIDs.",
+                "Improve the visual representation of the spectra.",
                 "Transform the FIDs into a spectrum and convert the frequency scale (Hz ->  ppm).",
                 "Correct for the zero order phase dephasing.",
                 "Calibrate the spectra with an internal reference compound. Referencing with an internal (e.g. TMSP at 0 ppm)",
@@ -166,11 +172,12 @@ Information on each function is provided in R, (e.g. type `?ReadFids` in the R c
 
 
 # Available datasets
-Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the ad hoc `r Biocpkg("PepsNMRData")` package automatically installed with `r Biocpkg("PepsNMR")`.
+Human serum (`HS`) and urine (`HU`) datasets are available as raw data (FIDs in Bruker format) and as (partially) pre-processed signals/spectra in the ad hoc `r Biocpkg("PepsNMRData")` package that is automatically installed with `r Biocpkg("PepsNMR")` (through ).
 
 Here are examples of available datasets:
 ```{r availdata}
 library(PepsNMRData)
+
 str(FidData_HU)
 
 str(FinalSpectra_HS)
@@ -178,7 +185,7 @@ str(FinalSpectra_HS)
 
 Information for each dataset is available, (e.g. enter `?FidData_HS` in the R Console).
 
-# Demo of the pre-processing functions on the Human Serum dataset
+# Demo on the HSerum dataset
 
 ## Load the data
 Raw Bruker FIDs can be loaded from where `r Biocpkg("PepsNMRData")` has been intalled:
@@ -294,8 +301,9 @@ Fid_data.ZF <- ZeroFilling(Fid_data.A, fn = ncol(Fid_data.A))
 
 ```
 
-```{r}
-par(mar=c(4,4,1.5,1), mfrow=c(2,1))
+```{r, echo = FALSE, fig.cap="Signal before and after Apodization.", out.width = '100%', fig.height=12}
+
+par(mfrow=c(2,1))
 plot(time, Re(Fid_data.A[spectrIndex,]),  col=col1, 
      type="l", ylab = "Intensity", xlab="", main="FID before Zero Filling")
 
@@ -303,8 +311,6 @@ time <- as.numeric(colnames(Fid_data.ZF))*1000
 plot(time, Re(Fid_data.ZF[spectrIndex,]), col=col1, 
      type="l", ylab = "Intensity", xlab=expression(paste("Time (", mu,"s)")), 
      main="FID after Zero Filling")
-
-
 ```
 
 
@@ -336,6 +342,11 @@ After Fourier Transform, the spectra need to be phased for the real part to be i
 ```{r}
 # ==== ZeroOrderPhaseCorrection =================
 Spectrum_data.ZOPC <- ZeroOrderPhaseCorrection(RawSpect_data.FT)
+
+# with a graph of the criterion to maximize over 2pi
+Spectrum_data.ZOPC <- ZeroOrderPhaseCorrection(RawSpect_data.FT,
+                                               plot_rms = "J1-D1-1D-T1")
+
 ```
 
 
@@ -356,9 +367,14 @@ During this step, the spectra are aligned with an internal reference compound (e
 ```{r}
 # ==== InternalReferencing =================
 target.value <- 0
-Spectrum_data.IR <- InternalReferencing(Spectrum_data.ZOPC, Fid_info,
-                                        ppm.value = target.value)
 
+IR.res <- InternalReferencing(Spectrum_data.ZOPC, Fid_info,
+                                        ppm.value = target.value,
+                                        rowindex_graph = c(1,2))
+# draws Peak search zone and location of the 2 first spectra
+IR.res$plots
+
+Spectrum_data.IR <- IR.res$Spectrum_data
 ```
 
 
@@ -455,7 +471,7 @@ warp_func <- W.res[["Warp.func"]]
 par(mfrow=c(2,1))
 
 f <- c(21, 20, 24) # warped spectra index to draw
-fen <- c(17780:18240) # x-window
+fen <- c(35560:36480) # x-window
 ylim <- c(0, max(c(Re(Spectrum_data.NVZ[c(1, f),fen]), Re(Spectrum_data.W[c(spectrIndex, f),fen]))))
 
 # Unwarped spectra
@@ -482,7 +498,8 @@ for (j in f) {
 During this step the user selects the part of the spectrum that is of interest and the other parts are removed from the spectral matrix.
 ```{r}
 # ==== WindowSelection =================
-Spectrum_data.WS <- WindowSelection(Spectrum_data.W, from.ws = 10, to.ws = 0.2)
+Spectrum_data.WS <- WindowSelection(Spectrum_data.W, from.ws = 10, 
+                                    to.ws = 0.2)
 ```
 
 
@@ -532,7 +549,8 @@ By default, this step sets to zero spectral areas that are of no interest or hav
 
 ```{r}
 # ==== RegionRemoval =================
-Spectrum_data.RR <- RegionRemoval(Spectrum_data.B, typeofspectra = "serum")
+Spectrum_data.RR <- RegionRemoval(Spectrum_data.B, 
+                                  typeofspectra = "serum")
 ```
 
 ```{r, echo = FALSE, fig.cap="Spectrum after Region Removal", out.width = '100%'}
@@ -579,18 +597,21 @@ Note: the function `ZoneAggregation` is not used here, but is can be applied e.g
 The `Draw` function enables to produce line plots with `type.draw = "signal"` or PCA results with `type.draw = "pca"` of FIDs or spectra. These plots can be saved as pdf files with the option `output = "pdf"`, see `?Draw`, `?DrawSignal` and `?DrawPCA` for more details on the other available options.
 
 ```{r, fig.height=7, fig.width=8, out.width='100%', fig.cap = "4 first pre-processed spectra"}
-Draw(Spectrum_data.N[1:4,], type.draw = c("signal"), subtype= "stacked", output = c("default"))
+Draw(Spectrum_data.N[1:4,], type.draw = c("signal"), 
+     subtype= "stacked", output = c("default"))
 ```
 
 
 ```{r, fig.height=6, fig.width=8, out.width='100%', fig.cap = "PCA scores of the pre-processed spectra"}
-Draw(Spectrum_data.N, type.draw = c("pca"), output = c("default"), 
-     Class = Group_HS, type.pca = "scores")
+Draw(Spectrum_data.N, type.draw = c("pca"), 
+     output = c("default"), Class = Group_HS, 
+     type.pca = "scores")
 ```
 
 
 ```{r, out.width='100%', out.width='70%', out.width='100%', fig.cap = "PCA loadings of the pre-processed spectra"}
-Draw(Spectrum_data.N, type.draw = c("pca"), output = c("default"), 
+Draw(Spectrum_data.N, type.draw = c("pca"), 
+     output = c("default"),
      Class = Group_HS, type.pca = "loadings")
 ```
 
