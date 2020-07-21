@@ -40,9 +40,14 @@ BUG CORRECTION
 
 + Debugged InternalReferencing for plotting Peak search zone and location of only 1 spectrum
 
-
 IMPROVEMENT
 
 + Improved the Vignette
 
 
+Changes in version 1.7.1 (2020-07-21)
+--------------------------
+
+BUG CORRECTION 
+
++ Debugged ReadFid when the type of raw data is double (i.e. if DTYPA==2)
