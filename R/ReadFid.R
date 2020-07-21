@@ -27,9 +27,20 @@ ReadFid <- function(path) {
   # Interpret params Dwell Time, time between 2 data points in the FID
   params[["DT"]] <- 1/(2 * params[["SW_h"]])
   
+  # determine data type (assume int32 unless DTYPA is 2)
+  isfloat = FALSE     # default value
+  if (params[["DTYPA"]] == 2){
+    isfloat = TRUE
+  } 
+  
   # Read fid
   fidFile <- file.path(path, "fid")
-  fidOnDisk <- readBin(fidFile, what = "int", n = TD, size = 4L, endian = endianness)
+  
+  if (isfloat==FALSE){
+    fidOnDisk <- readBin(fidFile, what = "int", n = TD, size = 4L, endian = endianness)
+  }else {
+    fidOnDisk <- readBin(fidFile, what = "double", n = TD, endian = endianness)
+  }
   
   # Real size that is on disk (it should be equal to TD2, except for TopSpin/Bruker
   # (which is our case) according to matNMR as just discussed
