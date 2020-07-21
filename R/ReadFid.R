@@ -8,7 +8,7 @@ ReadFid <- function(path) {
   paramFile <- file.path(path, "acqus")
   # BYTEORDA: 0 -> Little Endian 1 -> Big Endian
   params <- readParams(paramFile, c("TD", "BYTORDA", "DIGMOD", "DECIM", "DSPFVS", 
-                                    "SW_h", "SW", "O1"))
+                                    "SW_h", "SW", "O1", "DTYPA"))
   
   if (params[["DSPFVS"]] >= 20) {
     # The group delay first order phase correction is given directly from version 20
