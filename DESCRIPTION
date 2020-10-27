@@ -1,7 +1,7 @@
 Package: PepsNMR
 Type: Package
 Title: Pre-process 1H-NMR FID signals
-Version: 1.8.0
+Version: 1.9.0
 Description: This package provides R functions for common pre-procssing steps that are applied on 1H-NMR data. It also provides a function to read the FID signals directly in the Bruker format.
 License: GPL-2 | file LICENSE
 URL: https://github.com/ManonMartin/PepsNMR
