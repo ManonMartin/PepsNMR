@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ManonMartin/PepsNMR.svg?branch=master)](https://travis-ci.org/ManonMartin/PepsNMR)
+![R-CMD-check-bioc](https://github.com/ManonMartin/PepsNMR/workflows/R-CMD-check-bioc/badge.svg)
 
 # PepsNMR
 An R package for 1H NMR data pre-processing.
