@@ -48,7 +48,7 @@ Normalization <- function(Spectrum_data, type.norm, fromto.norm = c(3.05, 4.05),
     factor <- matrixStats::rowMedians(Spectrum_data, na.rm = TRUE)
   }, firstquartile = {
     # firstquartile
-    factor <- matrixStats::rowQuantiles(Spectrum_data, 0.25, na.rm = TRUE)[[1]]
+    factor <- matrixStats::rowQuantiles(Spectrum_data, probs=0.25, na.rm = TRUE)
   }, peak = {
     # peak
     ppm <- as.numeric(colnames(Spectrum_data))
