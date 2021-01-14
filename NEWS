@@ -56,6 +56,11 @@ BUG CORRECTION
 Changes in version 1.9.1 (2021-01-14)
 --------------------------
 
+CI TOOLS
+
++ Switched from travis to GitHub actions
+
+
 BUG CORRECTION 
 
 + Debugged Normalization with type.norm = "firstquartile"

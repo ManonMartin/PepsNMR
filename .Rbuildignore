@@ -9,3 +9,4 @@ $\.DS_Store$
 
 ^vignettes/*.html$
 ^vignettes/*.pdf$
+^\.github$
