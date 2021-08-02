@@ -174,15 +174,16 @@ InternalReferencing <- function(Spectrum_data, Fid_info, method = c("max", "thre
     # ppm values of each interval for the whole spectral range of the spectral matrix
     ppmScale <- (start:end) * ppmInterval
     
+    
+    # if ppm.value != 0, ppmScale is adapted
+    ppmScale <- ppmScale + ppm.value
+    
     # check if ppm.value is in the ppmScale interval
     if(ppm.value < min(ppmScale) | ppm.value > max(ppmScale)) {
     warning("ppm.value = ", ppm.value, " is not in the ppm interval [", 
            round(min(ppmScale),2), ",", round(max(ppmScale),2), "], and is set to its default ppm.value 0")
       ppm.value = 0
       }
-    
-    # if ppm.value != 0, ppmScale is adapted
-    ppmScale <- ppmScale + ppm.value
     
     # create the spectral matrix with realigned spectra
     Spectrum_data_calib <- matrix(fill, nrow = n, ncol =  -(end - start) + 1, 
